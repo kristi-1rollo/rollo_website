@@ -18,7 +18,7 @@ const Header = () => {
           </div>
           <Button
             onClick={() => setIsModalOpen(true)}
-            className="animate-cta-pulse bg-primary hover:bg-primary/90"
+            className="bg-primary hover:bg-primary/90"
           >
             Get Early Access
           </Button>
