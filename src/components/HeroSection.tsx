@@ -72,11 +72,11 @@ const HeroSection = () => {
           />
           
           {/* Diamond-shaped breathing lights - positioned on robot's chest */}
-          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 z-10">
-            <div className="relative w-20 h-12">
+          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+            <div className="relative w-24 h-14">
               {/* Top light */}
               <div
-                className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45
+                className={`absolute top-0 left-1/2 -translate-x-1/2 w-5 h-5 rotate-45
                   ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
                   ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
@@ -85,7 +85,7 @@ const HeroSection = () => {
               />
               {/* Left light */}
               <div
-                className={`absolute top-1/2 left-0 -translate-y-1/2 w-4 h-4 rotate-45
+                className={`absolute top-1/2 left-0 -translate-y-1/2 w-5 h-5 rotate-45
                   ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
                   ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
@@ -94,7 +94,7 @@ const HeroSection = () => {
               />
               {/* Right light */}
               <div
-                className={`absolute top-1/2 right-0 -translate-y-1/2 w-4 h-4 rotate-45
+                className={`absolute top-1/2 right-0 -translate-y-1/2 w-5 h-5 rotate-45
                   ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
                   ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
@@ -103,7 +103,7 @@ const HeroSection = () => {
               />
               {/* Bottom light */}
               <div
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-5 rotate-45
                   ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
                   ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
