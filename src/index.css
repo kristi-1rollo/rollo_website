@@ -40,8 +40,13 @@
     --rollo-dark: 240 10% 4%;
     --rollo-glow: 0 0% 100%;
     --rollo-accent: 217 91% 60%;
+    --rollo-orange: 30 100% 50%;
     --glass-bg: 0 0% 100% / 0.08;
     --glass-border: 0 0% 100% / 0.15;
+    
+    /* Gradient colors */
+    --gradient-start: 217 91% 60%;
+    --gradient-end: 30 100% 50%;
   }
 
   .dark {

@@ -86,7 +86,7 @@ const HeroSection = () => {
           </div>
 
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
-            Making security services <span className="text-primary font-semibold">10x cheaper</span>, smarter, and more energy-efficient
+            Making security services <span className="text-[hsl(30,100%,50%)] font-semibold">10x cheaper</span>, smarter, and more energy-efficient
           </p>
         </div>
       </div>
