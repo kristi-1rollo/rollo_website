@@ -107,12 +107,18 @@ const HeroSection = () => {
           `}>
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight tracking-tight">
             <span className="text-primary">ROLLO:</span> The World's First Commercial{" "}
-            <span className="text-slate-200">Autonomous One-Wheeled Robot</span>
+            
           </h1>
           
           {/* Three roles */}
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 mb-6">
-            {["Security Guard", "Courier", "Multi-talent"].map((role, index) => {})}
+            {["Security Guard", "Courier", "Multi-talent"].map((role, index) => <div key={role} className={`glass-card px-6 py-3 transition-all duration-500
+                  ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}
+                `} style={{
+            transitionDelay: `${(index + 1) * 200}ms`
+          }}>
+                <span className="text-lg font-medium">{role}</span>
+              </div>)}
           </div>
 
           <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto">
