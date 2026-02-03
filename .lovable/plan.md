@@ -1,20 +1,49 @@
 
-# Logo Vahetamine
+# Topics of Interest Checkboxes Uuendamine
 
-## Muudatused
-
-Asendan olemasoleva logo uue üleslaetud logoga.
-
-### Samm 1: Logo kopeerimine
-Kopeerin uue logo faili `user-uploads://logo.png` projekti kausta `src/assets/logo.png`, asendades vana logo.
-
-### Samm 2: Kontrollimine
-Logo on juba Header komponendis imporditud kui `import logo from "@/assets/logo.png"`, seega pärast faili asendamist kuvatakse automaatselt uus logo.
+## Ülevaade
+Asendan praegused 16 teemat uute 16 teemaga registreerimise modalis. Validatsioon jääb samaks (vähemalt üks peab olema valitud).
 
 ---
 
-## Mõjutatud failid
-- `src/assets/logo.png` - asendatakse uue logoga
+## Muudatused
+
+### Fail: `src/components/RegistrationModal.tsx`
+
+**Rida 41-58** - Asendan `topicsOfInterest` massiivi uute teemadega:
+
+```typescript
+const topicsOfInterest = [
+  "Public safety in the city",
+  "Airport security",
+  "Hospitals and Medical Facilities Security",
+  "Hotels security",
+  "Mining and construction equipment parking lots",
+  "Industrial plants and manufacturing factories",
+  "Critical infrastructure protection",
+  "Oil and gas facilities, refineries, chemical plants",
+  "Corporate and university campuses",
+  "Gated communities, resorts, golf clubs",
+  "Smart home, villa, luxury estate",
+  "Water supply area stations and reservoirs",
+  "Data centers",
+  "Enhancing the work of the police force and military",
+  "Investing in a business",
+  "Other",
+];
+```
+
+---
+
+## Säilitatav loogika
+- Zod validatsioon: `z.array(z.string()).min(1, "Please select at least one topic")` - jääb samaks
+- Checkbox toggle funktsioon - jääb samaks
+- Vormi esitamise loogika - jääb samaks
+- Veateadete kuvamine - jääb samaks
+
+---
 
 ## Tulemus
-Uus valge 1ROLLO logo ilmub päises (Header) kohe pärast muudatust.
+- 16 uut teemat õiges järjekorras
+- Validatsioon nõuab vähemalt ühte valikut
+- Kõik muu vormi loogika jääb muutmata
