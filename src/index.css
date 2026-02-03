@@ -111,26 +111,26 @@
   .animate-orbital {
     animation: orbital-rotate 60s linear infinite;
   }
-  /* Robot entrance animation */
+  /* Luxurious robot entrance animation */
   @keyframes robot-entrance {
     0% {
-      opacity: 0.3;
-      transform: scale(0.3) translateY(100px);
-      filter: brightness(0.3);
+      opacity: 0;
+      transform: scale(0.7) translateY(60px);
+      filter: brightness(0.3) blur(4px);
     }
-    30% {
-      opacity: 0.5;
-      filter: brightness(0.5);
+    40% {
+      opacity: 0.6;
+      filter: brightness(0.6) blur(2px);
     }
-    60% {
-      opacity: 0.8;
-      transform: scale(0.7) translateY(30px);
-      filter: brightness(0.8);
+    70% {
+      opacity: 0.9;
+      transform: scale(0.95) translateY(10px);
+      filter: brightness(0.9) blur(0px);
     }
     100% {
       opacity: 1;
       transform: scale(1) translateY(0);
-      filter: brightness(1);
+      filter: brightness(1) blur(0px);
     }
   }
 
@@ -202,7 +202,7 @@
   }
 
   .animate-robot-entrance {
-    animation: robot-entrance 2.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: robot-entrance 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
   .animate-light-pulse {
@@ -245,40 +245,46 @@
     animation: robot-sway 4.5s ease-in-out infinite;
   }
 
-  /* Lights flash animation */
-  @keyframes lights-flash {
+  /* Breathing light animation with blur */
+  @keyframes lights-breathe {
     0%, 100% {
-      opacity: 0.3;
-      box-shadow: 0 0 10px hsl(var(--rollo-glow) / 0.2);
+      opacity: 0.4;
+      filter: blur(8px);
+      box-shadow: 0 0 15px hsl(217 91% 60% / 0.3),
+                  0 0 30px hsl(217 91% 60% / 0.2);
     }
     50% {
       opacity: 1;
-      box-shadow: 0 0 30px hsl(var(--rollo-glow) / 0.8),
-                  0 0 60px hsl(var(--rollo-glow) / 0.5);
+      filter: blur(12px);
+      box-shadow: 0 0 40px hsl(217 91% 60% / 0.8),
+                  0 0 80px hsl(217 91% 60% / 0.5),
+                  0 0 120px hsl(217 91% 60% / 0.3);
     }
   }
 
-  .animate-lights-flash {
-    animation: lights-flash 0.5s ease-in-out infinite;
+  .animate-lights-breathe {
+    animation: lights-breathe 2s ease-in-out infinite;
   }
 
-  /* Red lights flash animation */
-  @keyframes lights-flash-red {
+  /* Red breathing lights */
+  @keyframes lights-breathe-red {
     0%, 100% {
-      opacity: 0.3;
-      background-color: hsl(0, 100%, 50%);
-      box-shadow: 0 0 10px hsl(0 100% 50% / 0.2);
+      opacity: 0.4;
+      filter: blur(8px);
+      box-shadow: 0 0 15px hsl(0 100% 50% / 0.3),
+                  0 0 30px hsl(0 100% 50% / 0.2);
     }
     50% {
       opacity: 1;
-      background-color: hsl(0, 100%, 50%);
-      box-shadow: 0 0 30px hsl(0 100% 50% / 0.8),
-                  0 0 60px hsl(0 100% 50% / 0.5);
+      filter: blur(12px);
+      box-shadow: 0 0 40px hsl(0 100% 50% / 0.8),
+                  0 0 80px hsl(0 100% 50% / 0.5),
+                  0 0 120px hsl(0 100% 50% / 0.3);
     }
   }
 
-  .animate-lights-flash-red {
-    animation: lights-flash-red 0.5s ease-in-out infinite;
+  .animate-lights-breathe-red {
+    animation: lights-breathe-red 1.5s ease-in-out infinite;
   }
 
   /* Node appear animation */
