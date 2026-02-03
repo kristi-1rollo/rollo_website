@@ -84,8 +84,8 @@ const HeroSection = () => {
             style={{
               filter: 'brightness(0) invert(1) contrast(1000%) brightness(1000%)',
               mixBlendMode: 'screen',
-              maskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
-              WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
+              maskImage: 'radial-gradient(ellipse 8% 6% at 50% 48%, black 50%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(ellipse 8% 6% at 50% 48%, black 50%, transparent 100%)',
             }}
           />
         </div>
