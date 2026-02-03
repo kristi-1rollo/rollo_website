@@ -262,6 +262,25 @@
     animation: lights-flash 0.5s ease-in-out infinite;
   }
 
+  /* Red lights flash animation */
+  @keyframes lights-flash-red {
+    0%, 100% {
+      opacity: 0.3;
+      background-color: hsl(0, 100%, 50%);
+      box-shadow: 0 0 10px hsl(0 100% 50% / 0.2);
+    }
+    50% {
+      opacity: 1;
+      background-color: hsl(0, 100%, 50%);
+      box-shadow: 0 0 30px hsl(0 100% 50% / 0.8),
+                  0 0 60px hsl(0 100% 50% / 0.5);
+    }
+  }
+
+  .animate-lights-flash-red {
+    animation: lights-flash-red 0.5s ease-in-out infinite;
+  }
+
   /* Node appear animation */
   @keyframes node-appear {
     0% {
