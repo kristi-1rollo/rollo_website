@@ -64,54 +64,30 @@ const HeroSection = () => {
           className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`}
           style={robot3DStyle}
         >
-          {/* Robot image */}
+          {/* Base robot image */}
           <img
             src={rollo1}
             alt="ROLLO Robot"
             className="w-auto h-[400px] md:h-[500px] object-contain drop-shadow-2xl"
           />
           
-          {/* Diamond-shaped breathing lights - positioned on robot's chest */}
-          <div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-            <div className="relative w-24 h-14">
-              {/* Top light */}
-              <div
-                className={`absolute top-0 left-1/2 -translate-x-1/2 w-5 h-5 rotate-45
-                  ${animationPhase === "entering" ? "bg-white/60" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
-                `}
-                style={{ animationDelay: "0s" }}
-              />
-              {/* Left light */}
-              <div
-                className={`absolute top-1/2 left-0 -translate-y-1/2 w-5 h-5 rotate-45
-                  ${animationPhase === "entering" ? "bg-white/60" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
-                `}
-                style={{ animationDelay: "0.15s" }}
-              />
-              {/* Right light */}
-              <div
-                className={`absolute top-1/2 right-0 -translate-y-1/2 w-5 h-5 rotate-45
-                  ${animationPhase === "entering" ? "bg-white/60" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
-                `}
-                style={{ animationDelay: "0.3s" }}
-              />
-              {/* Bottom light */}
-              <div
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-5 rotate-45
-                  ${animationPhase === "entering" ? "bg-white/60" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
-                `}
-                style={{ animationDelay: "0.45s" }}
-              />
-            </div>
-          </div>
+          {/* Lights overlay - same image with filter magic */}
+          <img
+            src={rollo1}
+            alt=""
+            aria-hidden="true"
+            className={`absolute inset-0 w-auto h-[400px] md:h-[500px] object-contain pointer-events-none
+              ${animationPhase === "entering" ? "opacity-30" : ""}
+              ${animationPhase === "blinking" ? "animate-lights-glow-red" : ""}
+              ${animationPhase === "complete" ? "animate-lights-glow" : ""}
+            `}
+            style={{
+              filter: 'brightness(0) invert(1) contrast(1000%) brightness(1000%)',
+              mixBlendMode: 'screen',
+              maskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
+              WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
+            }}
+          />
         </div>
 
         {/* Content that fades in after robot arrives */}

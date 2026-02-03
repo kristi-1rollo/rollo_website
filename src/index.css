@@ -245,38 +245,36 @@
     animation: robot-sway 4.5s ease-in-out infinite;
   }
 
-  /* White diamond breathing light animation with drop-shadow glow */
-  @keyframes lights-breathe {
+  /* Lights glow animation - white pulse */
+  @keyframes lights-glow {
     0%, 100% {
-      opacity: 0.6;
-      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+      opacity: 0.2;
     }
     50% {
       opacity: 1;
-      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9))
-              drop-shadow(0 0 30px rgba(255, 255, 255, 0.6));
     }
   }
 
-  .animate-lights-breathe {
-    animation: lights-breathe 2s ease-in-out infinite;
-  }
-
-  /* Red diamond breathing lights */
-  @keyframes lights-breathe-red {
+  /* Lights glow animation - red pulse (for blinking phase) */
+  @keyframes lights-glow-red {
     0%, 100% {
-      opacity: 0.6;
-      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+      opacity: 0.2;
+      filter: brightness(0) invert(1) contrast(1000%) brightness(1000%) 
+              sepia(100%) saturate(10000%) hue-rotate(0deg);
     }
     50% {
       opacity: 1;
-      filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.9))
-              drop-shadow(0 0 30px rgba(239, 68, 68, 0.6));
+      filter: brightness(0) invert(1) contrast(1000%) brightness(1000%) 
+              sepia(100%) saturate(10000%) hue-rotate(0deg);
     }
   }
 
-  .animate-lights-breathe-red {
-    animation: lights-breathe-red 1.5s ease-in-out infinite;
+  .animate-lights-glow {
+    animation: lights-glow 2s ease-in-out infinite;
+  }
+
+  .animate-lights-glow-red {
+    animation: lights-glow-red 0.5s ease-in-out infinite;
   }
 
   /* Node appear animation */
