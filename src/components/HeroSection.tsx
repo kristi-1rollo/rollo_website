@@ -37,15 +37,19 @@ const HeroSection = () => {
       {/* Robot with entrance animation */}
       <div className="relative z-10 flex flex-col items-center">
         <div 
-          className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : ""}`}
+          className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`}
         >
-          {/* Robot lights glow effect */}
-          <div 
-            className={`absolute top-[15%] left-1/2 -translate-x-1/2 w-16 h-4 rounded-full bg-foreground/80 blur-sm
-              ${animationPhase === "blinking" ? "animate-light-blink" : ""}
-              ${animationPhase === "complete" ? "animate-light-pulse" : ""}
-            `}
-          />
+          {/* 4 Robot lights */}
+          <div className="absolute top-[15%] left-1/2 -translate-x-1/2 flex gap-2">
+            {[0, 1, 2, 3].map((i) => (
+              <div
+                key={i}
+                className={`w-3 h-3 rounded-full bg-foreground
+                  ${animationPhase === "complete" ? "animate-lights-flash" : "opacity-30"}
+                `}
+              />
+            ))}
+          </div>
           
           {/* Robot image */}
           <img
