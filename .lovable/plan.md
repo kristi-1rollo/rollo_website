@@ -1,209 +1,187 @@
 
 
-# Radial Orbital Timeline Komponendi Implementeerimine
+# Animatsioonide Lisamine ROLLO Veebilehele
 
 ## Ülevaade
-Asendan praeguse "Technical Specifications" sektsiooni staatilise radiaalse layout'i uue dünaamilise "Radial Orbital Timeline" komponendiga, kus spetsifikatsioonide sõlmed tiirlevad roboti ümber animeeritult.
+Lisan kolm animatsiooni: roboti liikumine edasi-tagasi, tulede vilkumine Hero sektsioonis ning specs-sõlmede ilmumine Technical Specifications sektsioonis.
 
 ---
 
-## Arhitektuur
+## Animatsioon 1: Roboti Edasi-Tagasi Liikumine
 
-### Uued failid
-1. **`src/components/RadialOrbitalTimeline.tsx`** - Põhikomponent orbitaalse ajaskaala jaoks
-2. **`src/components/OrbitalNode.tsx`** - Üksiku tiirlevate sõlme komponent
-
-### Muudetavad failid
-1. **`src/components/SpecificationsSection.tsx`** - Integreerima uus komponent
-2. **`src/index.css`** - Lisama orbitaalne animatsioon CSS
-
----
-
-## Tehniline plaan
-
-### 1. Orbitaalse animatsiooni CSS (src/index.css)
-
-Lisa uus CSS keyframes animatsioon:
+### Fail: `src/index.css`
+Lisa uus keyframes animatsioon:
 
 ```css
-@keyframes orbital-rotate {
-  from {
-    transform: rotate(0deg);
+@keyframes robot-sway {
+  0%, 100% {
+    transform: translateX(0);
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    transform: translateX(25px);
   }
 }
 
-.animate-orbital {
-  animation: orbital-rotate 60s linear infinite;
+.animate-robot-sway {
+  animation: robot-sway 4.5s ease-in-out infinite;
 }
 ```
 
----
-
-### 2. OrbitalNode komponent (src/components/OrbitalNode.tsx)
-
-Loo uus komponent üksiku sõlme jaoks:
-
-```text
-+----------------------------------+
-|  Props:                          |
-|  - id: number                    |
-|  - title: string                 |
-|  - content: string               |
-|  - Icon: LucideIcon              |
-|  - status: "completed"|"pending" |
-|  - angle: number (kraadides)     |
-|  - isActive: boolean             |
-|  - onClick: () => void           |
-+----------------------------------+
-```
-
-**Omadused:**
-- Positsioneeritud absoluutselt radiaalselt keskpunktist
-- Hover efekt skaleerimisega
-- Erinevad värvid staatuse järgi:
-  - `completed`: Sinine (#3B82F6)
-  - `pending`: Oranž (#FF8C00)
-- Ikoon Lucide React'ist
-- Glassmorphism stiil
-
----
-
-### 3. RadialOrbitalTimeline komponent (src/components/RadialOrbitalTimeline.tsx)
-
-Põhikomponent struktuuri:
-
-```text
-+----------------------------------------+
-| RadialOrbitalTimeline                  |
-|                                        |
-|  +----------------------------------+  |
-|  |        Orbital Container         |  |
-|  |                                  |  |
-|  |    [Node 1]     [Node 2]         |  |
-|  |         \       /                |  |
-|  |          \     /                 |  |
-|  |     [Node 7] ● [Node 3]          |  |
-|  |    (Robot image center)          |  |
-|  |          /     \                 |  |
-|  |         /       \                |  |
-|  |    [Node 6]     [Node 4]         |  |
-|  |            [Node 5]              |  |
-|  +----------------------------------+  |
-|                                        |
-|  +----------------------------------+  |
-|  |     Active Node Details Card     |  |
-|  |     Title: Dimensions            |  |
-|  |     Content: 60 x 60 x 140 cm    |  |
-|  +----------------------------------+  |
-+----------------------------------------+
-```
-
-**Props:**
-- `timelineData`: TimelineItem[] - Andmed sõlmede jaoks
-- `centerImage`: string - Keskpildi URL (rollo2.png)
-
-**Funktsioonid:**
-- `useState` aktiivsete sõlmede jälgimiseks
-- `useEffect` IntersectionObserver animatsiooni käivitamiseks
-- SVG jooned sõlmedelt keskpunkti
-
----
-
-### 4. Timeline andmed (timelineData)
-
-```typescript
-import { Ruler, Weight, Zap, Battery, Eye, Plug, Calendar } from "lucide-react";
-
-const timelineData = [
-  { id: 1, title: "Dimensions", content: "60 x 60 x 140 cm", Icon: Ruler, status: "completed" },
-  { id: 2, title: "Weight", content: "35 kg", Icon: Weight, status: "completed" },
-  { id: 3, title: "Speed", content: "Up to 10 km/h", Icon: Zap, status: "completed" },
-  { id: 4, title: "Battery", content: "Up to 8 hours", Icon: Battery, status: "completed" },
-  { id: 5, title: "Sensors", content: "Motion & object detection", Icon: Eye, status: "completed" },
-  { id: 6, title: "Charging", content: "Automatic recharging", Icon: Plug, status: "completed" },
-  { id: 7, title: "Availability", content: "Pilot projects from 2025", Icon: Calendar, status: "pending" },
-];
-```
-
----
-
-### 5. SpecificationsSection uuendamine
-
-Asendan praeguse sisu uue komponendiga:
+### Fail: `src/components/HeroSection.tsx`
+Muuda roboti pildi konteinerit (rida 39-56), et lisada liikumise animatsioon pärast sissepääsu lõppu:
 
 ```tsx
-import RadialOrbitalTimeline from "./RadialOrbitalTimeline";
-import rollo2 from "@/assets/rollo2.png";
+<div 
+  className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`}
+>
+```
 
-const SpecificationsSection = () => {
+**Parameetrid:**
+- Liikumise kaugus: 25px (x-teljel)
+- Kiirus: 4.5 sekundit (üks tsükkel)
+- Algab automaatselt pärast sissepääsu
+- Jätkub pidevalt (infinite loop)
+
+---
+
+## Animatsioon 2: 4 Valge Tule Vilkumine
+
+### Fail: `src/index.css`
+Lisa uus keyframes animatsioon kiireks vilkumiseks:
+
+```css
+@keyframes lights-flash {
+  0%, 100% {
+    opacity: 0.3;
+    box-shadow: 0 0 10px hsl(var(--rollo-glow) / 0.2);
+  }
+  50% {
+    opacity: 1;
+    box-shadow: 0 0 30px hsl(var(--rollo-glow) / 0.8),
+                0 0 60px hsl(var(--rollo-glow) / 0.5);
+  }
+}
+
+.animate-lights-flash {
+  animation: lights-flash 0.5s ease-in-out infinite;
+}
+```
+
+### Fail: `src/components/HeroSection.tsx`
+Muuda üksik tulede element (rida 42-48) neljaks eraldi tuleks ja lisa vilkumise animatsioon:
+
+```tsx
+{/* 4 Robot lights */}
+<div className="absolute top-[15%] left-1/2 -translate-x-1/2 flex gap-2">
+  {[0, 1, 2, 3].map((i) => (
+    <div
+      key={i}
+      className={`w-3 h-3 rounded-full bg-white
+        ${animationPhase === "complete" ? "animate-lights-flash" : "opacity-30"}
+      `}
+    />
+  ))}
+</div>
+```
+
+**Parameetrid:**
+- 4 valget tuld reas
+- Vilkumise kiirus: 0.5 sekundit
+- Intensiivsus: 0.3 (30%) kuni 1 (100%)
+- Kõik vilguvad sünkroonselt
+- Algab pärast roboti sissepääsu lõppu
+
+---
+
+## Animatsioon 3: Specs Ilmumine Staggered
+
+### Fail: `src/index.css`
+Lisa uus keyframes animatsioon fade-in + scale efektiks:
+
+```css
+@keyframes node-appear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.5);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+.animate-node-appear {
+  animation: node-appear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+```
+
+### Fail: `src/components/OrbitalNode.tsx`
+Lisa ilmumise animatsioon ja staggered delay:
+
+```tsx
+interface OrbitalNodeProps {
+  // ... existing props
+  isVisible: boolean;  // uus prop
+  appearDelay: number; // uus prop (ms)
+}
+
+// Komponendi sees:
+<div
+  className={cn(
+    "absolute z-20 cursor-pointer",
+    isVisible ? "animate-node-appear" : "opacity-0"
+  )}
+  style={{
+    left: `${x}%`,
+    top: `${y}%`,
+    animationDelay: `${appearDelay}ms`,
+  }}
+>
+```
+
+### Fail: `src/components/RadialOrbitalTimeline.tsx`
+Muuda sõlmede renderimist, et lisada staggered delay:
+
+```tsx
+{timelineData.map((item, index) => {
+  // Arvutame delay päripäeva järjekorras (ülevalt paremalt alustades)
+  const staggerDelay = index * 150; // 150ms iga sõlme vahel
+  
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Technical <span className="text-primary">Specifications</span>
-        </h2>
-        <p className="text-muted-foreground text-center mb-16">
-          Explore ROLLO's cutting-edge specifications
-        </p>
-        
-        <RadialOrbitalTimeline 
-          timelineData={timelineData} 
-          centerImage={rollo2} 
-        />
-      </div>
-    </section>
+    <OrbitalNode
+      key={item.id}
+      // ... existing props
+      isVisible={isVisible}
+      appearDelay={staggerDelay}
+    />
   );
-};
+})}
 ```
 
----
-
-## Visuaalne disain
-
-### Värvid
-- **Completed sõlmed**: `#3B82F6` (sinine) - sama mis primary
-- **Pending sõlmed**: `#FF8C00` (oranž)
-- **Jooned**: Gradient sinisest valgeni
-- **Taust**: Glassmorphism efekt
-
-### Animatsioonid
-1. **Orbitaalne pöörlemine**: Sõlmed tiirlevad aeglaselt (60s täisring)
-2. **Hover efekt**: Skaleerumine 1.1x + glow efekt
-3. **Entrance animation**: Fade-in + scale sõlmede ilmumisel
-4. **Joonte joonistamine**: stroke-dashoffset animatsioon
-
-### Responsive design
-- **Desktop (>768px)**: 
-  - Suur orbitaalring (raadius 180px)
-  - Sõlmed nähtavad koos ikoonide ja tekstiga
-- **Mobiil (<768px)**: 
-  - Väiksem ring (raadius 120px)
-  - Ainult ikoonid nähtavad sõlmedel
-  - Aktiivne sõlm kuvatakse eraldi kaardil allpool
+**Parameetrid:**
+- Ilmumise efekt: Fade-in + scale (0.5 -> 1)
+- Kiirus: 0.6 sekundit
+- Staggered delay: 150ms iga sõlme vahel
+- Järjekord: Esimene sõlm (Dimensions) ülevalt, siis päripäeva
+- Käivitub IntersectionObserver'iga kui sektsioon tuleb vaatevälja
 
 ---
 
-## Failide struktuur pärast muudatusi
+## Muudetavad failid
 
-```text
-src/components/
-├── SpecificationsSection.tsx  (muudetud)
-├── RadialOrbitalTimeline.tsx  (uus)
-├── OrbitalNode.tsx            (uus)
-└── ...
-
-src/index.css (muudetud - uus animatsioon)
-```
+| Fail | Muudatus |
+|------|----------|
+| `src/index.css` | Lisa 3 uut keyframes animatsiooni |
+| `src/components/HeroSection.tsx` | Lisa roboti sway ja 4 tule vilkumine |
+| `src/components/OrbitalNode.tsx` | Lisa isVisible ja appearDelay props |
+| `src/components/RadialOrbitalTimeline.tsx` | Lisa staggered delay loogika |
 
 ---
 
-## Märkused
+## Tehnilised nõuded
 
-- Lucide React'ist kasutatakse: `Ruler`, `Weight`, `Zap`, `Battery`, `Eye`, `Plug`, `Calendar`
-- Roboti pilt (`rollo2.png`) jääb keskpunkti
-- IntersectionObserver käivitab animatsiooni kui sektsioon tuleb vaatevälja
-- Sõlmede klikkimine näitab detailset infot (eriti mobiilil kasulik)
+- **60fps sujuvus**: Kõik animatsioonid kasutavad `transform` ja `opacity` (GPU-kiirendatud)
+- **Ei häiri teksti**: Roboti liikumine on piiritletud 25px-ga, tuled on väikesed
+- **Cross-device**: Puhas CSS animatsioonid töötavad kõigil seadmetel
+- **Prefers-reduced-motion**: Võimalus lisada `@media (prefers-reduced-motion: reduce)` query
 
