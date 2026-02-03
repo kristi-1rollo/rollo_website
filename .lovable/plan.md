@@ -1,83 +1,141 @@
 
+# CSS Filter + Blend Mode Tulede Lahendus
 
-# Tulede Positsiooni Tapsem Kohandamine
+## Kontseptsioon
 
-## Referentspildi Analuus
+Loome elegantse "Starlinki-laadse" tulede efekti ilma eraldi overlay-pildita:
+1. **Duplitseerime** roboti pildi samasse konteinerisse
+2. **Rakendame CSS filtreid** ülemisele pildile, et isoleerida heledad punktid (tuled)
+3. **Kasutame screen blend-mode'i** loomulikuks säraefektiks
+4. **Animeerime opacity'd** pulseeriva efekti saavutamiseks
 
-Kasutaja pildilt on nahtav:
-- 4 valget rombi roboti rindkerel
-- Tuled on paigutatud teemandi kujuliselt (1 uleval, 2 keskel, 1 all)
-- Tulede vahel on ROLLO logo
-- Asuvad roboti keskosas, umbes poole korgusel
+---
 
-## Praegune vs Oige Positsioon
+## Tehniline Lahendus
 
-| Parameeter | Praegu | Uus |
-|------------|--------|-----|
-| Vertikaalne positsioon | `top-[45%]` | `top-[50%]` |
-| Konteineri laius | `w-20` (80px) | `w-24` (96px) |
-| Konteineri korgus | `h-12` (48px) | `h-14` (56px) |
-| Tule suurus | `w-4 h-4` (16px) | `w-5 h-5` (20px) |
+### 1. HeroSection.tsx Struktuur
 
-## Muudatused HeroSection.tsx
+**Eemaldatav kood** (read 74-114):
+Kogu praegune CSS-põhine teemanti-tulede lahendus.
 
-### Rida 75 - Konteineri positsioon
+**Uus struktuur**:
 
 ```tsx
-// Praegu:
-<div className="absolute top-[45%] left-1/2 -translate-x-1/2 z-10">
-
-// Uus - nihutatud veidi madalamale:
-<div className="absolute top-[50%] left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
+{/* Robot container - relative for overlay positioning */}
+<div className="relative">
+  {/* Base robot image */}
+  <img
+    src={rollo1}
+    alt="ROLLO Robot"
+    className="w-auto h-[400px] md:h-[500px] object-contain drop-shadow-2xl"
+  />
+  
+  {/* Lights overlay - same image with filter magic */}
+  <img
+    src={rollo1}
+    alt=""
+    aria-hidden="true"
+    className={`absolute inset-0 w-auto h-[400px] md:h-[500px] object-contain pointer-events-none
+      ${animationPhase === "entering" ? "opacity-30" : ""}
+      ${animationPhase === "blinking" ? "animate-lights-glow-red" : ""}
+      ${animationPhase === "complete" ? "animate-lights-glow" : ""}
+    `}
+    style={{
+      filter: 'brightness(0) invert(1) contrast(1000%) brightness(1000%)',
+      mixBlendMode: 'screen',
+      maskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
+      WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black 10%, transparent 15%)',
+    }}
+  />
+</div>
 ```
 
-Lisa `-translate-y-1/2` et konteiner oleks tapselt tsentreeritud 50% kohal.
+### 2. index.css Animatsioonid
 
-### Rida 76 - Konteineri suurus
+Lisa uued animatsioonid ja eemalda vanad `lights-breathe` animatsioonid:
 
-```tsx
-// Praegu:
-<div className="relative w-20 h-12">
+```css
+/* Lights glow animation - white pulse */
+@keyframes lights-glow {
+  0%, 100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
 
-// Uus - suurem konteiner:
-<div className="relative w-24 h-14">
-```
+/* Lights glow animation - red pulse (for blinking phase) */
+@keyframes lights-glow-red {
+  0%, 100% {
+    opacity: 0.2;
+    filter: brightness(0) invert(1) contrast(1000%) brightness(1000%) 
+            sepia(100%) saturate(10000%) hue-rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    filter: brightness(0) invert(1) contrast(1000%) brightness(1000%) 
+            sepia(100%) saturate(10000%) hue-rotate(0deg);
+  }
+}
 
-### Read 79, 88, 97, 106 - Tulede suurus
+.animate-lights-glow {
+  animation: lights-glow 2s ease-in-out infinite;
+}
 
-```tsx
-// Praegu:
-w-4 h-4
-
-// Uus - suuremad tuled:
-w-5 h-5
+.animate-lights-glow-red {
+  animation: lights-glow-red 0.5s ease-in-out infinite;
+}
 ```
 
 ---
 
-## Kokkuvote
-
-| Fail | Muudatus |
-|------|----------|
-| `src/components/HeroSection.tsx` | Positsioon `top-[50%] -translate-y-1/2`, konteiner `w-24 h-14`, tuled `w-5 h-5` |
-
-### Visuaalne Tulemus
+## CSS Filtrite Selgitus
 
 ```text
-Roboti pilt:
-+------------------+
-|                  |
-|      (pea)       |
-|                  |
-|    +--------+    |  <- top-[50%] -translate-y-1/2
-|    |   [T]  |    |      (tsentreeritud)
-|    | [L] [R]|    |
-|    |   [B]  |    |
-|    +--------+    |
-|                  |
-|     (jalad)      |
-+------------------+
+filter: brightness(0) invert(1) contrast(1000%) brightness(1000%)
+        │           │         │               │
+        │           │         │               └── Teeb heledad alad üliheledaks
+        │           │         └── Suurendab kontrasti äärmuseni
+        │           └── Inverteerib värvid (must -> valge)
+        └── Teeb pildi täiesti mustaks
 ```
 
-Muudatused tagavad, et tuled asuvad tapselt roboti rindkere keskel ja on proportsionaalselt suuremad.
+```text
+mask-image: radial-gradient(circle at 50% 45%, black 10%, transparent 15%)
+            │                           │
+            │                           └── 50% horisontaalselt, 45% vertikaalselt
+            └── Näitab ainult ringi sees olevat osa (tuled)
+```
 
+---
+
+## Failide Muudatused
+
+| Fail | Tegevus |
+|------|---------|
+| `src/components/HeroSection.tsx` | Eemaldada read 74-114 (CSS tuled), lisada piltide overlay-struktuur |
+| `src/index.css` | Lisada `lights-glow` ja `lights-glow-red` animatsioonid |
+
+---
+
+## Eelised
+
+| Aspekt | Vana CSS-lahendus | Uus Filter-lahendus |
+|--------|-------------------|---------------------|
+| Positsioneerimine | Käsitsi, ebatäpne | Automaatne, 1:1 kattuvus |
+| Tulede kuju | Lihtsustatud rombid | Täpselt pildil nähtavad tuled |
+| Hooldus | Palju CSS klasse | Üks img element + filter |
+| Visuaalne kvaliteet | Standardne | Premium "Starlink" efekt |
+
+---
+
+## Mask-Image Positsioon
+
+Radial-gradient'i keskpunkt `50% 45%` on ligikaudne. Seda saab vajadusel kohandada:
+- **50%** = horisontaalne keskpunkt (roboti keskjoon)
+- **45%** = vertikaalne positsioon (tulede kõrgus)
+- **10%** = maski raadius (kui suur ala on nähtav)
+- **15%** = üleminekuala (fade-out raadius)
+
+Kui tuled on teises kohas, saab neid väärtusi kohendada.
