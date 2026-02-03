@@ -27,7 +27,7 @@ const CTASection = () => {
             <Button
               onClick={() => setIsModalOpen(true)}
               size="lg"
-              className="text-lg px-10 py-6 animate-cta-pulse bg-gradient-to-r from-primary to-[hsl(30,100%,50%)] hover:from-primary/90 hover:to-[hsl(30,100%,55%)] border-0"
+              className="text-lg px-10 py-6 bg-primary hover:bg-primary/90"
             >
               Get Early Access
             </Button>
