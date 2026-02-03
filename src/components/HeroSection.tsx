@@ -61,44 +61,6 @@ const HeroSection = () => {
         <div className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`} style={robot3DStyle}>
           {/* Robot image */}
           <img src={rollo1} alt="ROLLO Robot" className="w-auto h-[400px] md:h-[500px] object-contain drop-shadow-2xl" />
-          
-          {/* Diamond-shaped breathing lights - positioned on robot's chest */}
-          <div className="absolute top-[42%] left-1/2 -translate-x-1/2 z-10">
-            <div className="relative w-12 h-6">
-              {/* Top light */}
-              <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
-                `} style={{
-              animationDelay: "0s"
-            }} />
-              {/* Left light */}
-              <div className={`absolute top-1/2 left-0 -translate-y-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
-                `} style={{
-              animationDelay: "0.15s"
-            }} />
-              {/* Right light */}
-              <div className={`absolute top-1/2 right-0 -translate-y-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
-                `} style={{
-              animationDelay: "0.3s"
-            }} />
-              {/* Bottom light */}
-              <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
-                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
-                `} style={{
-              animationDelay: "0.45s"
-            }} />
-            </div>
-          </div>
         </div>
 
         {/* Content that fades in after robot arrives */}
