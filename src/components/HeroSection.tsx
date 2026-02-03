@@ -72,41 +72,41 @@ const HeroSection = () => {
           />
           
           {/* Diamond-shaped breathing lights - positioned on robot's chest */}
-          <div className="absolute top-[42%] left-1/2 -translate-x-1/2 z-10">
-            <div className="relative w-12 h-6">
+          <div className="absolute top-[45%] left-1/2 -translate-x-1/2 z-10">
+            <div className="relative w-20 h-12">
               {/* Top light */}
               <div
-                className={`absolute top-0 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
+                className={`absolute top-0 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45
+                  ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
+                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
                 `}
                 style={{ animationDelay: "0s" }}
               />
               {/* Left light */}
               <div
-                className={`absolute top-1/2 left-0 -translate-y-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
+                className={`absolute top-1/2 left-0 -translate-y-1/2 w-4 h-4 rotate-45
+                  ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
+                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
                 `}
                 style={{ animationDelay: "0.15s" }}
               />
               {/* Right light */}
               <div
-                className={`absolute top-1/2 right-0 -translate-y-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
+                className={`absolute top-1/2 right-0 -translate-y-1/2 w-4 h-4 rotate-45
+                  ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
+                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
                 `}
                 style={{ animationDelay: "0.3s" }}
               />
               {/* Bottom light */}
               <div
-                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45
-                  ${animationPhase === "entering" ? "bg-blue-400/20 opacity-20" : ""}
+                className={`absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-4 rotate-45
+                  ${animationPhase === "entering" ? "bg-white/60" : ""}
                   ${animationPhase === "blinking" ? "bg-red-500 animate-lights-breathe-red" : ""}
-                  ${animationPhase === "complete" ? "bg-blue-400 animate-lights-breathe" : ""}
+                  ${animationPhase === "complete" ? "bg-white animate-lights-breathe" : ""}
                 `}
                 style={{ animationDelay: "0.45s" }}
               />
