@@ -47,39 +47,7 @@ const HeroSection = () => {
         <div className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`} style={robot3DStyle}>
           {/* Alumine põhipilt */}
           <img src={rollo1} alt="ROLLO Robot" className="w-auto h-[400px] md:h-[500px] object-contain drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]" />
-
-          {/* PEALMINE KIHT (TULED) */}
-<div 
-  className={`absolute inset-0 pointer-events-none transition-opacity duration-1000
-    ${animationPhase === "blinking" ? "animate-pulse opacity-100" : "opacity-0"}
-    ${animationPhase === "complete" ? "opacity-80" : ""}
-  `}
-  style={{
-    backgroundImage: `url(${rollo1})`,
-    backgroundSize: 'contain',
-    backgroundPosition: 'center',
-    backgroundRepeat: 'no-repeat',
-    mixBlendMode: 'color-dodge', // 'color-dodge' annab palju puhtama ja eredama sära kui 'screen'
-    filter: 'brightness(2) saturate(1.5)',
-    // See mask peab olema VÄGA täpne. Proovi neid numbreid:
-    WebkitMaskImage: 'radial-gradient(circle at 50% 43.5%, white 4%, transparent 12%)',
-    maskImage: 'radial-gradient(circle at 50% 43.5%, white 4%, transparent 12%)'
-  }}
-/>
-
-{/* Lisa siia ka eraldi "Glow" täpp, mis ei ole pildi küljes, et tekitada sügavust */}
-<div 
-  className="absolute pointer-events-none bg-blue-500/30 blur-[40px] rounded-full"
-  style={{
-    width: '100px',
-    height: '100px',
-    top: '43.5%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    mixBlendMode: 'screen',
-    opacity: animationPhase === "complete" ? 0.6 : 0
-  }}
-/>
+        </div>
 
         {/* Tekstiline sisu */}
         <div className={`mt-12 text-center max-w-4xl px-6 transition-all duration-1000 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
