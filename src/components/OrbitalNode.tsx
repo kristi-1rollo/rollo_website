@@ -12,6 +12,8 @@ interface OrbitalNodeProps {
   isActive: boolean;
   onClick: () => void;
   isMobile: boolean;
+  isVisible: boolean;
+  appearDelay: number;
 }
 
 const OrbitalNode = ({
@@ -24,6 +26,8 @@ const OrbitalNode = ({
   isActive,
   onClick,
   isMobile,
+  isVisible,
+  appearDelay,
 }: OrbitalNodeProps) => {
   const angleRad = (angle - 90) * (Math.PI / 180);
   const x = 50 + radius * Math.cos(angleRad);
@@ -36,11 +40,13 @@ const OrbitalNode = ({
       className={cn(
         "absolute z-20 transform -translate-x-1/2 -translate-y-1/2 cursor-pointer",
         "transition-all duration-300 ease-out",
-        isActive && "scale-110"
+        isActive && "scale-110",
+        isVisible ? "animate-node-appear" : "opacity-0"
       )}
       style={{
         left: `${x}%`,
         top: `${y}%`,
+        animationDelay: `${appearDelay}ms`,
       }}
       onClick={onClick}
     >

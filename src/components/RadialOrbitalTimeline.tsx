@@ -148,23 +148,29 @@ const RadialOrbitalTimeline = ({
         </svg>
 
         {/* Orbital nodes */}
-        {timelineData.map((item, index) => (
-          <OrbitalNode
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            content={item.content}
-            Icon={item.Icon}
-            status={item.status}
-            angle={getNodeAngle(index)}
-            radius={radius}
-            isActive={activeNodeId === item.id}
-            onClick={() =>
-              setActiveNodeId(activeNodeId === item.id ? null : item.id)
-            }
-            isMobile={isMobile}
-          />
-        ))}
+        {timelineData.map((item, index) => {
+          const staggerDelay = index * 150;
+          
+          return (
+            <OrbitalNode
+              key={item.id}
+              id={item.id}
+              title={item.title}
+              content={item.content}
+              Icon={item.Icon}
+              status={item.status}
+              angle={getNodeAngle(index)}
+              radius={radius}
+              isActive={activeNodeId === item.id}
+              onClick={() =>
+                setActiveNodeId(activeNodeId === item.id ? null : item.id)
+              }
+              isMobile={isMobile}
+              isVisible={isVisible}
+              appearDelay={staggerDelay}
+            />
+          );
+        })}
       </div>
 
       {/* Active node details card (especially useful on mobile) */}
