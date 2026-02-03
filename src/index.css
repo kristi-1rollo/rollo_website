@@ -245,16 +245,16 @@
     animation: robot-sway 4.5s ease-in-out infinite;
   }
 
-  /* Diamond breathing light animation with drop-shadow glow */
+  /* White diamond breathing light animation with drop-shadow glow */
   @keyframes lights-breathe {
     0%, 100% {
-      opacity: 0.5;
-      filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+      opacity: 0.6;
+      filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
     }
     50% {
       opacity: 1;
-      filter: drop-shadow(0 0 20px rgba(59, 130, 246, 0.9))
-              drop-shadow(0 0 40px rgba(59, 130, 246, 0.6));
+      filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.9))
+              drop-shadow(0 0 30px rgba(255, 255, 255, 0.6));
     }
   }
 
@@ -265,13 +265,13 @@
   /* Red diamond breathing lights */
   @keyframes lights-breathe-red {
     0%, 100% {
-      opacity: 0.5;
-      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4));
+      opacity: 0.6;
+      filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
     }
     50% {
       opacity: 1;
-      filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.9))
-              drop-shadow(0 0 40px rgba(239, 68, 68, 0.6));
+      filter: drop-shadow(0 0 15px rgba(239, 68, 68, 0.9))
+              drop-shadow(0 0 30px rgba(239, 68, 68, 0.6));
     }
   }
 
