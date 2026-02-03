@@ -44,8 +44,10 @@ const HeroSection = () => {
             {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
-                className={`w-3 h-3 rounded-full bg-foreground
-                  ${animationPhase === "complete" ? "animate-lights-flash" : "opacity-30"}
+                className={`w-3 h-3 rounded-full
+                  ${animationPhase === "entering" ? "bg-foreground/30 opacity-30" : ""}
+                  ${animationPhase === "blinking" ? "bg-red-500 animate-lights-flash-red" : ""}
+                  ${animationPhase === "complete" ? "bg-foreground animate-lights-flash" : ""}
                 `}
               />
             ))}
