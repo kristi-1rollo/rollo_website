@@ -67,11 +67,15 @@ h1, h2, h3 {
     scroll-behavior: smooth;
   }
 
-  body {
-  @apply bg-background text-foreground antialiased;
-  /* See rida ütleb arvutile: kasuta nüüd Interi fonti */
-  font-family: 'Inter', sans-serif;
-  letter-spacing: -0.02em;
+ /* See osa paneb fondi tööle */
+body {
+  font-family: 'Inter', sans-serif !important;
+}
+
+/* See osa teeb tehnilised tekstid NASA stiilis */
+.technical-text {
+  font-family: 'JetBrains Mono', monospace;
+  color: #99FF00;
 }
 }
 
