@@ -20,27 +20,27 @@ const raasFeatures = [
 
 const RaaSSection = () => {
   return (
-    <section className="py-24 relative">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Why <span className="text-primary">RaaS</span>?
+    <section className="py-32 relative">
+      <div className="container mx-auto px-8">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4">
+          Why RaaS
         </h2>
         <p className="text-muted-foreground text-center mb-16 max-w-2xl mx-auto">
           Transform your security operations without capital investment
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {raasFeatures.map((feature, index) => (
             <div
               key={feature.title}
-              className="glass-card p-8 text-center group hover:border-[hsl(30,100%,50%)]/50 hover:-translate-y-2 transition-all duration-300 opacity-0 animate-fade-in-up"
-              style={{ animationDelay: `${index * 150}ms`, animationFillMode: "forwards" }}
+              className="surface-card p-8 group hover:border-foreground/20 transition-colors duration-300 opacity-0 animate-fade-in-up"
+              style={{ animationDelay: `${index * 120}ms`, animationFillMode: "forwards" }}
             >
-              <div className="w-16 h-16 mx-auto mb-6 rounded-full bg-[hsl(30,100%,50%)]/20 flex items-center justify-center group-hover:bg-[hsl(30,100%,50%)]/30 transition-colors">
-                <feature.icon className="w-8 h-8 text-[hsl(30,100%,50%)]" />
+              <div className="w-12 h-12 mb-6 rounded-lg bg-muted flex items-center justify-center">
+                <feature.icon className="w-6 h-6 text-foreground" />
               </div>
-              <h3 className="text-xl font-semibold mb-3">{feature.title}</h3>
-              <p className="text-muted-foreground">{feature.description}</p>
+              <h3 className="text-lg font-medium mb-2">{feature.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>

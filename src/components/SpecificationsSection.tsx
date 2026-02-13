@@ -14,13 +14,13 @@ const timelineData: TimelineItem[] = [
 
 const SpecificationsSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Technical <span className="text-primary">Specifications</span>
+    <section className="py-32 relative overflow-hidden">
+      <div className="container mx-auto px-8">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4">
+          Technical Specifications
         </h2>
-        <p className="text-muted-foreground text-center mb-16">
-          Explore ROLLO's cutting-edge specifications
+        <p className="text-white/40 text-center mb-16">
+          Built for real-world deployment
         </p>
 
         <RadialOrbitalTimeline

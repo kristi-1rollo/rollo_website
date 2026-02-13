@@ -1,7 +1,7 @@
-import { 
-  Shield, Plane, Heart, Building2, HardHat, Factory, 
-  Zap, Droplets, GraduationCap, Home, Wifi, Database, 
-  Siren, Users 
+import {
+  Shield, Plane, Heart, Building2, HardHat, Factory,
+  Zap, Droplets, GraduationCap, Home, Wifi, Database,
+  Siren, Users
 } from "lucide-react";
 
 const useCases = [
@@ -23,25 +23,22 @@ const useCases = [
 
 const UseCasesSection = () => {
   return (
-    <section className="py-24 bg-secondary/30">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-6">
-          Endless <span className="text-primary">Applications</span>
+    <section className="py-32">
+      <div className="container mx-auto px-8">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4">
+          Applications
         </h2>
         <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-16">
           ROLLO adapts to any environment where security, surveillance, or delivery is needed
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4">
-          {useCases.map((useCase, index) => (
+          {useCases.map((useCase) => (
             <div
               key={useCase.label}
-              className="glass-card p-4 text-center group hover:border-primary/50 hover:bg-primary/10 transition-all duration-300 cursor-default"
-              style={{
-                animationDelay: `${index * 50}ms`,
-              }}
+              className="surface-card p-4 text-center group hover:border-foreground/20 transition-colors duration-300 cursor-default"
             >
-              <useCase.icon className="w-8 h-8 mx-auto mb-3 text-primary group-hover:scale-110 transition-transform" />
+              <useCase.icon className="w-6 h-6 mx-auto mb-3 text-muted-foreground" />
               <p className="text-xs md:text-sm text-foreground">{useCase.label}</p>
             </div>
           ))}

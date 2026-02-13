@@ -1,80 +1,89 @@
 import { useEffect, useState } from "react";
+
 import rollo1 from "@/assets/rollo1.png";
+import RegistrationModal from "./RegistrationModal";
+
 const HeroSection = () => {
-  const [animationPhase, setAnimationPhase] = useState<"entering" | "blinking" | "complete">("entering");
+  const [animationPhase, setAnimationPhase] = useState<"entering" | "complete">("entering");
   const [showContent, setShowContent] = useState(false);
-  const [mousePosition, setMousePosition] = useState({
-    x: 0,
-    y: 0
-  });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
   useEffect(() => {
-    const blinkTimer = setTimeout(() => setAnimationPhase("blinking"), 1800);
-    const completeTimer = setTimeout(() => setAnimationPhase("complete"), 2800);
-    const contentTimer = setTimeout(() => setShowContent(true), 2300);
+    const completeTimer = setTimeout(() => setAnimationPhase("complete"), 1800);
+    const contentTimer = setTimeout(() => setShowContent(true), 1200);
     return () => {
-      clearTimeout(blinkTimer);
       clearTimeout(completeTimer);
       clearTimeout(contentTimer);
     };
   }, []);
+
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const {
-      clientX,
-      clientY
-    } = e;
-    const {
-      innerWidth,
-      innerHeight
-    } = window;
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
     const x = (clientX - innerWidth / 2) / (innerWidth / 2);
     const y = (clientY - innerHeight / 2) / (innerHeight / 2);
-    setMousePosition({
-      x,
-      y
-    });
+    setMousePosition({ x, y });
   };
+
   const robot3DStyle = {
-    transform: animationPhase === "complete" ? `perspective(1200px) rotateX(${mousePosition.y * -5}deg) rotateY(${mousePosition.x * 8}deg)` : undefined,
-    transition: "transform 0.2s ease-out",
-    transformStyle: "preserve-3d" as const
+    transform:
+      animationPhase === "complete"
+        ? `perspective(1200px) rotateX(${mousePosition.y * -4}deg) rotateY(${mousePosition.x * 6}deg)`
+        : undefined,
+    transition: "transform 0.15s ease-out",
+    transformStyle: "preserve-3d" as const,
   };
-  return <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20" onMouseMove={handleMouseMove}>
-      {/* Taust */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#0a0a0a] to-[#0f0f0f]" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-primary/5 blur-[120px]" />
 
-      <div className="relative z-10 flex flex-col items-center">
-        <div className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : "animate-robot-sway"}`} style={robot3DStyle}>
-          {/* Alumine põhipilt */}
-          <img src={rollo1} alt="ROLLO Robot" className="w-auto h-[400px] md:h-[500px] object-contain drop-shadow-[0_0_30px_rgba(0,0,0,0.5)]" />
-        </div>
-
-        {/* Tekstiline sisu */}
-        <div className={`mt-12 text-center max-w-4xl px-6 transition-all duration-1000 ${showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
-          <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tighter">
-            <span className="text-primary">ROLLO</span>
-            <span className="text-slate-300 font-light block mt-2 text-2xl md:text-3xl tracking-normal italic">
-              The Future of Autonomous Security
-            </span>
-          </h1>
-
-          <div className="flex flex-wrap justify-center gap-4 mb-8">
-            {["Security Guard", "Courier", "Multi-talent"].map((role, index) => <div key={role} className="glass-card px-5 py-2 border border-white/5 bg-white/5 backdrop-blur-md rounded-full text-sm font-medium text-slate-300">
-                {role}
-              </div>)}
+  return (
+    <>
+      <section
+        className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden pt-20"
+        onMouseMove={handleMouseMove}
+      >
+        <div className="relative z-10 flex flex-col items-center">
+          {/* Robot */}
+          <div
+            className={`relative ${animationPhase === "entering" ? "animate-robot-entrance" : ""}`}
+            style={robot3DStyle}
+          >
+            <img
+              src={rollo1}
+              alt="ROLLO Robot"
+              className="w-auto h-[360px] md:h-[480px] object-contain"
+            />
           </div>
 
-          <p className="text-lg text-slate-400 max-w-xl mx-auto leading-relaxed">
-            Revolutionizing security with intelligence.
-            <span className="text-primary block font-semibold mt-2">10x cheaper. 100% autonomous.</span>
-          </p>
+          {/* Content */}
+          <div
+            className={`mt-16 text-center max-w-3xl px-8 transition-all duration-700 ${
+              showContent ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-4">
+              ROLLO
+            </h1>
+            <p className="text-lg md:text-xl text-muted-foreground mb-8">
+              The future of autonomous security.
+            </p>
+            <p className="text-base text-muted-foreground max-w-xl mx-auto leading-relaxed mb-12">
+              Intelligent robotic security at{" "}
+              <span className="text-[#99FF00] font-semibold">1/10th the cost</span>.
+              Fully autonomous. Always operational.
+            </p>
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-[#99FF00] text-black font-bold uppercase tracking-tighter px-8 py-3 hover:bg-white transition-all duration-300 border border-[#99FF00] text-base"
+            >
+              Get Rollo Access
+            </button>
+          </div>
         </div>
-      </div>
+      </section>
 
-      {/* Kerimise indikaator */}
-      <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 transition-opacity duration-1000 ${showContent ? "opacity-60" : "opacity-0"}`}>
-        
-      </div>
-    </section>;
+      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+    </>
+  );
 };
+
 export default HeroSection;

@@ -47,10 +47,9 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        rollo: {
-          dark: "hsl(var(--rollo-dark))",
-          glow: "hsl(var(--rollo-glow))",
-          accent: "hsl(var(--rollo-accent))",
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          border: "hsl(var(--surface-border))",
         },
       },
       borderRadius: {

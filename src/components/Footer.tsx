@@ -1,63 +1,64 @@
-import { Mail, Phone, MapPin } from "lucide-react";
-import logo from "@/assets/logo.png";
-import euLogo from "@/assets/eu-fund-logo.jpg";
+import React from "react";
+import logo from "../assets/logo.png";
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
-    <footer className="py-16 border-t border-border">
-      <div className="container mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Logo and tagline */}
-          <div>
-            <img src={logo} alt="1ROLLO" className="h-12 w-auto mb-4" />
-            <p className="text-muted-foreground">
-              Your Intelligent Robot Security Guard
-            </p>
-          </div>
+    <footer className="relative w-full overflow-hidden mt-24">
+      {/* Background animation (ultra-subtle, does NOT tint base color) */}
+      <div className="pointer-events-none absolute inset-0">
+        {/* Only a very soft moving sheen, no white fade overlay */}
+        <div className="absolute -inset-x-24 -inset-y-10 opacity-[0.05] blur-3xl footer-sheen" />
+      </div>
 
-          {/* Contact info */}
-          <div>
-            <h3 className="font-semibold mb-4">Contact Us</h3>
-            <div className="space-y-3">
-              <a 
-                href="mailto:info@1rollo.com" 
-                className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Mail className="w-5 h-5 text-primary" />
-                info@1rollo.com
-              </a>
-              <a 
-                href="tel:+372123456789" 
-                className="flex items-center gap-3 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Phone className="w-5 h-5 text-primary" />
-                +372 123 456 789
-              </a>
-              <div className="flex items-start gap-3 text-muted-foreground">
-                <MapPin className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
-                <span>
-                  Raua 16-2<br />
-                  Viljandi, Estonia 71020
-                </span>
-              </div>
-            </div>
-          </div>
+      <div className="relative mx-auto max-w-6xl px-6 py-10">
+        <div className="flex items-center justify-between gap-8">
+          <img
+            src={logo}
+            alt="1ROLLO"
+            className="h-12 md:h-14 w-auto object-contain"
+            loading="lazy"
+          />
 
-          {/* EU funding */}
-          <div>
-            <h3 className="font-semibold mb-4">Co-funded by</h3>
-            <img 
-              src={euLogo} 
-              alt="European Union Regional Development Fund" 
-              className="h-16 w-auto rounded bg-foreground p-2"
-            />
-          </div>
+          <nav className="flex items-center gap-6 text-sm text-white/65">
+            <a href="/about" className="transition-colors hover:text-white">
+              About
+            </a>
+            <a href="/contact" className="transition-colors hover:text-white">
+              Contact
+            </a>
+          </nav>
         </div>
 
-        <div className="border-t border-border mt-12 pt-8 text-center text-muted-foreground text-sm">
-          <p>© {new Date().getFullYear()} 1ROLLO. All rights reserved.</p>
+        {/* Divider above copyright only */}
+        <div className="mt-8 border-t border-white/10" />
+
+        <div className="mt-6 flex justify-center">
+          <div className="text-[10px] tracking-wide text-white/35">
+            © rollo robotics oü 2026
+          </div>
         </div>
       </div>
+
+      <style>{`
+        .footer-sheen {
+          /* Neutral sheen (no green, no white tint wash) */
+          background:
+            radial-gradient(520px 240px at 25% 40%, rgba(255,255,255,0.08), transparent 62%),
+            radial-gradient(560px 260px at 75% 70%, rgba(255,255,255,0.06), transparent 62%);
+          animation: footerSheen 18s ease-in-out infinite;
+          mix-blend-mode: soft-light;
+        }
+
+        @keyframes footerSheen {
+          0%   { transform: translate3d(-2%, -2%, 0) scale(1.02); opacity: 0.05; }
+          50%  { transform: translate3d( 2%,  2%, 0) scale(1.04); opacity: 0.07; }
+          100% { transform: translate3d(-2%, -2%, 0) scale(1.02); opacity: 0.05; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .footer-sheen { animation: none; }
+        }
+      `}</style>
     </footer>
   );
 };

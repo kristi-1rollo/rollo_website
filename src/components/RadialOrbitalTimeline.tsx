@@ -47,7 +47,6 @@ const RadialOrbitalTimeline = ({
     return () => observer.disconnect();
   }, []);
 
-  // Slow orbital rotation
   useEffect(() => {
     if (!isVisible) return;
 
@@ -67,11 +66,7 @@ const RadialOrbitalTimeline = ({
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Orbital container */}
       <div className="relative max-w-4xl mx-auto aspect-square md:aspect-[4/3]">
-        {/* Background glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] md:w-[600px] md:h-[600px] rounded-full bg-primary/5 blur-3xl" />
-
         {/* Center robot */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
           <div
@@ -81,44 +76,20 @@ const RadialOrbitalTimeline = ({
             )}
             style={{ perspective: "1000px" }}
           >
-            <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl scale-75" />
             <img
               src={centerImage}
               alt="ROLLO Robot"
-              className="w-32 md:w-48 h-auto relative z-10 drop-shadow-2xl"
+              className="w-32 md:w-48 h-auto relative z-10"
               style={{ transform: "rotateY(-5deg) rotateX(5deg)" }}
             />
           </div>
         </div>
 
-        {/* SVG for connection lines */}
+        {/* SVG connection lines */}
         <svg
           className="absolute inset-0 w-full h-full pointer-events-none"
           style={{ zIndex: 5 }}
         >
-          <defs>
-            <linearGradient
-              id="orbitalLineGradient"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" stopColor="hsl(217, 91%, 60%)" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.3" />
-            </linearGradient>
-            <linearGradient
-              id="orbitalLineGradientPending"
-              x1="0%"
-              y1="0%"
-              x2="100%"
-              y2="0%"
-            >
-              <stop offset="0%" stopColor="#FF8C00" stopOpacity="0.8" />
-              <stop offset="100%" stopColor="hsl(0, 0%, 100%)" stopOpacity="0.3" />
-            </linearGradient>
-          </defs>
-
           {timelineData.map((item, index) => {
             const angle = getNodeAngle(index);
             const angleRad = (angle - 90) * (Math.PI / 180);
@@ -132,15 +103,11 @@ const RadialOrbitalTimeline = ({
                 y1="50%"
                 x2={`${endX}%`}
                 y2={`${endY}%`}
-                stroke={
-                  item.status === "completed"
-                    ? "url(#orbitalLineGradient)"
-                    : "url(#orbitalLineGradientPending)"
-                }
+                stroke="#1E2530"
                 strokeWidth="1"
                 className={cn(
                   "transition-opacity duration-500",
-                  isVisible ? "opacity-60" : "opacity-0"
+                  isVisible ? "opacity-80" : "opacity-0"
                 )}
               />
             );
@@ -150,7 +117,7 @@ const RadialOrbitalTimeline = ({
         {/* Orbital nodes */}
         {timelineData.map((item, index) => {
           const staggerDelay = index * 150;
-          
+
           return (
             <OrbitalNode
               key={item.id}
@@ -173,38 +140,17 @@ const RadialOrbitalTimeline = ({
         })}
       </div>
 
-      {/* Active node details card (especially useful on mobile) */}
+      {/* Active node details */}
       {activeNode && (
         <div className="mt-8 flex justify-center animate-fade-in-up">
-          <div
-            className={cn(
-              "glass-card px-6 py-4 max-w-md text-center",
-              activeNode.status === "completed"
-                ? "border-primary/50"
-                : "border-orange-500/50"
-            )}
-          >
+          <div className="surface-card px-6 py-4 max-w-md text-center border-foreground/20">
             <div className="flex items-center justify-center gap-3 mb-2">
-              <activeNode.Icon
-                className={cn(
-                  "w-6 h-6",
-                  activeNode.status === "completed"
-                    ? "text-primary"
-                    : "text-orange-500"
-                )}
-              />
-              <h3
-                className={cn(
-                  "font-semibold text-lg",
-                  activeNode.status === "completed"
-                    ? "text-primary"
-                    : "text-orange-500"
-                )}
-              >
+              <activeNode.Icon className="w-5 h-5 text-muted-foreground" />
+              <h3 className="font-medium text-lg text-foreground">
                 {activeNode.title}
               </h3>
             </div>
-            <p className="text-foreground/80">{activeNode.content}</p>
+            <p className="text-muted-foreground">{activeNode.content}</p>
           </div>
         </div>
       )}
