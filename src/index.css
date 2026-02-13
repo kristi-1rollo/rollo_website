@@ -22,7 +22,7 @@
     --secondary-foreground: 216 33% 97%;
 
     --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 40%;
+    --muted-foreground: 0 0% 60%;
 
     --accent: 82 100% 50%;
     --accent-foreground: 0 0% 0%;
@@ -34,7 +34,7 @@
     --input: 0 0% 12%;
     --ring: 82 100% 50%;
 
-    --radius: 0.5rem;
+    --radius: 0px;
 
     /* Surface tokens */
     --surface: 0 0% 4%;
@@ -51,15 +51,28 @@
   * {
     @apply border-border;
   }
+h1, h2, h3 {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.04em; /* Massiivne NASA look */
+}
 
+.mono-spec {
+  font-family: 'JetBrains Mono', monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.7rem;
+}
   html {
     scroll-behavior: smooth;
   }
 
   body {
-    @apply bg-background text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-  }
+  @apply bg-background text-foreground antialiased;
+  /* See rida ütleb arvutile: kasuta nüüd Interi fonti */
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+}
 }
 
 @layer components {
