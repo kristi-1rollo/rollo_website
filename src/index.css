@@ -204,3 +204,28 @@ body {
   .delay-2500 { animation-delay: 2500ms; }
   .delay-3000 { animation-delay: 3000ms; }
 }
+/* FIX: Modal visibility issues */
+[role="dialog"] label, 
+[role="dialog"] h2, 
+[role="dialog"] p {
+  color: #ffffff !important; /* Valge tekst */
+}
+
+[role="dialog"] input, 
+[role="dialog"] textarea, 
+[role="dialog"] select {
+  background-color: #1a1a1a !important; /* Tumehall taust väljadele */
+  color: #ffffff !important; /* Valge tekst kirjutades */
+  border: 1px solid rgba(153, 255, 0, 0.2) !important; /* Õrn roheline raam */
+}
+
+/* Placeholderite värv (et näeksid, mida kuhu kirjutada) */
+[role="dialog"] input::placeholder, 
+[role="dialog"] textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Checkboxide tekstid */
+[role="dialog"] .flex.items-center span {
+  color: #ffffff !important;
+}
