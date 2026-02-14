@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { LucideIcon } from "lucide-react";
+import { LucideIcon, X } from "lucide-react";
 import OrbitalNode from "./OrbitalNode";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { cn } from "@/lib/utils";
@@ -15,11 +15,13 @@ export interface TimelineItem {
 interface RadialOrbitalTimelineProps {
   timelineData: TimelineItem[];
   centerImage: string;
+  onItemClick?: (item: TimelineItem) => void;
 }
 
 const RadialOrbitalTimeline = ({
   timelineData,
   centerImage,
+  onItemClick,
 }: RadialOrbitalTimelineProps) => {
   const [activeNodeId, setActiveNodeId] = useState<number | null>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -33,27 +35,19 @@ const RadialOrbitalTimeline = ({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
+        if (entry.isIntersecting) setIsVisible(true);
       },
       { threshold: 0.3 }
     );
-
-    if (containerRef.current) {
-      observer.observe(containerRef.current);
-    }
-
+    if (containerRef.current) observer.observe(containerRef.current);
     return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
     if (!isVisible) return;
-
     const interval = setInterval(() => {
       setRotation((prev) => (prev + 0.1) % 360);
     }, 50);
-
     return () => clearInterval(interval);
   }, [isVisible]);
 
@@ -67,7 +61,8 @@ const RadialOrbitalTimeline = ({
   return (
     <div ref={containerRef} className="relative">
       <div className="relative max-w-4xl mx-auto aspect-square md:aspect-[4/3]">
-        {/* Center robot */}
+        
+        {/* Keskmine robot */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
           <div
             className={cn(
@@ -79,81 +74,117 @@ const RadialOrbitalTimeline = ({
             <img
               src={centerImage}
               alt="ROLLO Robot"
-              className="w-32 md:w-48 h-auto relative z-10"
+              className={cn(
+                "w-32 md:w-48 h-auto relative z-10 transition-all duration-700",
+                activeNode ? "blur-xl scale-90 opacity-30" : "blur-0 scale-100 opacity-100"
+              )}
               style={{ transform: "rotateY(-5deg) rotateX(5deg)" }}
             />
           </div>
         </div>
 
-        {/* SVG connection lines */}
-        <svg
-          className="absolute inset-0 w-full h-full pointer-events-none"
-          style={{ zIndex: 5 }}
-        >
+        {/* --- MODAALI KIHT JA OVERLAY --- */}
+        {activeNode && (
+          <>
+            {/* 1. TAUSTAKIHT (See püüab klikid väljaspool modaali) */}
+            <div 
+              className="absolute inset-[-100%] z-[90] cursor-default bg-black/10 backdrop-blur-[2px]"
+              onClick={() => setActiveNodeId(null)}
+            />
+
+            {/* 2. MODAAL ISE */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md animate-in zoom-in-95 fade-in duration-300 pointer-events-auto">
+              <div 
+                className="relative surface-card p-8 md:p-10 border-[#99FF00]/20 bg-black/60 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] text-center overflow-hidden"
+                onClick={(e) => e.stopPropagation()} // See takistab modaali sees klikkides selle sulgumist
+              >
+                {/* Dekoratiivne kuma taustal */}
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#99FF00]/10 blur-[80px] rounded-full" />
+                
+                <button 
+                  onClick={() => setActiveNodeId(null)}
+                  className="absolute top-4 right-4 text-white/30 hover:text-[#99FF00] transition-colors z-20"
+                >
+                  <X size={24} />
+                </button>
+
+                <div className="relative z-10 flex flex-col items-center gap-6">
+                  <div className="p-4 rounded-xl bg-[#99FF00]/5 border border-[#99FF00]/10 text-[#99FF00]">
+                    <activeNode.Icon size={40} />
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#99FF00] mb-2">
+                      System Specification
+                    </h3>
+                    <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">
+                      {activeNode.title}
+                    </h2>
+                    
+                    <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 mb-6">
+                      <span className="text-xl font-bold text-white tracking-tight">
+                        {activeNode.content}
+                      </span>
+                    </div>
+
+                    <p className="text-white/60 text-sm leading-relaxed max-w-[280px] mx-auto">
+                      Optimized for industrial performance. This {activeNode.title.toLowerCase()} module 
+                      ensures seamless operation in high-demand environments.
+                    </p>
+                  </div>
+
+                  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#99FF00]/20 to-transparent my-2" />
+                  
+                  <p className="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+                    Module Status: {activeNode.status === 'completed' ? 'Verified' : 'In Beta'}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+
+        {/* SVG Jooned */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
           {timelineData.map((item, index) => {
             const angle = getNodeAngle(index);
             const angleRad = (angle - 90) * (Math.PI / 180);
             const endX = 50 + orbitRadius * Math.cos(angleRad);
             const endY = 50 + orbitRadius * Math.sin(angleRad);
-
             return (
               <line
                 key={item.id}
-                x1="50%"
-                y1="50%"
-                x2={`${endX}%`}
-                y2={`${endY}%`}
-                stroke="#1E2530"
+                x1="50%" y1="50%" x2={`${endX}%`} y2={`${endY}%`}
+                stroke={activeNode ? "#99FF0010" : "#1E2530"}
                 strokeWidth="1"
-                className={cn(
-                  "transition-opacity duration-500",
-                  isVisible ? "opacity-80" : "opacity-0"
-                )}
+                className="transition-all duration-700"
               />
             );
           })}
         </svg>
 
-        {/* Orbital nodes */}
-        {timelineData.map((item, index) => {
-          const staggerDelay = index * 150;
-
-          return (
-            <OrbitalNode
-              key={item.id}
-              id={item.id}
-              title={item.title}
-              content={item.content}
-              Icon={item.Icon}
-              status={item.status}
-              angle={getNodeAngle(index)}
-              radius={radius}
-              isActive={activeNodeId === item.id}
-              onClick={() =>
-                setActiveNodeId(activeNodeId === item.id ? null : item.id)
-              }
-              isMobile={isMobile}
-              isVisible={isVisible}
-              appearDelay={staggerDelay}
-            />
-          );
-        })}
+        {/* ORBITAL NODES */}
+        {timelineData.map((item, index) => (
+          <OrbitalNode
+            key={item.id}
+            id={item.id}
+            title={item.title}
+            content="" 
+            Icon={item.Icon}
+            status={item.status}
+            angle={getNodeAngle(index)}
+            radius={radius}
+            isActive={activeNodeId === item.id}
+            onClick={() => {
+              setActiveNodeId(activeNodeId === item.id ? null : item.id);
+              onItemClick?.(item);
+            }}
+            isMobile={isMobile}
+            isVisible={isVisible}
+            appearDelay={index * 150}
+          />
+        ))}
       </div>
-
-      {/* Active node details */}
-      {activeNode && (
-        <div className="mt-8 flex justify-center animate-fade-in-up">
-          <div className="surface-card px-6 py-4 max-w-md text-center border-foreground/20">
-            <div className="flex items-center justify-center gap-3 mb-2">
-              <activeNode.Icon className="w-5 h-5 text-muted-foreground" />
-              <h3 className="font-medium text-lg text-foreground">
-                {activeNode.title}
-              </h3>
-            </div>
-            <p className="text-muted-foreground">{activeNode.content}</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
