@@ -153,12 +153,21 @@ const RadialOrbitalTimeline = ({
             const endY = 50 + orbitRadius * Math.sin(angleRad);
             return (
               <line
-                key={item.id}
-                x1="50%" y1="50%" x2={`${endX}%`} y2={`${endY}%`}
-                stroke={activeNode ? "#99FF0010" : "#1E2530"}
-                strokeWidth="1"
-                className="transition-all duration-700"
-              />
+  key={item.id}
+  x1="50%"
+  y1="50%"
+  x2={`${endX}%`}
+  y2={`${endY}%`}
+  /* Muudame joone värvi ja lisame kuma (glow) */
+  stroke={activeNode ? "rgba(153, 255, 0, 0.1)" : "#99FF00"} 
+  strokeWidth={activeNode ? "0.5" : "1"}
+  className={cn(
+    "transition-all duration-700",
+    isVisible ? "opacity-40" : "opacity-0",
+    /* See filter tekitabki "neon" kuma efekti */
+    "drop-shadow-[0_0_3px_rgba(153,255,0,0.8)]"
+  )}
+/>
             );
           })}
         </svg>
