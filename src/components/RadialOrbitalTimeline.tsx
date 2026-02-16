@@ -61,8 +61,8 @@ const RadialOrbitalTimeline = ({
   return (
     <div ref={containerRef} className="relative">
       <div className="relative max-w-4xl mx-auto aspect-square md:aspect-[4/3]">
-        
-        {/* Keskmine robot */}
+
+        {/* Center robot */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
           <div
             className={cn(
@@ -83,25 +83,22 @@ const RadialOrbitalTimeline = ({
           </div>
         </div>
 
-        {/* --- MODAALI KIHT JA OVERLAY --- */}
+        {/* Modal overlay */}
         {activeNode && (
           <>
-            {/* 1. TAUSTAKIHT (See püüab klikid väljaspool modaali) */}
-            <div 
-              className="absolute inset-[-100%] z-[90] cursor-default bg-black/10 backdrop-blur-[2px]"
+            <div
+              className="absolute inset-[-100%] z-[90] cursor-default bg-black/5 backdrop-blur-[1px]"
               onClick={() => setActiveNodeId(null)}
             />
 
-            {/* 2. MODAAL ISE */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md animate-in zoom-in-95 fade-in duration-300 pointer-events-auto">
-              <div 
-                className="relative surface-card p-8 md:p-10 border-[#99FF00]/20 bg-black/60 backdrop-blur-2xl shadow-[0_0_50px_rgba(0,0,0,0.8)] text-center overflow-hidden"
-                onClick={(e) => e.stopPropagation()} // See takistab modaali sees klikkides selle sulgumist
+              <div
+                className="relative p-8 md:p-10 border bg-[#0B0F14]/95 border-white/10 backdrop-blur-2xl shadow-2xl text-center overflow-hidden rounded-lg"
+                onClick={(e) => e.stopPropagation()}
               >
-                {/* Dekoratiivne kuma taustal */}
-                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#99FF00]/10 blur-[80px] rounded-full" />
-                
-                <button 
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#99FF00]/5 blur-[80px] rounded-full" />
+
+                <button
                   onClick={() => setActiveNodeId(null)}
                   className="absolute top-4 right-4 text-white/30 hover:text-[#99FF00] transition-colors z-20"
                 >
@@ -112,7 +109,7 @@ const RadialOrbitalTimeline = ({
                   <div className="p-4 rounded-xl bg-[#99FF00]/5 border border-[#99FF00]/10 text-[#99FF00]">
                     <activeNode.Icon size={40} />
                   </div>
-                  
+
                   <div>
                     <h3 className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#99FF00] mb-2">
                       System Specification
@@ -120,7 +117,7 @@ const RadialOrbitalTimeline = ({
                     <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">
                       {activeNode.title}
                     </h2>
-                    
+
                     <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 mb-6">
                       <span className="text-xl font-bold text-white tracking-tight">
                         {activeNode.content}
@@ -128,13 +125,13 @@ const RadialOrbitalTimeline = ({
                     </div>
 
                     <p className="text-white/60 text-sm leading-relaxed max-w-[280px] mx-auto">
-                      Optimized for industrial performance. This {activeNode.title.toLowerCase()} module 
+                      Optimized for industrial performance. This {activeNode.title.toLowerCase()} module
                       ensures seamless operation in high-demand environments.
                     </p>
                   </div>
 
                   <div className="w-full h-px bg-gradient-to-r from-transparent via-[#99FF00]/20 to-transparent my-2" />
-                  
+
                   <p className="font-mono text-[9px] text-white/20 uppercase tracking-widest">
                     Module Status: {activeNode.status === 'completed' ? 'Verified' : 'In Beta'}
                   </p>
@@ -144,7 +141,7 @@ const RadialOrbitalTimeline = ({
           </>
         )}
 
-        {/* SVG Jooned */}
+        {/* SVG connection lines — adapted for light bg */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
           {timelineData.map((item, index) => {
             const angle = getNodeAngle(index);
@@ -153,32 +150,29 @@ const RadialOrbitalTimeline = ({
             const endY = 50 + orbitRadius * Math.sin(angleRad);
             return (
               <line
-  key={item.id}
-  x1="50%"
-  y1="50%"
-  x2={`${endX}%`}
-  y2={`${endY}%`}
-  /* Muudame joone värvi ja lisame kuma (glow) */
-  stroke={activeNode ? "rgba(153, 255, 0, 0.1)" : "#99FF00"} 
-  strokeWidth={activeNode ? "0.5" : "1"}
-  className={cn(
-    "transition-all duration-700",
-    isVisible ? "opacity-40" : "opacity-0",
-    /* See filter tekitabki "neon" kuma efekti */
-    "drop-shadow-[0_0_3px_rgba(153,255,0,0.8)]"
-  )}
-/>
+                key={item.id}
+                x1="50%"
+                y1="50%"
+                x2={`${endX}%`}
+                y2={`${endY}%`}
+                stroke={activeNode ? "rgba(0,0,0,0.04)" : "rgba(0,0,0,0.10)"}
+                strokeWidth={activeNode ? "0.5" : "1"}
+                className={cn(
+                  "transition-all duration-700",
+                  isVisible ? "opacity-100" : "opacity-0"
+                )}
+              />
             );
           })}
         </svg>
 
-        {/* ORBITAL NODES */}
+        {/* Orbital nodes */}
         {timelineData.map((item, index) => (
           <OrbitalNode
             key={item.id}
             id={item.id}
             title={item.title}
-            content="" 
+            content=""
             Icon={item.Icon}
             status={item.status}
             angle={getNodeAngle(index)}

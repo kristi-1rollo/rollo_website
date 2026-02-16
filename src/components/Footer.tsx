@@ -26,10 +26,10 @@ const Footer = () => {
 
         {/* LINGID - TÄPSELT NAGU ALGUSES */}
         <div className="flex gap-8">
-          <a href="#" className="text-muted-foreground text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
+          <a href="#" className="text-white/50 text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
             About
           </a>
-          <a href="#" className="text-muted-foreground text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
+          <a href="#" className="text-white/50 text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
             Contact
           </a>
         </div>

@@ -7,13 +7,13 @@ const CTASection = () => {
 
   return (
     <>
-      <section className="py-32 relative">
+      <section className="py-32 relative bg-[color:var(--bg-alt)]">
         <div className="container mx-auto px-8 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6">
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white/[0.92]">
               Ready to Transform Your Security Operations?
             </h2>
-            <p className="text-lg text-muted-foreground mb-12">
+            <p className="text-lg text-white/70 mb-12">
               Join the waitlist for early access and be among the first to experience
               the future of autonomous security.
             </p>

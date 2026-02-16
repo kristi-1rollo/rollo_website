@@ -31,7 +31,7 @@ const Header = () => {
             </button>
 
             {/* SLOOGAN - PUHAS JA STAATILINE */}
-            <span className="hidden sm:block text-muted-foreground text-sm tracking-widest uppercase select-none border-l border-white/10 pl-4">
+            <span className="hidden sm:block text-white/50 text-sm tracking-widest uppercase select-none border-l border-white/10 pl-4">
               Autonomous Security Robotics
             </span>
           </div>

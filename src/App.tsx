@@ -11,15 +11,31 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
+      {/* Global UI */}
       <Toaster />
       <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
+
+      {/* Global page wrapper */}
+      <div className="min-h-screen bg-[#0B0F14] text-white antialiased">
+        {/* Subtle ambient layer (premium, very low) */}
+        <div
+          className="pointer-events-none fixed inset-0 opacity-[0.06] mix-blend-overlay"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.22), transparent 45%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.14), transparent 50%)",
+          }}
+        />
+
+        <div className="relative">
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </div>
+      </div>
     </TooltipProvider>
   </QueryClientProvider>
 );

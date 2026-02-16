@@ -49,21 +49,21 @@ const OrbitalNode = ({
     >
       <div
         className={cn(
-          "surface-card flex items-center gap-3 px-4 py-3",
-          "hover:border-foreground/20 transition-all duration-200",
-          isActive && "border-foreground/30",
+          "flex items-center gap-3 px-4 py-3 rounded-lg border bg-white shadow-sm",
+          "border-black/[0.08] hover:shadow-md hover:-translate-y-[1px] transition-all duration-200",
+          isActive && "border-[#111]/20 shadow-md",
           isMobile ? "p-3" : "min-w-[160px]"
         )}
       >
-        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-muted text-muted-foreground">
+        <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-[#F4F6F8] text-[#374151]">
           <Icon className="w-5 h-5" />
         </div>
         {!isMobile && (
           <div className="flex flex-col">
-            <span className="font-medium text-sm text-foreground">
+            <span className="font-medium text-sm text-[#111]">
               {title}
             </span>
-            <span className="text-muted-foreground text-xs">{content}</span>
+            <span className="text-slate-500 text-xs">{content}</span>
           </div>
         )}
       </div>

@@ -23,12 +23,12 @@ const useCases = [
 
 const UseCasesSection = () => {
   return (
-    <section className="py-32">
+    <section className="py-32 bg-[color:var(--bg-base)]">
       <div className="container mx-auto px-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 text-white/[0.92]">
           Applications
         </h2>
-        <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-16">
+        <p className="text-white/70 text-center max-w-2xl mx-auto mb-16">
           ROLLO adapts to any environment where security, surveillance, or delivery is needed
         </p>
 
@@ -36,10 +36,10 @@ const UseCasesSection = () => {
           {useCases.map((useCase) => (
             <div
               key={useCase.label}
-              className="surface-card p-4 text-center group hover:border-foreground/20 transition-colors duration-300 cursor-default"
+              className="surface-card p-4 text-center group hover:border-white/[0.15] transition-colors duration-300 cursor-default"
             >
-              <useCase.icon className="w-6 h-6 mx-auto mb-3 text-muted-foreground" />
-              <p className="text-xs md:text-sm text-foreground">{useCase.label}</p>
+              <useCase.icon className="w-6 h-6 mx-auto mb-3 text-white/50" />
+              <p className="text-xs md:text-sm text-white/[0.85]">{useCase.label}</p>
             </div>
           ))}
         </div>

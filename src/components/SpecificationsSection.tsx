@@ -14,27 +14,19 @@ const timelineData: TimelineItem[] = [
 ];
 
 const SpecificationsSection = () => {
-  // Olek, mis hoiab valitud spetsifikatsiooni andmeid
   const [selectedSpec, setSelectedSpec] = useState<TimelineItem | null>(null);
 
   return (
-    <section className="py-32 relative overflow-hidden bg-black">
+    <section className="py-32 relative overflow-hidden bg-[#F4F6F8] border-y border-black/[0.06]">
       <div className="container mx-auto px-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 uppercase">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 uppercase text-[#111]">
           Technical Specifications
         </h2>
-        <p className="text-white/40 text-center mb-16 font-mono text-xs tracking-widest uppercase">
+        <p className="text-slate-400 text-center mb-16 font-mono text-xs tracking-widest uppercase">
           Built for real-world deployment
         </p>
 
-        {/* NB! Et see töötaks, peab su RadialOrbitalTimeline komponent 
-           toetama onItemClick prop-i. Kui ei toeta, siis see kiht siin
-           on ettevalmistus modaali kuvamiseks.
-        */}
         <div onClick={(e) => {
-          // See on trikk: kui RadialOrbitalTimeline sees klikitakse elemendile, 
-          // püüame me selle siin kinni, eeldusel et su timeline komponendi sees 
-          // olevad kaardid ei peata event propagationit.
           const target = e.target as HTMLElement;
           const card = target.closest('[data-spec-id]');
           if (card) {
@@ -50,18 +42,17 @@ const SpecificationsSection = () => {
         </div>
       </div>
 
-      {/* GLASSMORPHISM MODAAL */}
+      {/* GLASSMORPHISM MODAL — stays dark for cinematic feel */}
       {selectedSpec && (
-        <div 
+        <div
           className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-md animate-in fade-in duration-300"
           onClick={() => setSelectedSpec(null)}
         >
-          <div 
-            className="relative w-full max-w-lg p-8 bg-white/[0.03] border border-white/10 backdrop-blur-2xl shadow-2xl animate-in zoom-in-95 duration-300"
-            onClick={(e) => e.stopPropagation()} // Peatab sulgumise kasti sees klikkides
+          <div
+            className="relative w-full max-w-lg p-8 bg-[#0B0F14]/95 border border-white/10 backdrop-blur-2xl shadow-2xl animate-in zoom-in-95 duration-300"
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Sulgemise nupp */}
-            <button 
+            <button
               onClick={() => setSelectedSpec(null)}
               className="absolute top-4 right-4 text-white/40 hover:text-[#99FF00] transition-colors"
             >
@@ -85,10 +76,10 @@ const SpecificationsSection = () => {
             <div className="space-y-6">
               <div className="h-px bg-white/10 w-full" />
               <p className="text-white/60 leading-relaxed">
-                Detailed technical analysis for {selectedSpec.title.toLowerCase()} system deployment. 
+                Detailed technical analysis for {selectedSpec.title.toLowerCase()} system deployment.
                 Optimized for industrial environments and continuous autonomous operations.
               </p>
-              
+
               <div className="grid grid-cols-2 gap-4 pt-4">
                 <div className="p-4 bg-white/5 border border-white/5">
                   <p className="font-mono text-[10px] text-white/40 uppercase mb-1">Status</p>
