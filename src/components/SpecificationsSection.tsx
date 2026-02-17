@@ -17,12 +17,12 @@ const SpecificationsSection = () => {
   const [selectedSpec, setSelectedSpec] = useState<TimelineItem | null>(null);
 
   return (
-    <section className="py-32 relative overflow-hidden bg-[#F4F6F8] border-y border-black/[0.06]">
-      <div className="container mx-auto px-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 uppercase text-[#111]">
+    <section id="specs" className="section section-dark-alt section-divider relative overflow-hidden scroll-mt-28">
+      <div className="container-premium">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 uppercase text-white">
           Technical Specifications
         </h2>
-        <p className="text-slate-400 text-center mb-16 font-mono text-xs tracking-widest uppercase">
+        <p className="text-white/40 text-center mb-16 font-mono text-xs tracking-widest uppercase">
           Built for real-world deployment
         </p>
 

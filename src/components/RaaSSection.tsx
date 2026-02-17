@@ -20,12 +20,12 @@ const raasFeatures = [
 
 const RaaSSection = () => {
   return (
-    <section className="py-32 relative bg-[#F4F6F8]">
-      <div className="container mx-auto px-8">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 text-[#111]">
+    <section id="raas" className="section section-dark section-divider scroll-mt-28">
+      <div className="container-premium">
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 text-white">
           Why RaaS
         </h2>
-        <p className="text-slate-500 text-center mb-16 max-w-2xl mx-auto">
+        <p className="text-white/50 text-center mb-16 max-w-2xl mx-auto">
           Transform your security operations without capital investment
         </p>
 
@@ -33,14 +33,14 @@ const RaaSSection = () => {
           {raasFeatures.map((feature, index) => (
             <div
               key={feature.title}
-              className="surface-card-light p-8 group opacity-0 animate-fade-in-up"
+              className="surface-card p-8 group opacity-0 animate-fade-in-up"
               style={{ animationDelay: `${index * 120}ms`, animationFillMode: "forwards" }}
             >
-              <div className="w-12 h-12 mb-6 rounded-lg bg-[#F4F6F8] flex items-center justify-center">
-                <feature.icon className="w-6 h-6 text-[#111]" />
+              <div className="w-12 h-12 mb-6 rounded-lg bg-white/[0.08] flex items-center justify-center">
+                <feature.icon className="w-6 h-6 text-white/85" />
               </div>
-              <h3 className="text-lg font-medium mb-2 text-[#111]">{feature.title}</h3>
-              <p className="text-sm text-slate-600 leading-relaxed">{feature.description}</p>
+              <h3 className="text-lg font-medium mb-2 text-white">{feature.title}</h3>
+              <p className="text-sm text-white/60 leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>

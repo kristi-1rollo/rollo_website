@@ -178,6 +178,33 @@
     @apply shadow-md -translate-y-[1px];
     transition: all 0.3s ease;
   }
+
+  /* Section divider: adds subtle top/bottom transition edge */
+  .section-divider {
+    position: relative;
+  }
+
+  .section-divider::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -1px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+  }
+
+  .section-divider::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
+    pointer-events: none;
+  }
 }
 
 @layer utilities {
