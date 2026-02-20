@@ -24,11 +24,45 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  // Scroll spy active section
+  const [activeHref, setActiveHref] = useState<string>("#why");
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Active section highlighting (IntersectionObserver)
+  useEffect(() => {
+    const hrefs = nav.map((n) => n.href);
+    const nodes = hrefs
+      .map((h) => document.getElementById(h.slice(1)))
+      .filter(Boolean) as HTMLElement[];
+
+    if (!nodes.length) return;
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => (b.intersectionRatio ?? 0) - (a.intersectionRatio ?? 0))[0];
+
+        if (visible?.target?.id) {
+          setActiveHref(`#${visible.target.id}`);
+        }
+      },
+      {
+        root: null,
+        // tuned for fixed header + reading zone
+        rootMargin: "-25% 0px -60% 0px",
+        threshold: [0.05, 0.12, 0.2, 0.35],
+      }
+    );
+
+    nodes.forEach((n) => io.observe(n));
+    return () => io.disconnect();
   }, []);
 
   const scrollToTop = () => {
@@ -80,9 +114,18 @@ const Header = () => {
               <a
                 key={i.href}
                 href={i.href}
-                className="text-white/70 hover:text-white transition text-sm"
+                aria-current={activeHref === i.href ? "page" : undefined}
+                className={[
+                  "text-sm transition relative",
+                  activeHref === i.href
+                    ? "text-white"
+                    : "text-white/70 hover:text-white",
+                ].join(" ")}
               >
                 {i.label}
+                {activeHref === i.href && (
+                  <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#99FF00]/70 rounded-full" />
+                )}
               </a>
             ))}
 
@@ -129,7 +172,13 @@ const Header = () => {
                       key={i.href}
                       href={i.href}
                       onClick={onNavClick}
-                      className="rounded-lg px-3 py-3 bg-white/[0.03] border border-white/10 text-white/80 hover:text-white hover:bg-white/[0.06] transition"
+                      aria-current={activeHref === i.href ? "page" : undefined}
+                      className={[
+                        "rounded-lg px-3 py-3 border transition",
+                        activeHref === i.href
+                          ? "bg-white/[0.07] border-[#99FF00]/35 text-white"
+                          : "bg-white/[0.03] border-white/10 text-white/80 hover:text-white hover:bg-white/[0.06]",
+                      ].join(" ")}
                     >
                       {i.label}
                     </a>
