@@ -7,8 +7,8 @@ const CTASection = () => {
 
   return (
     <>
-      <section className="py-32 relative bg-[color:var(--bg-alt)]">
-        <div className="container mx-auto px-8 relative z-10">
+      <section className="section section-dark-alt section-divider relative">
+        <div className="container-premium relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-3xl md:text-5xl font-semibold tracking-tight mb-6 text-white/[0.92]">
               Ready to Transform Your Security Operations?

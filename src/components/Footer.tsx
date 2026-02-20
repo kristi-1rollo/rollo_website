@@ -9,7 +9,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="py-12 border-t border-border mt-20">
+    <footer className="section-dark py-12 border-t border-white/5">
       <div className="container mx-auto px-8 flex justify-between items-center">
         
         {/* FOOTER LOGO - KLIKITAV JA SUUR */}

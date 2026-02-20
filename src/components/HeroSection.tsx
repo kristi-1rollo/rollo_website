@@ -6,6 +6,7 @@ const HeroSection = () => {
     <section className="relative overflow-hidden section section-dark">
       {/* Background / stage */}
       <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 noise-overlay opacity-[0.10]" />
         {/* Top soft lift */}
         <div className="absolute inset-0 bg-[radial-gradient(900px_520px_at_50%_0%,rgba(255,255,255,0.07),transparent_60%)]" />
 
@@ -39,7 +40,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="container-premium relative z-10 flex min-h-[88vh] flex-col items-center justify-center pt-24 md:pt-28">
+      <div className="container-premium relative z-10 flex min-h-[72vh] flex-col items-center justify-center pt-16 md:min-h-[82vh] md:pt-28">
         {/* Robot */}
         <motion.div
           className="relative"
@@ -63,18 +64,34 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.25, duration: 0.75 }}
         >
-          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-white">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white">
             ROLLO
           </h1>
 
-          <p className="mt-3 text-base sm:text-lg md:text-xl text-white/75">
+          <p className="mt-3 text-base sm:text-lg md:text-xl text-white/85">
             Autonomous security robotics.
           </p>
 
-          <p className="mt-5 text-sm sm:text-base text-white/65 leading-relaxed">
+          <p className="mt-5 text-sm sm:text-base text-white/75 leading-relaxed">
             Intelligent robotic security at{" "}
             <span className="text-[#99FF00] font-semibold">1/10th the cost</span>.
           </p>
+
+          <div className="mt-7 flex items-center justify-center gap-3">
+            <a
+              href="#applications"
+              className="h-11 px-5 inline-flex items-center justify-center rounded-md bg-[#99FF00] text-black font-bold tracking-tight transition active:scale-[0.98]"
+            >
+              See Applications
+            </a>
+
+            <a
+              href="#specs"
+              className="h-11 px-5 inline-flex items-center justify-center rounded-md border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.06] transition active:scale-[0.98]"
+            >
+              View Specs
+            </a>
+          </div>
         </motion.div>
       </div>
     </section>

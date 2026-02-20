@@ -9,7 +9,7 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section className="section section-dark-alt border-y border-white/5">
+    <section id="why" className="section section-dark-alt section-divider scroll-mt-28">
       <div className="container-premium">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-10 md:mb-14 text-white">
           Why Choose ROLLO

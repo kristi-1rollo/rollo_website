@@ -141,7 +141,7 @@ const RadialOrbitalTimeline = ({
           </>
         )}
 
-        {/* SVG connection lines — adapted for light bg */}
+        {/* SVG connection lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none" style={{ zIndex: 5 }}>
           {timelineData.map((item, index) => {
             const angle = getNodeAngle(index);
@@ -155,7 +155,7 @@ const RadialOrbitalTimeline = ({
                 y1="50%"
                 x2={`${endX}%`}
                 y2={`${endY}%`}
-                stroke={activeNode ? "rgba(0,0,0,0.04)" : "rgba(0,0,0,0.10)"}
+                stroke={activeNode ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.10)"}
                 strokeWidth={activeNode ? "0.5" : "1"}
                 className={cn(
                   "transition-all duration-700",

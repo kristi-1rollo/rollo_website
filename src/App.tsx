@@ -16,7 +16,7 @@ const App = () => (
       <Sonner />
 
       {/* Global page wrapper */}
-      <div className="min-h-screen bg-[#0B0F14] text-white antialiased">
+      <div className="min-h-screen text-white antialiased">
         {/* Subtle ambient layer (premium, very low) */}
         <div
           className="pointer-events-none fixed inset-0 opacity-[0.06] mix-blend-overlay"

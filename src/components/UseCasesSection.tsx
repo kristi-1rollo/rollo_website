@@ -23,8 +23,8 @@ const useCases = [
 
 const UseCasesSection = () => {
   return (
-    <section className="py-32 bg-[color:var(--bg-base)]">
-      <div className="container mx-auto px-8">
+    <section id="applications" className="section section-dark section-divider scroll-mt-28">
+      <div className="container-premium">
         <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 text-white/[0.92]">
           Applications
         </h2>
