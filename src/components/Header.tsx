@@ -34,6 +34,18 @@ const Header = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+  const onOpenAccess = () => {
+    setMobileMenuOpen(false);
+    setIsModalOpen(true);
+  };
+
+  window.addEventListener("rollo:open-access", onOpenAccess as EventListener);
+  return () => {
+    window.removeEventListener("rollo:open-access", onOpenAccess as EventListener);
+  };
+}, []);
+
   // Active section highlighting (IntersectionObserver)
   useEffect(() => {
     const hrefs = nav.map((n) => n.href);
@@ -131,7 +143,7 @@ const Header = () => {
 
             <Button
               onClick={openAccessModal}
-              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-9 px-4 rounded-md font-bold uppercase tracking-tight"
+              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-9 px-4 rounded-[4px] font-bold uppercase tracking-tight"
             >
               Get Rollo Access
             </Button>
@@ -141,7 +153,7 @@ const Header = () => {
           <div className="md:hidden flex items-center gap-2">
             <Button
               onClick={openAccessModal}
-              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-10 px-3 rounded-md font-semibold tracking-tight"
+              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-10 px-3 rounded-[4px] font-semibold tracking-tight"
             >
               Get Access
             </Button>
@@ -186,7 +198,7 @@ const Header = () => {
 
                   <Button
                     onClick={openAccessModal}
-                    className="mt-4 bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-11 rounded-md font-bold uppercase tracking-tight"
+                    className="mt-4 bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-11 rounded-[4px] font-bold uppercase tracking-tight"
                   >
                     Get Rollo Access
                   </Button>

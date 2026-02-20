@@ -80,14 +80,14 @@ const HeroSection = () => {
           <div className="mt-7 flex items-center justify-center gap-3">
             <a
               href="#applications"
-              className="h-11 px-5 inline-flex items-center justify-center rounded-md bg-[#99FF00] text-black font-bold tracking-tight transition active:scale-[0.98]"
+              className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] bg-[#99FF00] text-black font-bold tracking-tight transition active:scale-[0.98]"
             >
               See Applications
             </a>
 
             <a
               href="#specs"
-              className="h-11 px-5 inline-flex items-center justify-center rounded-md border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.06] transition active:scale-[0.98]"
+              className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.06] transition active:scale-[0.98]"
             >
               View Specs
             </a>
