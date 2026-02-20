@@ -1,39 +1,42 @@
-import logo from "@/assets/logo.png";
+import euLogo from "@/assets/eu-cofunded.png";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
-    <footer className="section-dark py-12 border-t border-white/5">
-      <div className="container mx-auto px-8 flex justify-between items-center">
-        
-        {/* FOOTER LOGO - KLIKITAV JA SUUR */}
-        <button 
-          onClick={scrollToTop}
-          className="focus:outline-none transition-transform active:scale-95 flex items-center p-0 m-0 border-none bg-transparent"
-        >
-          <img 
-            src={logo} 
-            alt="ROLLO" 
-            className="h-10 w-auto block" 
-          />
-        </button>
-
-        {/* LINGID - TÄPSELT NAGU ALGUSES */}
-        <div className="flex gap-8">
-          <a href="#" className="text-white/50 text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
-            About
-          </a>
-          <a href="#" className="text-white/50 text-sm hover:text-white transition-colors uppercase tracking-widest font-medium">
-            Contact
-          </a>
+    <footer className="py-8 border-t border-white/[0.05]">
+      <div className="container-premium flex items-center justify-between">
+        {/* Left — copyright & legal */}
+        <div className="flex items-center gap-6">
+          <span className="text-[10px] uppercase tracking-[0.2em] text-slate-600 font-medium">
+            &copy; 2026 ROLLO
+          </span>
+          <div className="hidden sm:flex items-center gap-5">
+            <a
+              href="#"
+              className="text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-slate-400 transition-colors font-medium"
+            >
+              Privacy
+            </a>
+            <a
+              href="#"
+              className="text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-slate-400 transition-colors font-medium"
+            >
+              Terms
+            </a>
+            <a
+              href="#"
+              className="text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-slate-400 transition-colors font-medium"
+            >
+              Contact
+            </a>
+          </div>
         </div>
 
+        {/* Right — EU co-funded logo */}
+        <img
+          src={euLogo}
+          alt="Co-funded by the European Union"
+          className="h-[50px] w-auto grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-500"
+        />
       </div>
     </footer>
   );

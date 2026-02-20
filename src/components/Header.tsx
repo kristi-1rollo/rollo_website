@@ -98,7 +98,7 @@ const Header = () => {
           "supports-[backdrop-filter]:backdrop-blur-xl",
           "transition-colors duration-200",
           scrolled
-            ? "bg-[#0B0F14]/65 border-b border-white/10"
+            ? "bg-[#050505]/75 border-b border-white/[0.06]"
             : "bg-transparent border-b border-transparent",
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
@@ -115,7 +115,7 @@ const Header = () => {
               <img src={logo} alt="ROLLO" className="h-10 w-auto block" />
             </button>
 
-            <span className="hidden sm:block text-white/50 text-xs tracking-widest uppercase select-none border-l border-white/10 pl-3">
+            <span className="hidden sm:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
               Autonomous Security Robotics
             </span>
           </div>
@@ -131,19 +131,19 @@ const Header = () => {
                   "text-sm transition relative",
                   activeHref === i.href
                     ? "text-white"
-                    : "text-white/70 hover:text-white",
+                    : "text-slate-400 hover:text-white",
                 ].join(" ")}
               >
                 {i.label}
                 {activeHref === i.href && (
-                  <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#99FF00]/70 rounded-full" />
+                  <span className="absolute -bottom-2 left-0 right-0 h-[2px] bg-[#B4FF33]/60 rounded-full" />
                 )}
               </a>
             ))}
 
             <Button
               onClick={openAccessModal}
-              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-9 px-4 rounded-[4px] font-bold uppercase tracking-tight"
+              className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-9 px-4 rounded-[4px] font-bold uppercase tracking-tight"
             >
               Get Rollo Access
             </Button>
@@ -153,7 +153,7 @@ const Header = () => {
           <div className="md:hidden flex items-center gap-2">
             <Button
               onClick={openAccessModal}
-              className="bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-10 px-3 rounded-[4px] font-semibold tracking-tight"
+              className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-10 px-3 rounded-[4px] font-semibold tracking-tight"
             >
               Get Access
             </Button>
@@ -163,7 +163,7 @@ const Header = () => {
                 <Button
                   variant="outline"
                   size="icon"
-                  className="h-10 w-10 border-white/15 bg-white/[0.03] hover:bg-white/[0.06]"
+                  className="h-10 w-10 border-white/[0.08] bg-white/[0.03] hover:bg-white/[0.06]"
                   aria-label="Open menu"
                 >
                   <Menu className="h-5 w-5 text-white" />
@@ -172,7 +172,7 @@ const Header = () => {
 
               <SheetContent
                 side="right"
-                className="bg-[#0B0F14] border-white/10 text-white"
+                className="bg-[#050505] border-white/[0.06] text-white"
               >
                 <SheetHeader>
                   <SheetTitle className="text-white">ROLLO</SheetTitle>
@@ -188,8 +188,8 @@ const Header = () => {
                       className={[
                         "rounded-lg px-3 py-3 border transition",
                         activeHref === i.href
-                          ? "bg-white/[0.07] border-[#99FF00]/35 text-white"
-                          : "bg-white/[0.03] border-white/10 text-white/80 hover:text-white hover:bg-white/[0.06]",
+                          ? "bg-white/[0.07] border-[#B4FF33]/25 text-white"
+                          : "bg-white/[0.03] border-white/[0.06] text-slate-300 hover:text-white hover:bg-white/[0.06]",
                       ].join(" ")}
                     >
                       {i.label}
@@ -198,7 +198,7 @@ const Header = () => {
 
                   <Button
                     onClick={openAccessModal}
-                    className="mt-4 bg-[#99FF00] text-black hover:bg-[#99FF00]/90 h-11 rounded-[4px] font-bold uppercase tracking-tight"
+                    className="mt-4 bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-11 rounded-[4px] font-bold uppercase tracking-tight"
                   >
                     Get Rollo Access
                   </Button>

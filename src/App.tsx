@@ -17,14 +17,8 @@ const App = () => (
 
       {/* Global page wrapper */}
       <div className="min-h-screen text-white antialiased">
-        {/* Subtle ambient layer (premium, very low) */}
-        <div
-          className="pointer-events-none fixed inset-0 opacity-[0.06] mix-blend-overlay"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 10%, rgba(255,255,255,0.22), transparent 45%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.14), transparent 50%)",
-          }}
-        />
+        {/* Film grain texture — anodized aluminum depth */}
+        <div className="film-grain" />
 
         <div className="relative">
           <BrowserRouter>

@@ -2,59 +2,52 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ROLLO Premium Design System */
+/* ROLLO — Premium Minimalist Design System
+   ─────────────────────────────────────────
+   Single #050505 canvas. Zero boxes.
+   Content floats directly on the void.
+   Primary accent: #B4FF33 (refined lime).      */
 
 @layer base {
   :root {
-    --background: 213 28% 6%;
-    --foreground: 216 33% 97%;
+    --background: 0 0% 2%;
+    --foreground: 215 16% 80%;
 
-    --card: 213 24% 8%;
-    --card-foreground: 216 33% 97%;
+    --card: 0 0% 4%;
+    --card-foreground: 215 16% 80%;
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 216 33% 97%;
+    --popover: 0 0% 3%;
+    --popover-foreground: 215 16% 80%;
 
-    --primary: 82 100% 50%;
+    /* Refined lime */
+    --primary: 82 100% 60%;
     --primary-foreground: 0 0% 0%;
 
     --secondary: 0 0% 4%;
-    --secondary-foreground: 216 33% 97%;
+    --secondary-foreground: 215 16% 80%;
 
-    --muted: 0 0% 8%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 0 0% 6%;
+    --muted-foreground: 215 16% 47%;
 
-    --accent: 82 100% 50%;
+    --accent: 82 100% 60%;
     --accent-foreground: 0 0% 0%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 216 33% 97%;
+    --destructive-foreground: 215 16% 80%;
 
-    --border: 0 0% 12%;
-    --input: 0 0% 12%;
-    --ring: 82 100% 50%;
+    --border: 0 0% 10%;
+    --input: 0 0% 10%;
+    --ring: 82 100% 60%;
 
     --radius: 0px;
 
-    /* Surface tokens */
-    --surface: 0 0% 4%;
-    --surface-border: 0 0% 12%;
-
-    /* Zebra section tokens */
-    --bg-base: #0b0f14;
-    --bg-alt: #101722;
-
-    /* Light section tokens */
-    --bg-light: #f4f6f8;
-    --bg-light-surface: #ffffff;
-    --light-border: rgba(17, 17, 17, 0.08);
-    --light-text: #111111;
-    --light-text-muted: #374151;
+    /* Unified carbon-black canvas */
+    --bg-base: #050505;
   }
 
   .dark {
-    --background: 213 28% 6%;
-    --foreground: 216 33% 97%;
+    --background: 0 0% 2%;
+    --foreground: 215 16% 80%;
   }
 
   * {
@@ -65,13 +58,13 @@
     scroll-behavior: smooth;
   }
 
-  /* Typography */
+  /* Typography — premium tightness */
   h1,
   h2,
   h3 {
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: -0.04em; /* NASA-ish headline feel */
+    letter-spacing: -0.04em;
   }
 
   .mono-spec {
@@ -81,10 +74,20 @@
     font-size: 0.7rem;
   }
 
-  /* Global layout */
+  /* Global layout — three-layer atmosphere
+     Layer 1: #050505 carbon-black base
+     Layer 2: Fixed ambient gradients (silver + cool blue)
+     Layer 3: Film grain overlay (see .film-grain in @components)
+     Content scrolls past the fixed light sources,
+     creating a sense of physical space. */
   body {
     font-family: "Inter", sans-serif !important;
-    background: var(--bg-base);
+    background-color: var(--bg-base);
+    background-image:
+      radial-gradient(ellipse 1400px 1000px at 10% 5%,    rgba(200, 210, 235, 0.09), transparent),
+      radial-gradient(ellipse 1600px 1200px at 85% 45%,   rgba(90, 130, 220, 0.07), transparent),
+      radial-gradient(ellipse 1200px 900px  at 20% 90%,   rgba(140, 165, 215, 0.06), transparent);
+    background-attachment: fixed;
     color: hsl(var(--foreground));
     min-height: 100vh;
     overflow-x: hidden;
@@ -101,12 +104,12 @@
   /* Tech text */
   .technical-text {
     font-family: "JetBrains Mono", monospace;
-    color: #99ff00;
+    color: #B4FF33;
   }
 }
 
 @layer components {
-  /* Unified container (use this instead of repeating container mx-auto px-8) */
+  /* Unified container */
   .container-premium {
     max-width: 1200px;
     margin-left: auto;
@@ -126,115 +129,53 @@
       padding-right: 32px;
     }
   }
-.noise-overlay {
-  background-image:
-    radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
-    radial-gradient(rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-position: 0 0, 12px 10px;
-  background-size: 48px 48px;
-  mix-blend-mode: overlay;
-  pointer-events: none;
-}
-  /* Premium section spacing (air) */
+
+  /* Film grain — anodized aluminium / carbon fibre depth */
+  .film-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.022;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* Section spacing — doubled for maximum breathing room */
   .section {
-    padding-top: 72px;
-    padding-bottom: 72px;
+    padding-top: 160px;
+    padding-bottom: 160px;
   }
   @media (min-width: 768px) {
     .section {
-      padding-top: 104px;
-      padding-bottom: 104px;
+      padding-top: 240px;
+      padding-bottom: 240px;
     }
-  }
-
-  /* Dark zebra sections (visible difference) */
-  .section-dark {
-    background:
-      radial-gradient(900px 520px at 50% 0%, rgba(255, 255, 255, 0.05), transparent 60%),
-      var(--bg-base);
-  }
-
-  .section-dark-alt {
-    background:
-      radial-gradient(900px 520px at 50% 0%, rgba(255, 255, 255, 0.07), transparent 58%),
-      radial-gradient(700px 420px at 12% 65%, rgba(153, 255, 0, 0.05), transparent 62%),
-      var(--bg-alt);
-  }
-
-  /* Light premium sections */
-  .section-light {
-    background: var(--bg-light);
-    color: var(--light-text);
-  }
-  .section-light .muted {
-    color: var(--light-text-muted);
-  }
-
-  /* Surface card (dark sections) */
-  .surface-card {
-    @apply rounded-lg border;
-    background: hsl(var(--surface));
-    border-color: hsl(var(--surface-border));
-  }
-
-  /* Surface card (light sections) */
-  .surface-card-light {
-    @apply rounded-lg border bg-white shadow-sm;
-    border-color: rgba(17, 17, 17, 0.08);
-  }
-  .surface-card-light:hover {
-    @apply shadow-md -translate-y-[1px];
-    transition: all 0.3s ease;
-  }
-
-  /* Section divider: adds subtle top/bottom transition edge */
-  .section-divider {
-    position: relative;
-  }
-
-  .section-divider::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: -1px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.08);
-    pointer-events: none;
-  }
-
-  .section-divider::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    height: 48px;
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.35), transparent);
-    pointer-events: none;
   }
 }
 
 @layer utilities {
-  /* Robot entrance animation */
+  /* Robot entrance — from depth */
   @keyframes robot-entrance {
     0% {
       opacity: 0;
-      transform: scale(0.85) translateY(40px);
-      filter: brightness(0.4);
+      transform: scale(0.7) translateY(80px) translateZ(-200px);
+      filter: brightness(0.2) blur(4px);
     }
-    60% {
-      opacity: 0.8;
-      filter: brightness(0.8);
+    40% {
+      opacity: 0.6;
+      filter: brightness(0.6) blur(1px);
     }
     100% {
       opacity: 1;
-      transform: scale(1) translateY(0);
-      filter: brightness(1);
+      transform: scale(1) translateY(0) translateZ(0);
+      filter: brightness(1) blur(0);
     }
   }
 
-  /* Fade in up animation */
+  /* Fade in up */
   @keyframes fade-in-up {
     0% {
       opacity: 0;
@@ -246,29 +187,21 @@
     }
   }
 
-  /* Spec card entrance */
-  @keyframes spec-card-in {
-    0% {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    100% {
-      opacity: 1;
-      transform: scale(1);
-    }
+  /* Headlight volumetric breathing */
+  @keyframes headlight-breathe {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.7; }
   }
 
-  /* Line draw animation */
-  @keyframes line-draw {
-    0% {
-      stroke-dashoffset: 200;
-    }
-    100% {
-      stroke-dashoffset: 0;
-    }
+  .animate-robot-entrance {
+    animation: robot-entrance 1.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   }
 
-  /* Node appear animation */
+  .animate-fade-in-up {
+    animation: fade-in-up 0.7s ease-out forwards;
+  }
+
+  /* Node appear — orbital timeline */
   @keyframes node-appear {
     0% {
       opacity: 0;
@@ -280,36 +213,8 @@
     }
   }
 
-  /* Orbital rotation */
-  @keyframes orbital-rotate {
-    from {
-      transform: rotate(0deg);
-    }
-    to {
-      transform: rotate(360deg);
-    }
-  }
-
-  .animate-orbital {
-    animation: orbital-rotate 60s linear infinite;
-  }
-
-  .animate-robot-entrance {
-    animation: robot-entrance 1.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  }
-
-  .animate-fade-in-up {
-    animation: fade-in-up 0.7s ease-out forwards;
-  }
-
-  .animate-spec-card-in {
-    animation: spec-card-in 0.5s ease-out forwards;
-  }
-
-  .animate-line-draw {
-    animation: line-draw 1s ease-out forwards;
-    stroke-dasharray: 200;
-    stroke-dashoffset: 200;
+  .animate-headlight-breathe {
+    animation: headlight-breathe 4s ease-in-out infinite;
   }
 
   .animate-node-appear {
@@ -317,45 +222,19 @@
   }
 
   /* Animation delays */
-  .delay-100 {
-    animation-delay: 100ms;
-  }
-  .delay-200 {
-    animation-delay: 200ms;
-  }
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-  .delay-400 {
-    animation-delay: 400ms;
-  }
-  .delay-500 {
-    animation-delay: 500ms;
-  }
-  .delay-600 {
-    animation-delay: 600ms;
-  }
-  .delay-700 {
-    animation-delay: 700ms;
-  }
-  .delay-800 {
-    animation-delay: 800ms;
-  }
-  .delay-1000 {
-    animation-delay: 1000ms;
-  }
-  .delay-1500 {
-    animation-delay: 1500ms;
-  }
-  .delay-2000 {
-    animation-delay: 2000ms;
-  }
-  .delay-2500 {
-    animation-delay: 2500ms;
-  }
-  .delay-3000 {
-    animation-delay: 3000ms;
-  }
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+  .delay-800 { animation-delay: 800ms; }
+  .delay-1000 { animation-delay: 1000ms; }
+  .delay-1500 { animation-delay: 1500ms; }
+  .delay-2000 { animation-delay: 2000ms; }
+  .delay-2500 { animation-delay: 2500ms; }
+  .delay-3000 { animation-delay: 3000ms; }
 }
 
 /* FIX: Modal visibility issues */
@@ -370,7 +249,7 @@
 [role="dialog"] select {
   background-color: #1a1a1a !important;
   color: #ffffff !important;
-  border: 1px solid rgba(153, 255, 0, 0.2) !important;
+  border: 1px solid rgba(180, 255, 51, 0.2) !important;
 }
 
 [role="dialog"] input::placeholder,

@@ -93,46 +93,46 @@ const RadialOrbitalTimeline = ({
 
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md animate-in zoom-in-95 fade-in duration-300 pointer-events-auto">
               <div
-                className="relative p-8 md:p-10 border bg-[#0B0F14]/95 border-white/10 backdrop-blur-2xl shadow-2xl text-center overflow-hidden rounded-lg"
+                className="relative p-8 md:p-10 border bg-[#050505]/95 border-white/[0.08] backdrop-blur-2xl shadow-2xl text-center overflow-hidden rounded-xl"
                 onClick={(e) => e.stopPropagation()}
               >
-                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#99FF00]/5 blur-[80px] rounded-full" />
+                <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#B4FF33]/5 blur-[80px] rounded-full" />
 
                 <button
                   onClick={() => setActiveNodeId(null)}
-                  className="absolute top-4 right-4 text-white/30 hover:text-[#99FF00] transition-colors z-20"
+                  className="absolute top-4 right-4 text-slate-500 hover:text-[#B4FF33] transition-colors z-20"
                 >
                   <X size={24} />
                 </button>
 
                 <div className="relative z-10 flex flex-col items-center gap-6">
-                  <div className="p-4 rounded-xl bg-[#99FF00]/5 border border-[#99FF00]/10 text-[#99FF00]">
+                  <div className="p-4 rounded-xl bg-[#B4FF33]/5 border border-[#B4FF33]/10 text-[#B4FF33]">
                     <activeNode.Icon size={40} />
                   </div>
 
                   <div>
-                    <h3 className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#99FF00] mb-2">
+                    <h3 className="font-mono text-[10px] uppercase tracking-[0.3em] text-[#B4FF33] mb-2">
                       System Specification
                     </h3>
                     <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-4">
                       {activeNode.title}
                     </h2>
 
-                    <div className="inline-block px-4 py-2 bg-white/5 border border-white/10 mb-6">
+                    <div className="inline-block px-4 py-2 bg-white/[0.03] border border-white/[0.06] rounded-lg mb-6">
                       <span className="text-xl font-bold text-white tracking-tight">
                         {activeNode.content}
                       </span>
                     </div>
 
-                    <p className="text-white/60 text-sm leading-relaxed max-w-[280px] mx-auto">
+                    <p className="text-slate-400 text-sm leading-relaxed max-w-[280px] mx-auto">
                       Optimized for industrial performance. This {activeNode.title.toLowerCase()} module
                       ensures seamless operation in high-demand environments.
                     </p>
                   </div>
 
-                  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#99FF00]/20 to-transparent my-2" />
+                  <div className="w-full h-px bg-gradient-to-r from-transparent via-[#B4FF33]/15 to-transparent my-2" />
 
-                  <p className="font-mono text-[9px] text-white/20 uppercase tracking-widest">
+                  <p className="font-mono text-[9px] text-slate-600 uppercase tracking-widest">
                     Module Status: {activeNode.status === 'completed' ? 'Verified' : 'In Beta'}
                   </p>
                 </div>
@@ -155,7 +155,7 @@ const RadialOrbitalTimeline = ({
                 y1="50%"
                 x2={`${endX}%`}
                 y2={`${endY}%`}
-                stroke={activeNode ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.10)"}
+                stroke={activeNode ? "rgba(255,255,255,0.04)" : "rgba(255,255,255,0.08)"}
                 strokeWidth={activeNode ? "0.5" : "1"}
                 className={cn(
                   "transition-all duration-700",

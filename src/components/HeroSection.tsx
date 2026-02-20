@@ -1,98 +1,150 @@
-import { motion } from "framer-motion";
+import { useRef, useState, useCallback } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import rollo1 from "@/assets/rollo1.png";
+import { DottedSurface } from "@/components/ui/dotted-surface";
 
 const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [rotateX, setRotateX] = useState(0);
+  const [rotateY, setRotateY] = useState(0);
+
+  /* ── Scroll-driven dolly zoom ─────────────────────────────────
+     The section is 250vh tall. A sticky viewport locks the visual
+     in place while the user scrolls. scrollYProgress 0→1 maps to
+     the robot travelling from "far away" (small) to full-screen. */
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"],
+  });
+
+  // Robot: small → full viewport height
+  const robotScale = useTransform(scrollYProgress, [0, 0.65], [0.3, 1]);
+  // Slight upward drift as it approaches
+  const robotY = useTransform(scrollYProgress, [0, 0.65], [60, 0]);
+  // Brighten as it comes closer
+  const robotOpacity = useTransform(scrollYProgress, [0, 0.25], [0.5, 1]);
+  // Text fades in once robot is close
+  const textOpacity = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
+  const textY = useTransform(scrollYProgress, [0.45, 0.7], [40, 0]);
+
+  /* ── 3D mouse tracking ──────────────────────────────────────── */
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = (e.clientX - centerX) / (rect.width / 2);
+    const y = (e.clientY - centerY) / (rect.height / 2);
+    setRotateY(x * 8);
+    setRotateX(-y * 6);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setRotateX(0);
+    setRotateY(0);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden section section-dark">
-      {/* Background / stage */}
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute inset-0 noise-overlay opacity-[0.10]" />
-        {/* Top soft lift */}
-        <div className="absolute inset-0 bg-[radial-gradient(900px_520px_at_50%_0%,rgba(255,255,255,0.07),transparent_60%)]" />
+    <section ref={sectionRef} className="relative" style={{ height: "250vh" }}>
+      {/* Sticky viewport — stays in view during scroll */}
+      <div className="sticky top-0 h-screen overflow-x-clip">
+        {/* 3D dotted wave surface */}
+        <DottedSurface className="opacity-40" />
 
-        {/* Main halo behind robot (anchored, NOT moving) */}
-        <motion.div
-          className="absolute left-1/2 top-[46%] h-[920px] w-[920px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[180px] opacity-100"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, rgba(153,255,0,0.20), rgba(255,255,255,0.12), transparent 62%)",
-          }}
-          animate={{ opacity: [0.22, 0.30, 0.22] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Sub halo to add depth */}
-        <motion.div
-          className="absolute left-1/2 top-[56%] h-[640px] w-[640px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[160px]"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.12), transparent 62%)",
-          }}
-          animate={{ opacity: [0.10, 0.16, 0.10] }}
-          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-        />
-
-        {/* Bottom stage (prevents harsh cut) */}
-        <div className="absolute inset-x-0 bottom-0 h-[52%] bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
-
-        {/* Section transition fade into next section */}
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-b from-transparent to-black/10" />
-      </div>
-
-      {/* Content */}
-      <div className="container-premium relative z-10 flex min-h-[72vh] flex-col items-center justify-center pt-16 md:min-h-[82vh] md:pt-28">
-        {/* Robot */}
-        <motion.div
-          className="relative"
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut" }}
+        {/* Content layer */}
+        <div
+          ref={containerRef}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className="relative z-10 flex h-full flex-col items-center justify-center"
         >
-          <motion.img
-            src={rollo1}
-            alt="ROLLO Robot"
-            className="h-[320px] sm:h-[380px] md:h-[520px] object-contain brightness-[1.12] contrast-[1.06] drop-shadow-[0_70px_140px_rgba(0,0,0,0.65)]"
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9 }}
-          />
-        </motion.div>
+          {/* Robot with scroll-driven zoom + 3D mouse tracking */}
+          <motion.div
+            style={{
+              scale: robotScale,
+              y: robotY,
+              opacity: robotOpacity,
+            }}
+          >
+            <div style={{ perspective: "1200px" }}>
+              <motion.div
+                className="relative"
+                style={{
+                  transform: `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
+                  transition: "transform 0.15s ease-out",
+                  transformStyle: "preserve-3d",
+                  willChange: "transform",
+                }}
+              >
+                {/* Robot image — sized to fill viewport on desktop at scale 1 */}
+                <img
+                  src={rollo1}
+                  alt="ROLLO Robot"
+                  className="h-[55vh] sm:h-[65vh] md:h-[80vh] object-contain brightness-[1.08] contrast-[1.04] drop-shadow-[0_70px_140px_rgba(0,0,0,0.65)]"
+                />
 
-        {/* Text */}
-        <motion.div
-          className="mt-10 md:mt-14 text-center max-w-2xl"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.25, duration: 0.75 }}
-        >
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white">
-            ROLLO
-          </h1>
+                {/* Headlight glow */}
+                <div
+                  className="absolute inset-0 animate-headlight-breathe"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(ellipse 35% 20% at 50% 32%, rgba(140,180,255,0.35), transparent 70%)",
+                    mixBlendMode: "color-dodge",
+                    pointerEvents: "none",
+                  }}
+                />
 
-          <p className="mt-3 text-base sm:text-lg md:text-xl text-white/85">
-            Autonomous security robotics.
-          </p>
+                {/* Soft light spill below headlights */}
+                <div
+                  className="absolute inset-0 animate-headlight-breathe"
+                  style={{
+                    backgroundImage:
+                      "radial-gradient(ellipse 50% 35% at 50% 45%, rgba(140,180,255,0.08), transparent 65%)",
+                    mixBlendMode: "screen",
+                    pointerEvents: "none",
+                    animationDelay: "1s",
+                  }}
+                />
+              </motion.div>
+            </div>
+          </motion.div>
 
-          <p className="mt-5 text-sm sm:text-base text-white/75 leading-relaxed">
-            Intelligent robotic security at{" "}
-            <span className="text-[#99FF00] font-semibold">1/10th the cost</span>.
-          </p>
+          {/* Text — fades in when robot reaches full size */}
+          <motion.div
+            className="absolute bottom-[8vh] md:bottom-[10vh] text-center max-w-2xl px-4"
+            style={{ opacity: textOpacity, y: textY }}
+          >
+            <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-white">
+              ROLLO
+            </h1>
 
-          <div className="mt-7 flex items-center justify-center gap-3">
-            <a
-              href="#applications"
-              className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] bg-[#99FF00] text-black font-bold tracking-tight transition active:scale-[0.98]"
-            >
-              See Applications
-            </a>
+            <p className="mt-3 text-base sm:text-lg md:text-xl text-slate-300">
+              Autonomous security robotics.
+            </p>
 
-            <a
-              href="#specs"
-              className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] border border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.06] transition active:scale-[0.98]"
-            >
-              View Specs
-            </a>
-          </div>
-        </motion.div>
+            <p className="mt-5 text-sm sm:text-base text-slate-400 leading-relaxed">
+              Intelligent robotic security at{" "}
+              <span className="text-[#B4FF33] font-semibold">1/10th the cost</span>.
+            </p>
+
+            <div className="mt-8 flex items-center justify-center gap-3">
+              <a
+                href="#applications"
+                className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] bg-[#B4FF33] text-black font-bold tracking-tight transition active:scale-[0.98]"
+              >
+                See Applications
+              </a>
+
+              <a
+                href="#specs"
+                className="h-11 px-5 inline-flex items-center justify-center rounded-[4px] border border-white/10 bg-white/[0.03] text-slate-300 hover:bg-white/[0.06] hover:text-white transition active:scale-[0.98]"
+              >
+                View Specs
+              </a>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );

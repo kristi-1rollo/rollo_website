@@ -9,28 +9,29 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="why" className="section section-dark-alt section-divider scroll-mt-28">
+    <section id="why" className="section scroll-mt-28 relative">
       <div className="container-premium">
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight text-center mb-10 md:mb-14 text-white">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 text-center mb-4 font-medium">
           Why Choose ROLLO
+        </p>
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tighter text-center mb-16 md:mb-24 text-white">
+          Built Different
         </h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16">
           {features.map((feature, index) => (
             <div
               key={feature.title}
-              className="opacity-0 animate-fade-in-up rounded-xl border border-white/12 bg-white/[0.06] p-6 sm:p-7 hover:bg-white/[0.09] hover:border-white/20 transition-all duration-300"
+              className="opacity-0 animate-fade-in-up text-center lg:text-left"
               style={{ animationDelay: `${index * 120}ms`, animationFillMode: "forwards" }}
             >
-              <div className="w-11 h-11 mb-5 rounded-lg bg-white/[0.08] flex items-center justify-center">
-                <feature.icon className="w-5 h-5 text-white/85" />
-              </div>
+              <feature.icon className="w-5 h-5 text-slate-500 mb-5 mx-auto lg:mx-0" strokeWidth={1.5} />
 
-              <h3 className="text-base sm:text-lg font-semibold mb-2 text-white">
+              <h3 className="text-base sm:text-lg font-semibold mb-3 text-white">
                 {feature.title}
               </h3>
 
-              <p className="text-sm text-white/65 leading-relaxed">
+              <p className="text-sm text-slate-500 leading-relaxed">
                 {feature.description}
               </p>
             </div>

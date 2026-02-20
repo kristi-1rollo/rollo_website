@@ -17,12 +17,15 @@ const SpecificationsSection = () => {
   const [selectedSpec, setSelectedSpec] = useState<TimelineItem | null>(null);
 
   return (
-    <section id="specs" className="section section-dark-alt section-divider relative overflow-hidden scroll-mt-28">
+    <section id="specs" className="section relative overflow-hidden scroll-mt-28">
       <div className="container-premium">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 uppercase text-white">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 text-center mb-4 font-medium">
+          Engineering
+        </p>
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tighter text-center mb-4 uppercase text-white">
           Technical Specifications
         </h2>
-        <p className="text-white/40 text-center mb-16 font-mono text-xs tracking-widest uppercase">
+        <p className="text-slate-500 text-center mb-16 font-mono text-xs tracking-widest uppercase">
           Built for real-world deployment
         </p>
 
@@ -42,55 +45,52 @@ const SpecificationsSection = () => {
         </div>
       </div>
 
-      {/* GLASSMORPHISM MODAL — stays dark for cinematic feel */}
+      {/* Detail modal */}
       {selectedSpec && (
         <div
-          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/40 backdrop-blur-md animate-in fade-in duration-300"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/50 backdrop-blur-md animate-in fade-in duration-300"
           onClick={() => setSelectedSpec(null)}
         >
           <div
-            className="relative w-full max-w-lg p-8 bg-[#0B0F14]/95 border border-white/10 backdrop-blur-2xl shadow-2xl animate-in zoom-in-95 duration-300"
+            className="relative w-full max-w-lg p-10 bg-[#050505]/95 backdrop-blur-2xl shadow-2xl animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             <button
               onClick={() => setSelectedSpec(null)}
-              className="absolute top-4 right-4 text-white/40 hover:text-[#99FF00] transition-colors"
+              className="absolute top-5 right-5 text-slate-600 hover:text-white transition-colors"
             >
-              <X size={24} />
+              <X size={20} />
             </button>
 
-            <div className="flex items-center gap-6 mb-8">
-              <div className="p-4 bg-[#99FF00]/10 border border-[#99FF00]/20 text-[#99FF00]">
-                <selectedSpec.Icon size={32} />
-              </div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.3em] text-slate-500 mb-2">
+              System Specification
+            </p>
+
+            <h3 className="text-3xl font-bold uppercase tracking-tighter text-white mb-1">
+              {selectedSpec.title}
+            </h3>
+
+            <p className="text-[#B4FF33] font-mono text-sm tracking-widest uppercase mb-8">
+              {selectedSpec.content}
+            </p>
+
+            <div className="h-px bg-white/[0.06] w-full mb-8" />
+
+            <p className="text-slate-400 leading-relaxed text-sm mb-8">
+              Detailed technical analysis for {selectedSpec.title.toLowerCase()} system deployment.
+              Optimized for industrial environments and continuous autonomous operations.
+            </p>
+
+            <div className="flex gap-12">
               <div>
-                <h3 className="text-2xl font-bold uppercase tracking-tighter text-white">
-                  {selectedSpec.title}
-                </h3>
-                <p className="text-[#99FF00] font-mono text-sm tracking-widest uppercase">
-                  {selectedSpec.content}
+                <p className="font-mono text-[10px] text-slate-600 uppercase mb-1">Status</p>
+                <p className="text-xs font-bold uppercase text-white">
+                  {selectedSpec.status === 'completed' ? 'Operational' : 'In Testing'}
                 </p>
               </div>
-            </div>
-
-            <div className="space-y-6">
-              <div className="h-px bg-white/10 w-full" />
-              <p className="text-white/60 leading-relaxed">
-                Detailed technical analysis for {selectedSpec.title.toLowerCase()} system deployment.
-                Optimized for industrial environments and continuous autonomous operations.
-              </p>
-
-              <div className="grid grid-cols-2 gap-4 pt-4">
-                <div className="p-4 bg-white/5 border border-white/5">
-                  <p className="font-mono text-[10px] text-white/40 uppercase mb-1">Status</p>
-                  <p className="text-xs font-bold uppercase text-white">
-                    {selectedSpec.status === 'completed' ? 'Fully Operational' : 'In Testing'}
-                  </p>
-                </div>
-                <div className="p-4 bg-white/5 border border-white/5">
-                  <p className="font-mono text-[10px] text-white/40 uppercase mb-1">System Integration</p>
-                  <p className="text-xs font-bold uppercase text-white">V2.4 Verified</p>
-                </div>
+              <div>
+                <p className="font-mono text-[10px] text-slate-600 uppercase mb-1">Integration</p>
+                <p className="text-xs font-bold uppercase text-white">V2.4 Verified</p>
               </div>
             </div>
           </div>

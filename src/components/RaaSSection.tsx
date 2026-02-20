@@ -20,27 +20,28 @@ const raasFeatures = [
 
 const RaaSSection = () => {
   return (
-    <section id="raas" className="section section-dark section-divider scroll-mt-28">
+    <section id="raas" className="section scroll-mt-28 relative">
       <div className="container-premium">
-        <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-center mb-4 text-white">
+        <p className="text-[11px] uppercase tracking-[0.2em] text-slate-500 text-center mb-4 font-medium">
+          Robot-as-a-Service
+        </p>
+        <h2 className="text-3xl md:text-4xl font-semibold tracking-tighter text-center mb-4 text-white">
           Why RaaS
         </h2>
-        <p className="text-white/50 text-center mb-16 max-w-2xl mx-auto">
+        <p className="text-slate-500 text-center mb-20 max-w-2xl mx-auto">
           Transform your security operations without capital investment
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-20">
           {raasFeatures.map((feature, index) => (
             <div
               key={feature.title}
-              className="surface-card p-8 group opacity-0 animate-fade-in-up"
+              className="opacity-0 animate-fade-in-up text-center"
               style={{ animationDelay: `${index * 120}ms`, animationFillMode: "forwards" }}
             >
-              <div className="w-12 h-12 mb-6 rounded-lg bg-white/[0.08] flex items-center justify-center">
-                <feature.icon className="w-6 h-6 text-white/85" />
-              </div>
-              <h3 className="text-lg font-medium mb-2 text-white">{feature.title}</h3>
-              <p className="text-sm text-white/60 leading-relaxed">{feature.description}</p>
+              <feature.icon className="w-6 h-6 text-slate-500 mb-5 mx-auto" strokeWidth={1.5} />
+              <h3 className="text-lg font-medium mb-3 text-white">{feature.title}</h3>
+              <p className="text-sm text-slate-500 leading-relaxed">{feature.description}</p>
             </div>
           ))}
         </div>
