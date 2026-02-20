@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { z } from "zod";
+import { z } from "zod"; // still used for client-side schema
 import {
   Dialog,
   DialogContent,
@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -86,15 +87,38 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
     e.preventDefault();
     setErrors({});
 
+    // Client-side validation first
+    const clientValidation = formSchema.safeParse(formData);
+    if (!clientValidation.success) {
+      const newErrors: Record<string, string> = {};
+      clientValidation.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          newErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(newErrors);
+      return;
+    }
+
+    setIsSubmitting(true);
     try {
-      formSchema.parse(formData);
-      setIsSubmitting(true);
+      const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID;
+      const { data, error } = await supabase.functions.invoke("submit-registration", {
+        body: formData,
+      });
 
-      // TODO: Send to edge function
-      console.log("Form data:", formData);
+      if (error) {
+        toast.error("Something went wrong. Please try again.");
+        return;
+      }
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      if (data?.error) {
+        const msg = Array.isArray(data.details)
+          ? data.details.join(", ")
+          : data.error;
+        toast.error(msg);
+        return;
+      }
 
       toast.success("Thank you for your interest! We'll be in touch soon.");
       onOpenChange(false);
@@ -105,16 +129,8 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         topics: [],
         message: "",
       });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const newErrors: Record<string, string> = {};
-        error.errors.forEach((err) => {
-          if (err.path[0]) {
-            newErrors[err.path[0] as string] = err.message;
-          }
-        });
-        setErrors(newErrors);
-      }
+    } catch {
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
