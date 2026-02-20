@@ -9,16 +9,16 @@ const HeroSection = () => {
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
 
-  /* ── Scroll-driven dolly zoom ─────────────────────────────────
+  /* -- Scroll-driven dolly zoom ---------
      The section is 250vh tall. A sticky viewport locks the visual
-     in place while the user scrolls. scrollYProgress 0→1 maps to
+     in place while the user scrolls. scrollYProgress 0->1 maps to
      the robot travelling from "far away" (small) to full-screen. */
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
 
-  // Robot: small → full viewport height
+  // Robot: small -> full viewport height
   const robotScale = useTransform(scrollYProgress, [0, 0.65], [0.3, 1]);
   // Slight upward drift as it approaches
   const robotY = useTransform(scrollYProgress, [0, 0.65], [60, 0]);
@@ -28,7 +28,7 @@ const HeroSection = () => {
   const textOpacity = useTransform(scrollYProgress, [0.45, 0.7], [0, 1]);
   const textY = useTransform(scrollYProgress, [0.45, 0.7], [40, 0]);
 
-  /* ── 3D mouse tracking ──────────────────────────────────────── */
+  /* -- 3D mouse tracking -- */
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
     const rect = containerRef.current.getBoundingClientRect();
