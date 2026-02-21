@@ -20,6 +20,27 @@ const nav = [
 ];
 
 const Header = () => {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Rollo One-Wheel Autonomous Patrol Robot",
+    "description": "Autonomous outdoor security robot with gyroscopic stabilization for harsh weather conditions.",
+    "brand": {
+      "@type": "Brand",
+      "name": "Rollo Robotics"
+    },
+    "offers": {
+      "@type": "Offer",
+      "availability": "https://schema.org/PreOrder"
+    },
+    "additionalProperty": [
+      { "@type": "PropertyValue", "name": "Weight", "value": "35 kg" },
+      { "@type": "PropertyValue", "name": "Speed", "value": "Up to 10 km/h" },
+      { "@type": "PropertyValue", "name": "Battery Life", "value": "Up to 8 hours" },
+      { "@type": "PropertyValue", "name": "Operating Temperature", "value": "-20°C to +45°C" }
+    ]
+  };
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -92,6 +113,9 @@ const Header = () => {
 
   return (
     <>
+      <script type="application/ld+json">
+        {JSON.stringify(structuredData)}
+      </script>
       <header
         className={[
           "fixed top-0 left-0 right-0 z-50",

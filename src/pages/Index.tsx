@@ -5,6 +5,8 @@ import RaaSSection from "@/components/RaaSSection";
 import SpecificationsSection from "@/components/SpecificationsSection";
 import UseCasesSection from "@/components/UseCasesSection";
 import CTASection from "@/components/CTASection";
+import FAQSection from "@/components/FAQSection";
+import ROICalculator from "@/components/ROICalculator";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -16,7 +18,9 @@ const Index = () => {
         <FeaturesSection />
         <RaaSSection />
         <SpecificationsSection />
+        <ROICalculator />
         <UseCasesSection />
+        <FAQSection />
         <CTASection />
       </main>
       <Footer />
