@@ -1,73 +1,62 @@
-# Welcome to your Lovable project
+# Rollo - Teie digitaalne visiitkaart investoritele ja klientidele
 
-## Project info
+## Projekti ülevaade
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+Rollo on kaasaegne veebirakendus, mis on loodud toimima digitaalse visiitkaardina investoritele ja tulevastele klientidele. See projekt demonstreerib meie võimekust luua visuaalselt atraktiivseid ja funktsionaalseid veebilahendusi, kasutades kaasaegseid tehnoloogiaid. Projekti eesmärk on pakkuda selget ja kokkuvõtlikku teavet meie teenuste, tehnoloogiate ja visiooni kohta.
 
-## How can I edit this code?
+## Tehnoloogiad
 
-There are several ways of editing your application.
+See projekt on ehitatud järgmiste tehnoloogiatega:
 
-**Use Lovable**
+*   **Vite**: Kiire arenduskeskkond ja ehitustööriist.
+*   **TypeScript**: Tüübitud JavaScript, mis parandab koodi kvaliteeti ja hooldatavust.
+*   **React**: Populaarne JavaScripti teek kasutajaliideste loomiseks.
+*   **shadcn-ui**: Kaasaegne UI komponentide teek.
+*   **Tailwind CSS**: Utiliidipõhine CSS raamistik kiireks ja paindlikuks stiilimiseks.
+*   **Supabase**: Avatud lähtekoodiga Firebase alternatiiv andmebaasi ja autentimise jaoks.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## Kohalik arenduskeskkond
 
-Changes made via Lovable will be committed automatically to this repo.
+Projekti käivitamiseks kohalikus arenduskeskkonnas järgige neid samme:
 
-**Use your preferred IDE**
+1.  **Klooni repositoorium:**
+    ```bash
+    git clone <TEIE_GIT_URL>
+    cd rollo
+    ```
+2.  **Paigalda sõltuvused:**
+    ```bash
+    npm install
+    # või kui kasutate bun'i:
+    bun install
+    ```
+3.  **Seadista Supabase:**
+    Veenduge, et teil on Supabase projekt seadistatud ja vajalikud keskkonnamuutujad (.env failis) on paigas. Näiteks:
+    ```
+    VITE_SUPABASE_URL=teie_supabase_url
+    VITE_SUPABASE_ANON_KEY=teie_supabase_anon_key
+    ```
+4.  **Käivita arendusserver:**
+    ```bash
+    npm run dev
+    # või kui kasutate bun'i:
+    bun run dev
+    ```
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Projekt peaks nüüd olema ligipääsetav teie brauseris aadressil `http://localhost:5173` (või muu Vitesi poolt määratud pordi peal).
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## Töövoog VS Code, Codexi ja Vibecodinguga
 
-Follow these steps:
+Selle projekti arendamisel on oluline hoida töövoog sujuv ja efektiivne. Soovitame:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+*   **VS Code laiendused**: Kasutage laiendusi nagu Prettier (koodi vormindamiseks), ESLint (koodi analüüsiks) ja Tailwind CSS IntelliSense (kiiremaks stiilimiseks).
+*   **Codex/AI assistent**: Kasutage Codexit või sarnast AI assistenti koodi genereerimiseks, refaktoriseerimiseks ja dokumenteerimiseks. See aitab kiirendada arendust ja vähendada korduvaid ülesandeid.
+*   **Vibecoding**: Hoidke oma koodibaas puhas ja hästi organiseeritud. Regulaarsed koodiülevaatused ja testide kirjutamine aitavad säilitada kõrget kvaliteeti ja vähendada vigu. Püüdke hoida commitid väikesed ja keskenduda ühele funktsionaalsusele.
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+## Juurutamine (Deployment)
 
-# Step 3: Install the necessary dependencies.
-npm i
+Projekt on loodud juurutamiseks Lovable platvormile. Lisateavet leiate Lovable dokumentatsioonist.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+## Kaastöö
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Ootame kaastööd! Kui soovite panustada, palun looge tõmbetaotlus (pull request) või avage probleem (issue).
