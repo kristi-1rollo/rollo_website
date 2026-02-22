@@ -9,7 +9,6 @@ import {
   Eye,
   Gauge,
   KeyRound,
-  Menu,
   Plug,
   Ruler,
   Snowflake,
@@ -208,7 +207,6 @@ const AamirLayerPreview = () => {
   const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
   const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
-  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
@@ -741,62 +739,8 @@ const AamirLayerPreview = () => {
         {activeContext.label}
       </div>
 
-      <button
-        type="button"
-        onClick={() => setIsMobileNavOpen(true)}
-        className="fixed right-4 top-4 z-40 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-black/55 text-white md:hidden"
-        aria-label="Open navigation"
-      >
-        <Menu className="h-5 w-5" />
-      </button>
-
-      <AnimatePresence>
-        {isMobileNavOpen ? (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl md:hidden"
-          >
-            <button
-              type="button"
-              onClick={() => setIsMobileNavOpen(false)}
-              className="absolute right-4 top-4 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white"
-              aria-label="Close navigation"
-            >
-              <X className="h-5 w-5" />
-            </button>
-            <div className="flex h-full flex-col items-center justify-center gap-3 px-6">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeSection === item.target;
-                return (
-                  <button
-                    key={`mobile-${item.target}`}
-                    type="button"
-                    onClick={() => {
-                      setActiveSection(item.target);
-                      setIsMobileNavOpen(false);
-                    }}
-                    className={`inline-flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm uppercase tracking-[0.16em] ${
-                      isActive
-                        ? "border-primary/60 bg-primary/15 text-primary"
-                        : "border-white/20 bg-white/[0.03] text-white/85"
-                    }`}
-                  >
-                    <Icon className="h-4 w-4" />
-                    <span>{item.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
       <nav className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2">
-        <div className="mx-auto hidden items-center gap-2.5 rounded-full border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl md:inline-flex">
+        <div className="mx-auto inline-flex items-center gap-2 rounded-[4px] border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.target;
@@ -816,7 +760,7 @@ const AamirLayerPreview = () => {
                 ) : null}
                 <button
                   onClick={() => setActiveSection(item.target)}
-                  className={`flex items-center justify-center rounded-full px-2.5 py-2 transition ${
+                  className={`flex min-h-11 min-w-11 items-center justify-center rounded-[4px] px-2.5 py-2 transition ${
                     isActive
                       ? "border border-primary/45 bg-primary/10 text-primary"
                       : "border border-white/15 bg-white/[0.04] text-white/75 hover:border-white/30 hover:bg-white/10 hover:text-white"
@@ -841,11 +785,11 @@ const AamirLayerPreview = () => {
             transition={{ duration: 0.32, ease: "easeOut" }}
             className="w-full"
             onTouchStart={(event: TouchEvent<HTMLElement>) => {
-              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen || isMobileNavOpen) return;
+              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen) return;
               touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
             }}
             onTouchEnd={(event: TouchEvent<HTMLElement>) => {
-              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen || isMobileNavOpen) return;
+              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen) return;
               const startX = touchStartXRef.current;
               const endX = event.changedTouches[0]?.clientX ?? null;
               touchStartXRef.current = null;
