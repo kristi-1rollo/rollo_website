@@ -167,6 +167,7 @@ const fieldScenarios: {
 const snowVideoPrimary = "/robot/Lumes_1.mp4";
 const mudImage = "/robot/rollo_mud.png";
 const nightImage = "/robot/rollo_night.png";
+const activeSectionStorageKey = "rollo_active_section";
 
 const faqData = [
   {
@@ -247,7 +248,14 @@ const FieldMediaLoader = () => (
 
 const AamirLayerPreview = () => {
   const isMobile = useIsMobile();
-  const [activeSection, setActiveSection] = useState<SectionId>("hero");
+  const [activeSection, setActiveSection] = useState<SectionId>(() => {
+    if (typeof window === "undefined") return "hero";
+    const storedSection = window.sessionStorage.getItem(activeSectionStorageKey);
+    if (storedSection && sections.some((section) => section.id === storedSection)) {
+      return storedSection as SectionId;
+    }
+    return "hero";
+  });
   const [guards, setGuards] = useState(1);
   const [hours, setHours] = useState(24);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -291,6 +299,11 @@ const AamirLayerPreview = () => {
       }
     };
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    window.sessionStorage.setItem(activeSectionStorageKey, activeSection);
+  }, [activeSection]);
 
   const activeIndex = useMemo(
     () => sections.findIndex((section) => section.id === activeSection),
@@ -362,6 +375,8 @@ const AamirLayerPreview = () => {
     const nextIndex = (activeIndex + delta + sections.length) % sections.length;
     goToSection(sections[nextIndex].id);
   };
+  const heroMaxScale = isMobile ? 1.68 : 1.9;
+  const heroMaxY = isMobile ? -10 : -18;
   const openFieldScenarioModal = (scenarioId: FieldScenarioId) => {
     setFieldMediaReady((prev) => ({ ...prev, [scenarioId]: false }));
     setOpenFieldScenario(scenarioId);
@@ -413,14 +428,10 @@ const AamirLayerPreview = () => {
                   isHeroExploding
                     ? { scale: 0.96, y: -8, opacity: 0.08, filter: "blur(2px) brightness(1.02)" }
                     : {
-                        scale: isMobile ? [0.62, 1.42, 1] : [0.56, 1.55, 1],
-                        y: isMobile ? [46, -6, 0] : [62, -10, 0],
-                        opacity: [0, 1, 1],
-                        filter: [
-                          "blur(9px) brightness(0.58)",
-                          "blur(1px) brightness(1.16)",
-                          "blur(0px) brightness(1.08)",
-                        ],
+                        scale: heroMaxScale,
+                        y: heroMaxY,
+                        opacity: 1,
+                        filter: "blur(0px) brightness(1.08)",
                       }
                 }
                 transition={
@@ -429,7 +440,6 @@ const AamirLayerPreview = () => {
                     : {
                         duration: isMobile ? 3.4 : 4.4,
                         ease: [0.22, 1, 0.36, 1],
-                        times: [0, 0.58, 1],
                       }
                 }
               />
