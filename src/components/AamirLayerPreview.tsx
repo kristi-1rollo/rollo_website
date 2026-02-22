@@ -15,6 +15,7 @@ import {
   TrendingUp,
   Weight,
   Wallet,
+  X,
   Zap,
   type LucideIcon,
 } from "lucide-react";
@@ -123,12 +124,36 @@ const useCases = [
 ];
 
 const faqData = [
-  "Does Rollo work in snow and freezing temperatures?",
-  "How is Rollo more cost-effective than human guards?",
-  "How long does the battery last on a single charge?",
-  "Can Rollo detect intruders in total darkness?",
-  "Which industries get the highest value from Rollo?",
-  "How is the robot controlled and monitored?",
+  {
+    question: "Does Rollo work in snow and freezing temperatures?",
+    answer:
+      "Yes. Rollo is tested for Nordic conditions and operates from -20 C to +45 C with stable one-wheel control.",
+  },
+  {
+    question: "How is Rollo more cost-effective than human guards?",
+    answer:
+      "One robot can replace one to two guard shifts per day, with savings typically reaching up to 60 percent annually.",
+  },
+  {
+    question: "How long does the battery last on a single charge?",
+    answer:
+      "Up to 8 hours of continuous patrol, with automatic return-to-charge and resume behavior.",
+  },
+  {
+    question: "Can Rollo detect intruders in total darkness?",
+    answer:
+      "Yes. The AI vision stack includes low-light and thermal support for reliable detection in dark environments.",
+  },
+  {
+    question: "Which industries get the highest value from Rollo?",
+    answer:
+      "Large outdoor and high-risk sites such as logistics, industrial zones, campuses, and construction areas.",
+  },
+  {
+    question: "How is the robot controlled and monitored?",
+    answer:
+      "Rollo patrols autonomously while teams monitor live feeds in the cloud and can take manual control when needed.",
+  },
 ];
 
 const slide = {
@@ -142,6 +167,7 @@ const AamirLayerPreview = () => {
   const [guards, setGuards] = useState(1);
   const [hours, setHours] = useState(24);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   useEffect(() => {
     const htmlOriginal = document.documentElement.style.overflow;
@@ -188,7 +214,6 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
           <div className="space-y-6">
-            <p className="mono-spec text-primary/90">Layer 01 / Hero</p>
             <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl md:text-7xl">
               One-Wheel Autonomous Patrol Robot
             </h1>
@@ -218,7 +243,6 @@ const AamirLayerPreview = () => {
       return (
         <div className="space-y-6">
           <div className="space-y-5">
-            <p className="mono-spec text-primary/90">Layer 02 / The Core</p>
             <h2 className="text-4xl text-white sm:text-5xl">Technical Specifications</h2>
             <p className="max-w-3xl text-sm text-slate-300 sm:text-base">
               Orbital layout remains active in preview mode so specification discovery still feels
@@ -239,7 +263,6 @@ const AamirLayerPreview = () => {
       return (
         <div className="space-y-7">
           <div>
-            <p className="mono-spec text-primary/90">Layer 03 / Performance</p>
             <h2 className="text-4xl text-white sm:text-5xl">Field Test Data 2026</h2>
             <p className="mt-3 max-w-3xl text-sm text-slate-300 sm:text-base">
               Rollo is validated across snow, mud and low-visibility patrol scenarios with stable
@@ -281,7 +304,6 @@ const AamirLayerPreview = () => {
       return (
         <div className="space-y-7">
           <div>
-            <p className="mono-spec text-primary/90">Layer 04 / Intelligence</p>
             <h2 className="text-4xl text-white sm:text-5xl">AI-Powered Security Capabilities</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -305,7 +327,6 @@ const AamirLayerPreview = () => {
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-8">
             <div>
-              <p className="mono-spec text-primary/90">Layer 05 / The Math</p>
               <h2 className="text-4xl text-white sm:text-5xl">Save 60% on Security Costs</h2>
             </div>
             <div className="space-y-7 rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -348,16 +369,56 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid gap-6">
           <div>
-            <p className="mono-spec text-primary/90">Layer 06 / Knowledge</p>
-            <h2 className="text-4xl text-white sm:text-5xl">Bento FAQ</h2>
+            <h2 className="text-4xl text-white sm:text-5xl">Frequently Asked Questions</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
-            {faqData.map((item) => (
-              <article key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4">
-                <p className="text-sm font-medium leading-relaxed text-slate-200">{item}</p>
-              </article>
+            {faqData.map((item, index) => (
+              <button
+                key={item.question}
+                type="button"
+                onClick={() => setOpenFaqIndex(index)}
+                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10"
+              >
+                <p className="text-sm font-medium leading-relaxed text-slate-200">{item.question}</p>
+              </button>
             ))}
           </div>
+
+          {openFaqIndex !== null ? (
+            <>
+              <div
+                className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm"
+                onClick={() => setOpenFaqIndex(null)}
+              />
+              <div
+                className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                onClick={() => setOpenFaqIndex(null)}
+              >
+                <article
+                  className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-[#050505]/95 p-6 shadow-2xl sm:p-8"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaqIndex(null)}
+                    className="absolute right-4 top-4 text-slate-400 transition hover:text-white"
+                    aria-label="Close FAQ answer"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                  <p className="mb-4 text-[11px] uppercase tracking-[0.2em] text-primary">
+                    Frequently Asked Questions
+                  </p>
+                  <h3 className="text-2xl font-semibold leading-tight text-white sm:text-3xl">
+                    {faqData[openFaqIndex].question}
+                  </h3>
+                  <p className="mt-4 text-sm leading-relaxed text-slate-300 sm:text-base">
+                    {faqData[openFaqIndex].answer}
+                  </p>
+                </article>
+              </div>
+            </>
+          ) : null}
         </div>
       );
     }
@@ -365,7 +426,6 @@ const AamirLayerPreview = () => {
     return (
       <div className="grid gap-6">
         <div>
-          <p className="mono-spec text-primary/90">Layer 07 / Access</p>
           <h2 className="text-4xl text-white sm:text-5xl">Deployment Access</h2>
         </div>
         <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5 sm:p-6">
