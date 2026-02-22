@@ -81,7 +81,7 @@ const HeroSection = () => {
                 <img
                   src={rollo1}
                   alt="ROLLO Robot"
-                  className="h-[55vh] sm:h-[65vh] md:h-[80vh] object-contain brightness-[1.08] contrast-[1.04] drop-shadow-[0_70px_140px_rgba(0,0,0,0.65)]"
+                  className="h-[45vh] sm:h-[50vh] md:h-[60vh] object-contain brightness-[1.08] contrast-[1.04] drop-shadow-[0_70px_140px_rgba(0,0,0,0.65)]"
                 />
 
                 {/* Headlight glow */}
@@ -112,7 +112,7 @@ const HeroSection = () => {
 
           {/* Text — fades in when robot reaches full size */}
           <motion.div
-            className="absolute bottom-[8vh] md:bottom-[10vh] text-center max-w-2xl px-4"
+            className="mt-2 text-center max-w-2xl px-4"
             style={{ opacity: textOpacity, y: textY }}
           >
             <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold tracking-tighter text-white">
