@@ -1028,7 +1028,7 @@ const AamirLayerPreview = () => {
     }
 
     return (
-      <div className="grid gap-6">
+      <div className="flex min-h-[calc(100dvh-var(--aamir-top-space)-var(--aamir-bottom-space)-env(safe-area-inset-top)-env(safe-area-inset-bottom))] flex-col justify-center gap-6 md:min-h-0 md:grid">
         <div className="space-y-3">
           <SectionBrand />
           <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Deployment Access</h2>
