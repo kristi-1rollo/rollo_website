@@ -158,6 +158,7 @@ const fieldScenarios: {
 ];
 const snowVideoPrimary = "/robot/Lumes_1.mp4";
 const mudImage = "/robot/rollo_mud.png";
+const nightImage = "/robot/rollo_night.png";
 
 const faqData = [
   {
@@ -223,6 +224,10 @@ const AamirLayerPreview = () => {
   const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+      return;
+    }
+
     const htmlOriginal = document.documentElement.style.overflow;
     const bodyOriginal = document.body.style.overflow;
     document.documentElement.style.overflow = "hidden";
@@ -494,7 +499,7 @@ const AamirLayerPreview = () => {
                             ) : null}
                             {selectedScenario.id !== "mud" ? (
                               <motion.img
-                                src={rollo1}
+                                src={selectedScenario.id === "night" ? nightImage : rollo1}
                                 alt={`Rollo robot animation for ${selectedScenario.title.toLowerCase()}`}
                                 className="mx-auto h-[44vh] max-h-[460px] w-auto object-contain"
                                 animate={{ y: [0, -3, 0] }}

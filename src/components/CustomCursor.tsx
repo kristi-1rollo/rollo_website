@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion, useMotionValue } from "framer-motion";
 
 const interactiveSelector =
@@ -10,6 +10,7 @@ const HAND_PATH =
 const CustomCursor = () => {
   const [enabled, setEnabled] = useState(false);
   const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
+  const hoverRef = useRef(false);
 
   const mouseX = useMotionValue(-100);
   const mouseY = useMotionValue(-100);
@@ -36,13 +37,20 @@ const CustomCursor = () => {
       mouseY.set(event.clientY);
 
       const target = event.target as HTMLElement | null;
-      setIsHoveringInteractive(Boolean(target?.closest(interactiveSelector)));
+      const nextHover = Boolean(target?.closest(interactiveSelector));
+      if (nextHover !== hoverRef.current) {
+        hoverRef.current = nextHover;
+        setIsHoveringInteractive(nextHover);
+      }
     };
 
     const onMouseLeave = () => {
       mouseX.set(-100);
       mouseY.set(-100);
-      setIsHoveringInteractive(false);
+      if (hoverRef.current) {
+        hoverRef.current = false;
+        setIsHoveringInteractive(false);
+      }
     };
 
     window.addEventListener("mousemove", onMouseMove);
