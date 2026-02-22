@@ -24,6 +24,7 @@ import rollo1 from "@/assets/rollo1.png";
 import rollo2 from "@/assets/rollo2.png";
 import RegistrationModal from "@/components/RegistrationModal";
 import RadialOrbitalTimeline, { type TimelineItem } from "@/components/RadialOrbitalTimeline";
+import CustomCursor from "@/components/CustomCursor";
 
 type SectionId =
   | "hero"
@@ -446,6 +447,7 @@ const AamirLayerPreview = () => {
 
   return (
     <div className="relative h-screen overflow-hidden text-white">
+      <CustomCursor />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
       <div className="fixed right-5 top-5 z-40 rounded-full border border-primary/40 bg-black/70 px-4 py-2 text-xs uppercase tracking-[0.16em] text-primary backdrop-blur-xl">
