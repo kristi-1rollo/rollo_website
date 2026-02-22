@@ -34,6 +34,7 @@ nul
 .env.*
 .env.local
 .env.*.local
+!.env.example
 
 # Thumbnails and temporary files
 .thumbnails/
