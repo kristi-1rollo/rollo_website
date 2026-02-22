@@ -9,6 +9,7 @@ import {
   Eye,
   Gauge,
   KeyRound,
+  Menu,
   Plug,
   Ruler,
   Snowflake,
@@ -207,6 +208,7 @@ const AamirLayerPreview = () => {
   const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
   const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
+  const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
 
   useEffect(() => {
     const htmlOriginal = document.documentElement.style.overflow;
@@ -253,7 +255,7 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
           <div className="space-y-6">
-            <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl md:text-7xl">
+            <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
               One-Wheel Autonomous Patrol Robot
             </h1>
             <p className="max-w-xl text-sm text-slate-300 sm:text-base">
@@ -282,7 +284,7 @@ const AamirLayerPreview = () => {
       return (
         <div className="space-y-6">
           <div className="space-y-5">
-            <h2 className="text-4xl text-white sm:text-5xl">Technical Specifications</h2>
+            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Technical Specifications</h2>
             <p className="max-w-3xl text-sm text-slate-300 sm:text-base">
               Orbital layout remains active in preview mode so specification discovery still feels
               premium while navigation stays menu-only.
@@ -314,7 +316,7 @@ const AamirLayerPreview = () => {
       return (
         <div className="space-y-7">
           <div>
-            <h2 className="text-4xl text-white sm:text-5xl">Field Test Data 2026</h2>
+            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Field Test Data 2026</h2>
             <p className="mt-3 max-w-3xl text-sm text-slate-300 sm:text-base">
               Rollo is validated across snow, mud and low-visibility patrol scenarios with stable
               mobility and continuous mission uptime.
@@ -324,7 +326,7 @@ const AamirLayerPreview = () => {
             <button
               type="button"
               onClick={() => setPerformancePanel("field")}
-              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`min-h-11 rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "field"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -338,7 +340,7 @@ const AamirLayerPreview = () => {
                 setPerformancePanel("ai");
                 setOpenFieldScenario(null);
               }}
-              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`min-h-11 rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "ai"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -346,9 +348,6 @@ const AamirLayerPreview = () => {
             >
               AI
             </button>
-            <span className="text-xs uppercase tracking-[0.12em] text-white/50">
-              Scroll to switch card
-            </span>
           </div>
 
           <div onWheel={onPanelWheel} className="min-h-[280px]">
@@ -368,7 +367,7 @@ const AamirLayerPreview = () => {
                         key={scenario.id}
                         type="button"
                         onClick={() => setOpenFieldScenario(scenario.id)}
-                        className="rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition hover:border-primary/50 hover:bg-white/10"
+                        className="min-h-11 rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition hover:border-primary/50 hover:bg-white/10"
                       >
                         <scenario.icon className="mb-4 h-5 w-5 text-primary" />
                         <p className="text-lg font-semibold text-white">{scenario.title.replace(" Patrol", "")}</p>
@@ -540,7 +539,7 @@ const AamirLayerPreview = () => {
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-8">
             <div>
-              <h2 className="text-4xl text-white sm:text-5xl">Save 60% on Security Costs</h2>
+              <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Save 60% on Security Costs</h2>
             </div>
             <div className="space-y-7 rounded-2xl border border-white/10 bg-white/5 p-5">
               <div>
@@ -582,7 +581,7 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid gap-6">
           <div>
-            <h2 className="text-4xl text-white sm:text-5xl">Frequently Asked Questions</h2>
+            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Frequently Asked Questions</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
             {faqData.map((item, index) => (
@@ -590,7 +589,7 @@ const AamirLayerPreview = () => {
                 key={item.question}
                 type="button"
                 onClick={() => setOpenFaqIndex(index)}
-                className="rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10"
+                className="min-h-11 rounded-2xl border border-white/10 bg-white/5 p-4 text-left transition hover:bg-white/10"
               >
                 <p className="text-sm font-medium leading-relaxed text-slate-200">{item.question}</p>
               </button>
@@ -640,7 +639,7 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="max-w-xl space-y-5">
-            <h2 className="text-4xl text-white sm:text-5xl">About The Team</h2>
+            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">About The Team</h2>
             <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
               Over 90% of the team members have 3 to 15 years of prior experience working together
               in the field of robotics development and have achieved remarkable results.
@@ -710,7 +709,7 @@ const AamirLayerPreview = () => {
     return (
       <div className="grid gap-6">
         <div>
-          <h2 className="text-4xl text-white sm:text-5xl">Deployment Access</h2>
+          <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Deployment Access</h2>
         </div>
         <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5 sm:p-6">
           <p className="text-xl font-semibold text-white">Ready to transform your security operations?</p>
@@ -719,7 +718,7 @@ const AamirLayerPreview = () => {
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-4 rounded-full bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
+            className="mt-4 min-h-11 rounded-full bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
           >
             Get Rollo Access
           </button>
@@ -733,8 +732,62 @@ const AamirLayerPreview = () => {
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
+      <button
+        type="button"
+        onClick={() => setIsMobileNavOpen(true)}
+        className="fixed right-4 top-4 z-40 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-black/55 text-white md:hidden"
+        aria-label="Open navigation"
+      >
+        <Menu className="h-5 w-5" />
+      </button>
+
+      <AnimatePresence>
+        {isMobileNavOpen ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl md:hidden"
+          >
+            <button
+              type="button"
+              onClick={() => setIsMobileNavOpen(false)}
+              className="absolute right-4 top-4 inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/20 bg-black/50 text-white"
+              aria-label="Close navigation"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <div className="flex h-full flex-col items-center justify-center gap-3 px-6">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.target;
+                return (
+                  <button
+                    key={`mobile-${item.target}`}
+                    type="button"
+                    onClick={() => {
+                      setActiveSection(item.target);
+                      setIsMobileNavOpen(false);
+                    }}
+                    className={`inline-flex min-h-11 w-full max-w-xs items-center justify-center gap-2 rounded-full border px-5 py-3 text-sm uppercase tracking-[0.16em] ${
+                      isActive
+                        ? "border-primary/60 bg-primary/15 text-primary"
+                        : "border-white/20 bg-white/[0.03] text-white/85"
+                    }`}
+                  >
+                    <Icon className="h-4 w-4" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
       <nav className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2">
-        <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl">
+        <div className="mx-auto hidden items-center gap-2.5 rounded-full border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl md:inline-flex">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.target;
