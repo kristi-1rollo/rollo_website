@@ -26,6 +26,7 @@ import rollo2 from "@/assets/rollo2.png";
 import RegistrationModal from "@/components/RegistrationModal";
 import RadialOrbitalTimeline, { type TimelineItem } from "@/components/RadialOrbitalTimeline";
 import CustomCursor from "@/components/CustomCursor";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 type SectionId =
   | "hero"
@@ -43,6 +44,13 @@ type LayerSection = {
   label: string;
   title: string;
   subtitle: string;
+};
+type RobotPart = {
+  id: string;
+  clipPath: string;
+  explodeX: number;
+  explodeY: number;
+  explodeRotate: number;
 };
 
 const sections: LayerSection[] = [
@@ -198,6 +206,19 @@ const slide = {
   center: { opacity: 1, x: 0, scale: 1 },
   exit: { opacity: 0, x: -26, scale: 0.985 },
 };
+const desktopRobotParts: RobotPart[] = [
+  { id: "body-top", clipPath: "polygon(9% 4%, 92% 3%, 90% 34%, 8% 32%)", explodeX: 90, explodeY: -82, explodeRotate: 16 },
+  { id: "body-mid", clipPath: "polygon(6% 31%, 94% 32%, 92% 64%, 8% 62%)", explodeX: -94, explodeY: -24, explodeRotate: -20 },
+  { id: "body-low", clipPath: "polygon(10% 61%, 90% 61%, 86% 87%, 12% 88%)", explodeX: 74, explodeY: 86, explodeRotate: 14 },
+  { id: "wheel-left", clipPath: "polygon(0% 57%, 32% 48%, 35% 100%, 0% 100%)", explodeX: -120, explodeY: 104, explodeRotate: -42 },
+  { id: "wheel-right", clipPath: "polygon(68% 49%, 100% 56%, 100% 100%, 64% 100%)", explodeX: 122, explodeY: 98, explodeRotate: 40 },
+  { id: "sensor-core", clipPath: "polygon(39% 24%, 61% 25%, 59% 48%, 41% 47%)", explodeX: -12, explodeY: -118, explodeRotate: -12 },
+];
+const mobileRobotParts: RobotPart[] = [
+  { id: "mobile-body", clipPath: "polygon(10% 8%, 90% 8%, 86% 77%, 14% 78%)", explodeX: 52, explodeY: -56, explodeRotate: 14 },
+  { id: "mobile-wheel", clipPath: "polygon(16% 70%, 84% 70%, 82% 100%, 18% 100%)", explodeX: -68, explodeY: 62, explodeRotate: -20 },
+  { id: "mobile-sensor", clipPath: "polygon(40% 18%, 60% 18%, 58% 42%, 42% 42%)", explodeX: 6, explodeY: -80, explodeRotate: 10 },
+];
 const brandLogoPath = "/logos/rollo_logo_white.png";
 const eisLogoPath = "/logos/Rahastanud_EL_kaksiklogod_ENG_hor_white.png";
 const defenceIndustryLogoPath = "/logos/edia-eas.png";
@@ -214,6 +235,7 @@ const SectionBrand = ({ compact = true }: { compact?: boolean }) => (
 );
 
 const AamirLayerPreview = () => {
+  const isMobile = useIsMobile();
   const [activeSection, setActiveSection] = useState<SectionId>("hero");
   const [guards, setGuards] = useState(1);
   const [hours, setHours] = useState(24);
@@ -223,9 +245,12 @@ const AamirLayerPreview = () => {
   const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
   const [openPartnerLogo, setOpenPartnerLogo] = useState<{ src: string; alt: string } | null>(null);
+  const [isHeroExploding, setIsHeroExploding] = useState(false);
+  const [heroIntroKey, setHeroIntroKey] = useState(0);
   const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
   const touchStartXRef = useRef<number | null>(null);
   const hasPrimedSnowVideoRef = useRef(false);
+  const heroExitTimeoutRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -243,6 +268,14 @@ const AamirLayerPreview = () => {
     };
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (heroExitTimeoutRef.current !== null) {
+        window.clearTimeout(heroExitTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const activeIndex = useMemo(
     () => sections.findIndex((section) => section.id === activeSection),
     [activeSection],
@@ -256,16 +289,16 @@ const AamirLayerPreview = () => {
       if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
       event.preventDefault();
       const delta = event.key === "ArrowRight" ? 1 : -1;
-      const nextIndex = (activeIndex + delta + sections.length) % sections.length;
-      setActiveSection(sections[nextIndex].id);
+      setSectionByDelta(delta);
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, isTeamImageOpen, openFaqIndex, openFieldScenario, openPartnerLogo]);
+  }, [isTeamImageOpen, openFaqIndex, openFieldScenario, openPartnerLogo, activeSection, isHeroExploding, isMobile]);
 
   const activeContext = useMemo(() => {
     return sections.find((section) => section.id === activeSection) ?? sections[0];
   }, [activeSection]);
+  const heroParts = useMemo(() => (isMobile ? mobileRobotParts : desktopRobotParts), [isMobile]);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -280,9 +313,30 @@ const AamirLayerPreview = () => {
     hasPrimedSnowVideoRef.current = true;
   }, [activeSection]);
 
+  useEffect(() => {
+    if (activeSection === "hero") {
+      setHeroIntroKey((value) => value + 1);
+    }
+  }, [activeSection]);
+
+  const goToSection = (nextSection: SectionId) => {
+    if (nextSection === activeSection) return;
+    if (activeSection === "hero" && nextSection !== "hero") {
+      if (isHeroExploding) return;
+      setIsHeroExploding(true);
+      heroExitTimeoutRef.current = window.setTimeout(() => {
+        setActiveSection(nextSection);
+        setIsHeroExploding(false);
+        heroExitTimeoutRef.current = null;
+      }, isMobile ? 820 : 560);
+      return;
+    }
+    setActiveSection(nextSection);
+  };
+
   const setSectionByDelta = (delta: number) => {
     const nextIndex = (activeIndex + delta + sections.length) % sections.length;
-    setActiveSection(sections[nextIndex].id);
+    goToSection(sections[nextIndex].id);
   };
 
   const guardHourlyRate = 15;
@@ -315,11 +369,75 @@ const AamirLayerPreview = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <img
-              src={rollo1}
-              alt="Rollo autonomous patrol robot in cinematic hero frame"
-              className="max-h-[58vh] w-auto object-contain brightness-[1.08]"
-            />
+            <div className="relative h-[46vh] min-h-[290px] w-full max-w-[620px] sm:h-[56vh] sm:min-h-[380px] lg:h-[60vh]">
+              <motion.img
+                key={`hero-intro-${heroIntroKey}`}
+                src={rollo1}
+                alt="Rollo autonomous patrol robot in cinematic hero frame"
+                className="h-full w-full object-contain brightness-[1.08]"
+                initial={{
+                  scale: isMobile ? 0.62 : 0.56,
+                  y: isMobile ? 46 : 62,
+                  opacity: 0,
+                  filter: "blur(9px) brightness(0.58)",
+                }}
+                animate={
+                  isHeroExploding
+                    ? { scale: 0.96, y: -8, opacity: 0.08, filter: "blur(2px) brightness(1.02)" }
+                    : {
+                        scale: isMobile ? [0.62, 1.42, 1] : [0.56, 1.55, 1],
+                        y: isMobile ? [46, -6, 0] : [62, -10, 0],
+                        opacity: [0, 1, 1],
+                        filter: [
+                          "blur(9px) brightness(0.58)",
+                          "blur(1px) brightness(1.16)",
+                          "blur(0px) brightness(1.08)",
+                        ],
+                      }
+                }
+                transition={
+                  isHeroExploding
+                    ? { duration: 0.2, ease: "easeOut" }
+                    : {
+                        duration: isMobile ? 3.4 : 4.4,
+                        ease: [0.22, 1, 0.36, 1],
+                        times: [0, 0.58, 1],
+                      }
+                }
+              />
+
+              {isHeroExploding ? (
+                <div className="pointer-events-none absolute inset-0">
+                  {heroParts.map((part, index) => (
+                    <motion.div
+                      key={part.id}
+                      className="absolute inset-0"
+                      style={{ clipPath: part.clipPath }}
+                      initial={{ opacity: 0.95, x: 0, y: 0, rotate: 0, scale: 1 }}
+                      animate={{
+                        x: part.explodeX,
+                        y: part.explodeY,
+                        rotate: part.explodeRotate,
+                        opacity: 0.02,
+                        scale: 0.97,
+                      }}
+                      transition={{
+                        duration: isMobile ? 0.78 : 0.5,
+                        ease: "easeOut",
+                        delay: index * (isMobile ? 0.04 : 0.02),
+                      }}
+                    >
+                      <img
+                        src={rollo1}
+                        alt=""
+                        aria-hidden
+                        className="h-full w-full object-contain brightness-[1.08]"
+                      />
+                    </motion.div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
           </div>
         </div>
       );
@@ -373,7 +491,7 @@ const AamirLayerPreview = () => {
             <button
               type="button"
               onClick={() => setPerformancePanel("field")}
-              className={`min-h-11 rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`min-h-11 rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "field"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -387,7 +505,7 @@ const AamirLayerPreview = () => {
                 setPerformancePanel("ai");
                 setOpenFieldScenario(null);
               }}
-              className={`min-h-11 rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`min-h-11 rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "ai"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -913,7 +1031,7 @@ const AamirLayerPreview = () => {
                   </span>
                 ) : null}
                 <button
-                  onClick={() => setActiveSection(item.target)}
+                  onClick={() => goToSection(item.target)}
                   className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-[4px] px-2 py-2 transition sm:px-2.5 ${
                     isActive
                       ? "border border-primary/45 bg-primary/10 text-primary"
