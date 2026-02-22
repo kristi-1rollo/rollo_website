@@ -366,18 +366,27 @@ const AamirLayerPreview = () => {
     }
   }, [activeSection]);
 
+  const resetViewportPosition = () => {
+    if (typeof window === "undefined") return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
   const goToSection = (nextSection: SectionId) => {
     if (nextSection === activeSection) return;
     if (activeSection === "hero" && nextSection !== "hero") {
       if (isHeroExploding) return;
       setIsHeroExploding(true);
       heroExitTimeoutRef.current = window.setTimeout(() => {
+        resetViewportPosition();
         setActiveSection(nextSection);
         setIsHeroExploding(false);
         heroExitTimeoutRef.current = null;
       }, isMobile ? 820 : 560);
       return;
     }
+    resetViewportPosition();
     setActiveSection(nextSection);
   };
 
@@ -1047,7 +1056,7 @@ const AamirLayerPreview = () => {
       </Suspense>
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
-      <div className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
+      <div className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+1rem)] z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
         {activeContext.label}
       </div>
 
@@ -1092,7 +1101,7 @@ const AamirLayerPreview = () => {
         </p>
       </nav>
 
-      <main className="container-premium flex min-h-[100dvh] items-start pb-[calc(env(safe-area-inset-bottom)+8rem)] pt-[calc(env(safe-area-inset-top)+4.5rem)] md:h-screen md:items-center md:pb-24 md:pt-16">
+      <main className="container-premium flex min-h-[100dvh] items-start pb-[calc(env(safe-area-inset-bottom)+8rem)] pt-[calc(env(safe-area-inset-top)+5.25rem)] md:h-screen md:items-start md:pb-28 md:pt-24 lg:items-center lg:pb-24 lg:pt-16">
         <AnimatePresence mode="wait">
           <motion.section
             key={activeContext.id}
