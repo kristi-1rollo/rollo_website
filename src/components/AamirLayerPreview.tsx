@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState, type WheelEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type TouchEvent, type WheelEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Battery,
@@ -209,6 +209,7 @@ const AamirLayerPreview = () => {
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
   const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const touchStartXRef = useRef<number | null>(null);
 
   useEffect(() => {
     const htmlOriginal = document.documentElement.style.overflow;
@@ -242,6 +243,10 @@ const AamirLayerPreview = () => {
   const activeContext = useMemo(() => {
     return sections.find((section) => section.id === activeSection) ?? sections[0];
   }, [activeSection]);
+  const setSectionByDelta = (delta: number) => {
+    const nextIndex = (activeIndex + delta + sections.length) % sections.length;
+    setActiveSection(sections[nextIndex].id);
+  };
 
   const guardHourlyRate = 15;
   const robotMonthlyCost = 2500;
@@ -732,6 +737,10 @@ const AamirLayerPreview = () => {
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
+      <div className="fixed left-1/2 top-5 z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
+        {activeContext.label}
+      </div>
+
       <button
         type="button"
         onClick={() => setIsMobileNavOpen(true)}
@@ -831,6 +840,24 @@ const AamirLayerPreview = () => {
             exit="exit"
             transition={{ duration: 0.32, ease: "easeOut" }}
             className="w-full"
+            onTouchStart={(event: TouchEvent<HTMLElement>) => {
+              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen || isMobileNavOpen) return;
+              touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
+            }}
+            onTouchEnd={(event: TouchEvent<HTMLElement>) => {
+              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen || isMobileNavOpen) return;
+              const startX = touchStartXRef.current;
+              const endX = event.changedTouches[0]?.clientX ?? null;
+              touchStartXRef.current = null;
+              if (startX === null || endX === null) return;
+              const distance = endX - startX;
+              if (Math.abs(distance) < 56) return;
+              if (distance < 0) {
+                setSectionByDelta(1);
+              } else {
+                setSectionByDelta(-1);
+              }
+            }}
           >
             {renderLayer()}
           </motion.section>
