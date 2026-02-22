@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, type WheelEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Battery,
@@ -13,6 +13,7 @@ import {
   Ruler,
   Snowflake,
   TrendingUp,
+  Users,
   Weight,
   Wallet,
   X,
@@ -30,10 +31,12 @@ type SectionId =
   | "hero"
   | "core"
   | "performance"
-  | "intelligence"
   | "math"
   | "knowledge"
+  | "about"
   | "access";
+type FieldScenarioId = "snow" | "mud" | "night";
+type PerformancePanel = "field" | "ai";
 
 type LayerSection = {
   id: SectionId;
@@ -57,15 +60,9 @@ const sections: LayerSection[] = [
   },
   {
     id: "performance",
-    label: "Field",
+    label: "Field + AI",
     title: "Performance",
-    subtitle: "Horizontal story for snow, mud and night field tests (2026).",
-  },
-  {
-    id: "intelligence",
-    label: "AI",
-    title: "Intelligence",
-    subtitle: "Object detection cards and event confidence states.",
+    subtitle: "Field and intelligence cards in one animated section.",
   },
   {
     id: "math",
@@ -80,6 +77,12 @@ const sections: LayerSection[] = [
     subtitle: "Bento grid for AI-optimized questions and answers.",
   },
   {
+    id: "about",
+    label: "About",
+    title: "Team",
+    subtitle: "Built by an experienced robotics team.",
+  },
+  {
     id: "access",
     label: "Access",
     title: "Deployment Access",
@@ -90,10 +93,10 @@ const sections: LayerSection[] = [
 const navItems: { label: string; target: SectionId; icon: LucideIcon }[] = [
   { label: "Hero", target: "hero", icon: Gauge },
   { label: "Tech", target: "core", icon: Cpu },
-  { label: "Field", target: "performance", icon: Compass },
-  { label: "AI", target: "intelligence", icon: Eye },
+  { label: "Field+AI", target: "performance", icon: Compass },
   { label: "ROI", target: "math", icon: TrendingUp },
   { label: "FAQ", target: "knowledge", icon: CircleHelp },
+  { label: "About", target: "about", icon: Users },
   { label: "Access", target: "access", icon: KeyRound },
 ];
 
@@ -123,6 +126,37 @@ const useCases = [
   "Smart communities",
   "Oil and gas facilities",
 ];
+
+const fieldScenarios: {
+  id: FieldScenarioId;
+  title: string;
+  description: string;
+  badge: string;
+  icon: LucideIcon;
+}[] = [
+  {
+    id: "snow",
+    title: "Snow Patrol",
+    description: "Stable traction in winter paths and freezing wind.",
+    badge: "Sub-zero operation",
+    icon: Snowflake,
+  },
+  {
+    id: "mud",
+    title: "Mud Patrol",
+    description: "One-wheel balance optimized for uneven and wet terrain.",
+    badge: "High-torque mobility",
+    icon: Compass,
+  },
+  {
+    id: "night",
+    title: "Night Patrol",
+    description: "AI vision stack keeps patrol visibility in full darkness.",
+    badge: "Thermal + low-light AI",
+    icon: Eye,
+  },
+];
+const snowVideoPrimary = "/robot/Lumes_1.mp4";
 
 const faqData = [
   {
@@ -169,6 +203,10 @@ const AamirLayerPreview = () => {
   const [hours, setHours] = useState(24);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+  const [openFieldScenario, setOpenFieldScenario] = useState<FieldScenarioId | null>(null);
+  const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
+  const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
+  const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
 
   useEffect(() => {
     const htmlOriginal = document.documentElement.style.overflow;
@@ -261,6 +299,18 @@ const AamirLayerPreview = () => {
     }
 
     if (activeContext.id === "performance") {
+      const selectedScenario =
+        fieldScenarios.find((scenario) => scenario.id === openFieldScenario) ?? null;
+      const onPanelWheel = (event: WheelEvent<HTMLDivElement>) => {
+        if (Math.abs(event.deltaY) < 8) return;
+        if (event.deltaY > 0) {
+          setPerformancePanel("ai");
+          setOpenFieldScenario(null);
+        } else {
+          setPerformancePanel("field");
+        }
+      };
+
       return (
         <div className="space-y-7">
           <div>
@@ -270,55 +320,217 @@ const AamirLayerPreview = () => {
               mobility and continuous mission uptime.
             </p>
           </div>
-          <div className="grid gap-4 sm:grid-cols-3">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <Snowflake className="mb-4 h-5 w-5 text-primary" />
-              <p className="text-lg font-semibold text-white">Snow</p>
-              <p className="text-sm text-slate-400">Stable traction in winter paths and freezing wind.</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <Compass className="mb-4 h-5 w-5 text-primary" />
-              <p className="text-lg font-semibold text-white">Mud</p>
-              <p className="text-sm text-slate-400">One-wheel balance optimized for uneven ground.</p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <Eye className="mb-4 h-5 w-5 text-primary" />
-              <p className="text-lg font-semibold text-white">Night</p>
-              <p className="text-sm text-slate-400">AI vision stack keeps patrol visibility in darkness.</p>
-            </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setPerformancePanel("field")}
+              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+                performancePanel === "field"
+                  ? "bg-primary text-black"
+                  : "border border-white/15 bg-white/5 text-white/80"
+              }`}
+            >
+              Field
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setPerformancePanel("ai");
+                setOpenFieldScenario(null);
+              }}
+              className={`rounded-full px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+                performancePanel === "ai"
+                  ? "bg-primary text-black"
+                  : "border border-white/15 bg-white/5 text-white/80"
+              }`}
+            >
+              AI
+            </button>
+            <span className="text-xs uppercase tracking-[0.12em] text-white/50">
+              Scroll to switch card
+            </span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {useCases.map((item) => (
-              <span
-                key={item}
-                className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.12em] text-white/80"
-              >
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      );
-    }
 
-    if (activeContext.id === "intelligence") {
-      return (
-        <div className="space-y-7">
-          <div>
-            <h2 className="text-4xl text-white sm:text-5xl">AI-Powered Security Capabilities</h2>
+          <div onWheel={onPanelWheel} className="min-h-[280px]">
+            <AnimatePresence mode="wait">
+              {performancePanel === "field" ? (
+                <motion.div
+                  key="field-card"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.24, ease: "easeOut" }}
+                  className="space-y-5"
+                >
+                  <div className="grid gap-4 sm:grid-cols-3">
+                    {fieldScenarios.map((scenario) => (
+                      <button
+                        key={scenario.id}
+                        type="button"
+                        onClick={() => setOpenFieldScenario(scenario.id)}
+                        className="rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition hover:border-primary/50 hover:bg-white/10"
+                      >
+                        <scenario.icon className="mb-4 h-5 w-5 text-primary" />
+                        <p className="text-lg font-semibold text-white">{scenario.title.replace(" Patrol", "")}</p>
+                        <p className="text-sm text-slate-400">{scenario.description}</p>
+                      </button>
+                    ))}
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {useCases.map((item) => (
+                      <span
+                        key={item}
+                        className="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs uppercase tracking-[0.12em] text-white/80"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="ai-card"
+                  initial={{ opacity: 0, y: 14 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -14 }}
+                  transition={{ duration: 0.24, ease: "easeOut" }}
+                  className="grid gap-4 md:grid-cols-3"
+                >
+                  {intelligenceCards.map((item, index) => (
+                    <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                      <div className="mb-4 inline-flex rounded-full bg-primary/20 p-2 text-primary">
+                        {index === 0 && <Eye className="h-4 w-4" />}
+                        {index === 1 && <TrendingUp className="h-4 w-4" />}
+                        {index === 2 && <Battery className="h-4 w-4" />}
+                      </div>
+                      <p className="text-sm leading-relaxed text-slate-300 sm:text-base">{item}</p>
+                    </div>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {intelligenceCards.map((item, index) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-                <div className="mb-4 inline-flex rounded-full bg-primary/20 p-2 text-primary">
-                  {index === 0 && <Eye className="h-4 w-4" />}
-                  {index === 1 && <TrendingUp className="h-4 w-4" />}
-                  {index === 2 && <Battery className="h-4 w-4" />}
-                </div>
-                <p className="text-sm leading-relaxed text-slate-300 sm:text-base">{item}</p>
+
+          {selectedScenario ? (
+            <>
+              <div
+                className="fixed inset-0 z-[90] bg-black/65 backdrop-blur-md"
+                onClick={() => setOpenFieldScenario(null)}
+              />
+              <div
+                className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+                onClick={() => setOpenFieldScenario(null)}
+              >
+                <motion.article
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="relative w-full max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-[#050505] p-4 sm:p-7"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenFieldScenario(null)}
+                    className="absolute right-4 top-4 z-20 text-slate-300 transition hover:text-white"
+                    aria-label="Close field scenario"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+
+                  <div className="grid gap-5 lg:grid-cols-[1.45fr_0.55fr]">
+                    <div className="space-y-4">
+                      <div className="mb-1 sm:mb-2">
+                        <p className="text-[11px] uppercase tracking-[0.2em] text-primary">
+                          Field Scenario
+                        </p>
+                        <h3 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">
+                          {selectedScenario.title}
+                        </h3>
+                      </div>
+
+                      <div className="relative isolate overflow-hidden rounded-2xl border border-white/10 bg-black/60">
+                        <div className="relative h-[44vh] min-h-[300px] max-h-[460px] w-full">
+                        {selectedScenario.id === "snow" ? (
+                          <>
+                            <video
+                              className="absolute inset-0 h-full w-full object-cover"
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="metadata"
+                              src={snowVideoPrimary}
+                            />
+                          </>
+                        ) : (
+                          <>
+                            <motion.img
+                              src={rollo1}
+                              alt={`Rollo robot animation for ${selectedScenario.title.toLowerCase()}`}
+                              className="mx-auto h-[44vh] max-h-[460px] w-auto object-contain"
+                              animate={
+                                selectedScenario.id === "mud"
+                                  ? { x: [0, 2, -2, 0], y: [0, 1, 0, -1, 0] }
+                                  : { y: [0, -3, 0] }
+                              }
+                              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                            />
+
+                            {selectedScenario.id === "mud" ? (
+                              <div className="pointer-events-none absolute inset-0">
+                                <div className="absolute bottom-0 h-24 w-full bg-[linear-gradient(to_top,rgba(70,40,20,0.62),rgba(70,40,20,0.04))]" />
+                                <motion.div
+                                  className="absolute bottom-8 left-1/4 h-2 w-16 rounded-full bg-[#7c4b26]/70 blur-[1px]"
+                                  animate={{ x: [-8, 8, -8], opacity: [0.3, 0.6, 0.3] }}
+                                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                                <motion.div
+                                  className="absolute bottom-12 right-1/4 h-2 w-20 rounded-full bg-[#6f3d1f]/70 blur-[1px]"
+                                  animate={{ x: [8, -8, 8], opacity: [0.25, 0.55, 0.25] }}
+                                  transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                              </div>
+                            ) : null}
+
+                            {selectedScenario.id === "night" ? (
+                              <div className="pointer-events-none absolute inset-0">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(90,140,255,0.18),rgba(0,0,0,0.84)_72%)]" />
+                                <motion.div
+                                  className="absolute left-1/2 top-[36%] h-24 w-24 -translate-x-1/2 rounded-full bg-[#7da8ff]/30 blur-2xl"
+                                  animate={{ opacity: [0.2, 0.52, 0.2], scale: [0.9, 1.08, 0.9] }}
+                                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+                                />
+                              </div>
+                            ) : null}
+                          </>
+                        )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <aside className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
+                      <p className="text-xs uppercase tracking-[0.16em] text-primary/90">
+                        {selectedScenario.badge}
+                      </p>
+                      <p className="mt-3 text-sm text-slate-300">{selectedScenario.description}</p>
+                      <div className="mt-5 space-y-2 text-xs uppercase tracking-[0.14em] text-white/75">
+                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
+                          2026 field validation
+                        </p>
+                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
+                          robot-as-a-service ready
+                        </p>
+                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
+                          autonomous mission continuity
+                        </p>
+                      </div>
+                    </aside>
+                  </div>
+                </motion.article>
               </div>
-            ))}
-          </div>
+            </>
+          ) : null}
         </div>
       );
     }
@@ -424,6 +636,77 @@ const AamirLayerPreview = () => {
       );
     }
 
+    if (activeContext.id === "about") {
+      return (
+        <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="max-w-xl space-y-5">
+            <h2 className="text-4xl text-white sm:text-5xl">About The Team</h2>
+            <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
+              Over 90% of the team members have 3 to 15 years of prior experience working together
+              in the field of robotics development and have achieved remarkable results.
+            </p>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.14em] text-primary">Team Expertise</p>
+              <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
+                Mechanical Engineering; Software Development; Electronics; AI; Product Design;
+                Production Launch and Sales Network Development
+              </p>
+            </div>
+            <blockquote className="border-l-2 border-primary pl-4 text-sm italic text-white/90 sm:text-base">
+              We do it not because it's easy, we do it because it's hard.
+            </blockquote>
+          </div>
+
+          <div className="relative flex items-center justify-center">
+            <button
+              type="button"
+              onClick={() => setIsTeamImageOpen(true)}
+              className="group relative block"
+              aria-label="Open team image"
+            >
+              <img
+                src="/team/team_transparent.png"
+                alt="Rollo robotics team"
+                className="w-full max-w-[900px] object-contain transition duration-300 group-hover:scale-[1.02]"
+              />
+            </button>
+          </div>
+
+          {isTeamImageOpen ? (
+            <>
+              <div
+                className="fixed inset-0 z-[90] bg-black/75 backdrop-blur-sm"
+                onClick={() => setIsTeamImageOpen(false)}
+              />
+              <div
+                className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+                onClick={() => setIsTeamImageOpen(false)}
+              >
+                <div
+                  className="relative max-h-[90vh] w-full max-w-6xl"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setIsTeamImageOpen(false)}
+                    className="absolute right-2 top-2 z-20 rounded-full border border-white/20 bg-black/60 p-2 text-slate-200 transition hover:text-white"
+                    aria-label="Close team image"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                  <img
+                    src="/team/team_transparent.png"
+                    alt="Rollo robotics team enlarged"
+                    className="mx-auto max-h-[90vh] w-auto object-contain"
+                  />
+                </div>
+              </div>
+            </>
+          ) : null}
+        </div>
+      );
+    }
+
     return (
       <div className="grid gap-6">
         <div>
@@ -450,29 +733,36 @@ const AamirLayerPreview = () => {
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
-      <div className="fixed right-5 top-5 z-40 rounded-full border border-primary/40 bg-black/70 px-4 py-2 text-xs uppercase tracking-[0.16em] text-primary backdrop-blur-xl">
-        Preview: {activeContext.label}
-      </div>
-
-      <nav className="fixed bottom-5 left-1/2 z-40 w-[min(96vw,860px)] -translate-x-1/2">
-        <div className="grid grid-cols-7 items-center gap-2 rounded-full border border-white/20 bg-black/45 p-2 backdrop-blur-xl">
+      <nav className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2">
+        <div className="mx-auto inline-flex items-center gap-2.5 rounded-full border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.target;
+            const isHovered = hoveredNavLabel === item.label;
 
             return (
-              <button
+              <div
                 key={item.target}
-                onClick={() => setActiveSection(item.target)}
-                className={`flex items-center justify-center gap-2 rounded-full px-3 py-2 text-xs font-semibold uppercase tracking-[0.14em] transition ${
-                  isActive
-                    ? "bg-primary text-black"
-                    : "text-white/75 hover:bg-white/10 hover:text-white"
-                }`}
+                onMouseEnter={() => setHoveredNavLabel(item.label)}
+                onMouseLeave={() => setHoveredNavLabel(null)}
+                className="relative flex items-center justify-center"
               >
-                <Icon className="h-4 w-4" />
-                <span className="hidden lg:inline">{item.label}</span>
-              </button>
+                {isHovered ? (
+                  <span className="pointer-events-none absolute -top-5 text-[10px] uppercase tracking-[0.18em] text-primary">
+                    {item.label}
+                  </span>
+                ) : null}
+                <button
+                  onClick={() => setActiveSection(item.target)}
+                  className={`flex items-center justify-center rounded-full px-2.5 py-2 transition ${
+                    isActive
+                      ? "border border-primary/45 bg-primary/10 text-primary"
+                      : "border border-white/15 bg-white/[0.04] text-white/75 hover:border-white/30 hover:bg-white/10 hover:text-white"
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                </button>
+              </div>
             );
           })}
         </div>
