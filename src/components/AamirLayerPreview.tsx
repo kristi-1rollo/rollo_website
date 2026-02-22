@@ -21,6 +21,13 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import type { TimelineItem } from "@/components/RadialOrbitalTimeline";
 import { useIsMobile } from "@/hooks/use-mobile";
 
@@ -261,6 +268,7 @@ const AamirLayerPreview = () => {
   const [guards, setGuards] = useState(1);
   const [hours, setHours] = useState(24);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [openFieldScenario, setOpenFieldScenario] = useState<FieldScenarioId | null>(null);
   const [fieldMediaReady, setFieldMediaReady] = useState<Record<FieldScenarioId, boolean>>({
@@ -480,7 +488,7 @@ const AamirLayerPreview = () => {
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsContactModalOpen(true)}
                 className="min-h-11 rounded-xl bg-primary px-5 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
               >
                 Contact
@@ -1142,6 +1150,34 @@ const AamirLayerPreview = () => {
           }),
         }}
       />
+
+      <Dialog open={isContactModalOpen} onOpenChange={setIsContactModalOpen}>
+        <DialogContent className="border-white/10 bg-[#050505]/95 text-white sm:max-w-xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold tracking-tight text-white">Contact</DialogTitle>
+            <DialogDescription className="text-slate-300">
+              Reach out to our team for partnerships, pilots, or deployment planning.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 text-sm text-slate-200">
+            <p>Rollo Robotics OÜ (17320003)</p>
+            <p>Viljandi maakond, Viljandi linn, Raua tn 16, 71020</p>
+            <a
+              href="mailto:info@1rollo.com"
+              className="inline-flex text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/90"
+            >
+              info@1rollo.com
+            </a>
+          </div>
+          <button
+            type="button"
+            onClick={() => setIsContactModalOpen(false)}
+            className="mt-2 min-h-11 rounded-xl bg-primary px-5 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
+          >
+            Close
+          </button>
+        </DialogContent>
+      </Dialog>
 
       <Suspense fallback={null}>
         <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />

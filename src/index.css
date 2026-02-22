@@ -157,6 +157,15 @@
 }
 
 @layer utilities {
+  /* Unified 4px corner radius across Tailwind rounded utilities */
+  .rounded-sm { border-radius: 4px; }
+  .rounded { border-radius: 4px; }
+  .rounded-md { border-radius: 4px; }
+  .rounded-lg { border-radius: 4px; }
+  .rounded-xl { border-radius: 4px; }
+  .rounded-2xl { border-radius: 4px; }
+  .rounded-3xl { border-radius: 4px; }
+  .rounded-full { border-radius: 4px; }
   /* Robot entrance — from depth */
   @keyframes robot-entrance {
     0% {
