@@ -146,9 +146,6 @@ const RadialOrbitalTimeline = ({
 
                   <div className="w-full h-px bg-gradient-to-r from-transparent via-[#B4FF33]/15 to-transparent my-2" />
 
-                  <p className="font-mono text-[9px] text-slate-600 uppercase tracking-widest">
-                    Module Status: {activeNode.status === 'completed' ? 'Verified' : 'In Beta'}
-                  </p>
                 </div>
               </div>
             </div>
