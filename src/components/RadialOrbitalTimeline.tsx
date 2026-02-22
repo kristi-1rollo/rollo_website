@@ -29,8 +29,8 @@ const RadialOrbitalTimeline = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const isMobile = useIsMobile();
 
-  const radius = isMobile ? 38 : 40;
-  const orbitRadius = isMobile ? 34 : 36;
+  const radius = isMobile ? 43 : 40;
+  const orbitRadius = isMobile ? 40 : 36;
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -58,9 +58,20 @@ const RadialOrbitalTimeline = ({
 
   const activeNode = timelineData.find((item) => item.id === activeNodeId);
 
+  useEffect(() => {
+    if (!activeNode) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setActiveNodeId(null);
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [activeNode]);
+
   return (
     <div ref={containerRef} className="relative">
-      <div className="relative max-w-4xl mx-auto aspect-square md:aspect-[4/3]">
+      <div className="relative mx-auto h-[calc(100dvh-14rem)] min-h-[420px] max-h-[760px] w-full max-w-none sm:max-w-4xl sm:h-auto sm:aspect-square md:aspect-[4/3]">
 
         {/* Center robot */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
@@ -75,7 +86,7 @@ const RadialOrbitalTimeline = ({
               src={centerImage}
               alt="ROLLO Robot"
               className={cn(
-                "w-32 md:w-48 h-auto relative z-10 transition-all duration-700",
+                "w-44 md:w-48 h-auto relative z-10 transition-all duration-700",
                 activeNode ? "blur-xl scale-90 opacity-30" : "blur-0 scale-100 opacity-100"
               )}
               style={{ transform: "rotateY(-5deg) rotateX(5deg)" }}
@@ -87,13 +98,16 @@ const RadialOrbitalTimeline = ({
         {activeNode && (
           <>
             <div
-              className="absolute inset-[-100%] z-[90] cursor-default bg-black/5 backdrop-blur-[1px]"
+              className="fixed inset-0 z-[90] cursor-default bg-black/65 backdrop-blur-sm"
               onClick={() => setActiveNodeId(null)}
             />
 
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md animate-in zoom-in-95 fade-in duration-300 pointer-events-auto">
+            <div
+              className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+              onClick={() => setActiveNodeId(null)}
+            >
               <div
-                className="relative p-8 md:p-10 border bg-[#050505]/95 border-white/[0.08] backdrop-blur-2xl shadow-2xl text-center overflow-hidden rounded-xl"
+                className="relative w-full max-w-md overflow-y-auto rounded-xl border border-white/[0.08] bg-[#050505]/95 p-6 text-center shadow-2xl backdrop-blur-2xl sm:max-h-[86vh] sm:p-8 md:p-10"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#B4FF33]/5 blur-[80px] rounded-full" />

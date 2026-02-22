@@ -78,9 +78,9 @@ const sections: LayerSection[] = [
   },
   {
     id: "about",
-    label: "About",
-    title: "Team",
-    subtitle: "Built by an experienced robotics team.",
+    label: "Team",
+    title: "Vision + Team",
+    subtitle: "Vision, strategic support, and execution team in one section.",
   },
   {
     id: "access",
@@ -96,7 +96,7 @@ const navItems: { label: string; target: SectionId; icon: LucideIcon }[] = [
   { label: "Field+AI", target: "performance", icon: Compass },
   { label: "ROI", target: "math", icon: TrendingUp },
   { label: "FAQ", target: "knowledge", icon: CircleHelp },
-  { label: "About", target: "about", icon: Users },
+  { label: "Team", target: "about", icon: Users },
   { label: "Access", target: "access", icon: KeyRound },
 ];
 
@@ -199,6 +199,8 @@ const slide = {
   exit: { opacity: 0, x: -26, scale: 0.985 },
 };
 const brandLogoPath = "/logos/rollo_logo_white.png";
+const eisLogoPath = "/logos/Rahastanud_EL_kaksiklogod_ENG_hor_white.png";
+const defenceIndustryLogoPath = "/logos/edia-eas.png";
 
 const SectionBrand = ({ compact = true }: { compact?: boolean }) => (
   <div className="inline-flex items-center gap-3">
@@ -220,8 +222,10 @@ const AamirLayerPreview = () => {
   const [openFieldScenario, setOpenFieldScenario] = useState<FieldScenarioId | null>(null);
   const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
+  const [openPartnerLogo, setOpenPartnerLogo] = useState<{ src: string; alt: string } | null>(null);
   const [hoveredNavLabel, setHoveredNavLabel] = useState<string | null>(null);
   const touchStartXRef = useRef<number | null>(null);
+  const hasPrimedSnowVideoRef = useRef(false);
 
   useEffect(() => {
     if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -246,6 +250,9 @@ const AamirLayerPreview = () => {
 
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
+      if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen || openPartnerLogo) {
+        return;
+      }
       if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
       event.preventDefault();
       const delta = event.key === "ArrowRight" ? 1 : -1;
@@ -254,11 +261,25 @@ const AamirLayerPreview = () => {
     };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex]);
+  }, [activeIndex, isTeamImageOpen, openFaqIndex, openFieldScenario, openPartnerLogo]);
 
   const activeContext = useMemo(() => {
     return sections.find((section) => section.id === activeSection) ?? sections[0];
   }, [activeSection]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (activeSection !== "performance" || hasPrimedSnowVideoRef.current) return;
+
+    const preloader = document.createElement("video");
+    preloader.preload = "auto";
+    preloader.muted = true;
+    preloader.playsInline = true;
+    preloader.src = snowVideoPrimary;
+    preloader.load();
+    hasPrimedSnowVideoRef.current = true;
+  }, [activeSection]);
+
   const setSectionByDelta = (delta: number) => {
     const nextIndex = (activeIndex + delta + sections.length) % sections.length;
     setActiveSection(sections[nextIndex].id);
@@ -484,7 +505,8 @@ const AamirLayerPreview = () => {
                               loop
                               muted
                               playsInline
-                              preload="metadata"
+                              preload="auto"
+                              poster={nightImage}
                               src={snowVideoPrimary}
                             />
                           </>
@@ -671,42 +693,107 @@ const AamirLayerPreview = () => {
 
     if (activeContext.id === "about") {
       return (
-        <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="max-w-xl space-y-4">
-            <div className="space-y-3">
-              <SectionBrand />
-              <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">About The Team</h2>
-            </div>
-            <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
-              Over 90% of the team members have 3 to 15 years of prior experience working together
-              in the field of robotics development and have achieved remarkable results.
-            </p>
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-              <p className="text-xs uppercase tracking-[0.14em] text-primary">Team Expertise</p>
-              <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
-                Mechanical Engineering; Software Development; Electronics; AI; Product Design;
-                Production Launch and Sales Network Development
-              </p>
-            </div>
-            <blockquote className="border-l-2 border-primary pl-4 text-sm italic text-white/90 sm:text-base">
-              We do it not because it's easy, we do it because it's hard.
-            </blockquote>
+        <div className="no-scrollbar max-h-[calc(100dvh-10.5rem)] space-y-8 overflow-y-auto pr-1 sm:max-h-[calc(100dvh-11.5rem)] sm:space-y-10 sm:pr-2">
+          <div className="space-y-3">
+            <SectionBrand />
+            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Vision + Team</h2>
           </div>
 
-          <div className="relative flex items-center justify-center">
-            <button
-              type="button"
-              onClick={() => setIsTeamImageOpen(true)}
-              className="group relative block"
-              aria-label="Open team image"
-            >
-              <img
-                src="/team/team_transparent.png"
-                alt="Rollo robotics team"
-                className="w-full max-w-[900px] object-contain transition duration-300 group-hover:scale-[1.02]"
-              />
-            </button>
-          </div>
+          <article className="rounded-2xl border border-white/12 bg-white/5 p-5 sm:p-6">
+            <p className="text-xs uppercase tracking-[0.16em] text-primary">Section 01: Vision</p>
+            <p className="mt-3 max-w-4xl text-sm leading-relaxed text-slate-200 sm:text-base">
+              To redefine the boundaries of autonomous security through intelligent, gyroscopically
+              stabilized robotics.
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-white/12 bg-white/5 p-5 sm:p-6">
+            <p className="text-xs uppercase tracking-[0.16em] text-primary">Section 02: Backed By</p>
+            <div className="mt-4 grid gap-4 md:grid-cols-2">
+              <div className="rounded-xl border border-white/12 bg-black/30 p-4 sm:p-5">
+                <div className="flex min-h-[72px] items-center">
+                  <button
+                    type="button"
+                    onClick={() => setOpenPartnerLogo({ src: eisLogoPath, alt: "EIS logo" })}
+                    className="group inline-flex"
+                    aria-label="Open EIS logo"
+                  >
+                    <img
+                      src={eisLogoPath}
+                      alt="EIS logo"
+                      className="h-10 w-auto object-contain transition duration-300 group-hover:scale-[1.02] sm:h-12"
+                    />
+                  </button>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-slate-300">
+                  Supported by the Estonian Business and Innovation Agency (EIS), accelerating our
+                  mission to redefine autonomous robotics through deep-tech innovation.
+                </p>
+              </div>
+              <div className="rounded-xl border border-white/12 bg-black/30 p-4 sm:p-5">
+                <div className="flex min-h-[72px] items-center">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenPartnerLogo({
+                        src: defenceIndustryLogoPath,
+                        alt: "Estonian Defence and Aerospace Industry Association logo",
+                      })
+                    }
+                    className="group inline-flex"
+                    aria-label="Open defence industry logo"
+                  >
+                    <img
+                      src={defenceIndustryLogoPath}
+                      alt="Estonian Defence and Aerospace Industry Association logo"
+                      className="h-10 w-auto object-contain transition duration-300 group-hover:scale-[1.02] sm:h-12"
+                    />
+                  </button>
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-slate-300">
+                  Backed by the Estonian Defence and Aerospace Industry Association to drive
+                  real-world adoption of autonomous security robotics.
+                </p>
+              </div>
+            </div>
+          </article>
+
+          <article className="rounded-2xl border border-white/12 bg-white/5 p-5 sm:p-6">
+            <p className="text-xs uppercase tracking-[0.16em] text-primary">Section 03: The Team</p>
+            <div className="mt-4 grid items-start gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:gap-8">
+              <div className="max-w-2xl space-y-4">
+                <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
+                  Over 90% of the team members have 3 to 15 years of prior experience working together
+                  in robotics development and have achieved remarkable results.
+                </p>
+                <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+                  <p className="text-xs uppercase tracking-[0.14em] text-primary">Team Expertise</p>
+                  <p className="mt-3 text-sm leading-relaxed text-slate-300 sm:text-base">
+                    Mechanical Engineering; Software Development; Electronics; AI; Product Design;
+                    Production Launch and Sales Network Development
+                  </p>
+                </div>
+                <blockquote className="border-l-2 border-primary pl-4 text-sm italic text-white/90 sm:text-base">
+                  We do it not because it's easy, we do it because it's hard.
+                </blockquote>
+              </div>
+
+              <div className="relative flex items-center justify-center">
+                <button
+                  type="button"
+                  onClick={() => setIsTeamImageOpen(true)}
+                  className="group relative block"
+                  aria-label="Open team image"
+                >
+                  <img
+                    src="/team/team_transparent.png"
+                    alt="Rollo robotics team"
+                    className="w-full max-w-[900px] object-contain transition duration-300 group-hover:scale-[1.02]"
+                  />
+                </button>
+              </div>
+            </div>
+          </article>
 
           {isTeamImageOpen ? (
             <>
@@ -733,6 +820,38 @@ const AamirLayerPreview = () => {
                   <img
                     src="/team/team_transparent.png"
                     alt="Rollo robotics team enlarged"
+                    className="mx-auto max-h-[88vh] w-auto object-contain"
+                  />
+                </div>
+              </div>
+            </>
+          ) : null}
+
+          {openPartnerLogo ? (
+            <>
+              <div
+                className="fixed inset-0 z-[90] bg-black/75 backdrop-blur-sm"
+                onClick={() => setOpenPartnerLogo(null)}
+              />
+              <div
+                className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8"
+                onClick={() => setOpenPartnerLogo(null)}
+              >
+                <div
+                  className="relative max-h-[88vh] w-full max-w-4xl"
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setOpenPartnerLogo(null)}
+                    className="absolute right-2 top-2 z-20 rounded-full border border-white/20 bg-black/60 p-2 text-slate-200 transition hover:text-white"
+                    aria-label="Close partner logo"
+                  >
+                    <X className="h-5 w-5" />
+                  </button>
+                  <img
+                    src={openPartnerLogo.src}
+                    alt={`${openPartnerLogo.alt} enlarged`}
                     className="mx-auto max-h-[88vh] w-auto object-contain"
                   />
                 </div>
@@ -766,15 +885,15 @@ const AamirLayerPreview = () => {
   };
 
   return (
-    <div className="relative h-screen overflow-hidden text-white">
+    <div className="relative min-h-[100dvh] overflow-x-hidden text-white md:h-screen md:overflow-hidden">
       <CustomCursor />
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
-      <div className="fixed left-1/2 top-5 z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
+      <div className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
         {activeContext.label}
       </div>
 
-      <nav className="fixed bottom-3 left-1/2 z-40 w-[calc(100vw-24px)] max-w-[560px] -translate-x-1/2 px-1 sm:bottom-5 sm:w-auto sm:max-w-none sm:px-0">
+      <nav className="fixed bottom-[calc(env(safe-area-inset-bottom)+0.5rem)] left-1/2 z-40 w-[calc(100vw-24px)] max-w-[560px] -translate-x-1/2 px-1 sm:bottom-5 sm:w-auto sm:max-w-none sm:px-0">
         <div className="mx-auto inline-flex w-full items-center justify-between gap-1.5 overflow-visible rounded-[4px] border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl sm:w-auto sm:gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
@@ -809,7 +928,7 @@ const AamirLayerPreview = () => {
         </div>
       </nav>
 
-      <main className="container-premium flex h-screen items-center pb-24 pt-16">
+      <main className="container-premium flex min-h-[100dvh] items-start pb-[calc(env(safe-area-inset-bottom)+6.5rem)] pt-[calc(env(safe-area-inset-top)+4.5rem)] md:h-screen md:items-center md:pb-24 md:pt-16">
         <AnimatePresence mode="wait">
           <motion.section
             key={activeContext.id}
@@ -820,11 +939,23 @@ const AamirLayerPreview = () => {
             transition={{ duration: 0.32, ease: "easeOut" }}
             className="w-full"
             onTouchStart={(event: TouchEvent<HTMLElement>) => {
-              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen) return;
+              if (
+                openFaqIndex !== null ||
+                openFieldScenario !== null ||
+                isTeamImageOpen ||
+                openPartnerLogo
+              )
+                return;
               touchStartXRef.current = event.changedTouches[0]?.clientX ?? null;
             }}
             onTouchEnd={(event: TouchEvent<HTMLElement>) => {
-              if (openFaqIndex !== null || openFieldScenario !== null || isTeamImageOpen) return;
+              if (
+                openFaqIndex !== null ||
+                openFieldScenario !== null ||
+                isTeamImageOpen ||
+                openPartnerLogo
+              )
+                return;
               const startX = touchStartXRef.current;
               const endX = event.changedTouches[0]?.clientX ?? null;
               touchStartXRef.current = null;

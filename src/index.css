@@ -235,6 +235,15 @@
   .delay-2000 { animation-delay: 2000ms; }
   .delay-2500 { animation-delay: 2500ms; }
   .delay-3000 { animation-delay: 3000ms; }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* FIX: Modal visibility issues */
