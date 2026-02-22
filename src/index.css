@@ -260,3 +260,8 @@
 [role="dialog"] .flex.items-center span {
   color: #ffffff !important;
 }
+
+.custom-cursor-active,
+.custom-cursor-active * {
+  cursor: none !important;
+}
