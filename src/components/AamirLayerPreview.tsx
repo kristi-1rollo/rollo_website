@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type TouchEvent, type WheelEvent } from "react";
+import { lazy, Suspense, useEffect, useMemo, useRef, useState, type TouchEvent, type WheelEvent } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Battery,
@@ -21,12 +21,12 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import rollo1 from "@/assets/rollo1.png";
-import rollo2 from "@/assets/rollo2.png";
-import RegistrationModal from "@/components/RegistrationModal";
-import RadialOrbitalTimeline, { type TimelineItem } from "@/components/RadialOrbitalTimeline";
-import CustomCursor from "@/components/CustomCursor";
+import type { TimelineItem } from "@/components/RadialOrbitalTimeline";
 import { useIsMobile } from "@/hooks/use-mobile";
+
+const RegistrationModal = lazy(() => import("@/components/RegistrationModal"));
+const RadialOrbitalTimeline = lazy(() => import("@/components/RadialOrbitalTimeline"));
+const CustomCursor = lazy(() => import("@/components/CustomCursor"));
 
 type SectionId =
   | "hero"
@@ -164,6 +164,8 @@ const fieldScenarios: {
     icon: Eye,
   },
 ];
+const heroRobotImage = "/hero/rollo1.png";
+const coreRobotImage = "/hero/rollo2.png";
 const snowVideoPrimary = "/robot/Lumes_1.mp4";
 const mudImage = "/robot/rollo_mud.png";
 const nightImage = "/robot/rollo_night.png";
@@ -404,9 +406,12 @@ const AamirLayerPreview = () => {
             <div className="relative h-[42vh] min-h-[280px] w-full max-w-[520px] sm:h-[60vh] sm:min-h-[420px] sm:max-w-[620px] lg:h-[64vh]">
               <motion.img
                 key={`hero-intro-${heroIntroKey}`}
-                src={rollo1}
+                src={heroRobotImage}
                 alt="Rollo autonomous patrol robot in cinematic hero frame"
                 className="h-full w-full origin-center object-contain px-2 py-6 sm:p-3 brightness-[1.08]"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
                 initial={{
                   scale: isMobile ? 0.62 : 0.56,
                   y: isMobile ? 46 : 62,
@@ -455,7 +460,7 @@ const AamirLayerPreview = () => {
                       }}
                     >
                       <img
-                        src={rollo1}
+                        src={heroRobotImage}
                         alt=""
                         aria-hidden
                         className="h-full w-full object-contain brightness-[1.08]"
@@ -497,7 +502,9 @@ const AamirLayerPreview = () => {
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-3 sm:p-5">
             <div className="absolute inset-0 rounded-3xl bg-[radial-gradient(circle_at_50%_20%,rgba(180,255,51,0.14),transparent_60%)]" />
             <div className="relative">
-              <RadialOrbitalTimeline timelineData={specs} centerImage={rollo2} />
+              <Suspense fallback={<div className="h-[52vh] min-h-[320px] w-full" />}>
+                <RadialOrbitalTimeline timelineData={specs} centerImage={coreRobotImage} />
+              </Suspense>
             </div>
           </div>
         </div>
@@ -1011,7 +1018,9 @@ const AamirLayerPreview = () => {
 
   return (
     <div className="relative min-h-[100dvh] overflow-x-hidden text-white md:h-screen md:overflow-hidden">
-      <CustomCursor />
+      <Suspense fallback={null}>
+        <CustomCursor />
+      </Suspense>
       <div className="pointer-events-none fixed inset-0 -z-10 bg-[radial-gradient(circle_at_20%_10%,rgba(180,255,51,0.12),transparent_28%),radial-gradient(circle_at_80%_60%,rgba(72,138,255,0.13),transparent_36%)]" />
 
       <div className="fixed left-1/2 top-[calc(env(safe-area-inset-top)+0.75rem)] z-40 -translate-x-1/2 rounded-full border border-white/15 bg-black/50 px-3 py-1.5 text-[10px] uppercase tracking-[0.18em] text-primary backdrop-blur-xl md:hidden">
@@ -1112,7 +1121,9 @@ const AamirLayerPreview = () => {
         }}
       />
 
-      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      <Suspense fallback={null}>
+        <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      </Suspense>
     </div>
   );
 };
