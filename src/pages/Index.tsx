@@ -11,12 +11,11 @@ import Footer from "@/components/Footer";
 import AamirLayerPreview from "@/components/AamirLayerPreview";
 
 const Index = () => {
-  const isPreviewByEnv = import.meta.env.VITE_ENABLE_AAMIR_PREVIEW === "true";
-  const isPreviewByQuery =
+  const isLegacyByQuery =
     typeof window !== "undefined" &&
-    new URLSearchParams(window.location.search).get("preview") === "aamir";
+    new URLSearchParams(window.location.search).get("preview") === "legacy";
 
-  if (isPreviewByEnv || isPreviewByQuery) {
+  if (!isLegacyByQuery) {
     return <AamirLayerPreview />;
   }
 
