@@ -375,8 +375,8 @@ const AamirLayerPreview = () => {
     const nextIndex = (activeIndex + delta + sections.length) % sections.length;
     goToSection(sections[nextIndex].id);
   };
-  const heroMaxScale = isMobile ? 1.68 : 1.9;
-  const heroMaxY = isMobile ? -10 : -18;
+  const heroMaxScale = isMobile ? 1.34 : 1.9;
+  const heroMaxY = isMobile ? 10 : -4;
   const openFieldScenarioModal = (scenarioId: FieldScenarioId) => {
     setFieldMediaReady((prev) => ({ ...prev, [scenarioId]: false }));
     setOpenFieldScenario(scenarioId);
@@ -392,32 +392,21 @@ const AamirLayerPreview = () => {
   const renderLayer = () => {
     if (activeContext.id === "hero") {
       return (
-        <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <SectionBrand compact={false} />
-              <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
-                One-Wheel Autonomous Patrol Robot
-              </h1>
-            </div>
-            <p className="max-w-xl text-sm text-slate-300 sm:text-base">
-              Autonomous security robotics with AI vision and reliable outdoor patrol at up to
-              10x lower operating cost than traditional guard shifts.
-            </p>
-            <div className="grid max-w-lg grid-cols-2 gap-3 text-sm text-white/80">
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">24/7 Operation</div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">Auto Recharging</div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">AI Threat Detection</div>
-              <div className="rounded-xl border border-white/10 bg-white/5 p-3">Nordic Tested</div>
-            </div>
+        <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-8">
+          <div className="order-1 space-y-3 lg:col-start-1 lg:row-start-1">
+            <SectionBrand compact={false} />
+            <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
+              One-Wheel Autonomous Patrol Robot
+            </h1>
           </div>
-          <div className="flex justify-center">
-            <div className="relative h-[46vh] min-h-[290px] w-full max-w-[620px] sm:h-[56vh] sm:min-h-[380px] lg:h-[60vh]">
+
+          <div className="order-2 mt-6 mb-10 flex justify-center sm:my-0 lg:col-start-2 lg:row-span-2">
+            <div className="relative h-[42vh] min-h-[280px] w-full max-w-[520px] sm:h-[60vh] sm:min-h-[420px] sm:max-w-[620px] lg:h-[64vh]">
               <motion.img
                 key={`hero-intro-${heroIntroKey}`}
                 src={rollo1}
                 alt="Rollo autonomous patrol robot in cinematic hero frame"
-                className="h-full w-full object-contain brightness-[1.08]"
+                className="h-full w-full origin-center object-contain px-2 py-6 sm:p-3 brightness-[1.08]"
                 initial={{
                   scale: isMobile ? 0.62 : 0.56,
                   y: isMobile ? 46 : 62,
@@ -475,6 +464,19 @@ const AamirLayerPreview = () => {
                   ))}
                 </div>
               ) : null}
+            </div>
+          </div>
+
+          <div className="order-3 mt-3 space-y-6 sm:mt-0 lg:col-start-1 lg:row-start-2">
+            <p className="max-w-xl text-sm text-slate-300 sm:text-base">
+              Autonomous security robotics with AI vision and reliable outdoor patrol at up to
+              10x lower operating cost than traditional guard shifts.
+            </p>
+            <div className="grid max-w-lg grid-cols-2 gap-3 text-sm text-white/80">
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">24/7 Operation</div>
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">Auto Recharging</div>
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">AI Threat Detection</div>
+              <div className="rounded-xl border border-white/10 bg-white/5 p-3">Nordic Tested</div>
             </div>
           </div>
         </div>
