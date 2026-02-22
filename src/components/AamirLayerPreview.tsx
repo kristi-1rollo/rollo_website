@@ -234,6 +234,17 @@ const SectionBrand = ({ compact = true }: { compact?: boolean }) => (
   </div>
 );
 
+const FieldMediaLoader = () => (
+  <div className="flex flex-col items-center gap-3">
+    <div className="relative h-11 w-11">
+      <span className="absolute inset-0 rounded-full border-2 border-primary/20" />
+      <span className="absolute inset-0 animate-spin rounded-full border-2 border-transparent border-t-primary border-r-primary" />
+      <span className="absolute inset-[9px] animate-pulse rounded-full bg-primary/85 shadow-[0_0_16px_rgba(180,255,51,0.55)]" />
+    </div>
+    <p className="text-[11px] uppercase tracking-[0.16em] text-white/70">Loading media...</p>
+  </div>
+);
+
 const AamirLayerPreview = () => {
   const isMobile = useIsMobile();
   const [activeSection, setActiveSection] = useState<SectionId>("hero");
@@ -242,6 +253,11 @@ const AamirLayerPreview = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
   const [openFieldScenario, setOpenFieldScenario] = useState<FieldScenarioId | null>(null);
+  const [fieldMediaReady, setFieldMediaReady] = useState<Record<FieldScenarioId, boolean>>({
+    snow: false,
+    mud: false,
+    night: false,
+  });
   const [performancePanel, setPerformancePanel] = useState<PerformancePanel>("field");
   const [isTeamImageOpen, setIsTeamImageOpen] = useState(false);
   const [openPartnerLogo, setOpenPartnerLogo] = useState<{ src: string; alt: string } | null>(null);
@@ -314,6 +330,14 @@ const AamirLayerPreview = () => {
   }, [activeSection]);
 
   useEffect(() => {
+    if (typeof window === "undefined" || activeSection !== "performance") return;
+    const mudPreload = new Image();
+    mudPreload.src = mudImage;
+    const nightPreload = new Image();
+    nightPreload.src = nightImage;
+  }, [activeSection]);
+
+  useEffect(() => {
     if (activeSection === "hero") {
       setHeroIntroKey((value) => value + 1);
     }
@@ -337,6 +361,10 @@ const AamirLayerPreview = () => {
   const setSectionByDelta = (delta: number) => {
     const nextIndex = (activeIndex + delta + sections.length) % sections.length;
     goToSection(sections[nextIndex].id);
+  };
+  const openFieldScenarioModal = (scenarioId: FieldScenarioId) => {
+    setFieldMediaReady((prev) => ({ ...prev, [scenarioId]: false }));
+    setOpenFieldScenario(scenarioId);
   };
 
   const guardHourlyRate = 15;
@@ -467,6 +495,8 @@ const AamirLayerPreview = () => {
     if (activeContext.id === "performance") {
       const selectedScenario =
         fieldScenarios.find((scenario) => scenario.id === openFieldScenario) ?? null;
+      const selectedFieldMediaReady =
+        selectedScenario ? fieldMediaReady[selectedScenario.id] : false;
       const onPanelWheel = (event: WheelEvent<HTMLDivElement>) => {
         if (Math.abs(event.deltaY) < 8) return;
         if (event.deltaY > 0) {
@@ -491,7 +521,7 @@ const AamirLayerPreview = () => {
             <button
               type="button"
               onClick={() => setPerformancePanel("field")}
-              className={`min-h-11 rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`inline-flex min-h-11 w-24 items-center justify-center rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "field"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -505,7 +535,7 @@ const AamirLayerPreview = () => {
                 setPerformancePanel("ai");
                 setOpenFieldScenario(null);
               }}
-              className={`min-h-11 rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
+              className={`inline-flex min-h-11 w-24 items-center justify-center rounded-xl px-4 py-2 text-xs uppercase tracking-[0.14em] ${
                 performancePanel === "ai"
                   ? "bg-primary text-black"
                   : "border border-white/15 bg-white/5 text-white/80"
@@ -531,7 +561,7 @@ const AamirLayerPreview = () => {
                       <button
                         key={scenario.id}
                         type="button"
-                        onClick={() => setOpenFieldScenario(scenario.id)}
+                        onClick={() => openFieldScenarioModal(scenario.id)}
                         className="min-h-11 rounded-2xl border border-white/10 bg-white/5 p-5 text-left transition hover:border-primary/50 hover:bg-white/10"
                       >
                         <scenario.icon className="mb-4 h-5 w-5 text-primary" />
@@ -602,101 +632,66 @@ const AamirLayerPreview = () => {
                     <X className="h-5 w-5" />
                   </button>
 
-                  <div className="grid gap-5 lg:grid-cols-[1.45fr_0.55fr]">
-                    <div className="space-y-4">
-                      <div className="mb-1 sm:mb-2">
-                        <p className="text-[11px] uppercase tracking-[0.2em] text-primary">
-                          Field Scenario
-                        </p>
-                        <h3 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">
-                          {selectedScenario.title}
-                        </h3>
-                      </div>
-
-                      <div className="relative isolate overflow-hidden rounded-2xl border border-white/10 bg-black/60">
-                        <div className="relative h-[36vh] min-h-[220px] max-h-[420px] w-full sm:h-[44vh] sm:min-h-[300px] sm:max-h-[460px]">
-                        {selectedScenario.id === "snow" ? (
-                          <>
-                            <video
-                              className="absolute inset-0 h-full w-full object-cover"
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              preload="auto"
-                              poster={nightImage}
-                              src={snowVideoPrimary}
-                            />
-                          </>
-                        ) : (
-                          <>
-                            {selectedScenario.id === "mud" ? (
-                              <img
-                                src={mudImage}
-                                alt="Rollo mud scenario"
-                                className="absolute inset-0 h-full w-full object-cover object-center"
-                              />
-                            ) : null}
-                            {selectedScenario.id !== "mud" ? (
-                              <motion.img
-                                src={selectedScenario.id === "night" ? nightImage : rollo1}
-                                alt={`Rollo robot animation for ${selectedScenario.title.toLowerCase()}`}
-                                className="mx-auto h-[44vh] max-h-[460px] w-auto object-contain"
-                                animate={{ y: [0, -3, 0] }}
-                                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                              />
-                            ) : null}
-
-                            {selectedScenario.id === "mud" ? (
-                              <div className="pointer-events-none absolute inset-0">
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.04),rgba(0,0,0,0.24)_62%,rgba(0,0,0,0.5)_100%)]" />
-                                <div className="absolute bottom-0 h-24 w-full bg-[linear-gradient(to_top,rgba(70,40,20,0.62),rgba(70,40,20,0.04))]" />
-                                <motion.div
-                                  className="absolute bottom-8 left-1/4 h-2 w-16 rounded-full bg-[#7c4b26]/70 blur-[1px]"
-                                  animate={{ x: [-8, 8, -8], opacity: [0.3, 0.6, 0.3] }}
-                                  transition={{ duration: 2.6, repeat: Infinity, ease: "easeInOut" }}
-                                />
-                                <motion.div
-                                  className="absolute bottom-12 right-1/4 h-2 w-20 rounded-full bg-[#6f3d1f]/70 blur-[1px]"
-                                  animate={{ x: [8, -8, 8], opacity: [0.25, 0.55, 0.25] }}
-                                  transition={{ duration: 2.9, repeat: Infinity, ease: "easeInOut" }}
-                                />
-                              </div>
-                            ) : null}
-
-                            {selectedScenario.id === "night" ? (
-                              <div className="pointer-events-none absolute inset-0">
-                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(90,140,255,0.18),rgba(0,0,0,0.84)_72%)]" />
-                                <motion.div
-                                  className="absolute left-1/2 top-[36%] h-24 w-24 -translate-x-1/2 rounded-full bg-[#7da8ff]/30 blur-2xl"
-                                  animate={{ opacity: [0.2, 0.52, 0.2], scale: [0.9, 1.08, 0.9] }}
-                                  transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-                                />
-                              </div>
-                            ) : null}
-                          </>
-                        )}
-                        </div>
-                      </div>
+                  <div className="space-y-4">
+                    <div className="mb-1 sm:mb-2">
+                      <p className="text-[11px] uppercase tracking-[0.2em] text-primary">Field Scenario</p>
+                      <h3 className="mt-1 text-2xl font-semibold text-white sm:text-3xl">
+                        {selectedScenario.title}
+                      </h3>
                     </div>
 
-                    <aside className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 sm:p-5">
-                      <p className="text-xs uppercase tracking-[0.16em] text-primary/90">
-                        {selectedScenario.badge}
-                      </p>
-                      <p className="mt-3 text-sm text-slate-300">{selectedScenario.description}</p>
-                      <div className="mt-5 space-y-2 text-xs uppercase tracking-[0.14em] text-white/75">
-                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
-                          2026 field validation
-                        </p>
-                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
-                          robot-as-a-service ready
-                        </p>
-                        <p className="rounded-lg border border-white/10 bg-black/35 px-3 py-2">
-                          autonomous mission continuity
-                        </p>
+                    <div className="relative overflow-hidden rounded-2xl border border-white/10 bg-black">
+                      <div className="relative h-[36vh] min-h-[220px] max-h-[420px] w-full sm:h-[44vh] sm:min-h-[300px] sm:max-h-[460px]">
+                        {selectedScenario.id === "snow" ? (
+                          <video
+                            key="snow-media"
+                            className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-200 ${
+                              selectedFieldMediaReady ? "opacity-100" : "opacity-0"
+                            }`}
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            preload="auto"
+                            src={snowVideoPrimary}
+                            onLoadedData={() =>
+                              setFieldMediaReady((prev) => ({ ...prev, snow: true }))
+                            }
+                            onCanPlay={() => setFieldMediaReady((prev) => ({ ...prev, snow: true }))}
+                          />
+                        ) : null}
+
+                        {selectedScenario.id === "mud" ? (
+                          <img
+                            key="mud-media"
+                            src={mudImage}
+                            alt="Rollo mud scenario"
+                            className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ${
+                              selectedFieldMediaReady ? "opacity-100" : "opacity-0"
+                            }`}
+                            onLoad={() => setFieldMediaReady((prev) => ({ ...prev, mud: true }))}
+                          />
+                        ) : null}
+
+                        {selectedScenario.id === "night" ? (
+                          <img
+                            key="night-media"
+                            src={nightImage}
+                            alt="Rollo night scenario"
+                            className={`absolute inset-0 h-full w-full object-cover object-center transition-opacity duration-200 ${
+                              selectedFieldMediaReady ? "opacity-100" : "opacity-0"
+                            }`}
+                            onLoad={() => setFieldMediaReady((prev) => ({ ...prev, night: true }))}
+                          />
+                        ) : null}
+
+                        {!selectedFieldMediaReady ? (
+                          <div className="absolute inset-0 flex items-center justify-center bg-black">
+                            <FieldMediaLoader />
+                          </div>
+                        ) : null}
                       </div>
-                    </aside>
+                    </div>
                   </div>
                 </motion.article>
               </div>
@@ -993,7 +988,7 @@ const AamirLayerPreview = () => {
           </p>
           <button
             onClick={() => setIsModalOpen(true)}
-            className="mt-4 min-h-11 rounded-full bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
+            className="mt-4 min-h-11 rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
           >
             Get Rollo Access
           </button>
