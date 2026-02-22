@@ -84,8 +84,18 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrors({});
+  e.preventDefault();
+  setErrors({});
+
+  // Prevent crash in environments where Supabase env is not configured (e.g., Lovable preview)
+  if (!supabase) {
+    toast.error("Form submission is temporarily unavailable in this preview.");
+    return;
+  }
+
+  // Client-side validation first
+  const clientValidation = formSchema.safeParse(formData);
+  ...
 
     // Client-side validation first
     const clientValidation = formSchema.safeParse(formData);
