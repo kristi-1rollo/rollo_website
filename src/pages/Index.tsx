@@ -8,8 +8,18 @@ import CTASection from "@/components/CTASection";
 import FAQSection from "@/components/FAQSection";
 import ROICalculator from "@/components/ROICalculator";
 import Footer from "@/components/Footer";
+import AamirLayerPreview from "@/components/AamirLayerPreview";
 
 const Index = () => {
+  const isPreviewByEnv = import.meta.env.VITE_ENABLE_AAMIR_PREVIEW === "true";
+  const isPreviewByQuery =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search).get("preview") === "aamir";
+
+  if (isPreviewByEnv || isPreviewByQuery) {
+    return <AamirLayerPreview />;
+  }
+
   return (
     <div className="min-h-screen text-foreground">
       <Header />
