@@ -397,7 +397,7 @@ const AamirLayerPreview = () => {
         <div className="grid gap-6 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-8">
           <div className="order-1 space-y-3 lg:col-start-1 lg:row-start-1">
             <SectionBrand compact={false} />
-            <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
+            <h1 className="text-4xl leading-[0.97] text-white sm:text-5xl md:max-w-[16ch] md:text-6xl md:leading-[1.02] lg:max-w-none lg:text-8xl lg:leading-[0.95]">
               One-Wheel Autonomous Patrol Robot
             </h1>
           </div>
@@ -477,6 +477,22 @@ const AamirLayerPreview = () => {
               Autonomous security robotics with AI vision and reliable outdoor patrol at up to
               10x lower operating cost than traditional guard shifts.
             </p>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                onClick={() => setIsModalOpen(true)}
+                className="min-h-11 rounded-xl bg-primary px-5 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black"
+              >
+                Contact
+              </button>
+              <button
+                type="button"
+                onClick={() => goToSection("access")}
+                className="min-h-11 rounded-xl border border-white/20 bg-white/5 px-5 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90"
+              >
+                Join Waitlist
+              </button>
+            </div>
             <div className="grid max-w-lg grid-cols-2 gap-3 text-sm text-white/80">
               <div className="rounded-xl border border-white/10 bg-white/5 p-3">24/7 Operation</div>
               <div className="rounded-xl border border-white/10 bg-white/5 p-3">Auto Recharging</div>
@@ -1048,21 +1064,27 @@ const AamirLayerPreview = () => {
                 ) : null}
                 <button
                   onClick={() => goToSection(item.target)}
-                  className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-[4px] px-2 py-2 transition sm:px-2.5 ${
+                  className={`flex min-h-11 min-w-[46px] shrink-0 flex-col items-center justify-center rounded-[4px] px-2 py-1.5 transition sm:min-w-11 sm:flex-row sm:py-2 sm:px-2.5 ${
                     isActive
                       ? "border border-primary/45 bg-primary/10 text-primary"
                       : "border border-white/15 bg-white/[0.04] text-white/75 hover:border-white/30 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   <Icon className="h-4 w-4" />
+                  <span className="mt-1 text-[9px] uppercase tracking-[0.08em] sm:hidden">
+                    {item.label}
+                  </span>
                 </button>
               </div>
             );
           })}
         </div>
+        <p className="mt-2 text-center text-[10px] uppercase tracking-[0.14em] text-white/55 md:hidden">
+          Swipe or tap menu
+        </p>
       </nav>
 
-      <main className="container-premium flex min-h-[100dvh] items-start pb-[calc(env(safe-area-inset-bottom)+6.5rem)] pt-[calc(env(safe-area-inset-top)+4.5rem)] md:h-screen md:items-center md:pb-24 md:pt-16">
+      <main className="container-premium flex min-h-[100dvh] items-start pb-[calc(env(safe-area-inset-bottom)+8rem)] pt-[calc(env(safe-area-inset-top)+4.5rem)] md:h-screen md:items-center md:pb-24 md:pt-16">
         <AnimatePresence mode="wait">
           <motion.section
             key={activeContext.id}
