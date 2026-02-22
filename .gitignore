@@ -40,3 +40,5 @@ nul
 .thumbnails/
 *.tmp
 *.bak
+# Supabase local temp
+supabase/.temp/
