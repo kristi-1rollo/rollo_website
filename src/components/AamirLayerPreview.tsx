@@ -48,7 +48,7 @@ type LayerSection = {
 const sections: LayerSection[] = [
   {
     id: "hero",
-    label: "Hero",
+    label: "Home",
     title: "One-Wheel Autonomous Patrol Robot",
     subtitle: "Single-frame cinematic intro with controlled text reveal.",
   },
@@ -91,7 +91,7 @@ const sections: LayerSection[] = [
 ];
 
 const navItems: { label: string; target: SectionId; icon: LucideIcon }[] = [
-  { label: "Hero", target: "hero", icon: Gauge },
+  { label: "Home", target: "hero", icon: Gauge },
   { label: "Tech", target: "core", icon: Cpu },
   { label: "Field+AI", target: "performance", icon: Compass },
   { label: "ROI", target: "math", icon: TrendingUp },
@@ -157,6 +157,7 @@ const fieldScenarios: {
   },
 ];
 const snowVideoPrimary = "/robot/Lumes_1.mp4";
+const mudImage = "/robot/rollo_mud.png";
 
 const faqData = [
   {
@@ -196,6 +197,18 @@ const slide = {
   center: { opacity: 1, x: 0, scale: 1 },
   exit: { opacity: 0, x: -26, scale: 0.985 },
 };
+const brandLogoPath = "/logos/rollo_logo_white.png";
+
+const SectionBrand = ({ compact = true }: { compact?: boolean }) => (
+  <div className="inline-flex items-center gap-3">
+    <img
+      src={brandLogoPath}
+      alt="Rollo logo"
+      className={compact ? "h-5 w-auto opacity-85" : "h-7 w-auto opacity-90"}
+    />
+    <span className="h-px w-8 bg-white/25" />
+  </div>
+);
 
 const AamirLayerPreview = () => {
   const [activeSection, setActiveSection] = useState<SectionId>("hero");
@@ -258,9 +271,12 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid items-center gap-8 lg:grid-cols-[1fr_1fr]">
           <div className="space-y-6">
-            <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
-              One-Wheel Autonomous Patrol Robot
-            </h1>
+            <div className="space-y-3">
+              <SectionBrand compact={false} />
+              <h1 className="text-4xl leading-[0.95] text-white sm:text-6xl lg:text-8xl">
+                One-Wheel Autonomous Patrol Robot
+              </h1>
+            </div>
             <p className="max-w-xl text-sm text-slate-300 sm:text-base">
               Autonomous security robotics with AI vision and reliable outdoor patrol at up to
               10x lower operating cost than traditional guard shifts.
@@ -286,7 +302,8 @@ const AamirLayerPreview = () => {
     if (activeContext.id === "core") {
       return (
         <div className="space-y-6">
-          <div className="space-y-5">
+          <div className="space-y-3">
+            <SectionBrand />
             <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Technical Specifications</h2>
             <p className="max-w-3xl text-sm text-slate-300 sm:text-base">
               Orbital layout remains active in preview mode so specification discovery still feels
@@ -318,9 +335,10 @@ const AamirLayerPreview = () => {
 
       return (
         <div className="space-y-7">
-          <div>
+          <div className="space-y-3">
+            <SectionBrand />
             <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Field Test Data 2026</h2>
-            <p className="mt-3 max-w-3xl text-sm text-slate-300 sm:text-base">
+            <p className="max-w-3xl text-sm text-slate-300 sm:text-base">
               Rollo is validated across snow, mud and low-visibility patrol scenarios with stable
               mobility and continuous mission uptime.
             </p>
@@ -428,7 +446,7 @@ const AamirLayerPreview = () => {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.25, ease: "easeOut" }}
-                  className="relative w-full max-w-6xl overflow-hidden rounded-3xl border border-white/10 bg-[#050505] p-4 sm:p-7"
+                  className="relative max-h-[92vh] w-full max-w-6xl overflow-y-auto rounded-3xl border border-white/10 bg-[#050505] p-4 sm:p-7"
                   onClick={(event) => event.stopPropagation()}
                 >
                   <button
@@ -452,7 +470,7 @@ const AamirLayerPreview = () => {
                       </div>
 
                       <div className="relative isolate overflow-hidden rounded-2xl border border-white/10 bg-black/60">
-                        <div className="relative h-[44vh] min-h-[300px] max-h-[460px] w-full">
+                        <div className="relative h-[36vh] min-h-[220px] max-h-[420px] w-full sm:h-[44vh] sm:min-h-[300px] sm:max-h-[460px]">
                         {selectedScenario.id === "snow" ? (
                           <>
                             <video
@@ -467,20 +485,26 @@ const AamirLayerPreview = () => {
                           </>
                         ) : (
                           <>
-                            <motion.img
-                              src={rollo1}
-                              alt={`Rollo robot animation for ${selectedScenario.title.toLowerCase()}`}
-                              className="mx-auto h-[44vh] max-h-[460px] w-auto object-contain"
-                              animate={
-                                selectedScenario.id === "mud"
-                                  ? { x: [0, 2, -2, 0], y: [0, 1, 0, -1, 0] }
-                                  : { y: [0, -3, 0] }
-                              }
-                              transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
-                            />
+                            {selectedScenario.id === "mud" ? (
+                              <img
+                                src={mudImage}
+                                alt="Rollo mud scenario"
+                                className="absolute inset-0 h-full w-full object-cover object-center"
+                              />
+                            ) : null}
+                            {selectedScenario.id !== "mud" ? (
+                              <motion.img
+                                src={rollo1}
+                                alt={`Rollo robot animation for ${selectedScenario.title.toLowerCase()}`}
+                                className="mx-auto h-[44vh] max-h-[460px] w-auto object-contain"
+                                animate={{ y: [0, -3, 0] }}
+                                transition={{ duration: 2.8, repeat: Infinity, ease: "easeInOut" }}
+                              />
+                            ) : null}
 
                             {selectedScenario.id === "mud" ? (
                               <div className="pointer-events-none absolute inset-0">
+                                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_58%,rgba(255,255,255,0.04),rgba(0,0,0,0.24)_62%,rgba(0,0,0,0.5)_100%)]" />
                                 <div className="absolute bottom-0 h-24 w-full bg-[linear-gradient(to_top,rgba(70,40,20,0.62),rgba(70,40,20,0.04))]" />
                                 <motion.div
                                   className="absolute bottom-8 left-1/4 h-2 w-16 rounded-full bg-[#7c4b26]/70 blur-[1px]"
@@ -541,7 +565,8 @@ const AamirLayerPreview = () => {
       return (
         <div className="grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
           <div className="space-y-8">
-            <div>
+            <div className="space-y-3">
+              <SectionBrand />
               <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Save 60% on Security Costs</h2>
             </div>
             <div className="space-y-7 rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -583,7 +608,8 @@ const AamirLayerPreview = () => {
     if (activeContext.id === "knowledge") {
       return (
         <div className="grid gap-6">
-          <div>
+          <div className="space-y-3">
+            <SectionBrand />
             <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Frequently Asked Questions</h2>
           </div>
           <div className="grid gap-4 md:grid-cols-3">
@@ -610,7 +636,7 @@ const AamirLayerPreview = () => {
                 onClick={() => setOpenFaqIndex(null)}
               >
                 <article
-                  className="relative w-full max-w-2xl rounded-2xl border border-white/10 bg-[#050505]/95 p-6 shadow-2xl sm:p-8"
+                  className="relative max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl border border-white/10 bg-[#050505]/95 p-6 shadow-2xl sm:p-8"
                   onClick={(event) => event.stopPropagation()}
                 >
                   <button
@@ -641,8 +667,11 @@ const AamirLayerPreview = () => {
     if (activeContext.id === "about") {
       return (
         <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="max-w-xl space-y-5">
-            <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">About The Team</h2>
+          <div className="max-w-xl space-y-4">
+            <div className="space-y-3">
+              <SectionBrand />
+              <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">About The Team</h2>
+            </div>
             <p className="text-sm leading-relaxed text-slate-300 sm:text-base">
               Over 90% of the team members have 3 to 15 years of prior experience working together
               in the field of robotics development and have achieved remarkable results.
@@ -685,7 +714,7 @@ const AamirLayerPreview = () => {
                 onClick={() => setIsTeamImageOpen(false)}
               >
                 <div
-                  className="relative max-h-[90vh] w-full max-w-6xl"
+                  className="relative max-h-[88vh] w-full max-w-6xl"
                   onClick={(event) => event.stopPropagation()}
                 >
                   <button
@@ -699,7 +728,7 @@ const AamirLayerPreview = () => {
                   <img
                     src="/team/team_transparent.png"
                     alt="Rollo robotics team enlarged"
-                    className="mx-auto max-h-[90vh] w-auto object-contain"
+                    className="mx-auto max-h-[88vh] w-auto object-contain"
                   />
                 </div>
               </div>
@@ -711,7 +740,8 @@ const AamirLayerPreview = () => {
 
     return (
       <div className="grid gap-6">
-        <div>
+        <div className="space-y-3">
+          <SectionBrand />
           <h2 className="text-3xl text-white sm:text-5xl lg:text-6xl">Deployment Access</h2>
         </div>
         <div className="rounded-2xl border border-primary/30 bg-primary/10 p-5 sm:p-6">
@@ -739,8 +769,8 @@ const AamirLayerPreview = () => {
         {activeContext.label}
       </div>
 
-      <nav className="fixed bottom-5 left-1/2 z-40 -translate-x-1/2">
-        <div className="mx-auto inline-flex items-center gap-2 rounded-[4px] border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl">
+      <nav className="fixed bottom-3 left-1/2 z-40 w-[calc(100vw-24px)] max-w-[560px] -translate-x-1/2 px-1 sm:bottom-5 sm:w-auto sm:max-w-none sm:px-0">
+        <div className="mx-auto inline-flex w-full items-center justify-between gap-1.5 overflow-visible rounded-[4px] border border-white/20 bg-black/45 p-1.5 backdrop-blur-xl sm:w-auto sm:gap-2">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeSection === item.target;
@@ -760,7 +790,7 @@ const AamirLayerPreview = () => {
                 ) : null}
                 <button
                   onClick={() => setActiveSection(item.target)}
-                  className={`flex min-h-11 min-w-11 items-center justify-center rounded-[4px] px-2.5 py-2 transition ${
+                  className={`flex min-h-11 min-w-11 shrink-0 items-center justify-center rounded-[4px] px-2 py-2 transition sm:px-2.5 ${
                     isActive
                       ? "border border-primary/45 bg-primary/10 text-primary"
                       : "border border-white/15 bg-white/[0.04] text-white/75 hover:border-white/30 hover:bg-white/10 hover:text-white"
