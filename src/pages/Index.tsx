@@ -106,7 +106,7 @@ const Section = ({
   className?: string;
   id?: string;
 }) => (
-  <section id={id} className={`max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
+  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 ${className}`}>
     {children}
   </section>
 );
@@ -135,71 +135,59 @@ const Index = () => {
   };
 
   return (
-    <div className="pt-20 pb-16">
+    <div className="pb-16">
       {/* ═══ HERO ═══ */}
-      <Section className="py-12 md:py-24">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          {/* Text */}
-          <div className="flex-1 min-w-0 space-y-6 text-center md:text-left">
-            <div className="space-y-3 md:space-y-4">
-              <img
-                src="/logos/rollo_logo_white.png"
-                alt="1ROLLO"
-                className="h-6 sm:h-8 md:h-10 w-auto mx-auto md:mx-0"
-              />
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white">
-                Brings human-level presence to the physical world
-              </h1>
-            </div>
+      <section className="relative w-full min-h-[100svh] flex items-center overflow-hidden">
+        {/* Background image — centered */}
+        <img
+          src="/robot/rollo_tunnel.png"
+          alt="Rollo autonomous patrol robot in tunnel"
+          className="absolute inset-0 w-full h-full object-cover object-center"
+        />
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-black/55" />
 
-            <div className="flex items-center gap-3 sm:gap-4">
-              <span className="h-px flex-1 bg-white/25" />
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B4FF33] whitespace-nowrap">
-                Without Humans
-              </span>
-              <span className="h-px flex-1 bg-white/25" />
-            </div>
+        {/* Content — left-aligned */}
+        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24 text-left">
+          <img
+            src="/logos/rollo_logo_white.png"
+            alt="1ROLLO"
+            className="h-6 sm:h-8 md:h-10 w-auto"
+          />
 
-            <p className="text-sm sm:text-base md:text-lg text-slate-300 whitespace-nowrap">
-              Autonomous robots that see, hear, speak, and move.
-            </p>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
+            Brings human-level presence to the physical world
+          </h1>
 
-            {/* Robot image — mobile only, before CTAs */}
-            <div className="flex justify-center md:hidden">
-              <img
-                src="/hero/rollo1.png"
-                alt="Rollo autonomous patrol robot"
-                className="w-full max-w-xs h-auto object-contain"
-              />
-            </div>
-
-            <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-              <button
-                onClick={openAccessModal}
-                className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
-              >
-                Get Early Access
-              </button>
-              <a
-                href="#video"
-                className="min-h-11 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 transition"
-              >
-                <Play className="h-4 w-4" />
-                Watch Video
-              </a>
-            </div>
+          <div className="flex items-center gap-3 sm:gap-4 max-w-sm">
+            <span className="h-px flex-1 bg-white/25" />
+            <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-[#B4FF33] whitespace-nowrap">
+              Without Humans
+            </span>
+            <span className="h-px flex-1 bg-white/25" />
           </div>
 
-          {/* Visual — desktop only */}
-          <div className="hidden md:flex flex-1 min-w-0 justify-center">
-            <img
-              src="/hero/rollo1.png"
-              alt="Rollo autonomous patrol robot"
-              className="w-full max-w-md h-auto object-contain"
-            />
+          <p className="text-sm sm:text-base md:text-lg text-slate-300">
+            Autonomous robots that see, hear, speak, and move.
+          </p>
+
+          <div className="flex flex-wrap gap-3 pt-2">
+            <button
+              onClick={openAccessModal}
+              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+            >
+              Get Early Access
+            </button>
+            <a
+              href="#video"
+              className="min-h-11 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 backdrop-blur-sm transition"
+            >
+              <Play className="h-4 w-4" />
+              Watch Video
+            </a>
           </div>
         </div>
-      </Section>
+      </section>
 
       {/* ═══ PROBLEM / SOLUTION ═══ */}
       <Section className="py-12 md:py-20">
