@@ -3,9 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import { useUpsertPost, uploadThumbnail, type BlogPost } from "@/hooks/useBlogPosts";
+import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X } from "lucide-react";
+import { Upload, X, ArrowUp, ArrowDown, Plus } from "lucide-react";
 
 const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company"];
 
@@ -14,15 +14,29 @@ interface Props {
   onDone: () => void;
 }
 
+function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve({ width: img.naturalWidth, height: img.naturalHeight });
+    img.onerror = () => resolve({ width: 0, height: 0 });
+    img.src = URL.createObjectURL(file);
+  });
+}
+
 const BlogPostEditor = ({ post, onDone }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [tag, setTag] = useState(post?.tag ?? "General");
   const [thumbnailUrl, setThumbnailUrl] = useState(post?.thumbnail_url ?? "");
+  const [thumbWidth, setThumbWidth] = useState<number | "">(post?.thumbnail_width ?? "");
+  const [thumbHeight, setThumbHeight] = useState<number | "">(post?.thumbnail_height ?? "");
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
   const [uploading, setUploading] = useState(false);
+  const [gallery, setGallery] = useState<MediaGalleryItem[]>(post?.media_gallery ?? []);
+  const [galleryUploading, setGalleryUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
+  const galleryFileRef = useRef<HTMLInputElement>(null);
   const upsert = useUpsertPost();
   const { toast } = useToast();
 
@@ -31,6 +45,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     if (!file) return;
     setUploading(true);
     try {
+      const dims = await getImageDimensions(file);
+      setThumbWidth(dims.width);
+      setThumbHeight(dims.height);
       const url = await uploadThumbnail(file);
       setThumbnailUrl(url);
     } catch (err: any) {
@@ -38,6 +55,50 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     } finally {
       setUploading(false);
     }
+  };
+
+  const handleGalleryUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files?.length) return;
+    setGalleryUploading(true);
+    try {
+      const newItems: MediaGalleryItem[] = [];
+      for (const file of Array.from(files)) {
+        const isVideo = file.type.startsWith("video/");
+        let width = 0, height = 0;
+        if (!isVideo) {
+          const dims = await getImageDimensions(file);
+          width = dims.width;
+          height = dims.height;
+        }
+        const url = await uploadThumbnail(file);
+        newItems.push({ url, type: isVideo ? "video" : "image", width, height, caption: "" });
+      }
+      setGallery((prev) => [...prev, ...newItems]);
+    } catch (err: any) {
+      toast({ title: "Gallery upload failed", description: err.message, variant: "destructive" });
+    } finally {
+      setGalleryUploading(false);
+      if (galleryFileRef.current) galleryFileRef.current.value = "";
+    }
+  };
+
+  const moveGalleryItem = (index: number, dir: -1 | 1) => {
+    const newIndex = index + dir;
+    if (newIndex < 0 || newIndex >= gallery.length) return;
+    setGallery((prev) => {
+      const copy = [...prev];
+      [copy[index], copy[newIndex]] = [copy[newIndex], copy[index]];
+      return copy;
+    });
+  };
+
+  const updateGalleryItem = (index: number, updates: Partial<MediaGalleryItem>) => {
+    setGallery((prev) => prev.map((item, i) => (i === index ? { ...item, ...updates } : item)));
+  };
+
+  const removeGalleryItem = (index: number) => {
+    setGallery((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleSave = async () => {
@@ -54,9 +115,12 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         content,
         tag,
         thumbnail_url: thumbnailUrl || null,
+        thumbnail_width: thumbWidth || null,
+        thumbnail_height: thumbHeight || null,
+        media_gallery: gallery,
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
-      });
+      } as any);
       toast({ title: post?.id ? "Post updated" : "Post created" });
       onDone();
     } catch (err: any) {
@@ -68,22 +132,47 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     <div className="space-y-6">
       {/* Thumbnail */}
       <div>
-        <label className="text-sm text-slate-300 mb-2 block">Thumbnail</label>
+        <label className="text-sm text-muted-foreground mb-2 block">Thumbnail</label>
         {thumbnailUrl ? (
-          <div className="relative w-full max-w-md">
-            <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-white/10" />
-            <button
-              onClick={() => setThumbnailUrl("")}
-              className="absolute top-2 right-2 p-1 bg-black/60 rounded-[4px] text-white hover:bg-black/80"
-            >
-              <X className="h-4 w-4" />
-            </button>
+          <div className="space-y-3">
+            <div className="relative w-full max-w-md">
+              <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-border" />
+              <button
+                onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); }}
+                className="absolute top-2 right-2 p-1 bg-background/80 rounded-[4px] text-foreground hover:bg-background"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+            <div className="flex items-center gap-3 max-w-md">
+              <div className="flex-1">
+                <label className="text-xs text-muted-foreground mb-1 block">Width (px)</label>
+                <Input
+                  type="number"
+                  value={thumbWidth}
+                  onChange={(e) => setThumbWidth(e.target.value ? Number(e.target.value) : "")}
+                  className="bg-muted/50 border-border text-foreground"
+                  placeholder="Auto"
+                />
+              </div>
+              <span className="text-muted-foreground mt-5">×</span>
+              <div className="flex-1">
+                <label className="text-xs text-muted-foreground mb-1 block">Height (px)</label>
+                <Input
+                  type="number"
+                  value={thumbHeight}
+                  onChange={(e) => setThumbHeight(e.target.value ? Number(e.target.value) : "")}
+                  className="bg-muted/50 border-border text-foreground"
+                  placeholder="Auto"
+                />
+              </div>
+            </div>
           </div>
         ) : (
           <button
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-2 px-4 py-3 border border-dashed border-white/20 rounded-[4px] text-sm text-slate-400 hover:border-white/40 transition"
+            className="flex items-center gap-2 px-4 py-3 border border-dashed border-border rounded-[4px] text-sm text-muted-foreground hover:border-muted-foreground/50 transition"
           >
             <Upload className="h-4 w-4" />
             {uploading ? "Uploading…" : "Upload image"}
@@ -94,25 +183,25 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
       {/* Title */}
       <div>
-        <label className="text-sm text-slate-300 mb-2 block">Title</label>
-        <Input value={title} onChange={(e) => setTitle(e.target.value)} className="bg-white/5 border-white/10 text-white" />
+        <label className="text-sm text-muted-foreground mb-2 block">Title</label>
+        <Input value={title} onChange={(e) => setTitle(e.target.value)} className="bg-muted/50 border-border text-foreground" />
       </div>
 
       {/* Excerpt */}
       <div>
-        <label className="text-sm text-slate-300 mb-2 block">Excerpt</label>
-        <Textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="bg-white/5 border-white/10 text-white" />
+        <label className="text-sm text-muted-foreground mb-2 block">Excerpt</label>
+        <Textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="bg-muted/50 border-border text-foreground" />
       </div>
 
       {/* Content */}
       <div>
-        <label className="text-sm text-slate-300 mb-2 block">Content</label>
-        <Textarea value={content} onChange={(e) => setContent(e.target.value)} rows={10} className="bg-white/5 border-white/10 text-white" />
+        <label className="text-sm text-muted-foreground mb-2 block">Content</label>
+        <Textarea value={content} onChange={(e) => setContent(e.target.value)} rows={10} className="bg-muted/50 border-border text-foreground" />
       </div>
 
       {/* Tag */}
       <div>
-        <label className="text-sm text-slate-300 mb-2 block">Tag</label>
+        <label className="text-sm text-muted-foreground mb-2 block">Tag</label>
         <div className="flex flex-wrap gap-2">
           {TAGS.map((t) => (
             <button
@@ -120,8 +209,8 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
               onClick={() => setTag(t)}
               className={`px-3 py-1.5 text-xs rounded-[4px] border transition ${
                 tag === t
-                  ? "bg-[#B4FF33]/20 border-[#B4FF33]/40 text-[#B4FF33]"
-                  : "bg-white/5 border-white/10 text-slate-400 hover:border-white/20"
+                  ? "bg-primary/20 border-primary/40 text-primary"
+                  : "bg-muted/50 border-border text-muted-foreground hover:border-muted-foreground/30"
               }`}
             >
               {t}
@@ -130,10 +219,82 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         </div>
       </div>
 
+      {/* Media Gallery */}
+      <div>
+        <label className="text-sm text-muted-foreground mb-2 block">Media Gallery</label>
+        <div className="space-y-3">
+          {gallery.map((item, i) => (
+            <div key={i} className="flex gap-3 items-start p-3 rounded-[4px] border border-border bg-muted/30">
+              {/* Preview */}
+              <div className="w-20 h-20 flex-shrink-0 rounded-[4px] overflow-hidden border border-border bg-background">
+                {item.type === "video" ? (
+                  <video src={item.url} className="w-full h-full object-cover" />
+                ) : (
+                  <img src={item.url} alt="" className="w-full h-full object-cover" />
+                )}
+              </div>
+
+              {/* Controls */}
+              <div className="flex-1 space-y-2">
+                <div className="flex gap-2">
+                  <div className="flex-1">
+                    <label className="text-[10px] text-muted-foreground">W</label>
+                    <Input
+                      type="number"
+                      value={item.width || ""}
+                      onChange={(e) => updateGalleryItem(i, { width: Number(e.target.value) || 0 })}
+                      className="h-7 text-xs bg-muted/50 border-border text-foreground"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label className="text-[10px] text-muted-foreground">H</label>
+                    <Input
+                      type="number"
+                      value={item.height || ""}
+                      onChange={(e) => updateGalleryItem(i, { height: Number(e.target.value) || 0 })}
+                      className="h-7 text-xs bg-muted/50 border-border text-foreground"
+                    />
+                  </div>
+                </div>
+                <Input
+                  value={item.caption || ""}
+                  onChange={(e) => updateGalleryItem(i, { caption: e.target.value })}
+                  placeholder="Caption (optional)"
+                  className="h-7 text-xs bg-muted/50 border-border text-foreground"
+                />
+              </div>
+
+              {/* Actions */}
+              <div className="flex flex-col gap-1">
+                <button onClick={() => moveGalleryItem(i, -1)} className="p-1 text-muted-foreground hover:text-foreground" disabled={i === 0}>
+                  <ArrowUp className="h-3.5 w-3.5" />
+                </button>
+                <button onClick={() => moveGalleryItem(i, 1)} className="p-1 text-muted-foreground hover:text-foreground" disabled={i === gallery.length - 1}>
+                  <ArrowDown className="h-3.5 w-3.5" />
+                </button>
+                <button onClick={() => removeGalleryItem(i)} className="p-1 text-destructive hover:text-destructive/80">
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+            </div>
+          ))}
+
+          <button
+            onClick={() => galleryFileRef.current?.click()}
+            disabled={galleryUploading}
+            className="flex items-center gap-2 px-4 py-2.5 border border-dashed border-border rounded-[4px] text-sm text-muted-foreground hover:border-muted-foreground/50 transition w-full justify-center"
+          >
+            <Plus className="h-4 w-4" />
+            {galleryUploading ? "Uploading…" : "Add images / videos"}
+          </button>
+          <input ref={galleryFileRef} type="file" accept="image/*,video/*" multiple className="hidden" onChange={handleGalleryUpload} />
+        </div>
+      </div>
+
       {/* Publish toggle */}
       <div className="flex items-center gap-3">
         <Switch checked={isPublished} onCheckedChange={setIsPublished} />
-        <span className="text-sm text-slate-300">{isPublished ? "Published" : "Draft"}</span>
+        <span className="text-sm text-muted-foreground">{isPublished ? "Published" : "Draft"}</span>
       </div>
 
       {/* Actions */}
@@ -141,11 +302,11 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         <Button
           onClick={handleSave}
           disabled={upsert.isPending}
-          className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 font-bold uppercase tracking-tight"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-tight"
         >
           {upsert.isPending ? "Saving…" : "Save"}
         </Button>
-        <Button variant="outline" onClick={onDone} className="border-white/10 text-slate-300 hover:text-white">
+        <Button variant="outline" onClick={onDone} className="border-border text-muted-foreground hover:text-foreground">
           Cancel
         </Button>
       </div>

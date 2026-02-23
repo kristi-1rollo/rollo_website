@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 
 const Product = lazy(() => import("./pages/Product"));
 const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Login = lazy(() => import("./pages/Login"));
 const AdminBlog = lazy(() => import("./pages/AdminBlog"));
@@ -36,6 +37,7 @@ const App = () => (
                   <Route path="/" element={<Index />} />
                   <Route path="/product" element={<Product />} />
                   <Route path="/blog" element={<Blog />} />
+                  <Route path="/blog/:id" element={<BlogPost />} />
                   <Route path="/about" element={<AboutUs />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/admin/blog" element={<AdminBlog />} />

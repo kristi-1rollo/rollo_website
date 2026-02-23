@@ -1,6 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
+export interface MediaGalleryItem {
+  url: string;
+  type: "image" | "video";
+  width: number;
+  height: number;
+  caption?: string;
+}
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -8,6 +16,9 @@ export interface BlogPost {
   content: string;
   tag: string;
   thumbnail_url: string | null;
+  thumbnail_width: number | null;
+  thumbnail_height: number | null;
+  media_gallery: MediaGalleryItem[];
   is_published: boolean;
   published_at: string | null;
   created_at: string;
