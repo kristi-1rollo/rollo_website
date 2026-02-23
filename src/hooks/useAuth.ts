@@ -50,7 +50,10 @@ export function useAuth() {
   }, []);
 
   const signIn = async (email: string, password: string) => {
-    if (!supabase) throw new Error("Backend not available");
+    if (!supabase) {
+      console.error("Supabase client is not initialized. Check VITE_SUPABASE_URL and VITE_SUPABASE_PUBLISHABLE_KEY.");
+      throw new Error("Backend not available. Please check server configuration.");
+    }
     const { error } = await supabase.auth.signInWithPassword({ email, password });
     if (error) throw error;
   };
