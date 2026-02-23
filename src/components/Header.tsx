@@ -71,6 +71,7 @@ const Header = () => {
           <div className="flex items-center gap-3 min-w-0">
             <Link
               to="/"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               className="focus:outline-none transition-transform active:scale-95 flex items-center p-0 m-0"
               aria-label="Home"
             >
