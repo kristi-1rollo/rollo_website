@@ -61,8 +61,21 @@ const Blog = () => {
             {filtered.map((a) => (
               <article
                 key={a.id}
-                className="h-full flex flex-col rounded-[4px] border border-border bg-card/50 p-6 transition hover:border-muted-foreground/30 hover:bg-card/80"
+                className="h-full flex flex-col rounded-[4px] border border-border bg-card/50 overflow-hidden transition hover:border-muted-foreground/30 hover:bg-card/80"
               >
+                {/* Thumbnail */}
+                {a.thumbnail_url ? (
+                  <img
+                    src={a.thumbnail_url}
+                    alt={a.title}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gradient-to-br from-muted/30 to-muted/10" />
+                )}
+
+                <div className="p-6 flex flex-col flex-1">
                 {/* Tag + Date */}
                 <div className="flex items-center gap-3 mb-4">
                   <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
@@ -91,6 +104,7 @@ const Blog = () => {
                   Read More
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
+                </div>
               </article>
             ))}
           </div>
