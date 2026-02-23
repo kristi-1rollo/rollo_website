@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
   AlertTriangle,
@@ -19,7 +20,9 @@ import {
   Users,
   DollarSign,
   TrendingDown,
+  Wallet,
 } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -117,6 +120,16 @@ const SectionTag = ({ children }: { children: React.ReactNode }) => (
 /* ── page ─────────────────────────────────────────────── */
 
 const Index = () => {
+  const [guards, setGuards] = useState(1);
+  const [hours, setHours] = useState(24);
+
+  const guardHourlyRate = 15;
+  const robotMonthlyCost = 2500;
+  const monthlyGuardCost = guards * hours * 30 * guardHourlyRate;
+  const monthlySavings = monthlyGuardCost - robotMonthlyCost;
+  const annualSavings = monthlySavings * 12;
+  const savingsPercentage = monthlyGuardCost > 0 ? (monthlySavings / monthlyGuardCost) * 100 : 0;
+
   const openAccessModal = () => {
     window.dispatchEvent(new CustomEvent("rollo:open-access"));
   };
@@ -400,6 +413,55 @@ const Index = () => {
               $450,000–$630,000
             </p>
             <p className="text-sm text-slate-300 mt-2">Annual cost</p>
+          </div>
+        </div>
+      </Section>
+
+      {/* ═══ ROI CALCULATOR ═══ */}
+      <Section className="py-12 md:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 md:gap-12">
+          {/* Left — title + sliders */}
+          <div className="space-y-8">
+            <div className="space-y-3">
+              <SectionTag>Business Intelligence</SectionTag>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                Save 60% on Security Costs
+              </h2>
+            </div>
+
+            <div className="space-y-7 rounded-2xl border border-white/10 bg-white/5 p-5">
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
+                  Guards replaced: {guards}
+                </p>
+                <Slider value={[guards]} onValueChange={(val) => setGuards(val[0])} min={1} max={5} step={1} />
+              </div>
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
+                  Patrol hours/day: {hours}
+                </p>
+                <Slider value={[hours]} onValueChange={(val) => setHours(val[0])} min={8} max={24} step={4} />
+              </div>
+            </div>
+          </div>
+
+          {/* Right — result cards */}
+          <div className="grid gap-3">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="mb-2 flex items-center gap-2 text-xs uppercase tracking-[0.15em] text-white/60">
+                <Wallet className="h-4 w-4 text-[#B4FF33]" /> Guard Cost / Month
+              </p>
+              <p className="text-3xl font-bold text-white">EUR {monthlyGuardCost.toLocaleString()}</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+              <p className="mb-2 text-xs uppercase tracking-[0.15em] text-white/60">Robot Cost / Month</p>
+              <p className="text-3xl font-bold text-white">EUR {robotMonthlyCost.toLocaleString()}</p>
+            </div>
+            <div className="rounded-2xl border border-[#B4FF33]/40 bg-[#B4FF33]/10 p-5">
+              <p className="mb-2 text-xs uppercase tracking-[0.15em] text-[#B4FF33]">Annual Savings</p>
+              <p className="text-3xl font-bold text-[#B4FF33]">EUR {annualSavings.toLocaleString()}</p>
+              <p className="mt-2 text-sm text-white/80">{savingsPercentage.toFixed(0)}% efficiency increase</p>
+            </div>
           </div>
         </div>
       </Section>
