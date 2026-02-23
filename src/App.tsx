@@ -11,6 +11,8 @@ import NotFound from "./pages/NotFound";
 const Product = lazy(() => import("./pages/Product"));
 const Blog = lazy(() => import("./pages/Blog"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
+const Login = lazy(() => import("./pages/Login"));
+const AdminBlog = lazy(() => import("./pages/AdminBlog"));
 
 const queryClient = new QueryClient();
 
@@ -35,6 +37,8 @@ const App = () => (
                   <Route path="/product" element={<Product />} />
                   <Route path="/blog" element={<Blog />} />
                   <Route path="/about" element={<AboutUs />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/admin/blog" element={<AdminBlog />} />
                 </Route>
                 {/* Catch-all 404 outside layout */}
                 <Route path="*" element={<NotFound />} />

@@ -1,0 +1,1 @@
+ALTER TABLE public.registrations ENABLE ROW LEVEL SECURITY;
