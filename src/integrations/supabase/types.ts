@@ -22,9 +22,12 @@ export type Database = {
           excerpt: string
           id: string
           is_published: boolean
+          media_gallery: Json | null
           published_at: string | null
           tag: string
+          thumbnail_height: number | null
           thumbnail_url: string | null
+          thumbnail_width: number | null
           title: string
         }
         Insert: {
@@ -34,9 +37,12 @@ export type Database = {
           excerpt: string
           id?: string
           is_published?: boolean
+          media_gallery?: Json | null
           published_at?: string | null
           tag?: string
+          thumbnail_height?: number | null
           thumbnail_url?: string | null
+          thumbnail_width?: number | null
           title: string
         }
         Update: {
@@ -46,9 +52,12 @@ export type Database = {
           excerpt?: string
           id?: string
           is_published?: boolean
+          media_gallery?: Json | null
           published_at?: string | null
           tag?: string
+          thumbnail_height?: number | null
           thumbnail_url?: string | null
+          thumbnail_width?: number | null
           title?: string
         }
         Relationships: []
