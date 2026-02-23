@@ -1,99 +1,100 @@
-const articles = [
-  {
-    tag: "Technology",
-    title: "How Gyroscopic Stabilization Powers One-Wheel Patrol",
-    excerpt:
-      "An inside look at the self-balancing mechanics that let Rollo navigate uneven terrain in snow, mud, and darkness.",
-    date: "Coming Soon",
-  },
-  {
-    tag: "Security",
-    title: "Why Autonomous Robots Outperform Traditional Guard Shifts",
-    excerpt:
-      "Breaking down the 24/7 uptime, cost savings, and consistency advantages of robotic patrol over human-only security.",
-    date: "Coming Soon",
-  },
-  {
-    tag: "Field Test",
-    title: "Nordic Winter: Rollo in -20°C Conditions",
-    excerpt:
-      "Real data from our field tests across Estonia's harshest winter months, including battery performance and traction analysis.",
-    date: "Coming Soon",
-  },
-  {
-    tag: "AI & Vision",
-    title: "360-Degree AI Vision: From Thermal to Low-Light",
-    excerpt:
-      "How Rollo's sensor stack combines thermal imaging, low-light cameras, and AI to detect threats in full darkness.",
-    date: "Coming Soon",
-  },
-  {
-    tag: "Industry",
-    title: "Use Cases: Airports, Campuses, and Industrial Zones",
-    excerpt:
-      "Exploring the highest-value deployment scenarios for autonomous security robots across key industries.",
-    date: "Coming Soon",
-  },
-  {
-    tag: "Company",
-    title: "Building a Robotics Team in Estonia",
-    excerpt:
-      "Our story of assembling a team with 3-15 years of shared robotics experience and the vision driving us forward.",
-    date: "Coming Soon",
-  },
-];
+import { useState, useMemo } from "react";
+import { usePublishedPosts } from "@/hooks/useBlogPosts";
+import { format } from "date-fns";
+
+const TAGS = ["All", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company", "General"];
 
 const Blog = () => {
+  const { data: posts = [], isLoading } = usePublishedPosts();
+  const [activeTag, setActiveTag] = useState("All");
+
+  const filtered = useMemo(() => {
+    if (activeTag === "All") return posts;
+    return posts.filter((p) => p.tag === activeTag);
+  }, [posts, activeTag]);
+
   return (
     <div className="pt-24 pb-16">
       {/* Hero */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="max-w-2xl space-y-4">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-            Blog
-          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-primary">Blog</p>
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
             Insights & Updates
           </h1>
-          <p className="text-base md:text-lg text-slate-300">
+          <p className="text-base md:text-lg text-muted-foreground">
             Latest thinking on autonomous security, field test results, and the
             future of robotic patrol technology.
           </p>
         </div>
       </section>
 
-      {/* Articles Grid */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {articles.map((a) => (
-            <article
-              key={a.title}
-              className="h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6 transition hover:border-white/20 hover:bg-white/[0.07]"
+      {/* Tag filter */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
+        <div className="flex flex-wrap gap-2">
+          {TAGS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setActiveTag(t)}
+              className={`px-3 py-1.5 text-xs rounded-[4px] border transition uppercase tracking-wider ${
+                activeTag === t
+                  ? "bg-primary/20 border-primary/40 text-primary"
+                  : "bg-white/5 border-white/10 text-slate-400 hover:border-white/20"
+              }`}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="rounded-full bg-[#B4FF33]/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-[#B4FF33] font-medium">
-                  {a.tag}
-                </span>
-                <span className="text-[11px] text-slate-500">{a.date}</span>
-              </div>
-
-              <h2 className="text-lg font-semibold text-white mb-3 leading-snug">
-                {a.title}
-              </h2>
-
-              <p className="text-sm text-slate-300 leading-relaxed flex-1">
-                {a.excerpt}
-              </p>
-
-              <button
-                className="mt-6 self-start text-sm font-medium text-[#B4FF33] hover:text-[#B4FF33]/80 transition"
-                disabled
-              >
-                Read More &rarr;
-              </button>
-            </article>
+              {t}
+            </button>
           ))}
         </div>
+      </section>
+
+      {/* Articles Grid */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+        {isLoading ? (
+          <p className="text-muted-foreground text-center">Loading posts…</p>
+        ) : filtered.length === 0 ? (
+          <p className="text-muted-foreground text-center">No posts yet — check back soon!</p>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            {filtered.map((a) => (
+              <article
+                key={a.id}
+                className="h-full flex flex-col rounded-[4px] border border-white/10 bg-white/5 overflow-hidden transition hover:border-white/20 hover:bg-white/[0.07]"
+              >
+                {/* Thumbnail */}
+                {a.thumbnail_url ? (
+                  <img
+                    src={a.thumbnail_url}
+                    alt={a.title}
+                    className="w-full h-48 object-cover"
+                    loading="lazy"
+                  />
+                ) : (
+                  <div className="w-full h-48 bg-gradient-to-br from-white/5 to-white/[0.02]" />
+                )}
+
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center gap-3 mb-4">
+                    <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
+                      {a.tag}
+                    </span>
+                    <span className="text-[11px] text-muted-foreground">
+                      {a.published_at ? format(new Date(a.published_at), "MMM d, yyyy") : ""}
+                    </span>
+                  </div>
+
+                  <h2 className="text-lg font-semibold text-white mb-3 leading-snug">
+                    {a.title}
+                  </h2>
+
+                  <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                    {a.excerpt}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </div>
   );
