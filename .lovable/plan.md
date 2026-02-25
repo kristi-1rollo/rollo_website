@@ -1,32 +1,45 @@
 
-## Ühendatud admin paneel
 
-Liidetakse blogi haldus ja registratsioonide vaade ühte admin lehte, kasutades tab-navigatsiooni.
+## Piltide positsioneerimine ja zoomimise voimalus
 
-### Mida tehakse
+Lisatakse piltide karpimise (crop) funktsionaalsus, mis voimaldab pilti sisse zoomida ja lohistades oigesse kohta liigutada, kui pildi proportsioonid ei kattu soovitud moistmetega.
 
-**1. Uus leht `src/pages/Admin.tsx`**
-- Asendab praeguse `AdminBlog.tsx` lehe
-- Tabs komponent kahe vahelehega:
-  - **Blog** -- kogu praegune blogi halduse funktsionaalsus (postituste nimekiri, loomine, muutmine, kustutamine)
-  - **Registrations** -- tabel kõigi kontaktivormi kirjadega (nimi, email, regioon, teemad, sonum, kuupaev)
-- Yhine ylemine riba: pealkiri "Admin", Sign Out nupp
-- Sama turvaloogika (useAuth, admin kontroll, redirect)
+### Kuidas see toob
 
-**2. Registratsioonide vaade**
-- Parib andmed: `supabase.from('registrations').select('*').order('created_at', { ascending: false })`
-- Tabel veergudega: nimi, email, regioon, teemad, sonum (laieneb klikkides), kuupaev
-- Otsinguvalg nime/emaili jargi
+- Kui thumbnail voi galeriipildil on moistmed (nt 800x400), aga pilt ise on teistes proportsioonides, ilmub eelvaate peale crop-tookiist
+- Slider zoomimiseks (1x kuni 3x)
+- Hiire voi puutega lohistamine, et pilti kasti sees oigesse kohta nihutada
+- Salvestab positsiooni (`objectPosition`) ja zoomi taseme (`focal_x`, `focal_y`, `zoom`) andmebaasi
 
-**3. `src/App.tsx` muudatused**
-- Asendatakse `AdminBlog` import uue `Admin` lehega
-- Route `/admin/blog` -> `/admin` (voi moolemad toimivad)
+### Mida muudetakse
 
-**4. Kustutatakse `src/pages/AdminBlog.tsx`**
-- Kogu funktsionaalsus kolib uude Admin lehte
+**1. Uus komponent `src/components/ImageCropPositioner.tsx`**
+- Kuvab pildi kindlate moistmetega kastis (`overflow: hidden`)
+- Zoom slider (1x-3x skaalal)
+- Hiire drag voi touch-drag pildi liigutamiseks kasti sees
+- Kuvab eelvaate reaalajas
+- Valjastab `{ focalX, focalY, zoom }` vaartused (protsendid 0-100)
+
+**2. `MediaGalleryItem` tyybi laiendamine (`src/hooks/useBlogPosts.ts`)**
+- Lisanduvad valikulised valjad: `focal_x?: number`, `focal_y?: number`, `zoom?: number`
+
+**3. `src/components/BlogPostEditor.tsx` muudatused**
+- Thumbnailile lisatakse crop-positsioneerimine, kui moistmed on maaratud
+- Galeriipiltidele lisatakse sama voimalus
+- Salvestatakse focal_x, focal_y ja zoom vaartused
+
+**4. `src/components/BlogMediaGallery.tsx` muudatused**
+- Kasutab salvestatud `focal_x/focal_y/zoom` vaartusi, et kuvada pilt oiges positsioonis:
+  ```css
+  object-fit: cover;
+  object-position: {focal_x}% {focal_y}%;
+  transform: scale({zoom});
+  ```
+
+**5. `src/pages/BlogPost.tsx` muudatused**
+- Thumbnail kuvamisel kasutatakse samu positsioneerimise vaartusi
 
 ### Tehniline detail
-- Kasutatakse olemasolevat `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent` komponente
-- Registratsioonide paringule luuakse uus React Query hook `useRegistrations`
-- RLS poliitika on juba paigas -- ainult admin saab registratsioone lugeda
-- Andmebaasi muudatusi ei ole vaja
+- Andmebaasi muudatusi pole vaja -- `focal_x/focal_y/zoom` salvestatakse olemasoleva `media_gallery` JSONB massiivi sisse ja thumbnailile lisanduvad uued state vaartused, mis salvestatakse postituse uuendamisel
+- Kogu crop-loogika on puhtalt frontend-pohine (CSS object-fit + object-position + transform scale)
+- Drag kasutab `onMouseDown/Move/Up` ja `onTouchStart/Move/End` sündmusi
