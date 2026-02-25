@@ -46,6 +46,7 @@ const Header = () => {
 
   const onNavClick = () => {
     setMobileMenuOpen(false);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const openAccessModal = () => {
@@ -91,6 +92,7 @@ const Header = () => {
                 <Link
                   key={i.to}
                   to={i.to}
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   aria-current={isActive ? "page" : undefined}
                   className={[
                     "text-sm transition relative",
