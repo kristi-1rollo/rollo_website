@@ -25,11 +25,9 @@ const team = [
   },
 ];
 
-const AboutUs = () => {
-  const openAccessModal = () => {
-    window.dispatchEvent(new CustomEvent("rollo:open-access"));
-  };
+import { Link } from "react-router-dom";
 
+const AboutUs = () => {
   return (
     <div className="pt-24 pb-16">
       {/* A) Hero */}
@@ -49,18 +47,12 @@ const AboutUs = () => {
             inefficient, or unsafe.
           </p>
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <button
-              onClick={openAccessModal}
-              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+            <Link
+              to="/contact"
+              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
             >
-              Get Rollo Access
-            </button>
-            <a
-              href="#contact"
-              className="text-sm font-medium text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 hover:text-[#B4FF33]/80 transition"
-            >
-              Contact
-            </a>
+              Get in Touch
+            </Link>
           </div>
         </div>
       </section>
@@ -201,12 +193,12 @@ const AboutUs = () => {
               <p className="text-base text-slate-300 mb-6">
                 Interested in partnerships, pilots, or deployment planning?
               </p>
-              <button
-                onClick={openAccessModal}
-                className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+              <Link
+                to="/contact"
+                className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
               >
-                Get Rollo Access
-              </button>
+                Get in Touch
+              </Link>
             </div>
           </div>
         </div>

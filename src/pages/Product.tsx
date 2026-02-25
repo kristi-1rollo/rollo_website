@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Battery,
   Clock,
@@ -14,6 +15,10 @@ import {
   ChevronUp
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+
+const FUNCTION_URL =
+  "https://iysxjfluapydbocywubv.supabase.co/functions/v1/submit-registration";
 
 const Product = () => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
@@ -27,15 +32,72 @@ const Product = () => {
     deploymentAreas: [] as string[],
     additionalInfo: ""
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const openAccessModal = () => {
-    window.dispatchEvent(new CustomEvent("rollo:open-access"));
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Reservation form submitted:", formData);
-    // Handle form submission logic here
+
+    // Validate required fields
+    if (!formData.name || !formData.email || !formData.company || !formData.country || !formData.numberOfRobots || formData.deploymentAreas.length === 0) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Transform data to match RegistrationModal format
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        region: formData.country,
+        topics: formData.deploymentAreas,
+        message: [
+          `Company: ${formData.company}`,
+          `Number of Robots: ${formData.numberOfRobots}`,
+          formData.estimatedDemand && `Estimated Demand: ${formData.estimatedDemand}`,
+          formData.additionalInfo && `Additional Info: ${formData.additionalInfo}`,
+        ].filter(Boolean).join("\n"),
+      };
+
+      const res = await fetch(FUNCTION_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const data = (await res.json().catch(() => ({}))) as unknown as {
+        error?: string;
+        details?: string[];
+      };
+
+      if (!res.ok || data?.error) {
+        const msg = Array.isArray(data?.details)
+          ? data.details.join(", ")
+          : data?.error;
+
+        toast.error(msg ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      toast.success("Thank you for your reservation! We'll be in touch soon.");
+
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        company: "",
+        country: "",
+        numberOfRobots: "",
+        estimatedDemand: "",
+        deploymentAreas: [],
+        additionalInfo: ""
+      });
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleInputChange = (
@@ -102,12 +164,12 @@ const Product = () => {
               </p>
             </div>
 
-            <button
-              onClick={openAccessModal}
-              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+            <Link
+              to="/contact"
+              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
             >
-              Get Early Access
-            </button>
+              Get in Touch
+            </Link>
           </div>
 
           <div className="flex-1 min-w-0 flex justify-center">
@@ -619,9 +681,10 @@ const Product = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full min-h-12 rounded-xl bg-[#B4FF33] px-6 py-3 text-base font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+                disabled={isSubmitting}
+                className="w-full min-h-12 rounded-xl bg-[#B4FF33] px-6 py-3 text-base font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Send Reservation
+                {isSubmitting ? "Sending..." : "Send Reservation"}
               </button>
               <p className="text-center text-sm text-slate-400 mt-3">
                 No obligation • Free reservation • Cancel anytime

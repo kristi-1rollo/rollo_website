@@ -122,10 +122,6 @@ const Index = () => {
   const annualSavings = monthlySavings * 12;
   const savingsPercentage = monthlyGuardCost > 0 ? (monthlySavings / monthlyGuardCost) * 100 : 0;
 
-  const openAccessModal = () => {
-    window.dispatchEvent(new CustomEvent("rollo:open-access"));
-  };
-
   return (
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
@@ -170,12 +166,12 @@ const Index = () => {
             >
               Product
             </Link>
-            <button
-              onClick={openAccessModal}
-              className="min-h-11 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 backdrop-blur-sm transition"
+            <Link
+              to="/contact"
+              className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 backdrop-blur-sm transition"
             >
               Contact
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -297,12 +293,12 @@ const Index = () => {
         </div>
 
         <div className="mt-8 text-center">
-          <button
-            onClick={openAccessModal}
-            className="min-h-11 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 transition"
+          <Link
+            to="/contact"
+            className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 transition"
           >
             Talk to Us
-          </button>
+          </Link>
         </div>
       </Section>
 

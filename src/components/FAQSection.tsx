@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import {
   Accordion,
   AccordionContent,
@@ -71,12 +72,12 @@ const FAQSection = () => {
           <p className="text-slate-400 mb-6">
             Our engineers are ready to answer even the most complex technical questions.
           </p>
-          <a 
-            href="#contact" 
+          <Link
+            to="/contact"
             className="inline-block bg-[#B4FF33] text-black px-8 py-3 rounded-full font-bold hover:bg-[#a2e62e] transition-colors"
           >
             Get in Touch
-          </a>
+          </Link>
         </div>
       </div>
     </section>

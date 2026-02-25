@@ -59,28 +59,28 @@ const Footer = () => {
               </Link>
               <Link
                 className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                to="/about"
-              >
-                About
-              </Link>
-              <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
               >
                 Blog
               </Link>
               <Link
                 className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                to="/funding"
+                to="/about"
               >
-                Funding
+                About Us
               </Link>
-              <a
+              <Link
                 className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                href="/about#contact"
+                to="/contact"
               >
                 Contact
-              </a>
+              </Link>
+              <Link
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/contact#career"
+              >
+                Career
+              </Link>
             </nav>
           </div>
 
@@ -117,19 +117,17 @@ const Footer = () => {
                 Supported by
               </h3>
               <div className="space-y-3">
-                <Link
-                  to="/funding"
-                  aria-label="Funded by the European Union - NextGenerationEU"
-                  className="block group"
-                >
+                <div className="block">
                   <img
                     src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
                     alt="Funded by the European Union - NextGenerationEU"
-                    className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                    className="h-11 w-auto object-contain opacity-85"
                   />
-                </Link>
-                <Link
-                  to="/funding"
+                </div>
+                <a
+                  href="https://defence.ee/"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   aria-label="Estonian Defence and Aerospace Industry Association"
                   className="block group"
                 >
@@ -138,7 +136,7 @@ const Footer = () => {
                     alt="Estonian Defence and Aerospace Industry Association"
                     className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
                   />
-                </Link>
+                </a>
               </div>
             </div>
           </div>
