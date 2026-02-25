@@ -15,7 +15,6 @@ import {
   GraduationCap,
   Home,
   Droplets,
-  Play,
   ChevronRight,
   Users,
   DollarSign,
@@ -86,13 +85,6 @@ const useCases = [
   { icon: GraduationCap, label: "Campuses" },
   { icon: Home, label: "Smart Communities" },
   { icon: Droplets, label: "Oil & Gas Facilities" },
-];
-
-const milestones = [
-  { year: "2024", items: ["Company founded", "Core R&D started", "Patent filed"] },
-  { year: "2025", items: ["Prototype P001", "Field tests begin", "Pilot partners signed"] },
-  { year: "2026", items: ["Production prototype", "First commercial pilots", "RaaS launch"] },
-  { year: "2027", items: ["Scale production", "International expansion", "Fleet management platform"] },
 ];
 
 /* ── helpers ──────────────────────────────────────────── */
@@ -172,19 +164,18 @@ const Index = () => {
           </p>
 
           <div className="flex flex-wrap gap-3 pt-2">
+            <Link
+              to="/product"
+              className="min-h-11 inline-flex items-center rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+            >
+              Product
+            </Link>
             <button
               onClick={openAccessModal}
-              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+              className="min-h-11 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 backdrop-blur-sm transition"
             >
-              Get Early Access
+              Contact
             </button>
-            <a
-              href="#video"
-              className="min-h-11 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 backdrop-blur-sm transition"
-            >
-              <Play className="h-4 w-4" />
-              Watch Video
-            </a>
           </div>
         </div>
       </section>
@@ -274,38 +265,6 @@ const Index = () => {
               </Link>
             </div>
           ))}
-        </div>
-      </Section>
-
-      {/* ═══ VIDEO ═══ */}
-      <Section className="py-12 md:py-20" id="video">
-        <SectionTag>Video</SectionTag>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-6">
-          See ROLLO in Action
-        </h2>
-
-        <div className="relative aspect-video w-full rounded-2xl border border-white/10 bg-black overflow-hidden">
-          <video
-            className="absolute inset-0 h-full w-full object-cover"
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            src="/robot/Lumes_1.mp4"
-          />
-        </div>
-
-        <div className="mt-6 flex flex-wrap gap-4">
-          <span className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.12em] text-white/80">
-            Autonomous Patrol
-          </span>
-          <span className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.12em] text-white/80">
-            AI Perception
-          </span>
-          <span className="rounded-full border border-white/15 bg-white/5 px-4 py-1.5 text-xs uppercase tracking-[0.12em] text-white/80">
-            Remote Presence
-          </span>
         </div>
       </Section>
 
@@ -449,92 +408,6 @@ const Index = () => {
               <p className="mb-2 text-xs uppercase tracking-[0.15em] text-[#B4FF33]">Annual Savings</p>
               <p className="text-3xl font-bold text-[#B4FF33]">EUR {annualSavings.toLocaleString()}</p>
               <p className="mt-2 text-sm text-white/80">{savingsPercentage.toFixed(0)}% efficiency increase</p>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* ═══ MILESTONES ═══ */}
-      <Section className="py-12 md:py-20">
-        <SectionTag>Milestones</SectionTag>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8">
-          Roadmap
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {milestones.map((m) => (
-            <div
-              key={m.year}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5"
-            >
-              <p className="text-2xl font-bold text-[#B4FF33] mb-3">{m.year}</p>
-              <ul className="space-y-2">
-                {m.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-slate-300"
-                  >
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#B4FF33]/60" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-6">
-          <Link
-            to="/product"
-            className="inline-flex items-center gap-1 text-sm font-medium text-[#B4FF33] hover:text-[#B4FF33]/80 transition"
-          >
-            See full roadmap <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
-      </Section>
-
-      {/* ═══ FINAL CTA ═══ */}
-      <Section className="py-12 md:py-20">
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-8 md:p-12">
-          <div className="flex flex-col md:flex-row gap-8 md:gap-12">
-            <div className="flex-1 min-w-0 space-y-4">
-              <SectionTag>Get in Touch</SectionTag>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white">
-                Ready to Deploy Autonomous Security?
-              </h2>
-              <div className="space-y-2 text-sm text-slate-300">
-                <p className="font-medium text-white">Sander Sebastian Agur</p>
-                <p>Founder</p>
-                <a
-                  href="mailto:sander@1rollo.com"
-                  className="inline-flex text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
-                >
-                  sander@1rollo.com
-                </a>
-                <p>
-                  <a
-                    href="https://www.1rollo.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-slate-400 hover:text-white transition"
-                  >
-                    www.1rollo.com
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            <div className="flex-1 min-w-0 flex flex-col justify-center items-start">
-              <p className="text-base text-slate-300 mb-6">
-                Join the waitlist for early access and move to production rollout
-                after approval.
-              </p>
-              <button
-                onClick={openAccessModal}
-                className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
-              >
-                Get Early Access
-              </button>
             </div>
           </div>
         </div>

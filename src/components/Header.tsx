@@ -96,7 +96,7 @@ const Header = () => {
                     "text-sm transition relative",
                     isActive
                       ? "text-white"
-                      : "text-slate-400 hover:text-white",
+                      : "text-white hover:text-white/80",
                   ].join(" ")}
                 >
                   {i.label}
@@ -106,24 +106,10 @@ const Header = () => {
                 </Link>
               );
             })}
-
-            <Button
-              onClick={openAccessModal}
-              className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-9 px-4 rounded-[4px] font-bold uppercase tracking-tight"
-            >
-              Get Rollo Access
-            </Button>
           </nav>
 
           {/* Mobile actions */}
           <div className="md:hidden flex items-center gap-2">
-            <Button
-              onClick={openAccessModal}
-              className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-10 px-3 rounded-[4px] font-semibold tracking-tight"
-            >
-              Get Access
-            </Button>
-
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button
@@ -178,13 +164,6 @@ const Header = () => {
                       </Link>
                     );
                   })}
-
-                  <Button
-                    onClick={openAccessModal}
-                    className="mt-4 bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 h-11 rounded-[4px] font-bold uppercase tracking-tight"
-                  >
-                    Get Rollo Access
-                  </Button>
                 </div>
               </SheetContent>
             </Sheet>
