@@ -3,74 +3,92 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/[0.08] bg-white/[0.02]">
-      <div className="container-premium py-8 md:py-10 space-y-4">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
-          <div className="space-y-5 text-left">
-            <div className="space-y-3">
-              <Link
-                to="/"
-                aria-label="Go to homepage"
-                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-                className="inline-flex"
-              >
-                <img
-                  src="/logos/rollo_logo_white.png"
-                  alt="Rollo Robotics"
-                  className="h-7 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity"
-                />
-              </Link>
-              <p className="text-sm text-slate-300 font-medium">
-                Rollo Robotics O&Uuml;
-                <span className="text-slate-500 ml-1.5 text-xs">(17320003)</span>
+    <footer className="border-t border-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent">
+      {/* MAIN FOOTER */}
+      <div className="container-premium py-12 md:py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 text-left">
+
+          {/* Contact - spans 5 columns on desktop */}
+          <div className="space-y-4 md:col-span-5">
+            <Link
+              to="/"
+              aria-label="Go to homepage"
+              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+              className="inline-flex"
+            >
+              <img
+                src="/logos/rollo_logo_white.png"
+                alt="Rollo Robotics"
+                className="h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+              />
+            </Link>
+            <div className="space-y-2.5 max-w-sm">
+              <p className="text-[15px] text-slate-200 font-medium tracking-tight">
+                Rollo Robotics OÜ
               </p>
-              <p className="text-sm text-slate-400 leading-relaxed">
-                Viljandi maakond, Viljandi linn,
-                <br />
+              <p className="text-[13px] text-slate-400 leading-relaxed">
+                Viljandi maakond, Viljandi linn,<br />
                 Raua tn 16, 71020
               </p>
+              <p className="text-xs text-slate-500">Registry code: 17320003</p>
               <a
                 href="mailto:info@1rollo.com"
                 onClick={(e) => {
                   e.preventDefault();
                   window.location.href = "mailto:info@1rollo.com";
                 }}
-                className="inline-flex min-h-[44px] items-center gap-1.5 text-sm text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,72%)] transition-colors"
+                className="inline-flex min-h-[44px] md:min-h-0 items-center gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
               >
-                <Mail className="w-3.5 h-3.5" />
+                <Mail className="w-4 h-4" />
                 info@1rollo.com
               </a>
             </div>
+          </div>
 
-            <div className="space-y-2">
-              <h3 className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-medium">
-                Quick Links
-              </h3>
-              <nav className="grid grid-cols-2 gap-x-10 gap-y-1 text-sm">
-                <Link className="inline-flex min-h-[44px] items-center py-2 text-slate-300 hover:text-white transition-colors" to="/product">
-                  Product
-                </Link>
-                <Link className="inline-flex min-h-[44px] items-center py-2 text-slate-300 hover:text-white transition-colors" to="/blog">
-                  Blog
-                </Link>
-                <Link className="inline-flex min-h-[44px] items-center py-2 text-slate-300 hover:text-white transition-colors" to="/about">
-                  About
-                </Link>
-                <Link className="inline-flex min-h-[44px] items-center py-2 text-slate-300 hover:text-white transition-colors" to="/funding">
-                  Funding
-                </Link>
-                <a
-                  className="inline-flex min-h-[44px] items-center py-2 text-slate-300 hover:text-white transition-colors"
-                  href="/about#contact"
-                >
-                  Contact
-                </a>
-              </nav>
-            </div>
+          {/* Quick links - spans 3 columns */}
+          <div className="space-y-4 md:col-span-3">
+            <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+              Quick Links
+            </h3>
+            <nav className="space-y-2.5 text-[15px]">
+              <Link
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/product"
+              >
+                Product
+              </Link>
+              <Link
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/about"
+              >
+                About
+              </Link>
+              <Link
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/blog"
+              >
+                Blog
+              </Link>
+              <Link
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/funding"
+              >
+                Funding
+              </Link>
+              <a
+                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                href="/about#contact"
+              >
+                Contact
+              </a>
+            </nav>
+          </div>
 
-            <div className="space-y-2">
-              <h3 className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-medium">
-                Follow
+          {/* Social & Trust signals - spans 4 columns */}
+          <div className="space-y-6 md:col-span-4">
+            <div className="space-y-3">
+              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+                Follow Us
               </h3>
               <div className="flex items-center gap-2.5">
                 <a
@@ -78,76 +96,80 @@ const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Follow Rollo Robotics on LinkedIn"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 text-slate-300 hover:bg-white/5 hover:text-[hsl(82,100%,60%)] transition-colors"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(82,100%,60%)]/20 text-[hsl(82,100%,60%)] hover:bg-[hsl(82,100%,60%)]/10 hover:border-[hsl(82,100%,60%)]/40 transition-all duration-200"
                 >
-                  <Linkedin className="h-4 w-4" />
+                  <Linkedin className="h-[19px] w-[19px]" />
                 </a>
                 <a
                   href="https://www.youtube.com/@RolloRobotics"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Watch Rollo Robotics on YouTube"
-                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/12 text-slate-300 hover:bg-white/5 hover:text-[hsl(82,100%,60%)] transition-colors"
+                  className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[hsl(82,100%,60%)]/20 text-[hsl(82,100%,60%)] hover:bg-[hsl(82,100%,60%)]/10 hover:border-[hsl(82,100%,60%)]/40 transition-all duration-200"
                 >
-                  <Youtube className="h-4 w-4" />
+                  <Youtube className="h-[19px] w-[19px]" />
                 </a>
               </div>
             </div>
-          </div>
-        </div>
 
-        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6">
-          <div className="space-y-3 text-left">
-            <h3 className="text-[11px] uppercase tracking-[0.2em] text-slate-400 font-medium">
-              Supported by
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <Link
-                to="/funding"
-                aria-label="Open funding information page"
-                className="rounded-xl border border-white/10 bg-white/[0.03] p-3"
+            <div className="space-y-3 pt-2">
+              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+                Supported by
+              </h3>
+              <div className="space-y-3">
+                <Link
+                  to="/funding"
+                  aria-label="Funded by the European Union - NextGenerationEU"
+                  className="block group"
+                >
+                  <img
+                    src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
+                    alt="Funded by the European Union - NextGenerationEU"
+                    className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                  />
+                </Link>
+                <Link
+                  to="/funding"
+                  aria-label="Estonian Defence and Aerospace Industry Association"
+                  className="block group"
+                >
+                  <img
+                    src="/logos/edia-eas.png"
+                    alt="Estonian Defence and Aerospace Industry Association"
+                    className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                  />
+                </Link>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      {/* SUBFOOTER - minimal */}
+      <div className="border-t border-white/[0.05]">
+        <div className="container-premium py-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-left">
+            <p className="text-xs text-slate-600 tracking-wide">
+              © {new Date().getFullYear()} Rollo Robotics OÜ. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6">
+              <a
+                href="#"
+                className="text-xs text-slate-600 hover:text-slate-400 transition-colors tracking-wide"
               >
-                <img
-                  src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
-                  alt="Funded by the European Union - NextGenerationEU"
-                  className="h-12 w-full object-contain"
-                />
-              </Link>
-              <Link
-                to="/funding"
-                aria-label="Open funding information page"
-                className="rounded-xl border border-white/10 bg-white/[0.03] p-3"
+                Privacy Policy
+              </a>
+              <a
+                href="#"
+                className="text-xs text-slate-600 hover:text-slate-400 transition-colors tracking-wide"
               >
-                <img
-                  src="/logos/edia-eas.png"
-                  alt="Estonian Defence and Aerospace Industry Association"
-                  className="h-12 w-full object-contain"
-                />
-              </Link>
+                Terms of Service
+              </a>
             </div>
           </div>
         </div>
       </div>
-
-      <div className="border-t border-white/[0.06] bg-black/20">
-        <div className="container-premium py-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-left">
-            <span className="text-[10px] uppercase tracking-[0.2em] text-slate-600 font-medium">
-              &copy; {new Date().getFullYear()} Rollo Robotics O&Uuml;
-            </span>
-            <a
-              href="#"
-              className="text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-slate-400 transition-colors font-medium"
-            >
-              Privacy
-            </a>
-            <a
-              href="#"
-              className="text-[10px] uppercase tracking-[0.2em] text-slate-600 hover:text-slate-400 transition-colors font-medium"
-            >
-              Terms
-            </a>
-          </div>
-        </div>
     </footer>
   );
 };
