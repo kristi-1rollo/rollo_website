@@ -22,16 +22,29 @@ const BlogMediaGallery = ({ items }: Props) => {
               }}
             />
           ) : (
-            <img
-              src={item.url}
-              alt={item.caption || `Gallery image ${i + 1}`}
-              className="w-full object-cover"
+          <div
+              className="overflow-hidden"
               style={{
                 maxWidth: item.width ? `${item.width}px` : undefined,
                 maxHeight: item.height ? `${item.height}px` : undefined,
               }}
-              loading="lazy"
-            />
+            >
+              <img
+                src={item.url}
+                alt={item.caption || `Gallery image ${i + 1}`}
+                className="w-full object-cover"
+                style={{
+                  objectPosition: item.focal_x != null && item.focal_y != null
+                    ? `${item.focal_x}% ${item.focal_y}%`
+                    : undefined,
+                  transform: item.zoom && item.zoom > 1 ? `scale(${item.zoom})` : undefined,
+                  transformOrigin: item.focal_x != null && item.focal_y != null
+                    ? `${item.focal_x}% ${item.focal_y}%`
+                    : undefined,
+                }}
+                loading="lazy"
+              />
+            </div>
           )}
           {item.caption && (
             <p className="text-xs text-muted-foreground px-3 py-2">{item.caption}</p>

@@ -7,6 +7,7 @@ import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } 
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, ArrowUp, ArrowDown, Plus } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
+import ImageCropPositioner from "@/components/ImageCropPositioner";
 
 const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company"];
 
@@ -34,6 +35,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [thumbHeight, setThumbHeight] = useState<number | "">(post?.thumbnail_height ?? "");
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
   const [uploading, setUploading] = useState(false);
+  const [thumbFocalX, setThumbFocalX] = useState<number>((post as any)?.thumbnail_focal_x ?? 50);
+  const [thumbFocalY, setThumbFocalY] = useState<number>((post as any)?.thumbnail_focal_y ?? 50);
+  const [thumbZoom, setThumbZoom] = useState<number>((post as any)?.thumbnail_zoom ?? 1);
   const [gallery, setGallery] = useState<MediaGalleryItem[]>(post?.media_gallery ?? []);
   const [galleryUploading, setGalleryUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -139,7 +143,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
             <div className="relative w-full max-w-md">
               <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-border" />
               <button
-                onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); }}
+                onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); setThumbFocalX(50); setThumbFocalY(50); setThumbZoom(1); }}
                 className="absolute top-2 right-2 p-1 bg-background/80 rounded-[4px] text-foreground hover:bg-background"
               >
                 <X className="h-4 w-4" />
@@ -168,6 +172,23 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
                 />
               </div>
             </div>
+            {/* Crop positioner for thumbnail */}
+            {thumbWidth && thumbHeight && (
+              <div>
+                <label className="text-xs text-muted-foreground mb-2 block">Pildi positsioneerimine</label>
+                <ImageCropPositioner
+                  src={thumbnailUrl}
+                  width={Number(thumbWidth)}
+                  height={Number(thumbHeight)}
+                  initial={{ focalX: thumbFocalX, focalY: thumbFocalY, zoom: thumbZoom }}
+                  onChange={({ focalX, focalY, zoom }) => {
+                    setThumbFocalX(focalX);
+                    setThumbFocalY(focalY);
+                    setThumbZoom(zoom);
+                  }}
+                />
+              </div>
+            )}
           </div>
         ) : (
           <button
