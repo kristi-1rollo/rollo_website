@@ -4,6 +4,7 @@ import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
 import TextAlign from "@tiptap/extension-text-align";
+import Youtube from "@tiptap/extension-youtube";
 import { useRef } from "react";
 import { uploadThumbnail } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
@@ -27,6 +28,7 @@ import {
   Redo,
   Code,
   Minus,
+  Youtube as YoutubeIcon,
 } from "lucide-react";
 
 interface Props {
@@ -74,6 +76,7 @@ const RichTextEditor = ({ content, onChange }: Props) => {
       Image.configure({ inline: false, allowBase64: false }),
       Link.configure({ openOnClick: false, autolink: true }),
       TextAlign.configure({ types: ["heading", "paragraph"] }),
+      Youtube.configure({ inline: false, ccLanguage: "en" }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -91,7 +94,8 @@ const RichTextEditor = ({ content, onChange }: Props) => {
           "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:my-3 " +
           "[&_a]:text-primary [&_a]:underline " +
           "[&_code]:bg-muted [&_code]:px-1 [&_code]:rounded [&_code]:text-xs " +
-          "[&_hr]:border-border [&_hr]:my-4",
+          "[&_hr]:border-border [&_hr]:my-4 " +
+          "[&_iframe]:rounded-[4px] [&_iframe]:my-3 [&_iframe]:max-w-full",
       },
     },
   });
@@ -114,6 +118,12 @@ const RichTextEditor = ({ content, onChange }: Props) => {
     const url = prompt("Enter URL:");
     if (!url) return;
     editor.chain().focus().setLink({ href: url }).run();
+  };
+
+  const addYoutube = () => {
+    const url = prompt("Sisesta YouTube video URL:");
+    if (!url) return;
+    editor.commands.setYoutubeVideo({ src: url, width: 640, height: 360 });
   };
 
   const ic = "h-4 w-4";
@@ -184,6 +194,9 @@ const RichTextEditor = ({ content, onChange }: Props) => {
         </MenuButton>
         <MenuButton onClick={() => imgRef.current?.click()} title="Insert image">
           <ImageIcon className={ic} />
+        </MenuButton>
+        <MenuButton onClick={addYoutube} title="YouTube video">
+          <YoutubeIcon className={ic} />
         </MenuButton>
 
         <Separator />
