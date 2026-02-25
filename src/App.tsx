@@ -14,7 +14,7 @@ const BlogPost = lazy(() => import("./pages/BlogPost"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
-const AdminBlog = lazy(() => import("./pages/AdminBlog"));
+const Admin = lazy(() => import("./pages/Admin"));
 const EuFunding = lazy(() => import("./pages/EuFunding"));
 
 const queryClient = new QueryClient();
@@ -45,7 +45,8 @@ const App = () => (
                   <Route path="/funding" element={<EuFunding />} />
                   <Route path="/eu-kaasrahastus" element={<EuFunding />} />
                   <Route path="/login" element={<Login />} />
-                  <Route path="/admin/blog" element={<AdminBlog />} />
+                  <Route path="/admin" element={<Admin />} />
+                  <Route path="/admin/blog" element={<Admin />} />
                 </Route>
                 {/* Catch-all 404 outside layout */}
                 <Route path="*" element={<NotFound />} />

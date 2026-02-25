@@ -18,7 +18,7 @@ const Login = () => {
     setSubmitting(true);
     try {
       await signIn(email, password);
-      navigate("/admin/blog");
+      navigate("/admin");
     } catch (err: any) {
       toast({
         title: "Login failed",
