@@ -1,12 +1,10 @@
-
-
 import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
 };
 
@@ -41,7 +39,7 @@ serve(async (req) => {
 
     if (name.length < 2) return json({ error: "Invalid name" }, 400);
     if (!email.includes("@")) return json({ error: "Invalid email" }, 400);
-    if (!region) return json({ error: "Invalid region" }, 400);
+    if (!region) return json({ error: "Region is required" }, 400);
     if (topics.length < 1) return json({ error: "Select at least one topic" }, 400);
 
     const { error } = await supabase.from("registrations").insert({

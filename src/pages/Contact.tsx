@@ -3,7 +3,7 @@ import { Mail, MapPin, Building2, Briefcase } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
 
-const FUNCTION_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/submit-registration`;
+const FUNCTION_URL = "https://igdxbtuaajrhvuqtwhmm.supabase.co/functions/v1/submit-registration";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
