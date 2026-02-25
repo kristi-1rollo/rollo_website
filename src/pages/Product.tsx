@@ -88,16 +88,17 @@ const Product = () => {
 
             <div className="space-y-4 text-base md:text-lg text-slate-300">
               <p>
-                The ROLLO F6 is a next-generation autonomous patrol robot designed to deliver reliable,
-                cost-effective security coverage in outdoor environments. Combining autonomous mobility,
-                artificial intelligence, and cloud-based fleet management, ROLLO F6 provides 24/7 security
-                presence without the limitations of fixed cameras or the costs of constant human patrols.
+                The ROLLO F6 is a next-generation autonomous patrol robot designed to deliver continuous
+                situational awareness and reliable security in environments where traditional solutions are
+                no longer sufficient. Combining autonomous mobility, artificial intelligence, and cloud-based
+                fleet management, ROLLO F6 forms a unified security platform that protects territories around
+                the clock and without compromise.
               </p>
 
               <p>
-                ROLLO F6 is not designed to replace human personnel entirely. Instead, it augments and
-                supports security teams by handling routine patrols, providing real-time situational
-                awareness, and allowing human operators to focus on high-value decision-making and response.
+                ROLLO F6 is not designed to replace human personnel entirely. Instead, it enhances human
+                capabilities by handling routine patrol tasks, maintaining continuous presence, and enabling
+                security teams to focus on critical decision-making and response.
               </p>
             </div>
 
@@ -127,9 +128,9 @@ const Product = () => {
           </h2>
 
           <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            ROLLO F6 is engineered for demanding outdoor conditions, including rain, snow, and
-            temperatures ranging from -20°C to +45°C. The robot patrols autonomously, navigates
-            obstacles, and collects actionable security data in real time.
+            ROLLO F6 is engineered for demanding outdoor conditions and large operational areas.
+            The robot patrols autonomously, navigates obstacles, collects operational data, and
+            analyzes its surroundings in real time.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
@@ -175,7 +176,7 @@ const Product = () => {
                     Autonomous Docking
                   </h3>
                   <p className="text-sm text-slate-300">
-                    Autonomous docking and charging ensures continuous 24/7 operation
+                    Autonomous docking and charging enable continuous operation with minimal human intervention
                   </p>
                 </div>
               </div>
@@ -192,7 +193,7 @@ const Product = () => {
           </h2>
 
           <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            ROLLO F6's AI-powered vision system detects and categorizes security-relevant events:
+            Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
           </p>
 
           <div className="flex flex-wrap gap-3 my-6">
@@ -200,8 +201,8 @@ const Product = () => {
               "Vehicles",
               "People",
               "Animals",
-              "Fire hazards",
-              "Unusual or unauthorized activity",
+              "Fire hazards and emergency situations",
+              "Unusual or unauthorized activity within secured areas",
               "Drones"
             ].map((detection) => (
               <span
@@ -215,7 +216,7 @@ const Product = () => {
 
           <p className="text-base md:text-lg text-slate-300 max-w-3xl">
             All events are available through a real-time remote monitoring interface, enabling
-            security personnel to make informed decisions and respond promptly to incidents.
+            faster and more accurate response by security teams.
           </p>
         </div>
       </section>
@@ -226,6 +227,10 @@ const Product = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             More Than a Robot: A Security Platform
           </h2>
+
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+            ROLLO F6 is part of a scalable autonomous security ecosystem.
+          </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
@@ -279,8 +284,8 @@ const Product = () => {
           </div>
 
           <p className="text-base md:text-lg text-slate-300 max-w-3xl mt-6">
-            ROLLO F6 integrates seamlessly into existing security environments, complementing
-            current systems and workflows rather than requiring wholesale replacement.
+            The platform integrates seamlessly into existing security environments — from private
+            enterprises to national infrastructure operators.
           </p>
         </div>
       </section>
@@ -456,15 +461,15 @@ const Product = () => {
             <ul className="space-y-2 text-sm text-slate-300">
               <li className="flex items-start gap-2">
                 <span className="text-[#B4FF33] mt-0.5">✓</span>
-                <span>Secures priority access to early production allocation</span>
+                <span>Secures priority access when ordering opens</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#B4FF33] mt-0.5">✓</span>
-                <span>Does not create any financial obligation</span>
+                <span>Provides early production allocation</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-[#B4FF33] mt-0.5">✓</span>
-                <span>Can be canceled at any time before order confirmation</span>
+                <span>Does not create any obligation to purchase or rent</span>
               </li>
             </ul>
           </div>
