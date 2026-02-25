@@ -25,9 +25,12 @@ export type Database = {
           media_gallery: Json | null
           published_at: string | null
           tag: string
+          thumbnail_focal_x: number | null
+          thumbnail_focal_y: number | null
           thumbnail_height: number | null
           thumbnail_url: string | null
           thumbnail_width: number | null
+          thumbnail_zoom: number | null
           title: string
         }
         Insert: {
@@ -40,9 +43,12 @@ export type Database = {
           media_gallery?: Json | null
           published_at?: string | null
           tag?: string
+          thumbnail_focal_x?: number | null
+          thumbnail_focal_y?: number | null
           thumbnail_height?: number | null
           thumbnail_url?: string | null
           thumbnail_width?: number | null
+          thumbnail_zoom?: number | null
           title: string
         }
         Update: {
@@ -55,9 +61,12 @@ export type Database = {
           media_gallery?: Json | null
           published_at?: string | null
           tag?: string
+          thumbnail_focal_x?: number | null
+          thumbnail_focal_y?: number | null
           thumbnail_height?: number | null
           thumbnail_url?: string | null
           thumbnail_width?: number | null
+          thumbnail_zoom?: number | null
           title?: string
         }
         Relationships: []

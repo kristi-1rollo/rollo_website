@@ -122,6 +122,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         thumbnail_url: thumbnailUrl || null,
         thumbnail_width: thumbWidth || null,
         thumbnail_height: thumbHeight || null,
+        thumbnail_focal_x: thumbFocalX,
+        thumbnail_focal_y: thumbFocalY,
+        thumbnail_zoom: thumbZoom,
         media_gallery: gallery,
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
@@ -284,6 +287,18 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
                   placeholder="Caption (optional)"
                   className="h-7 text-xs bg-muted/50 border-border text-foreground"
                 />
+                {/* Crop positioner for gallery images */}
+                {item.type === "image" && item.width > 0 && item.height > 0 && (
+                  <ImageCropPositioner
+                    src={item.url}
+                    width={item.width}
+                    height={item.height}
+                    initial={{ focalX: item.focal_x ?? 50, focalY: item.focal_y ?? 50, zoom: item.zoom ?? 1 }}
+                    onChange={({ focalX, focalY, zoom }) =>
+                      updateGalleryItem(i, { focal_x: focalX, focal_y: focalY, zoom })
+                    }
+                  />
+                )}
               </div>
 
               {/* Actions */}
