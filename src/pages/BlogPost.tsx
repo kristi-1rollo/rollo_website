@@ -97,9 +97,10 @@ const BlogPost = () => {
         )}
 
         {/* Content */}
-        <div className="prose prose-invert prose-sm sm:prose-base max-w-none text-muted-foreground leading-relaxed whitespace-pre-wrap mb-12">
-          {post.content}
-        </div>
+        <div
+          className="prose prose-invert prose-sm sm:prose-base max-w-none text-muted-foreground leading-relaxed mb-12 [&_img]:rounded-[4px] [&_img]:max-w-full [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic"
+          dangerouslySetInnerHTML={{ __html: post.content }}
+        />
 
         {/* Media Gallery */}
         {post.media_gallery && post.media_gallery.length > 0 && (

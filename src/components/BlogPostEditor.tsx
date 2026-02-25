@@ -6,6 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
 import { Upload, X, ArrowUp, ArrowDown, Plus } from "lucide-react";
+import RichTextEditor from "@/components/RichTextEditor";
 
 const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company"];
 
@@ -193,10 +194,10 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         <Textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="bg-muted/50 border-border text-foreground" />
       </div>
 
-      {/* Content */}
+      {/* Content — Rich Text Editor */}
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">Content</label>
-        <Textarea value={content} onChange={(e) => setContent(e.target.value)} rows={10} className="bg-muted/50 border-border text-foreground" />
+        <RichTextEditor content={content} onChange={setContent} />
       </div>
 
       {/* Tag */}
