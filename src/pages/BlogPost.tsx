@@ -82,14 +82,27 @@ const BlogPost = () => {
 
         {/* Thumbnail */}
         {post.thumbnail_url && (
-          <div className="mb-10">
+          <div
+            className="mb-10 overflow-hidden rounded-[4px] border border-border"
+            style={{
+              maxWidth: post.thumbnail_width ? `${post.thumbnail_width}px` : undefined,
+              maxHeight: post.thumbnail_height ? `${post.thumbnail_height}px` : undefined,
+            }}
+          >
             <img
               src={post.thumbnail_url}
               alt={post.title}
-              className="w-full rounded-[4px] border border-border object-cover"
+              className="w-full object-cover"
               style={{
-                maxWidth: post.thumbnail_width ? `${post.thumbnail_width}px` : undefined,
-                maxHeight: post.thumbnail_height ? `${post.thumbnail_height}px` : undefined,
+                objectPosition: (post as any).thumbnail_focal_x != null
+                  ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                  : undefined,
+                transform: (post as any).thumbnail_zoom > 1
+                  ? `scale(${(post as any).thumbnail_zoom})`
+                  : undefined,
+                transformOrigin: (post as any).thumbnail_focal_x != null
+                  ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                  : undefined,
               }}
               loading="lazy"
             />

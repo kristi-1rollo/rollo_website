@@ -7,6 +7,9 @@ export interface MediaGalleryItem {
   width: number;
   height: number;
   caption?: string;
+  focal_x?: number;
+  focal_y?: number;
+  zoom?: number;
 }
 
 export interface BlogPost {
