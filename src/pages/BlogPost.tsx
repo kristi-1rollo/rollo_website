@@ -2,9 +2,18 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Clock } from "lucide-react";
 import BlogMediaGallery from "@/components/BlogMediaGallery";
+import ReadingProgressBar from "@/components/ReadingProgressBar";
+import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
+import { useMemo } from "react";
+
+const estimateReadingTime = (html: string) => {
+  const text = html.replace(/<[^>]+>/g, "").trim();
+  const words = text.split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.round(words / 200));
+};
 
 const BlogPost = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,6 +36,16 @@ const BlogPost = () => {
     },
     enabled: !!id,
   });
+
+  const processedContent = useMemo(
+    () => (post?.content ? injectHeadingIds(post.content) : ""),
+    [post?.content]
+  );
+
+  const readingTime = useMemo(
+    () => (post?.content ? estimateReadingTime(post.content) : 0),
+    [post?.content]
+  );
 
   if (isLoading) {
     return (
@@ -52,78 +71,90 @@ const BlogPost = () => {
   }
 
   return (
-    <div className="pt-24 pb-16 min-h-screen">
-      <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Back link */}
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition mb-8"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Blog
-        </Link>
-
-        {/* Header */}
-        <header className="mb-10">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
-              {post.tag}
-            </span>
-            <span className="text-[11px] text-muted-foreground">
-              {post.published_at
-                ? format(new Date(post.published_at), "MMM d, yyyy")
-                : ""}
-            </span>
-          </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-foreground leading-tight">
-            {post.title}
-          </h1>
-        </header>
-
-        {/* Thumbnail */}
-        {post.thumbnail_url && (
-          <div
-            className="mb-10 overflow-hidden rounded-[4px] border border-border"
-            style={{
-              maxWidth: post.thumbnail_width ? `${post.thumbnail_width}px` : undefined,
-              maxHeight: post.thumbnail_height ? `${post.thumbnail_height}px` : undefined,
-            }}
+    <>
+      <ReadingProgressBar />
+      <div className="pt-24 pb-16 min-h-screen">
+        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Back link */}
+          <Link
+            to="/blog"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition mb-8"
           >
-            <img
-              src={post.thumbnail_url}
-              alt={post.title}
-              className="w-full object-cover"
+            <ArrowLeft className="h-4 w-4" />
+            Back to Blog
+          </Link>
+
+          {/* Header */}
+          <header className="mb-10">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
+                {post.tag}
+              </span>
+              <span className="text-[11px] text-muted-foreground">
+                {post.published_at
+                  ? format(new Date(post.published_at), "MMM d, yyyy")
+                  : ""}
+              </span>
+              {readingTime > 0 && (
+                <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                  <Clock className="h-3 w-3" />
+                  {readingTime} min read
+                </span>
+              )}
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold text-foreground leading-tight">
+              {post.title}
+            </h1>
+          </header>
+
+          {/* Thumbnail */}
+          {post.thumbnail_url && (
+            <div
+              className="mb-10 overflow-hidden rounded-[4px] border border-border"
               style={{
-                objectPosition: (post as any).thumbnail_focal_x != null
-                  ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
-                  : undefined,
-                transform: (post as any).thumbnail_zoom > 1
-                  ? `scale(${(post as any).thumbnail_zoom})`
-                  : undefined,
-                transformOrigin: (post as any).thumbnail_focal_x != null
-                  ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
-                  : undefined,
+                maxWidth: post.thumbnail_width ? `${post.thumbnail_width}px` : undefined,
+                maxHeight: post.thumbnail_height ? `${post.thumbnail_height}px` : undefined,
               }}
-              loading="lazy"
-            />
-          </div>
-        )}
+            >
+              <img
+                src={post.thumbnail_url}
+                alt={post.title}
+                className="w-full object-cover"
+                style={{
+                  objectPosition: (post as any).thumbnail_focal_x != null
+                    ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                    : undefined,
+                  transform: (post as any).thumbnail_zoom > 1
+                    ? `scale(${(post as any).thumbnail_zoom})`
+                    : undefined,
+                  transformOrigin: (post as any).thumbnail_focal_x != null
+                    ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                    : undefined,
+                }}
+                loading="lazy"
+              />
+            </div>
+          )}
 
-        {/* Content */}
-        <div
-          className="prose prose-invert prose-sm sm:prose-base max-w-none text-muted-foreground leading-relaxed mb-12 [&_img]:rounded-[4px] [&_img]:max-w-full [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-4"
-          dangerouslySetInnerHTML={{ __html: post.content }}
-        />
+          {/* Table of Contents */}
+          <TableOfContents html={post.content} />
 
-        {/* Media Gallery */}
-        {post.media_gallery && post.media_gallery.length > 0 && (
-          <section className="mb-12">
-            <h2 className="text-xl font-semibold text-foreground mb-6">Gallery</h2>
-            <BlogMediaGallery items={post.media_gallery} />
-          </section>
-        )}
-      </article>
-    </div>
+          {/* Content */}
+          <div
+            className="prose prose-invert prose-sm sm:prose-base max-w-none text-muted-foreground leading-relaxed mb-12 [&_img]:rounded-[4px] [&_img]:max-w-full [&_a]:text-primary [&_a]:underline [&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-4 [&_p]:mb-4 [&_p]:text-justify [&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:mt-6 [&_h3]:mb-2 [&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\00a0']"
+            dangerouslySetInnerHTML={{ __html: processedContent }}
+          />
+
+          {/* Media Gallery */}
+          {post.media_gallery && post.media_gallery.length > 0 && (
+            <section className="mb-12">
+              <h2 className="text-xl font-semibold text-foreground mb-6">Gallery</h2>
+              <BlogMediaGallery items={post.media_gallery} />
+            </section>
+          )}
+        </article>
+      </div>
+    </>
   );
 };
 
