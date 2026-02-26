@@ -30,7 +30,6 @@ import {
   Code,
   Minus,
   Youtube as YoutubeIcon,
-  RectangleHorizontal,
 } from "lucide-react";
 
 interface Props {
@@ -78,7 +77,7 @@ const RichTextEditor = ({ content, onChange }: Props) => {
       Image.configure({ inline: false, allowBase64: false, HTMLAttributes: { class: "rounded-[4px] shadow-lg shadow-black/20" } }),
       Link.configure({ openOnClick: false, autolink: true }),
       TextAlign.configure({ types: ["heading", "paragraph"], alignments: ["left", "center", "right", "justify"] }),
-      Youtube.configure({ inline: false, ccLanguage: "en" }),
+      Youtube.configure({ inline: false, ccLanguage: "en", nocookie: true }),
     ],
     content,
     onUpdate: ({ editor }) => {
@@ -88,10 +87,12 @@ const RichTextEditor = ({ content, onChange }: Props) => {
       attributes: {
         class:
           "prose prose-invert prose-sm max-w-none min-h-[240px] px-4 py-3 focus:outline-none " +
-          "[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-3 " +
-          "[&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 " +
-          "[&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-5 " +
-          "[&_p]:mb-4 [&_ul]:mb-2 [&_ol]:mb-2 " +
+          "[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-3 [&_h1]:text-left " +
+          "[&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 [&_h2]:text-left " +
+          "[&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-5 [&_h3]:text-left " +
+          "[&_p]:mb-4 [&_p]:text-justify " +
+          "[&_ul]:mb-2 [&_ul]:text-left [&_ol]:mb-2 [&_ol]:text-left " +
+          "[&_li]:leading-snug " +
           "[&_h1]:mt-8 [&_h2]:mt-6 " +
           "[&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\\00a0'] " +
           "[&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic " +
@@ -111,7 +112,6 @@ const RichTextEditor = ({ content, onChange }: Props) => {
     if (!file) return;
     try {
       const url = await uploadThumbnail(file);
-      // Insert image with default shadow styling
       editor.chain().focus().setImage({ src: url }).run();
     } catch (err: any) {
       toast({ title: "Image upload failed", description: err.message, variant: "destructive" });
@@ -121,14 +121,59 @@ const RichTextEditor = ({ content, onChange }: Props) => {
 
   const setImageWidth = (width: string) => {
     const { state } = editor;
-    const { from, to } = state.selection;
-    state.doc.nodesBetween(from, to, (node, pos) => {
+    const { selection } = state;
+
+    // Try NodeSelection first (image directly selected)
+    if ('node' in selection && (selection as any).node?.type.name === "image") {
+      editor.chain().focus().updateAttributes("image", {
+        style: `width: ${width}; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);`,
+      }).run();
+      return;
+    }
+
+    // Search around the cursor position for an image node
+    const pos = selection.$from.pos;
+    let found = false;
+    state.doc.nodesBetween(Math.max(0, pos - 2), Math.min(state.doc.content.size, pos + 2), (node, nodePos) => {
+      if (found) return false;
       if (node.type.name === "image") {
-        editor.chain().focus().setNodeSelection(pos).updateAttributes("image", {
+        found = true;
+        editor.chain().focus().setNodeSelection(nodePos).updateAttributes("image", {
           style: `width: ${width}; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);`,
         }).run();
+        return false;
       }
     });
+
+    if (!found) {
+      state.doc.nodesBetween(0, state.doc.content.size, (node, nodePos) => {
+        if (found) return false;
+        if (node.type.name === "image" && nodePos <= pos && pos <= nodePos + node.nodeSize + 1) {
+          found = true;
+          editor.chain().focus().setNodeSelection(nodePos).updateAttributes("image", {
+            style: `width: ${width}; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);`,
+          }).run();
+          return false;
+        }
+      });
+    }
+
+    if (!found) {
+      toast({ title: "Vali kõigepealt pilt", description: "Kliki pildil ja seejärel vali laiuse %", variant: "destructive" });
+    }
+  };
+
+
+
+  const getCurrentImageWidth = (): string | null => {
+    const { state } = editor;
+    const { selection } = state;
+    if ('node' in selection && (selection as any).node?.type.name === "image") {
+      const style = (selection as any).node.attrs.style || "";
+      const match = style.match(/width:\s*(\d+%)/);
+      return match ? match[1] : null;
+    }
+    return null;
   };
 
   const addLink = () => {
@@ -144,11 +189,12 @@ const RichTextEditor = ({ content, onChange }: Props) => {
   };
 
   const ic = "h-4 w-4";
+  const currentWidth = getCurrentImageWidth();
 
   return (
     <div className="border border-border rounded-[4px] bg-muted/30 overflow-hidden">
-      {/* Toolbar */}
-      <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-border bg-muted/50">
+      {/* Toolbar - sticky */}
+      <div className="flex flex-wrap items-center gap-0.5 px-2 py-1.5 border-b border-border bg-muted/50 sticky top-0 z-10">
         <MenuButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Bold">
           <Bold className={ic} />
         </MenuButton>
@@ -234,7 +280,11 @@ const RichTextEditor = ({ content, onChange }: Props) => {
               type="button"
               onClick={() => setImageWidth(s.value)}
               title={`Image width ${s.label}`}
-              className="px-1.5 py-1 text-[10px] rounded-[4px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+              className={`px-1.5 py-1 text-[10px] rounded-[4px] transition-colors ${
+                currentWidth === s.value
+                  ? "bg-primary/20 text-primary font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+              }`}
             >
               {s.label}
             </button>
