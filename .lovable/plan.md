@@ -1,49 +1,62 @@
 
 
-## Blogi disaini premium-uuendus
+## Blogi terviklik uuendus -- 7 parandust
 
-### Probleem
+### 1. Thumbnail pildi positsioneerimine (drag) juba olemas
 
-Blogiartikli sisu kasutab praegu `text-muted-foreground` (heledus 47%), mis on tumedal taustal väga madala kontrastsusega. Saidi ülejäänud osad kasutavad pealkirjadele `text-white` ja kehatekstile `text-slate-300/400`, mis on palju loetavam. Samuti puudub sektsioonide vahel visuaalne eraldus.
+Thumbnail crop/drag funktsioon on juba implementeeritud `ImageCropPositioner` komponendiga. See ilmub pärast pildi üleslaadimist, kui width ja height on määratud. Praegu on probleem selles, et see on natuke peidetud -- lisame selgema visuaalse vihje.
 
-### Muudatused
+### 2. Thumbnail üleslaadimise juhis
 
-#### 1. Teksti kontrasti tostmine (BlogPost.tsx)
+Praegune üleslaadimise nupp näitab ainult "Upload image". Lisame kasti sisse soovitusliku suuruse ja formaadi info:
+- "Soovituslik: 1200 x 630 px, JPG/PNG/WebP"
+- See ilmub enne pildi lisamist tühjas upload-kastis
 
-Praegune prose div kasutab `text-muted-foreground` (HSL 215 16% 47%) -- see on liiga tume. Muudatused:
+### 3. Blogi eelvaate kaardid -- excerpt parandused
 
-- Kehatekst: `text-muted-foreground` asendada kontrastsema `text-slate-300` variandiga -- see vastab saidi uldisele disainile (HeroSection kasutab `text-slate-300` ja `text-slate-400`)
-- H2 pealkirjad: lisada `[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight` -- vastab saidi globaalsetele h1/h2/h3 stiilidele (font-weight 800, uppercase, tracking -0.04em)
-- H3 pealkirjad: `[&_h3]:text-white [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tight`
-- Bold tekst: `[&_strong]:text-white` -- rõhutatud tekst paistab selgelt silma
-- Artikli pealkiri (h1): muuta `text-foreground` -> `text-white`
+**Rööpjoondus**: Lisada `text-justify` excerpt tekstile
+**Fikseeritud kõrgus**: Excerpt saab `line-clamp-3` (3 rida max), mis hoiab kõik kaardid ühtse kõrgusega. Ülejääv tekst lõigatakse ära ellipsisega.
 
-#### 2. Sektsioonide visuaalne eraldamine (BlogPost.tsx)
+### 4. Kogu kaart klikatav
 
-Iga H2 pealkiri tähendab uut teemasektsiooni. Lisada stiilsed eraldajad:
+Praegu saab blogi artiklit avada ainult "Read More" lingi kaudu. Muudame kogu `<article>` kaardi klikatavaks, kasutades `<Link>` wrapper-it, säilitades "Read More" visuaalse lingi.
 
-- `[&_h2]:border-t [&_h2]:border-border [&_h2]:pt-10 [&_h2]:mt-14` -- peen horisontaalne joon enne iga uut sektsiooni (vastavalt saidi border-värviskeemile)
-- Esimene H2 ei tohiks saada ülemist joont: `[&_h2:first-of-type]:border-t-0 [&_h2:first-of-type]:pt-0 [&_h2:first-of-type]:mt-8`
-- Alternatiivne aktsent: lisada H2-le `[&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-8 [&_h2]:before:h-[2px] [&_h2]:before:bg-primary [&_h2]:before:mb-4` -- luhike roheline aktsendijoon enne pealkirja (vastab saidi `#B4FF33` primaarvarvile)
+### 5. AI-põhine SEO lühikirjelduse genereerimine
 
-#### 3. Tsitaatide ja linkide stiilid (BlogPost.tsx)
+Lisame BlogPostEditor-isse "Generate with AI" nupu excerpt välja kõrvale:
+- Loob uue edge function `supabase/functions/generate-excerpt/index.ts`
+- Kasutab Lovable AI Gateway-d (`google/gemini-3-flash-preview`) 
+- Saadab blogipostituse sisu ja saab tagasi professionaalse SEO-optimeeritud lühikirjelduse (max 160 tähemärki)
+- Admin saab genereeritud teksti alati käsitsi muuta
 
-- Blockquote: tugevam aarjoon `[&_blockquote]:border-primary/60` ja valge tekst `[&_blockquote]:text-slate-300`
-- Lingid: juba on `text-primary`, aga lisada `[&_a]:hover:text-primary/80`
+### 6. Teksti sisse lisatud piltide suuruse muutmine ja stiilid
 
-#### 4. Sisukorra disaini toustmine (TableOfContents.tsx)
+TipTap Image laiendust laiendame:
+- Lisame pildi suuruse muutmise toe (`resizable` konfiguratsioon) -- kasutame custom node view-d, mis lisab pildile resize-handle'd
+- Lisame pildile varju/raami valikud tööriistaribal: "shadow" ja "rounded" efektid CSS klassidega
+- Piltide stiilid: `shadow-lg shadow-black/20 rounded-lg` lisatakse automaatselt, et pilt sulanduks lehte
 
-Praegune kast on minimalistlik, aga ei vasta saidi premium-tundele:
+### 7. Piltide suuruse muutmine redaktoris (lihtsustatud lahendus)
 
-- Taust: `bg-muted/30` -> `bg-white/[0.02]` (lahemale saidi body stiilidele)
-- Aarjoon: `border-border` -> `border-white/[0.06]` (pehmem)
-- Pealkiri: lisada roheline aktsendijoon vasakule
+Kuna TipTap-i täielik resizable node view on keeruline, kasutame pragmaatilist lahendust:
+- Pildi lisamisel küsitakse laiuse protsenti (25%, 50%, 75%, 100%)
+- Lisame pildi tööriistariba nupud suuruse valimiseks
+- Pildile lisatakse inline `width` stiil
+
+---
 
 ### Tehnilised detailid
 
-**Muudetavad failid:**
-- `src/pages/BlogPost.tsx` -- prose klasside uuendamine, h1 varvi muutmine
-- `src/components/TableOfContents.tsx` -- sisukorra stiilide premium-uuendus
+**Uued failid:**
+- `supabase/functions/generate-excerpt/index.ts` -- AI excerpt edge function
 
-Uusi faile ega soltuvusi ei lisata. Koik muudatused on CSS-klasside tasemel.
+**Muudetavad failid:**
+- `src/pages/Blog.tsx` -- kaart klikatavaks, excerpt line-clamp + justify
+- `src/components/BlogPostEditor.tsx` -- thumbnail juhis, AI excerpt nupp
+- `src/components/RichTextEditor.tsx` -- pildi suuruse nupud, pildi stiilid (shadow/frame)
+- `src/pages/BlogPost.tsx` -- pildi stiilid prose div-is
+
+**Sõltuvused:** Uusi sõltuvusi ei lisata
+
+**Edge function:** `generate-excerpt` kasutab `LOVABLE_API_KEY` (juba olemas) ja Lovable AI Gateway-d. Prompt: "Generate a professional SEO meta description (max 160 chars) in the same language as the content."
 
