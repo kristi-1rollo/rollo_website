@@ -1,11 +1,11 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ArrowUp, ArrowDown, Plus, Sparkles, Loader2 } from "lucide-react";
+import { Upload, X, ArrowUp, ArrowDown, Plus, Sparkles, Loader2, Lock, Unlock, GripVertical } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import ImageCropPositioner from "@/components/ImageCropPositioner";
 import { supabase } from "@/integrations/supabase/client";
@@ -26,6 +26,8 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
   });
 }
 
+const DRAFT_KEY_PREFIX = "blog-draft-";
+
 const BlogPostEditor = ({ post, onDone }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
@@ -41,11 +43,104 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [thumbZoom, setThumbZoom] = useState<number>((post as any)?.thumbnail_zoom ?? 1);
   const [gallery, setGallery] = useState<MediaGalleryItem[]>(post?.media_gallery ?? []);
   const [galleryUploading, setGalleryUploading] = useState(false);
+  const [thumbLocked, setThumbLocked] = useState(true);
+  const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const dragIndexRef = useRef<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
   const [generatingExcerpt, setGeneratingExcerpt] = useState(false);
   const upsert = useUpsertPost();
   const { toast } = useToast();
+
+  // Original aspect ratio for thumbnail proportion lock
+  const thumbOriginalRatio = useRef<number | null>(null);
+  useEffect(() => {
+    if (post?.thumbnail_width && post?.thumbnail_height) {
+      thumbOriginalRatio.current = post.thumbnail_width / post.thumbnail_height;
+    }
+  }, []);
+
+  // --- Auto-draft ---
+  const draftKey = `${DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
+
+  // Restore draft on mount
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(draftKey);
+      if (saved) {
+        const draft = JSON.parse(saved);
+        const shouldRestore = confirm("Leiti salvestatud mustand. Kas soovid selle taastada?");
+        if (shouldRestore) {
+          if (draft.title != null) setTitle(draft.title);
+          if (draft.excerpt != null) setExcerpt(draft.excerpt);
+          if (draft.content != null) setContent(draft.content);
+          if (draft.tag != null) setTag(draft.tag);
+          if (draft.thumbnailUrl != null) setThumbnailUrl(draft.thumbnailUrl);
+          if (draft.thumbWidth != null) setThumbWidth(draft.thumbWidth);
+          if (draft.thumbHeight != null) setThumbHeight(draft.thumbHeight);
+          if (draft.gallery != null) setGallery(draft.gallery);
+          toast({ title: "Mustand taastatud" });
+        } else {
+          localStorage.removeItem(draftKey);
+        }
+      }
+    } catch {}
+  }, []);
+
+  // Save draft every 10 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const draft = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery };
+      try {
+        localStorage.setItem(draftKey, JSON.stringify(draft));
+      } catch {}
+    }, 10000);
+    return () => clearInterval(interval);
+  }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, draftKey]);
+
+  const clearDraft = useCallback(() => {
+    localStorage.removeItem(draftKey);
+  }, [draftKey]);
+
+  // --- Thumbnail proportion lock handlers ---
+  const handleThumbWidthChange = (val: string) => {
+    const w = val ? Number(val) : "";
+    setThumbWidth(w);
+    if (thumbLocked && thumbOriginalRatio.current && w) {
+      setThumbHeight(Math.round(w / thumbOriginalRatio.current));
+    }
+  };
+
+  const handleThumbHeightChange = (val: string) => {
+    const h = val ? Number(val) : "";
+    setThumbHeight(h);
+    if (thumbLocked && thumbOriginalRatio.current && h) {
+      setThumbWidth(Math.round(h * thumbOriginalRatio.current));
+    }
+  };
+
+  // --- Gallery proportion lock per-item ---
+  const galleryRatios = useRef<Map<number, number>>(new Map());
+
+  const handleGalleryWidthChange = (index: number, val: number, item: MediaGalleryItem) => {
+    if (!galleryRatios.current.has(index) && item.width && item.height) {
+      galleryRatios.current.set(index, item.width / item.height);
+    }
+    const ratio = galleryRatios.current.get(index);
+    const updates: Partial<MediaGalleryItem> = { width: val };
+    if (ratio && val) updates.height = Math.round(val / ratio);
+    updateGalleryItem(index, updates);
+  };
+
+  const handleGalleryHeightChange = (index: number, val: number, item: MediaGalleryItem) => {
+    if (!galleryRatios.current.has(index) && item.width && item.height) {
+      galleryRatios.current.set(index, item.width / item.height);
+    }
+    const ratio = galleryRatios.current.get(index);
+    const updates: Partial<MediaGalleryItem> = { height: val };
+    if (ratio && val) updates.width = Math.round(val * ratio);
+    updateGalleryItem(index, updates);
+  };
 
   const handleGenerateExcerpt = async () => {
     if (!content.trim()) return;
@@ -74,6 +169,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
       const dims = await getImageDimensions(file);
       setThumbWidth(dims.width);
       setThumbHeight(dims.height);
+      thumbOriginalRatio.current = dims.width / dims.height;
       const url = await uploadThumbnail(file);
       setThumbnailUrl(url);
     } catch (err: any) {
@@ -127,6 +223,38 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     setGallery((prev) => prev.filter((_, i) => i !== index));
   };
 
+  // --- Drag & Drop for gallery ---
+  const handleDragStart = (index: number) => {
+    dragIndexRef.current = index;
+  };
+
+  const handleDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    setDragOverIndex(index);
+  };
+
+  const handleDrop = (e: React.DragEvent, dropIndex: number) => {
+    e.preventDefault();
+    const dragIndex = dragIndexRef.current;
+    if (dragIndex === null || dragIndex === dropIndex) {
+      setDragOverIndex(null);
+      return;
+    }
+    setGallery((prev) => {
+      const copy = [...prev];
+      const [item] = copy.splice(dragIndex, 1);
+      copy.splice(dropIndex, 0, item);
+      return copy;
+    });
+    dragIndexRef.current = null;
+    setDragOverIndex(null);
+  };
+
+  const handleDragEnd = () => {
+    dragIndexRef.current = null;
+    setDragOverIndex(null);
+  };
+
   const handleSave = async () => {
     if (!title.trim() || !excerpt.trim()) {
       toast({ title: "Title and excerpt are required", variant: "destructive" });
@@ -150,6 +278,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
       } as any);
+      clearDraft();
       toast({ title: post?.id ? "Post updated" : "Post created" });
       onDone();
     } catch (err: any) {
@@ -167,7 +296,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
             <div className="relative w-full max-w-md">
               <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-border" />
               <button
-                onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); setThumbFocalX(50); setThumbFocalY(50); setThumbZoom(1); }}
+                onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); setThumbFocalX(50); setThumbFocalY(50); setThumbZoom(1); thumbOriginalRatio.current = null; }}
                 className="absolute top-2 right-2 p-1 bg-background/80 rounded-[4px] text-foreground hover:bg-background"
               >
                 <X className="h-4 w-4" />
@@ -179,18 +308,25 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
                 <Input
                   type="number"
                   value={thumbWidth}
-                  onChange={(e) => setThumbWidth(e.target.value ? Number(e.target.value) : "")}
+                  onChange={(e) => handleThumbWidthChange(e.target.value)}
                   className="bg-muted/50 border-border text-foreground"
                   placeholder="Auto"
                 />
               </div>
-              <span className="text-muted-foreground mt-5">×</span>
+              <button
+                type="button"
+                onClick={() => setThumbLocked(!thumbLocked)}
+                className="mt-5 p-1.5 rounded-[4px] text-muted-foreground hover:text-foreground transition"
+                title={thumbLocked ? "Vabasta proportsioonid" : "Lukusta proportsioonid"}
+              >
+                {thumbLocked ? <Lock className="h-4 w-4" /> : <Unlock className="h-4 w-4" />}
+              </button>
               <div className="flex-1">
                 <label className="text-xs text-muted-foreground mb-1 block">Height (px)</label>
                 <Input
                   type="number"
                   value={thumbHeight}
-                  onChange={(e) => setThumbHeight(e.target.value ? Number(e.target.value) : "")}
+                  onChange={(e) => handleThumbHeightChange(e.target.value)}
                   className="bg-muted/50 border-border text-foreground"
                   placeholder="Auto"
                 />
@@ -204,6 +340,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
                   src={thumbnailUrl}
                   width={Number(thumbWidth)}
                   height={Number(thumbHeight)}
+                  displayAspectRatio="16/9"
                   initial={{ focalX: thumbFocalX, focalY: thumbFocalY, zoom: thumbZoom }}
                   onChange={({ focalX, focalY, zoom }) => {
                     setThumbFocalX(focalX);
@@ -285,7 +422,24 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         <label className="text-sm text-muted-foreground mb-2 block">Media Gallery</label>
         <div className="space-y-3">
           {gallery.map((item, i) => (
-            <div key={i} className="flex gap-3 items-start p-3 rounded-[4px] border border-border bg-muted/30">
+            <div
+              key={i}
+              draggable
+              onDragStart={() => handleDragStart(i)}
+              onDragOver={(e) => handleDragOver(e, i)}
+              onDrop={(e) => handleDrop(e, i)}
+              onDragEnd={handleDragEnd}
+              className={`flex gap-3 items-start p-3 rounded-[4px] border transition ${
+                dragOverIndex === i
+                  ? "border-primary/60 bg-primary/5"
+                  : "border-border bg-muted/30"
+              }`}
+            >
+              {/* Drag handle */}
+              <div className="flex-shrink-0 mt-6 cursor-grab active:cursor-grabbing text-muted-foreground hover:text-foreground">
+                <GripVertical className="h-4 w-4" />
+              </div>
+
               {/* Preview */}
               <div className="w-20 h-20 flex-shrink-0 rounded-[4px] overflow-hidden border border-border bg-background">
                 {item.type === "video" ? (
@@ -297,22 +451,23 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
               {/* Controls */}
               <div className="flex-1 space-y-2">
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-end">
                   <div className="flex-1">
                     <label className="text-[10px] text-muted-foreground">W</label>
                     <Input
                       type="number"
                       value={item.width || ""}
-                      onChange={(e) => updateGalleryItem(i, { width: Number(e.target.value) || 0 })}
+                      onChange={(e) => handleGalleryWidthChange(i, Number(e.target.value) || 0, item)}
                       className="h-7 text-xs bg-muted/50 border-border text-foreground"
                     />
                   </div>
+                  <Lock className="h-3.5 w-3.5 text-muted-foreground mb-2 flex-shrink-0" />
                   <div className="flex-1">
                     <label className="text-[10px] text-muted-foreground">H</label>
                     <Input
                       type="number"
                       value={item.height || ""}
-                      onChange={(e) => updateGalleryItem(i, { height: Number(e.target.value) || 0 })}
+                      onChange={(e) => handleGalleryHeightChange(i, Number(e.target.value) || 0, item)}
                       className="h-7 text-xs bg-muted/50 border-border text-foreground"
                     />
                   </div>

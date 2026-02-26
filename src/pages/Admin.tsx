@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAllPosts, useDeletePost, type BlogPost } from "@/hooks/useBlogPosts";
 import { useRegistrations } from "@/hooks/useRegistrations";
 import BlogPostEditor from "@/components/BlogPostEditor";
+import { AdminUsersTab, AdminAuditTab } from "@/components/AdminUsersTab";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -51,28 +52,28 @@ const BlogTab = () => {
       <div className="flex justify-end mb-4">
         <Button
           onClick={() => setEditing("new")}
-          className="bg-[#B4FF33] text-black hover:bg-[#B4FF33]/90 font-bold uppercase tracking-tight"
+          className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-tight"
         >
           <Plus className="h-4 w-4 mr-1" /> New Post
         </Button>
       </div>
 
       {isLoading ? (
-        <p className="text-slate-400">Loading posts…</p>
+        <p className="text-muted-foreground">Loading posts…</p>
       ) : posts.length === 0 ? (
-        <p className="text-slate-400">No posts yet. Create your first one!</p>
+        <p className="text-muted-foreground">No posts yet. Create your first one!</p>
       ) : (
         <div className="space-y-3">
           {posts.map((p) => (
             <div
               key={p.id}
-              className="flex items-center gap-4 p-4 border border-white/10 bg-white/5 rounded-[4px]"
+              className="flex items-center gap-4 p-4 border border-border bg-card/50 rounded-[4px]"
             >
               {p.thumbnail_url && (
                 <img
                   src={p.thumbnail_url}
                   alt=""
-                  className="w-16 h-16 object-cover rounded-[4px] border border-white/10 flex-shrink-0"
+                  className="w-16 h-16 object-cover rounded-[4px] border border-border flex-shrink-0"
                 />
               )}
               <div className="flex-1 min-w-0">
@@ -80,17 +81,17 @@ const BlogTab = () => {
                   <span
                     className={`text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-[4px] ${
                       p.is_published
-                        ? "bg-[#B4FF33]/10 text-[#B4FF33]"
-                        : "bg-white/10 text-slate-400"
+                        ? "bg-primary/10 text-primary"
+                        : "bg-muted text-muted-foreground"
                     }`}
                   >
                     {p.is_published ? "Published" : "Draft"}
                   </span>
-                  <span className="text-[10px] uppercase tracking-wider text-slate-500">
+                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground">
                     {p.tag}
                   </span>
                 </div>
-                <p className="text-white font-medium truncate">{p.title}</p>
+                <p className="text-foreground font-medium truncate">{p.title}</p>
               </div>
 
               <div className="flex gap-2 flex-shrink-0">
@@ -98,7 +99,7 @@ const BlogTab = () => {
                   size="icon"
                   variant="outline"
                   onClick={() => setEditing(p)}
-                  className="h-8 w-8 border-white/10 text-slate-300 hover:text-white"
+                  className="h-8 w-8 border-border text-muted-foreground hover:text-foreground"
                 >
                   <Pencil className="h-3.5 w-3.5" />
                 </Button>
@@ -106,7 +107,7 @@ const BlogTab = () => {
                   size="icon"
                   variant="outline"
                   onClick={() => handleDelete(p.id)}
-                  className="h-8 w-8 border-white/10 text-slate-300 hover:text-red-400"
+                  className="h-8 w-8 border-border text-muted-foreground hover:text-destructive"
                 >
                   <Trash2 className="h-3.5 w-3.5" />
                 </Button>
@@ -134,47 +135,47 @@ const RegistrationsTab = () => {
   return (
     <div>
       <div className="relative mb-4 max-w-sm">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
           placeholder="Search by name or email…"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-9 bg-white/5 border-white/10 text-white placeholder:text-slate-500"
+          className="pl-9 bg-muted/50 border-border text-foreground placeholder:text-muted-foreground"
         />
       </div>
 
       {isLoading ? (
-        <p className="text-slate-400">Loading registrations…</p>
+        <p className="text-muted-foreground">Loading registrations…</p>
       ) : filtered.length === 0 ? (
-        <p className="text-slate-400">
+        <p className="text-muted-foreground">
           {search ? "No results found." : "No registrations yet."}
         </p>
       ) : (
-        <div className="border border-white/10 rounded-[4px] overflow-hidden">
+        <div className="border border-border rounded-[4px] overflow-hidden">
           <Table>
             <TableHeader>
-              <TableRow className="border-white/10 hover:bg-transparent">
-                <TableHead className="text-slate-400">Name</TableHead>
-                <TableHead className="text-slate-400">Email</TableHead>
-                <TableHead className="text-slate-400">Region</TableHead>
-                <TableHead className="text-slate-400">Topics</TableHead>
-                <TableHead className="text-slate-400">Message</TableHead>
-                <TableHead className="text-slate-400">Date</TableHead>
+              <TableRow className="border-border hover:bg-transparent">
+                <TableHead className="text-muted-foreground">Name</TableHead>
+                <TableHead className="text-muted-foreground">Email</TableHead>
+                <TableHead className="text-muted-foreground">Region</TableHead>
+                <TableHead className="text-muted-foreground">Topics</TableHead>
+                <TableHead className="text-muted-foreground">Message</TableHead>
+                <TableHead className="text-muted-foreground">Date</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filtered.map((r) => (
-                <TableRow key={r.id} className="border-white/10 hover:bg-white/5">
-                  <TableCell className="text-white font-medium">{r.name}</TableCell>
-                  <TableCell className="text-slate-300">{r.email}</TableCell>
-                  <TableCell className="text-slate-300">{r.region}</TableCell>
+                <TableRow key={r.id} className="border-border hover:bg-muted/30">
+                  <TableCell className="text-foreground font-medium">{r.name}</TableCell>
+                  <TableCell className="text-muted-foreground">{r.email}</TableCell>
+                  <TableCell className="text-muted-foreground">{r.region}</TableCell>
                   <TableCell>
                     <div className="flex flex-wrap gap-1">
                       {r.topics.map((t) => (
                         <Badge
                           key={t}
                           variant="outline"
-                          className="text-[10px] border-white/10 text-slate-300"
+                          className="text-[10px] border-border text-muted-foreground"
                         >
                           {t}
                         </Badge>
@@ -187,7 +188,7 @@ const RegistrationsTab = () => {
                         onClick={() =>
                           setExpandedId(expandedId === r.id ? null : r.id)
                         }
-                        className="flex items-center gap-1 text-slate-400 hover:text-white transition-colors text-left"
+                        className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors text-left"
                       >
                         <span className={expandedId === r.id ? "" : "truncate max-w-[150px] inline-block"}>
                           {r.message}
@@ -199,10 +200,10 @@ const RegistrationsTab = () => {
                         )}
                       </button>
                     ) : (
-                      <span className="text-slate-600">—</span>
+                      <span className="text-muted-foreground/50">—</span>
                     )}
                   </TableCell>
-                  <TableCell className="text-slate-400 whitespace-nowrap">
+                  <TableCell className="text-muted-foreground whitespace-nowrap">
                     {format(new Date(r.created_at), "dd.MM.yyyy HH:mm")}
                   </TableCell>
                 </TableRow>
@@ -220,13 +221,13 @@ const Admin = () => {
   const { user, loading, isAdmin, signOut } = useAuth();
 
   if (loading) {
-    return <div className="pt-24 pb-16 text-center text-slate-400">Loading…</div>;
+    return <div className="pt-24 pb-16 text-center text-muted-foreground">Loading…</div>;
   }
   if (!user) return <Navigate to="/login" replace />;
   if (!isAdmin) {
     return (
       <div className="pt-24 pb-16 text-center">
-        <p className="text-slate-400">You do not have admin access.</p>
+        <p className="text-muted-foreground">You do not have admin access.</p>
       </div>
     );
   }
@@ -234,29 +235,41 @@ const Admin = () => {
   return (
     <div className="pt-24 pb-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-2xl font-bold text-white">Admin</h1>
+        <h1 className="text-2xl font-bold text-foreground">Admin</h1>
         <Button
           variant="outline"
           onClick={signOut}
-          className="border-white/10 text-slate-300 hover:text-white"
+          className="border-border text-muted-foreground hover:text-foreground"
         >
           <LogOut className="h-4 w-4 mr-1" /> Sign Out
         </Button>
       </div>
 
       <Tabs defaultValue="blog">
-        <TabsList className="bg-white/5 border border-white/10 mb-6">
+        <TabsList className="bg-muted/50 border border-border mb-6">
           <TabsTrigger
             value="blog"
-            className="data-[state=active]:bg-[#B4FF33]/10 data-[state=active]:text-[#B4FF33]"
+            className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
           >
             Blog
           </TabsTrigger>
           <TabsTrigger
             value="registrations"
-            className="data-[state=active]:bg-[#B4FF33]/10 data-[state=active]:text-[#B4FF33]"
+            className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
           >
             Registrations
+          </TabsTrigger>
+          <TabsTrigger
+            value="users"
+            className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+          >
+            Users
+          </TabsTrigger>
+          <TabsTrigger
+            value="audit"
+            className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+          >
+            Audit Log
           </TabsTrigger>
         </TabsList>
 
@@ -265,6 +278,12 @@ const Admin = () => {
         </TabsContent>
         <TabsContent value="registrations">
           <RegistrationsTab />
+        </TabsContent>
+        <TabsContent value="users">
+          <AdminUsersTab />
+        </TabsContent>
+        <TabsContent value="audit">
+          <AdminAuditTab />
         </TabsContent>
       </Tabs>
     </div>

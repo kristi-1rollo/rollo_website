@@ -14,9 +14,10 @@ interface Props {
   height: number;
   initial?: Partial<CropValues>;
   onChange: (values: CropValues) => void;
+  displayAspectRatio?: string;
 }
 
-const ImageCropPositioner = ({ src, width, height, initial, onChange }: Props) => {
+const ImageCropPositioner = ({ src, width, height, initial, onChange, displayAspectRatio }: Props) => {
   const [zoom, setZoom] = useState(initial?.zoom ?? 1);
   const [focalX, setFocalX] = useState(initial?.focalX ?? 50);
   const [focalY, setFocalY] = useState(initial?.focalY ?? 50);
@@ -74,7 +75,7 @@ const ImageCropPositioner = ({ src, width, height, initial, onChange }: Props) =
   };
 
   // Aspect ratio for preview container
-  const aspectRatio = width && height ? `${width}/${height}` : "16/9";
+  const aspectRatio = displayAspectRatio || (width && height ? `${width}/${height}` : "16/9");
 
   return (
     <div className="space-y-3">
