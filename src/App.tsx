@@ -15,6 +15,7 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
 const EuFunding = lazy(() => import("./pages/EuFunding"));
+const SetPassword = lazy(() => import("./pages/SetPassword"));
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
                   <Route path="/funding" element={<EuFunding />} />
                   <Route path="/eu-kaasrahastus" element={<EuFunding />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/set-password" element={<SetPassword />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/admin/blog" element={<Admin />} />
                 </Route>
