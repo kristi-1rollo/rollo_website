@@ -42,8 +42,9 @@ const TableOfContents = ({ html }: Props) => {
   if (items.length < 2) return null;
 
   return (
-    <nav className="mb-10 p-5 rounded-[4px] border border-border bg-muted/30">
-      <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-3">
+    <nav className="mb-10 p-5 rounded-[4px] border border-white/[0.06] bg-white/[0.02]">
+      <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-3 flex items-center gap-2">
+        <span className="inline-block w-4 h-[2px] bg-primary" />
         Table of Contents
       </p>
       <ul className="space-y-1.5">
