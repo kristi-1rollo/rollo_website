@@ -5,9 +5,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ArrowUp, ArrowDown, Plus } from "lucide-react";
+import { Upload, X, ArrowUp, ArrowDown, Plus, Sparkles, Loader2 } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import ImageCropPositioner from "@/components/ImageCropPositioner";
+import { supabase } from "@/integrations/supabase/client";
 
 const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company"];
 
@@ -42,8 +43,28 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [galleryUploading, setGalleryUploading] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
+  const [generatingExcerpt, setGeneratingExcerpt] = useState(false);
   const upsert = useUpsertPost();
   const { toast } = useToast();
+
+  const handleGenerateExcerpt = async () => {
+    if (!content.trim()) return;
+    setGeneratingExcerpt(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("generate-excerpt", {
+        body: { content },
+      });
+      if (error) throw error;
+      if (data?.excerpt) {
+        setExcerpt(data.excerpt);
+        toast({ title: "Excerpt generated" });
+      }
+    } catch (err: any) {
+      toast({ title: "AI generation failed", description: err.message, variant: "destructive" });
+    } finally {
+      setGeneratingExcerpt(false);
+    }
+  };
 
   const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -197,10 +218,11 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
           <button
             onClick={() => fileRef.current?.click()}
             disabled={uploading}
-            className="flex items-center gap-2 px-4 py-3 border border-dashed border-border rounded-[4px] text-sm text-muted-foreground hover:border-muted-foreground/50 transition"
+            className="flex flex-col items-center gap-2 px-6 py-6 border border-dashed border-border rounded-[4px] text-sm text-muted-foreground hover:border-muted-foreground/50 transition w-full max-w-md"
           >
-            <Upload className="h-4 w-4" />
-            {uploading ? "Uploading…" : "Upload image"}
+            <Upload className="h-5 w-5" />
+            <span>{uploading ? "Uploading…" : "Upload thumbnail"}</span>
+            <span className="text-[10px] text-muted-foreground/60">Soovituslik: 1200 × 630 px · JPG / PNG / WebP</span>
           </button>
         )}
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImage} />
@@ -214,8 +236,22 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
       {/* Excerpt */}
       <div>
-        <label className="text-sm text-muted-foreground mb-2 block">Excerpt</label>
+        <div className="flex items-center justify-between mb-2">
+          <label className="text-sm text-muted-foreground">Excerpt</label>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            disabled={generatingExcerpt || !content.trim()}
+            onClick={handleGenerateExcerpt}
+            className="h-7 text-xs gap-1.5 border-border text-muted-foreground hover:text-primary hover:border-primary/40"
+          >
+            {generatingExcerpt ? <Loader2 className="h-3 w-3 animate-spin" /> : <Sparkles className="h-3 w-3" />}
+            Generate with AI
+          </Button>
+        </div>
         <Textarea value={excerpt} onChange={(e) => setExcerpt(e.target.value)} rows={2} className="bg-muted/50 border-border text-foreground" />
+        <p className="text-[10px] text-muted-foreground/60 mt-1">SEO lühikirjeldus, max 160 tähemärki. Praegu: {excerpt.length}/160</p>
       </div>
 
       {/* Content — Rich Text Editor */}

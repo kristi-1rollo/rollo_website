@@ -30,6 +30,7 @@ import {
   Code,
   Minus,
   Youtube as YoutubeIcon,
+  RectangleHorizontal,
 } from "lucide-react";
 
 interface Props {
@@ -74,7 +75,7 @@ const RichTextEditor = ({ content, onChange }: Props) => {
         heading: { levels: [1, 2, 3] },
       }),
       Underline,
-      Image.configure({ inline: false, allowBase64: false }),
+      Image.configure({ inline: false, allowBase64: false, HTMLAttributes: { class: "rounded-[4px] shadow-lg shadow-black/20" } }),
       Link.configure({ openOnClick: false, autolink: true }),
       TextAlign.configure({ types: ["heading", "paragraph"], alignments: ["left", "center", "right", "justify"] }),
       Youtube.configure({ inline: false, ccLanguage: "en" }),
@@ -110,11 +111,24 @@ const RichTextEditor = ({ content, onChange }: Props) => {
     if (!file) return;
     try {
       const url = await uploadThumbnail(file);
+      // Insert image with default shadow styling
       editor.chain().focus().setImage({ src: url }).run();
     } catch (err: any) {
       toast({ title: "Image upload failed", description: err.message, variant: "destructive" });
     }
     if (imgRef.current) imgRef.current.value = "";
+  };
+
+  const setImageWidth = (width: string) => {
+    const { state } = editor;
+    const { from, to } = state.selection;
+    state.doc.nodesBetween(from, to, (node, pos) => {
+      if (node.type.name === "image") {
+        editor.chain().focus().setNodeSelection(pos).updateAttributes("image", {
+          style: `width: ${width}; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);`,
+        }).run();
+      }
+    });
   };
 
   const addLink = () => {
@@ -204,6 +218,28 @@ const RichTextEditor = ({ content, onChange }: Props) => {
         <MenuButton onClick={addYoutube} title="YouTube video">
           <YoutubeIcon className={ic} />
         </MenuButton>
+
+        <Separator />
+
+        {/* Image width controls */}
+        <div className="flex items-center gap-0.5">
+          {[
+            { label: "25%", value: "25%" },
+            { label: "50%", value: "50%" },
+            { label: "75%", value: "75%" },
+            { label: "100%", value: "100%" },
+          ].map((s) => (
+            <button
+              key={s.label}
+              type="button"
+              onClick={() => setImageWidth(s.value)}
+              title={`Image width ${s.label}`}
+              className="px-1.5 py-1 text-[10px] rounded-[4px] text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
 
         <Separator />
 
