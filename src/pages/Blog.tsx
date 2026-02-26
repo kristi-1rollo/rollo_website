@@ -71,6 +71,7 @@ const Blog = () => {
                     alt={a.title}
                     className="w-full h-48 object-cover"
                     loading="lazy"
+                    decoding="async"
                   />
                 ) : (
                   <div className="w-full h-48 bg-gradient-to-br from-muted/30 to-muted/10" />

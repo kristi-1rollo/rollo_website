@@ -24,21 +24,20 @@ Deno.serve(async (req) => {
     const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY")!;
     const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 
-    // Verify calling user
+    // Verify calling user via getUser (robust server-side check)
     const userClient = createClient(supabaseUrl, supabaseAnonKey, {
       global: { headers: { Authorization: authHeader } },
     });
 
-    const token = authHeader.replace("Bearer ", "");
-    const { data: claimsData, error: claimsError } = await userClient.auth.getClaims(token);
-    if (claimsError || !claimsData?.claims) {
+    const { data: userData, error: userError } = await userClient.auth.getUser();
+    if (userError || !userData?.user) {
       return new Response(JSON.stringify({ error: "Unauthorized" }), {
         status: 401,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    const actorId = claimsData.claims.sub;
+    const actorId = userData.user.id;
 
     // Use service role to check admin status and perform operations
     const adminClient = createClient(supabaseUrl, serviceRoleKey);
@@ -59,6 +58,7 @@ Deno.serve(async (req) => {
     const body = await req.json();
     const { action } = body;
 
+    // ── GRANT: add admin role to existing user by email ──
     if (action === "grant") {
       const { email } = body;
       if (!email) {
@@ -68,19 +68,39 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Find user by email using admin API
-      const { data: userData, error: userError } = await adminClient.auth.admin.listUsers();
-      if (userError) throw userError;
+      // Find user by email
+      const { data: listData, error: listError } = await adminClient.auth.admin.listUsers();
+      if (listError) throw listError;
 
-      const targetUser = userData.users.find((u: any) => u.email === email);
+      const targetUser = listData.users.find((u: any) => u.email === email);
+
       if (!targetUser) {
-        return new Response(JSON.stringify({ error: `Kasutajat e-postiga "${email}" ei leitud` }), {
-          status: 404,
+        // User doesn't exist — invite them (creates account + sends invite email)
+        const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email);
+        if (inviteError) throw inviteError;
+
+        const newUserId = inviteData.user.id;
+
+        // Grant admin role to the newly invited user
+        const { error: insertError } = await adminClient
+          .from("user_roles")
+          .insert({ user_id: newUserId, role: "admin" });
+        if (insertError) throw insertError;
+
+        // Audit log
+        await adminClient.from("admin_audit_log").insert({
+          actor_id: actorId,
+          action: "invite_admin",
+          target_user_id: newUserId,
+          metadata: { email },
+        });
+
+        return new Response(JSON.stringify({ success: true, invited: true, message: `Kutse saadetud aadressile ${email}` }), {
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
 
-      // Check if already admin
+      // User exists — check if already admin
       const { data: existingRole } = await adminClient
         .from("user_roles")
         .select("id")
@@ -101,7 +121,7 @@ Deno.serve(async (req) => {
         .insert({ user_id: targetUser.id, role: "admin" });
       if (insertError) throw insertError;
 
-      // Log action
+      // Audit log
       await adminClient.from("admin_audit_log").insert({
         actor_id: actorId,
         action: "grant_admin",
@@ -109,11 +129,12 @@ Deno.serve(async (req) => {
         metadata: { email },
       });
 
-      return new Response(JSON.stringify({ success: true }), {
+      return new Response(JSON.stringify({ success: true, invited: false, message: "Admin õigused antud" }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
+    // ── REVOKE: remove admin role ──
     if (action === "revoke") {
       const { user_id } = body;
       if (!user_id) {
@@ -123,7 +144,6 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Prevent self-revoke
       if (user_id === actorId) {
         return new Response(JSON.stringify({ error: "Ei saa eemaldada enda admin õigusi" }), {
           status: 400,
@@ -138,7 +158,6 @@ Deno.serve(async (req) => {
         .eq("role", "admin");
       if (deleteError) throw deleteError;
 
-      // Log action
       await adminClient.from("admin_audit_log").insert({
         actor_id: actorId,
         action: "revoke_admin",
@@ -150,11 +169,50 @@ Deno.serve(async (req) => {
       });
     }
 
+    // ── SEND_RESET: send password reset email ──
+    if (action === "send_reset") {
+      const { user_id } = body;
+      if (!user_id) {
+        return new Response(JSON.stringify({ error: "user_id is required" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Look up user email
+      const { data: targetData, error: targetError } = await adminClient.auth.admin.getUserById(user_id);
+      if (targetError || !targetData?.user?.email) {
+        return new Response(JSON.stringify({ error: "Kasutajat ei leitud" }), {
+          status: 404,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+
+      // Generate password reset link and send email
+      const { error: resetError } = await adminClient.auth.admin.generateLink({
+        type: "recovery",
+        email: targetData.user.email,
+      });
+      if (resetError) throw resetError;
+
+      await adminClient.from("admin_audit_log").insert({
+        actor_id: actorId,
+        action: "send_password_reset",
+        target_user_id: user_id,
+        metadata: { email: targetData.user.email },
+      });
+
+      return new Response(JSON.stringify({ success: true, message: `Parooli taastamise kiri saadetud: ${targetData.user.email}` }), {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     return new Response(JSON.stringify({ error: "Unknown action" }), {
       status: 400,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err: any) {
+    console.error("manage-admin error:", err);
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },

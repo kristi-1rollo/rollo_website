@@ -52,31 +52,31 @@ const Footer = () => {
             </h3>
             <nav className="space-y-2.5 text-[15px]">
               <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/product"
               >
                 Product
               </Link>
               <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
               >
                 Blog
               </Link>
               <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
               >
                 About Us
               </Link>
               <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact"
               >
                 Contact
               </Link>
               <Link
-                className="block min-h-[44px] md:min-h-0 flex items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact#career"
               >
                 Career

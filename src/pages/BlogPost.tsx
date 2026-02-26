@@ -9,6 +9,7 @@ import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents"
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useMemo, useState } from "react";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
+import { useToast } from "@/hooks/use-toast";
 
 const estimateReadingTime = (html: string) => {
   const text = html.replace(/<[^>]+>/g, "").trim();
@@ -18,7 +19,6 @@ const estimateReadingTime = (html: string) => {
 
 /** Split HTML content by H2 headings into sections for individual fade-in */
 const splitByH2 = (html: string): string[] => {
-  // Split on <h2 tags, keeping the tag
   const parts = html.split(/(?=<h2[\s>])/i);
   return parts.filter((p) => p.trim().length > 0);
 };
@@ -42,6 +42,7 @@ const proseClasses =
 const BlogPost = () => {
   const [copied, setCopied] = useState(false);
   const { id } = useParams<{ id: string }>();
+  const { toast } = useToast();
 
   const { data: post, isLoading } = useQuery({
     queryKey: ["blog-posts", "single", id],
@@ -76,6 +77,13 @@ const BlogPost = () => {
     () => (post?.content ? estimateReadingTime(post.content) : 0),
     [post?.content]
   );
+
+  const handleInstagramShare = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      toast({ title: "Link kopeeritud!", description: "Kleebi see oma Instagram Story'sse või bio'sse." });
+      window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
+    });
+  };
 
   if (isLoading) {
     return (
@@ -153,17 +161,18 @@ const BlogPost = () => {
                   alt={post.title}
                   className="w-full h-full object-cover"
                   style={{
-                    objectPosition: (post as any).thumbnail_focal_x != null
-                      ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                    objectPosition: post.thumbnail_focal_x != null
+                      ? `${post.thumbnail_focal_x}% ${post.thumbnail_focal_y}%`
                       : undefined,
-                    transform: (post as any).thumbnail_zoom > 1
-                      ? `scale(${(post as any).thumbnail_zoom})`
+                    transform: post.thumbnail_zoom && post.thumbnail_zoom > 1
+                      ? `scale(${post.thumbnail_zoom})`
                       : undefined,
-                    transformOrigin: (post as any).thumbnail_focal_x != null
-                      ? `${(post as any).thumbnail_focal_x}% ${(post as any).thumbnail_focal_y}%`
+                    transformOrigin: post.thumbnail_focal_x != null
+                      ? `${post.thumbnail_focal_x}% ${post.thumbnail_focal_y}%`
                       : undefined,
                   }}
-                  loading="lazy"
+                  loading="eager"
+                  decoding="async"
                 />
               </div>
             </ScrollFadeIn>
@@ -214,15 +223,13 @@ const BlogPost = () => {
                       >
                         <Facebook className="h-4 w-4" />
                       </a>
-                      <a
-                        href="https://www.instagram.com/"
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <button
+                        onClick={handleInstagramShare}
                         className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
-                        title="Instagram"
+                        title="Kopeeri link ja ava Instagram"
                       >
                         <Instagram className="h-4 w-4" />
-                      </a>
+                      </button>
                       <button
                         onClick={() => {
                           navigator.clipboard.writeText(window.location.href);
