@@ -265,7 +265,6 @@ const Product = () => {
               "Animals",
               "Fire hazards and emergency situations",
               "Unusual or unauthorized activity within secured areas",
-              "Drones"
             ].map((detection) => (
               <span
                 key={detection}
@@ -460,6 +459,10 @@ const Product = () => {
             Pricing and Availability
           </h2>
 
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+            The expected monthly rental price for the ROLLO F6 is below USD 4,000 (all-inclusive service).
+          </p>
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
             <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
               <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-2">
@@ -469,7 +472,7 @@ const Product = () => {
                 Below USD 4,000
               </p>
               <p className="text-sm text-slate-300">
-                Monthly rental price
+                Monthly rental · all-inclusive service
               </p>
             </div>
 
@@ -481,7 +484,7 @@ const Product = () => {
                 H2 2026
               </p>
               <p className="text-sm text-slate-300">
-                Second half of 2026
+                Customer order intake is scheduled to begin in the second half of 2026
               </p>
             </div>
 
@@ -493,7 +496,7 @@ const Product = () => {
                 2027
               </p>
               <p className="text-sm text-slate-300">
-                First deliveries expected
+                Customer deliveries are expected to begin in 2027
               </p>
             </div>
           </div>
