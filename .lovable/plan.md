@@ -1,45 +1,28 @@
 
 
-## Piltide positsioneerimine ja zoomimise voimalus
+## Muudatused
 
-Lisatakse piltide karpimise (crop) funktsionaalsus, mis voimaldab pilti sisse zoomida ja lohistades oigesse kohta liigutada, kui pildi proportsioonid ei kattu soovitud moistmetega.
+### 1. Product lehelt "Drones" eemaldamine
 
-### Kuidas see toob
+"Intelligent Situational Awareness" sektsioonis (rida 262-276) on tuvastamiste nimekirjas "Drones" -- see eemaldatakse loendist.
 
-- Kui thumbnail voi galeriipildil on moistmed (nt 800x400), aga pilt ise on teistes proportsioonides, ilmub eelvaate peale crop-tookiist
-- Slider zoomimiseks (1x kuni 3x)
-- Hiire voi puutega lohistamine, et pilti kasti sees oigesse kohta nihutada
-- Salvestab positsiooni (`objectPosition`) ja zoomi taseme (`focal_x`, `focal_y`, `zoom`) andmebaasi
+### 2. Pricing sektsiooni tapsustamine
 
-### Mida muudetakse
+Praegune Pricing sektsioon (read 456-505) asendatakse parema struktuuriga:
+- Selgem pealkiri ja selgitav tekst: "The expected monthly rental price for the ROLLO F6 is below USD 4,000 (all-inclusive service)."
+- Kolm kaarti jaavad, aga lisatakse "all-inclusive service" taend hinna juurde
+- Tellimuste vastuvott: "Customer order intake is scheduled to begin in the second half of 2026."
+- Tarned: "Customer deliveries are expected to begin in 2027."
 
-**1. Uus komponent `src/components/ImageCropPositioner.tsx`**
-- Kuvab pildi kindlate moistmetega kastis (`overflow: hidden`)
-- Zoom slider (1x-3x skaalal)
-- Hiire drag voi touch-drag pildi liigutamiseks kasti sees
-- Kuvab eelvaate reaalajas
-- Valjastab `{ focalX, focalY, zoom }` vaartused (protsendid 0-100)
+### 3. Headerisse Contact nupp
 
-**2. `MediaGalleryItem` tyybi laiendamine (`src/hooks/useBlogPosts.ts`)**
-- Lisanduvad valikulised valjad: `focal_x?: number`, `focal_y?: number`, `zoom?: number`
+Desktop navigatsioonile (rida 88-111) lisatakse parast nav-linke eraldi "Contact" nupp [#B4FF33] taustavarvi ja mustade tahtedega, mis viib `/contact` lehele.
 
-**3. `src/components/BlogPostEditor.tsx` muudatused**
-- Thumbnailile lisatakse crop-positsioneerimine, kui moistmed on maaratud
-- Galeriipiltidele lisatakse sama voimalus
-- Salvestatakse focal_x, focal_y ja zoom vaartused
+Mobiilimenuusse lisatakse samuti "Contact" link teiste navigatsioonilinke jargides.
 
-**4. `src/components/BlogMediaGallery.tsx` muudatused**
-- Kasutab salvestatud `focal_x/focal_y/zoom` vaartusi, et kuvada pilt oiges positsioonis:
-  ```css
-  object-fit: cover;
-  object-position: {focal_x}% {focal_y}%;
-  transform: scale({zoom});
-  ```
+### Tehnilised detailid
 
-**5. `src/pages/BlogPost.tsx` muudatused**
-- Thumbnail kuvamisel kasutatakse samu positsioneerimise vaartusi
+**Muudetavad failid:**
+- `src/pages/Product.tsx` -- eemaldada "Drones" nimekirjast (rida 268), tapsustada Pricing sektsiooni tekste
+- `src/components/Header.tsx` -- lisada Contact nupp desktop navisse ja mobiilimenuusse
 
-### Tehniline detail
-- Andmebaasi muudatusi pole vaja -- `focal_x/focal_y/zoom` salvestatakse olemasoleva `media_gallery` JSONB massiivi sisse ja thumbnailile lisanduvad uued state vaartused, mis salvestatakse postituse uuendamisel
-- Kogu crop-loogika on puhtalt frontend-pohine (CSS object-fit + object-position + transform scale)
-- Drag kasutab `onMouseDown/Move/Up` ja `onTouchStart/Move/End` sündmusi
