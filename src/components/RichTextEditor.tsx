@@ -24,6 +24,7 @@ import {
   AlignLeft,
   AlignCenter,
   AlignRight,
+  AlignJustify,
   Undo,
   Redo,
   Code,
@@ -75,7 +76,7 @@ const RichTextEditor = ({ content, onChange }: Props) => {
       Underline,
       Image.configure({ inline: false, allowBase64: false }),
       Link.configure({ openOnClick: false, autolink: true }),
-      TextAlign.configure({ types: ["heading", "paragraph"] }),
+      TextAlign.configure({ types: ["heading", "paragraph"], alignments: ["left", "center", "right", "justify"] }),
       Youtube.configure({ inline: false, ccLanguage: "en" }),
     ],
     content,
@@ -88,8 +89,10 @@ const RichTextEditor = ({ content, onChange }: Props) => {
           "prose prose-invert prose-sm max-w-none min-h-[240px] px-4 py-3 focus:outline-none " +
           "[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-3 " +
           "[&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 " +
-          "[&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 " +
-          "[&_p]:mb-2 [&_ul]:mb-2 [&_ol]:mb-2 " +
+          "[&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-5 " +
+          "[&_p]:mb-4 [&_ul]:mb-2 [&_ol]:mb-2 " +
+          "[&_h1]:mt-8 [&_h2]:mt-6 " +
+          "[&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\\00a0'] " +
           "[&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic " +
           "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:my-3 " +
           "[&_a]:text-primary [&_a]:underline " +
@@ -185,6 +188,9 @@ const RichTextEditor = ({ content, onChange }: Props) => {
         </MenuButton>
         <MenuButton onClick={() => editor.chain().focus().setTextAlign("right").run()} active={editor.isActive({ textAlign: "right" })} title="Align right">
           <AlignRight className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().setTextAlign("justify").run()} active={editor.isActive({ textAlign: "justify" })} title="Justify">
+          <AlignJustify className={ic} />
         </MenuButton>
 
         <Separator />
