@@ -1,28 +1,75 @@
 
 
-## Muudatused
+## Blogi parandused -- tervikplaan
 
-### 1. Product lehelt "Drones" eemaldamine
+### 1. Rööpjoonduse (justify) lisamine
 
-"Intelligent Situational Awareness" sektsioonis (rida 262-276) on tuvastamiste nimekirjas "Drones" -- see eemaldatakse loendist.
+**RichTextEditor.tsx:**
+- Lisada TextAlign konfiguratsioonile `alignments: ['left', 'center', 'right', 'justify']`
+- Lisada tööriistaribale "Align Justify" nupp (lucide `AlignJustify` ikoon)
 
-### 2. Pricing sektsiooni tapsustamine
+**BlogPost.tsx:**
+- Lisada prose stiilide hulka justify tugi: `[&_p]:text-justify` vaikimisi või lasta joondus HTML-ist läbi tulla
 
-Praegune Pricing sektsioon (read 456-505) asendatakse parema struktuuriga:
-- Selgem pealkiri ja selgitav tekst: "The expected monthly rental price for the ROLLO F6 is below USD 4,000 (all-inclusive service)."
-- Kolm kaarti jaavad, aga lisatakse "all-inclusive service" taend hinna juurde
-- Tellimuste vastuvott: "Customer order intake is scheduled to begin in the second half of 2026."
-- Tarned: "Customer deliveries are expected to begin in 2027."
+### 2. Lõiguvahed ja pealkirjade vahed
 
-### 3. Headerisse Contact nupp
+**RichTextEditor.tsx:**
+- Suurendada lõiguvahed: `[&_p]:mb-2` -> `[&_p]:mb-4`
+- Lisada pealkirjade ülemised vahed: `[&_h1]:mt-8 [&_h2]:mt-6 [&_h3]:mt-5`
 
-Desktop navigatsioonile (rida 88-111) lisatakse parast nav-linke eraldi "Contact" nupp [#B4FF33] taustavarvi ja mustade tahtedega, mis viib `/contact` lehele.
+**BlogPost.tsx:**
+- Sama loogika: suuremad lõiguvahed ja pealkirjavahed prose stiilides
+- Lisada `[&_h2]:mt-8 [&_h2]:mb-3 [&_h3]:mt-6 [&_h3]:mb-2 [&_p]:mb-4`
 
-Mobiilimenuusse lisatakse samuti "Contact" link teiste navigatsioonilinke jargides.
+### 3. Tühjad read (empty paragraphs) säilitamine
+
+See on peamine tehniline probleem. TipTap vaikimisi eemaldab tühjad lõigud (`<p></p>`) või ahendab need kokku.
+
+**RichTextEditor.tsx:**
+- Konfigureerida StarterKit nii, et tühjad lõigud säiliksid: lisada `Paragraph` laiendus `keepOnSplit: true` seadistusega
+- Lisada custom `handleKeyDown` et Enter-klahv looks uue tühja lõigu koos `<br class="ProseMirror-trailingBreak">` asemel tõelise tühja `<p>` elemendiga
+
+**CSS (nii redaktoris kui BlogPost.tsx):**
+- Lisada `[&_p:empty]:min-h-[1.5em]` stiil, et tühjad `<p>` elemendid saaksid visuaalse kõrguse ja ei kaoks ära
+- Lisada `[&_p:empty]:before:content-['\\00a0']` et tühjad lõigud saaksid `&nbsp;` sisu ja renderduksid korrektselt
+
+### 4. Lugemise edenemisriba
+
+**Uus fail: `src/components/ReadingProgressBar.tsx`**
+- Kerimise jälgimine `window.scrollY` abil
+- Roheline (`#B4FF33`) riba lehe ülaosas, mis täitub kerimise protsendi järgi
+- Fikseeritud positsioon (`fixed top-0`)
+
+**BlogPost.tsx:**
+- Importida ja lisada `ReadingProgressBar` komponendi artiklivaatesse
+
+### 5. Automaatne sisukord
+
+**Uus fail: `src/components/TableOfContents.tsx`**
+- Parsida HTML sisust H2 ja H3 pealkirjad regex abil
+- Genereerida igale pealkirjale slug-põhine `id`
+- Kuvada klõpsitav sisukord ankurlinkidega
+
+**BlogPost.tsx:**
+- Lisada pealkirjadele automaatsed `id` atribuudid (HTML-i töötlemine enne `dangerouslySetInnerHTML` renderdamist)
+- Kuvada sisukord artikli alguses
+
+### 6. Lugemisaja indikaator
+
+**BlogPost.tsx:**
+- Arvutada sõnade arv sisust (`content.replace(/<[^>]+>/g, '').split(/\s+/).length`)
+- Jagada ~200 sõna/min ja kuvada päises "X min read"
 
 ### Tehnilised detailid
 
 **Muudetavad failid:**
-- `src/pages/Product.tsx` -- eemaldada "Drones" nimekirjast (rida 268), tapsustada Pricing sektsiooni tekste
-- `src/components/Header.tsx` -- lisada Contact nupp desktop navisse ja mobiilimenuusse
+- `src/components/RichTextEditor.tsx` -- justify, lõiguvahed, tühjad read
+- `src/pages/BlogPost.tsx` -- prose stiilid, sisukord, lugemisaeg, progress bar, tühjad read
+- `src/index.css` -- tühjade lõikude stiilid
+
+**Uued failid:**
+- `src/components/ReadingProgressBar.tsx`
+- `src/components/TableOfContents.tsx`
+
+Uusi sõltuvusi ei lisata. Kasutatakse olemasolevat Framer Motion teeki animatsioonideks.
 
