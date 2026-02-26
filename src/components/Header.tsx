@@ -112,7 +112,7 @@ const Header = () => {
             <Link
               to="/contact"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="ml-2 px-4 py-1.5 rounded-full bg-[#B4FF33] text-[#050505] text-sm font-semibold hover:bg-[#B4FF33]/90 transition"
+              className="ml-2 px-4 py-1.5 rounded-[4px] bg-[#B4FF33] text-[#050505] text-sm font-semibold hover:bg-[#B4FF33]/90 transition"
             >
               Contact
             </Link>
