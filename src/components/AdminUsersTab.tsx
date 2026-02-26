@@ -10,6 +10,11 @@ import {
 import { Plus, Loader2, Shield, ShieldOff, KeyRound } from "lucide-react";
 import { format } from "date-fns";
 
+interface Profile {
+  email: string | null;
+  full_name: string | null;
+}
+
 interface UserRole {
   id: string;
   user_id: string;
@@ -28,6 +33,7 @@ interface AuditEntry {
 /** Admin Users management tab */
 export const AdminUsersTab = () => {
   const [roles, setRoles] = useState<UserRole[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, Profile>>({});
   const [loading, setLoading] = useState(true);
   const [newEmail, setNewEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
@@ -39,13 +45,36 @@ export const AdminUsersTab = () => {
     const { data, error } = await supabase.from("user_roles").select("*");
     if (error) {
       toast({ title: "Viga rollide laadimisel", description: error.message, variant: "destructive" });
-    } else {
-      setRoles(data ?? []);
+      setLoading(false);
+      return;
+    }
+    setRoles(data ?? []);
+
+    // Fetch profiles for all user_ids
+    const userIds = (data ?? []).map((r) => r.user_id);
+    if (userIds.length > 0) {
+      const { data: profileData } = await supabase
+        .from("profiles")
+        .select("id, email, full_name")
+        .in("id", userIds);
+      const map: Record<string, Profile> = {};
+      (profileData ?? []).forEach((p: any) => {
+        map[p.id] = { email: p.email, full_name: p.full_name };
+      });
+      setProfiles(map);
     }
     setLoading(false);
   };
 
   useEffect(() => { fetchRoles(); }, []);
+
+  const displayName = (userId: string) => {
+    const p = profiles[userId];
+    if (p?.full_name && p?.email) return `${p.full_name} (${p.email})`;
+    if (p?.email) return p.email;
+    if (p?.full_name) return p.full_name;
+    return userId.slice(0, 8) + "…";
+  };
 
   const grantAdmin = async () => {
     if (!newEmail.trim()) return;
@@ -131,7 +160,7 @@ export const AdminUsersTab = () => {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
-                <TableHead className="text-muted-foreground">Kasutaja ID</TableHead>
+                <TableHead className="text-muted-foreground">Kasutaja</TableHead>
                 <TableHead className="text-muted-foreground">Roll</TableHead>
                 <TableHead className="text-muted-foreground text-right">Tegevused</TableHead>
               </TableRow>
@@ -139,7 +168,7 @@ export const AdminUsersTab = () => {
             <TableBody>
               {roles.map((r) => (
                 <TableRow key={r.id} className="border-border hover:bg-muted/30">
-                  <TableCell className="text-foreground font-mono text-xs">{r.user_id}</TableCell>
+                  <TableCell className="text-foreground text-sm">{displayName(r.user_id)}</TableCell>
                   <TableCell>
                     <Badge variant="outline" className="border-primary/40 text-primary text-[10px] gap-1">
                       <Shield className="h-3 w-3" />
@@ -187,6 +216,7 @@ export const AdminUsersTab = () => {
 /** Audit log tab */
 export const AdminAuditTab = () => {
   const [entries, setEntries] = useState<AuditEntry[]>([]);
+  const [profiles, setProfiles] = useState<Record<string, Profile>>({});
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -199,12 +229,39 @@ export const AdminAuditTab = () => {
         .limit(100);
       if (error) {
         toast({ title: "Viga auditi laadimisel", description: error.message, variant: "destructive" });
-      } else {
-        setEntries(data ?? []);
+        setLoading(false);
+        return;
+      }
+      setEntries(data ?? []);
+
+      // Collect all unique user IDs
+      const ids = new Set<string>();
+      (data ?? []).forEach((e) => {
+        if (e.actor_id) ids.add(e.actor_id);
+        if (e.target_user_id) ids.add(e.target_user_id);
+      });
+      if (ids.size > 0) {
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("id, email, full_name")
+          .in("id", Array.from(ids));
+        const map: Record<string, Profile> = {};
+        (profileData ?? []).forEach((p: any) => {
+          map[p.id] = { email: p.email, full_name: p.full_name };
+        });
+        setProfiles(map);
       }
       setLoading(false);
     })();
   }, []);
+
+  const displayName = (userId: string | null) => {
+    if (!userId) return "—";
+    const p = profiles[userId];
+    if (p?.email) return p.email;
+    if (p?.full_name) return p.full_name;
+    return userId.slice(0, 8) + "…";
+  };
 
   const actionLabels: Record<string, string> = {
     grant_admin: "Admin roll antud",
@@ -246,10 +303,8 @@ export const AdminAuditTab = () => {
                       {actionLabels[e.action] || e.action}
                     </Badge>
                   </TableCell>
-                  <TableCell className="text-foreground font-mono text-xs">{e.actor_id?.slice(0, 8)}…</TableCell>
-                  <TableCell className="text-foreground font-mono text-xs">
-                    {e.target_user_id ? `${e.target_user_id.slice(0, 8)}…` : "—"}
-                  </TableCell>
+                  <TableCell className="text-foreground text-xs">{displayName(e.actor_id)}</TableCell>
+                  <TableCell className="text-foreground text-xs">{displayName(e.target_user_id)}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
