@@ -1,31 +1,49 @@
 
 
-## Kerimispõhised fade-in animatsioonid blogiartiklitele
+## Blogi disaini premium-uuendus
 
-### Lähenemine
+### Probleem
 
-Loon uue `ScrollFadeIn` wrapper-komponendi, mis kasutab Intersection Observer API-t. Iga artikli sektsioon (header, thumbnail, sisukord, sisu, galerii) mähitakse sellesse komponenti ja ilmub sujuvalt, kui kasutaja kerib selle juurde.
+Blogiartikli sisu kasutab praegu `text-muted-foreground` (heledus 47%), mis on tumedal taustal väga madala kontrastsusega. Saidi ülejäänud osad kasutavad pealkirjadele `text-white` ja kehatekstile `text-slate-300/400`, mis on palju loetavam. Samuti puudub sektsioonide vahel visuaalne eraldus.
 
-### Uus komponent: `src/components/ScrollFadeIn.tsx`
+### Muudatused
 
-- Kasutab `useRef` + `useEffect` koos `IntersectionObserver`-iga
-- Algseis: `opacity: 0`, `translateY(24px)`
-- Kui element on vaateväljas (threshold ~0.1): sujuv üleminek `opacity: 1`, `translateY(0)`
-- Konfigureeritav viivitus (`delay`) prop erinevate elementide järjestikuseks ilmumiseks
-- Animatsioon käivitub ainult üks kord (`once: true`)
+#### 1. Teksti kontrasti tostmine (BlogPost.tsx)
 
-### Muudetav fail: `src/pages/BlogPost.tsx`
+Praegune prose div kasutab `text-muted-foreground` (HSL 215 16% 47%) -- see on liiga tume. Muudatused:
 
-- Importida `ScrollFadeIn`
-- Mähkida iga peamine sektsioon `ScrollFadeIn`-i sisse:
-  1. Back link
-  2. Header (tag, kuupäev, pealkiri)
-  3. Thumbnail pilt
-  4. Sisukord
-  5. Artikli sisu
-  6. Meediagalerii
+- Kehatekst: `text-muted-foreground` asendada kontrastsema `text-slate-300` variandiga -- see vastab saidi uldisele disainile (HeroSection kasutab `text-slate-300` ja `text-slate-400`)
+- H2 pealkirjad: lisada `[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight` -- vastab saidi globaalsetele h1/h2/h3 stiilidele (font-weight 800, uppercase, tracking -0.04em)
+- H3 pealkirjad: `[&_h3]:text-white [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tight`
+- Bold tekst: `[&_strong]:text-white` -- rõhutatud tekst paistab selgelt silma
+- Artikli pealkiri (h1): muuta `text-foreground` -> `text-white`
 
-### Tehniline detail
+#### 2. Sektsioonide visuaalne eraldamine (BlogPost.tsx)
 
-Komponent on puhas CSS + Intersection Observer lahendus, Framer Motion pole vajalik. See hoiab koodi kergena ja jõudlust optimaalsena.
+Iga H2 pealkiri tähendab uut teemasektsiooni. Lisada stiilsed eraldajad:
+
+- `[&_h2]:border-t [&_h2]:border-border [&_h2]:pt-10 [&_h2]:mt-14` -- peen horisontaalne joon enne iga uut sektsiooni (vastavalt saidi border-värviskeemile)
+- Esimene H2 ei tohiks saada ülemist joont: `[&_h2:first-of-type]:border-t-0 [&_h2:first-of-type]:pt-0 [&_h2:first-of-type]:mt-8`
+- Alternatiivne aktsent: lisada H2-le `[&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-8 [&_h2]:before:h-[2px] [&_h2]:before:bg-primary [&_h2]:before:mb-4` -- luhike roheline aktsendijoon enne pealkirja (vastab saidi `#B4FF33` primaarvarvile)
+
+#### 3. Tsitaatide ja linkide stiilid (BlogPost.tsx)
+
+- Blockquote: tugevam aarjoon `[&_blockquote]:border-primary/60` ja valge tekst `[&_blockquote]:text-slate-300`
+- Lingid: juba on `text-primary`, aga lisada `[&_a]:hover:text-primary/80`
+
+#### 4. Sisukorra disaini toustmine (TableOfContents.tsx)
+
+Praegune kast on minimalistlik, aga ei vasta saidi premium-tundele:
+
+- Taust: `bg-muted/30` -> `bg-white/[0.02]` (lahemale saidi body stiilidele)
+- Aarjoon: `border-border` -> `border-white/[0.06]` (pehmem)
+- Pealkiri: lisada roheline aktsendijoon vasakule
+
+### Tehnilised detailid
+
+**Muudetavad failid:**
+- `src/pages/BlogPost.tsx` -- prose klasside uuendamine, h1 varvi muutmine
+- `src/components/TableOfContents.tsx` -- sisukorra stiilide premium-uuendus
+
+Uusi faile ega soltuvusi ei lisata. Koik muudatused on CSS-klasside tasemel.
 
