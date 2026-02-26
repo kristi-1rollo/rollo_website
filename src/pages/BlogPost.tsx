@@ -2,12 +2,12 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { ArrowLeft, Clock } from "lucide-react";
+import { ArrowLeft, Clock, Linkedin, Facebook, Instagram, Link2, Check } from "lucide-react";
 import BlogMediaGallery from "@/components/BlogMediaGallery";
 import ReadingProgressBar from "@/components/ReadingProgressBar";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
 
 const estimateReadingTime = (html: string) => {
@@ -17,6 +17,7 @@ const estimateReadingTime = (html: string) => {
 };
 
 const BlogPost = () => {
+  const [copied, setCopied] = useState(false);
   const { id } = useParams<{ id: string }>();
 
   const { data: post, isLoading } = useQuery({
@@ -154,6 +155,64 @@ const BlogPost = () => {
               className="prose prose-invert prose-sm sm:prose-base max-w-none text-slate-300 leading-relaxed mb-12 [&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-4 [&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 [&_blockquote]:border-l-2 [&_blockquote]:border-primary/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300 [&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-4 [&_p]:mb-4 [&_p]:text-justify [&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight [&_h2]:border-t [&_h2]:border-border [&_h2]:pt-10 [&_h2]:mt-14 [&_h2]:mb-3 [&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-8 [&_h2]:before:h-[2px] [&_h2]:before:bg-primary [&_h2]:before:mb-4 [&_h2:first-of-type]:border-t-0 [&_h2:first-of-type]:pt-0 [&_h2:first-of-type]:mt-8 [&_h3]:text-white [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tight [&_h3]:mt-6 [&_h3]:mb-2 [&_strong]:text-white [&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\00a0']"
               dangerouslySetInnerHTML={{ __html: processedContent }}
             />
+          </ScrollFadeIn>
+
+          {/* Share */}
+          <ScrollFadeIn delay={450}>
+            <div className="border-t border-border pt-8 mb-12">
+              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-4 flex items-center gap-2">
+                <span className="inline-block w-4 h-[2px] bg-primary" />
+                Share this article
+              </p>
+              <div className="flex items-center gap-3">
+                {(() => {
+                  const url = encodeURIComponent(window.location.href);
+                  const title = encodeURIComponent(post.title);
+                  return (
+                    <>
+                      <a
+                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
+                        title="Share on LinkedIn"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
+                        title="Share on Facebook"
+                      >
+                        <Facebook className="h-4 w-4" />
+                      </a>
+                      <a
+                        href={`https://www.instagram.com/`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
+                        title="Instagram"
+                      >
+                        <Instagram className="h-4 w-4" />
+                      </a>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(window.location.href);
+                          setCopied(true);
+                          setTimeout(() => setCopied(false), 2000);
+                        }}
+                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
+                        title="Copy link"
+                      >
+                        {copied ? <Check className="h-4 w-4 text-primary" /> : <Link2 className="h-4 w-4" />}
+                      </button>
+                    </>
+                  );
+                })()}
+              </div>
+            </div>
           </ScrollFadeIn>
 
           {/* Media Gallery */}
