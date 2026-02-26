@@ -59,9 +59,10 @@ const Blog = () => {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             {filtered.map((a) => (
-              <article
+              <Link
                 key={a.id}
-                className="h-full flex flex-col rounded-[4px] border border-border bg-card/50 overflow-hidden transition hover:border-muted-foreground/30 hover:bg-card/80"
+                to={`/blog/${a.id}`}
+                className="h-full flex flex-col rounded-[4px] border border-border bg-card/50 overflow-hidden transition hover:border-muted-foreground/30 hover:bg-card/80 group no-underline"
               >
                 {/* Thumbnail */}
                 {a.thumbnail_url ? (
@@ -92,20 +93,17 @@ const Blog = () => {
                 </h2>
 
                 {/* Excerpt */}
-                <p className="text-sm text-muted-foreground leading-relaxed flex-1 mb-6">
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 text-justify line-clamp-3">
                   {a.excerpt}
                 </p>
 
                 {/* Read More */}
-                <Link
-                  to={`/blog/${a.id}`}
-                  className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline mt-auto"
-                >
+                <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:underline mt-auto">
                   Read More
                   <ArrowRight className="h-3.5 w-3.5" />
-                </Link>
+                </span>
                 </div>
-              </article>
+              </Link>
             ))}
           </div>
         )}
