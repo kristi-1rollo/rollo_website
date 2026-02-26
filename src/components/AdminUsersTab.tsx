@@ -211,6 +211,11 @@ export const AdminAuditTab = () => {
     invite_admin: "Admin kutse saadetud",
     revoke_admin: "Admin roll eemaldatud",
     send_password_reset: "Parooli reset saadetud",
+    blog_post_created: "Blogipostitus loodud",
+    blog_post_updated: "Blogipostitus muudetud",
+    blog_post_published: "Blogipostitus avaldatud",
+    blog_post_unpublished: "Blogipostitus peidetud",
+    blog_post_deleted: "Blogipostitus kustutatud",
   };
 
   return (
