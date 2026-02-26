@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import {
   Table, TableHeader, TableBody, TableHead, TableRow, TableCell,
 } from "@/components/ui/table";
-import { Plus, Trash2, Loader2, Shield, ShieldOff } from "lucide-react";
+import { Plus, Loader2, Shield, ShieldOff, KeyRound } from "lucide-react";
 import { format } from "date-fns";
 
 interface UserRole {
@@ -31,6 +31,7 @@ export const AdminUsersTab = () => {
   const [loading, setLoading] = useState(true);
   const [newEmail, setNewEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [resettingId, setResettingId] = useState<string | null>(null);
   const { toast } = useToast();
 
   const fetchRoles = async () => {
@@ -55,7 +56,7 @@ export const AdminUsersTab = () => {
       });
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
-      toast({ title: "Admin õigused antud" });
+      toast({ title: data?.message || "Admin õigused antud" });
       setNewEmail("");
       fetchRoles();
     } catch (err: any) {
@@ -80,6 +81,22 @@ export const AdminUsersTab = () => {
     }
   };
 
+  const sendPasswordReset = async (userId: string) => {
+    setResettingId(userId);
+    try {
+      const { data, error } = await supabase.functions.invoke("manage-admin", {
+        body: { action: "send_reset", user_id: userId },
+      });
+      if (error) throw error;
+      if (data?.error) throw new Error(data.error);
+      toast({ title: data?.message || "Parooli taastamise kiri saadetud" });
+    } catch (err: any) {
+      toast({ title: "Viga", description: err.message, variant: "destructive" });
+    } finally {
+      setResettingId(null);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Add admin */}
@@ -88,6 +105,7 @@ export const AdminUsersTab = () => {
           placeholder="kasutaja@email.com"
           value={newEmail}
           onChange={(e) => setNewEmail(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && grantAdmin()}
           className="bg-muted/50 border-border text-foreground"
         />
         <Button
@@ -99,6 +117,9 @@ export const AdminUsersTab = () => {
           Lisa admin
         </Button>
       </div>
+      <p className="text-[11px] text-muted-foreground -mt-4">
+        Kui kasutajat pole, saadetakse kutse parooli loomiseks. Olemasolevale kasutajale antakse admin roll.
+      </p>
 
       {/* Existing admins */}
       {loading ? (
@@ -126,15 +147,32 @@ export const AdminUsersTab = () => {
                     </Badge>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => revokeAdmin(r.user_id)}
-                      className="h-7 text-xs gap-1 border-border text-muted-foreground hover:text-destructive hover:border-destructive/40"
-                    >
-                      <ShieldOff className="h-3 w-3" />
-                      Eemalda
-                    </Button>
+                    <div className="flex items-center justify-end gap-2">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => sendPasswordReset(r.user_id)}
+                        disabled={resettingId === r.user_id}
+                        className="h-7 text-xs gap-1 border-border text-muted-foreground hover:text-primary hover:border-primary/40"
+                        title="Saada parooli taastamise kiri"
+                      >
+                        {resettingId === r.user_id ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : (
+                          <KeyRound className="h-3 w-3" />
+                        )}
+                        Reset
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => revokeAdmin(r.user_id)}
+                        className="h-7 text-xs gap-1 border-border text-muted-foreground hover:text-destructive hover:border-destructive/40"
+                      >
+                        <ShieldOff className="h-3 w-3" />
+                        Eemalda
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}
@@ -168,6 +206,13 @@ export const AdminAuditTab = () => {
     })();
   }, []);
 
+  const actionLabels: Record<string, string> = {
+    grant_admin: "Admin roll antud",
+    invite_admin: "Admin kutse saadetud",
+    revoke_admin: "Admin roll eemaldatud",
+    send_password_reset: "Parooli reset saadetud",
+  };
+
   return (
     <div>
       {loading ? (
@@ -193,7 +238,7 @@ export const AdminAuditTab = () => {
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline" className="text-[10px] border-border text-foreground">
-                      {e.action}
+                      {actionLabels[e.action] || e.action}
                     </Badge>
                   </TableCell>
                   <TableCell className="text-foreground font-mono text-xs">{e.actor_id?.slice(0, 8)}…</TableCell>

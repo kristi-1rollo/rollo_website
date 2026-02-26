@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
 import { useUpsertPost, uploadThumbnail, type BlogPost, type MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useToast } from "@/hooks/use-toast";
-import { Upload, X, ArrowUp, ArrowDown, Plus, Sparkles, Loader2, Lock, Unlock, GripVertical } from "lucide-react";
+import { Upload, X, ArrowUp, ArrowDown, Plus, Sparkles, Loader2, Lock, Unlock, GripVertical, Save } from "lucide-react";
 import RichTextEditor from "@/components/RichTextEditor";
 import ImageCropPositioner from "@/components/ImageCropPositioner";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,6 +27,7 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
 }
 
 const DRAFT_KEY_PREFIX = "blog-draft-";
+const DEBOUNCE_MS = 1200;
 
 const BlogPostEditor = ({ post, onDone }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
@@ -38,13 +39,16 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [thumbHeight, setThumbHeight] = useState<number | "">(post?.thumbnail_height ?? "");
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
   const [uploading, setUploading] = useState(false);
-  const [thumbFocalX, setThumbFocalX] = useState<number>((post as any)?.thumbnail_focal_x ?? 50);
-  const [thumbFocalY, setThumbFocalY] = useState<number>((post as any)?.thumbnail_focal_y ?? 50);
-  const [thumbZoom, setThumbZoom] = useState<number>((post as any)?.thumbnail_zoom ?? 1);
+  const [thumbFocalX, setThumbFocalX] = useState<number>(post?.thumbnail_focal_x ?? 50);
+  const [thumbFocalY, setThumbFocalY] = useState<number>(post?.thumbnail_focal_y ?? 50);
+  const [thumbZoom, setThumbZoom] = useState<number>(post?.thumbnail_zoom ?? 1);
   const [gallery, setGallery] = useState<MediaGalleryItem[]>(post?.media_gallery ?? []);
   const [galleryUploading, setGalleryUploading] = useState(false);
   const [thumbLocked, setThumbLocked] = useState(true);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const [showDraftBanner, setShowDraftBanner] = useState(false);
+  const [pendingDraft, setPendingDraft] = useState<any>(null);
   const dragIndexRef = useRef<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
@@ -60,43 +64,87 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     }
   }, []);
 
-  // --- Auto-draft ---
+  // --- Robust Auto-draft ---
   const draftKey = `${DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
+  const draftDataRef = useRef<any>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const draftRestoredRef = useRef(false);
 
-  // Restore draft on mount
+  const saveDraftNow = useCallback(() => {
+    if (!draftDataRef.current) return;
+    try {
+      localStorage.setItem(draftKey, JSON.stringify({ ...draftDataRef.current, savedAt: new Date().toISOString() }));
+      setLastSavedAt(new Date());
+    } catch {}
+  }, [draftKey]);
+
+  // Keep ref in sync with current state
+  useEffect(() => {
+    draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };
+  }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom]);
+
+  // Debounced save on every change
+  useEffect(() => {
+    if (!draftRestoredRef.current) return; // Don't save before initial restore check
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(saveDraftNow, DEBOUNCE_MS);
+    return () => { if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current); };
+  }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom, saveDraftNow]);
+
+  // Save on beforeunload, visibilitychange, and unmount
+  useEffect(() => {
+    const flushDraft = () => saveDraftNow();
+    const handleVisibility = () => { if (document.visibilityState === "hidden") flushDraft(); };
+    window.addEventListener("beforeunload", flushDraft);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      flushDraft();
+      window.removeEventListener("beforeunload", flushDraft);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [saveDraftNow]);
+
+  // Restore draft on mount — show banner instead of browser confirm
   useEffect(() => {
     try {
       const saved = localStorage.getItem(draftKey);
       if (saved) {
         const draft = JSON.parse(saved);
-        const shouldRestore = confirm("Leiti salvestatud mustand. Kas soovid selle taastada?");
-        if (shouldRestore) {
-          if (draft.title != null) setTitle(draft.title);
-          if (draft.excerpt != null) setExcerpt(draft.excerpt);
-          if (draft.content != null) setContent(draft.content);
-          if (draft.tag != null) setTag(draft.tag);
-          if (draft.thumbnailUrl != null) setThumbnailUrl(draft.thumbnailUrl);
-          if (draft.thumbWidth != null) setThumbWidth(draft.thumbWidth);
-          if (draft.thumbHeight != null) setThumbHeight(draft.thumbHeight);
-          if (draft.gallery != null) setGallery(draft.gallery);
-          toast({ title: "Mustand taastatud" });
-        } else {
-          localStorage.removeItem(draftKey);
-        }
+        setPendingDraft(draft);
+        setShowDraftBanner(true);
+      } else {
+        draftRestoredRef.current = true;
       }
-    } catch {}
+    } catch {
+      draftRestoredRef.current = true;
+    }
   }, []);
 
-  // Save draft every 10 seconds
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const draft = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery };
-      try {
-        localStorage.setItem(draftKey, JSON.stringify(draft));
-      } catch {}
-    }, 10000);
-    return () => clearInterval(interval);
-  }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, draftKey]);
+  const restoreDraft = () => {
+    if (!pendingDraft) return;
+    if (pendingDraft.title != null) setTitle(pendingDraft.title);
+    if (pendingDraft.excerpt != null) setExcerpt(pendingDraft.excerpt);
+    if (pendingDraft.content != null) setContent(pendingDraft.content);
+    if (pendingDraft.tag != null) setTag(pendingDraft.tag);
+    if (pendingDraft.thumbnailUrl != null) setThumbnailUrl(pendingDraft.thumbnailUrl);
+    if (pendingDraft.thumbWidth != null) setThumbWidth(pendingDraft.thumbWidth);
+    if (pendingDraft.thumbHeight != null) setThumbHeight(pendingDraft.thumbHeight);
+    if (pendingDraft.gallery != null) setGallery(pendingDraft.gallery);
+    if (pendingDraft.thumbFocalX != null) setThumbFocalX(pendingDraft.thumbFocalX);
+    if (pendingDraft.thumbFocalY != null) setThumbFocalY(pendingDraft.thumbFocalY);
+    if (pendingDraft.thumbZoom != null) setThumbZoom(pendingDraft.thumbZoom);
+    toast({ title: "Mustand taastatud" });
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
+
+  const discardDraft = () => {
+    localStorage.removeItem(draftKey);
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
 
   const clearDraft = useCallback(() => {
     localStorage.removeItem(draftKey);
@@ -288,13 +336,37 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
   return (
     <div className="space-y-6">
+      {/* Draft restore banner */}
+      {showDraftBanner && (
+        <div className="flex items-center gap-3 p-3 rounded-[4px] border border-primary/40 bg-primary/5">
+          <Save className="h-4 w-4 text-primary flex-shrink-0" />
+          <p className="text-sm text-foreground flex-1">
+            Leiti salvestamata mustand{pendingDraft?.savedAt ? ` (${new Date(pendingDraft.savedAt).toLocaleString("et-EE")})` : ""}. Kas soovid selle taastada?
+          </p>
+          <Button size="sm" onClick={restoreDraft} className="h-7 text-xs bg-primary text-primary-foreground hover:bg-primary/90">
+            Taasta
+          </Button>
+          <Button size="sm" variant="outline" onClick={discardDraft} className="h-7 text-xs border-border text-muted-foreground hover:text-foreground">
+            Hülga
+          </Button>
+        </div>
+      )}
+
+      {/* Last saved indicator */}
+      {lastSavedAt && (
+        <p className="text-[10px] text-muted-foreground/60 flex items-center gap-1.5">
+          <Save className="h-3 w-3" />
+          Mustand salvestatud: {lastSavedAt.toLocaleTimeString("et-EE")}
+        </p>
+      )}
+
       {/* Thumbnail */}
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">Thumbnail</label>
         {thumbnailUrl ? (
           <div className="space-y-3">
             <div className="relative w-full max-w-md">
-              <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-border" />
+              <img src={thumbnailUrl} alt="Thumbnail" className="w-full h-48 object-cover rounded-[4px] border border-border" loading="lazy" decoding="async" />
               <button
                 onClick={() => { setThumbnailUrl(""); setThumbWidth(""); setThumbHeight(""); setThumbFocalX(50); setThumbFocalY(50); setThumbZoom(1); thumbOriginalRatio.current = null; }}
                 className="absolute top-2 right-2 p-1 bg-background/80 rounded-[4px] text-foreground hover:bg-background"
@@ -445,7 +517,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
                 {item.type === "video" ? (
                   <video src={item.url} className="w-full h-full object-cover" />
                 ) : (
-                  <img src={item.url} alt="" className="w-full h-full object-cover" />
+                  <img src={item.url} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                 )}
               </div>
 
