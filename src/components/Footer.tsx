@@ -117,13 +117,13 @@ const Footer = () => {
                 Supported by
               </h3>
               <div className="space-y-3">
-                <div className="block">
+                <Link to="/funding" className="block group">
                   <img
                     src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
                     alt="Funded by the European Union - NextGenerationEU"
-                    className="h-11 w-auto object-contain opacity-85"
+                    className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
                   />
-                </div>
+                </Link>
                 <a
                   href="https://defence.ee/"
                   target="_blank"
