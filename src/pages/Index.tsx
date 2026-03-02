@@ -182,7 +182,7 @@ const Index = () => {
           {/* Problem */}
           <div>
             <SectionTag>Problem</SectionTag>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 lg:min-h-[120px]">
               Human Patrol Is Expensive, Inefficient — and Now Replaceable
             </h2>
             <div className="mt-6 grid grid-cols-1 gap-4">
@@ -191,7 +191,7 @@ const Index = () => {
                 return (
                   <div
                     key={p.title}
-                    className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
+                    className="flex min-h-[132px] items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
                   >
                     <div className="shrink-0 rounded-full bg-red-500/10 p-2.5 text-red-400">
                       <Icon className="h-5 w-5" />
@@ -209,7 +209,7 @@ const Index = () => {
           {/* Solution */}
           <div>
             <SectionTag>Solution</SectionTag>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 lg:min-h-[120px]">
               A Fundamentally Better Way to Build Patrol Robots
             </h2>
             <div className="mt-6 grid grid-cols-1 gap-4">
@@ -218,7 +218,7 @@ const Index = () => {
                 return (
                   <div
                     key={s.title}
-                    className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
+                    className="flex min-h-[132px] items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5"
                   >
                     <div className="shrink-0 rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
                       <Icon className="h-5 w-5" />
