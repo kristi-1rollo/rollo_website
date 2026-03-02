@@ -452,60 +452,6 @@ const Product = () => {
         </div>
       </section>
 
-      {/* F) Pricing and Availability */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            Pricing and Availability
-          </h2>
-
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            The expected monthly rental price for the ROLLO F6 is below USD 4,000 (all-inclusive service).
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-2">
-                Expected Pricing
-              </p>
-              <p className="text-2xl font-bold text-[#B4FF33] mb-2">
-                Below USD 4,000
-              </p>
-              <p className="text-sm text-slate-300">
-                Monthly rental · all-inclusive service
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-2">
-                Order Intake
-              </p>
-              <p className="text-2xl font-bold text-white mb-2">
-                H2 2026
-              </p>
-              <p className="text-sm text-slate-300">
-                Customer order intake is scheduled to begin in the second half of 2026
-              </p>
-            </div>
-
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6">
-              <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-2">
-                Deliveries
-              </p>
-              <p className="text-2xl font-bold text-white mb-2">
-                2027
-              </p>
-              <p className="text-sm text-slate-300">
-                Customer deliveries are expected to begin in 2027
-              </p>
-            </div>
-          </div>
-
-          <p className="text-sm text-slate-400 mt-4">
-            * Pricing and timeline are subject to change. Final terms will be confirmed closer to launch.
-          </p>
-        </div>
-      </section>
 
       {/* G) Priority Reservation */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
