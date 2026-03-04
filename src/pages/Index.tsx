@@ -256,7 +256,7 @@ const Index = () => {
               className="h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6"
             >
               <div className="w-full aspect-square mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-black">
-                <img src={t.img} alt={t.title} className="w-full h-full object-contain p-4 invert" />
+                <img src={t.img} alt={t.title} className="w-full h-full object-contain p-4" />
               </div>
               <h3 className="text-lg font-semibold text-white mb-3">{t.title}</h3>
               <p className="text-sm text-slate-300 leading-relaxed flex-1">{t.text}</p>
