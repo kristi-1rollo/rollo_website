@@ -128,12 +128,12 @@ const Index = () => {
       <section className="relative w-full min-h-[100svh] flex items-center overflow-hidden">
         {/* Background image — centered */}
         <img
-          src="/robot/rollo_tunnel.png"
-          alt="Rollo autonomous patrol robot in tunnel"
-          className="absolute inset-0 w-full h-full object-cover object-center"
+          src="/hero/rollo_street.png"
+          alt="Rollo autonomous patrol robot on street"
+          className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
         />
         {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-black/55" />
+        <div className="absolute inset-0 bg-black/45" />
 
         {/* Content — left-aligned */}
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24 text-left">
@@ -246,11 +246,18 @@ const Index = () => {
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {productTiles.map((t) => (
+          {[
+            { img: "/patent/Pilt1.png", ...productTiles[0] },
+            { img: "/patent/Pilt2.png", ...productTiles[1] },
+            { img: "/patent/Pilt3.png", ...productTiles[2] },
+          ].map((t) => (
             <div
               key={t.title}
               className="h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6"
             >
+              <div className="w-full aspect-square mb-5 flex items-center justify-center overflow-hidden rounded-xl bg-black">
+                <img src={t.img} alt={t.title} className="w-full h-full object-contain p-4 invert" />
+              </div>
               <h3 className="text-lg font-semibold text-white mb-3">{t.title}</h3>
               <p className="text-sm text-slate-300 leading-relaxed flex-1">{t.text}</p>
               <Link
