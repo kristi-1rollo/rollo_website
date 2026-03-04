@@ -1,12 +1,20 @@
 
-# EU rahastuse lehe link footerisse tagasi
 
-## Probleem
-Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
+# "Protected by Deep Hardware-Software Integration" sektsiooni lisamine
 
-## Lahendus
-Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
+## Kirjeldus
+Lisan Product lehele uue sektsiooni "Technical Specifications" ja "Priority Reservation" vahele, mis näitab kolme patendijoonist kõrvuti investor decki stiilis.
 
-## Tehniline detail
-- **Fail:** `src/components/Footer.tsx`, read 120-126
-- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
+## Plaan
+
+1. **Kopeerin 3 pilti** projekti `public/patent/` kausta: `Pilt1.png`, `Pilt2.png`, `Pilt3.png`
+
+2. **Lisan uue sektsiooni** faili `src/pages/Product.tsx` ridade 454-455 vahele (pärast Tech Specs, enne Priority Reservation):
+   - Pealkiri: **"Protected by Deep Hardware-Software Integration"**
+   - 3-veeruline grid tumeda taustaga kaartidega, igaühes patendijoonise pilt
+   - Iga kaardi all pealkiri + lühikirjeldus:
+     - **Single-wheel autonomy** - "Proprietary hardware and software method enables stable autonomous motion on a single wheel"
+     - **Patent pending innovations** - "Proprietary hardware and software method enables stable autonomous motion on a single wheel"
+     - **Exclusive hardware integration** - "Proprietary hardware and software method enables stable autonomous motion on a single wheel"
+   - Stiil: sama mis ülejäänud Product leht (rounded-2xl, border-white/10, bg-white/5)
+
