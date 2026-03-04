@@ -453,6 +453,30 @@ const Product = () => {
       </section>
 
 
+      {/* Patent Section */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div className="text-center mb-12">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
+            Protected by Deep Hardware–Software Integration
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { img: "/patent/Pilt1.png", title: "Single-wheel autonomy", desc: "Proprietary hardware and software method enables stable autonomous motion on a single wheel" },
+            { img: "/patent/Pilt2.png", title: "Patent pending innovations", desc: "Proprietary hardware and software method enables stable autonomous motion on a single wheel" },
+            { img: "/patent/Pilt3.png", title: "Exclusive hardware integration", desc: "Proprietary hardware and software method enables stable autonomous motion on a single wheel" },
+          ].map((item, i) => (
+            <div key={i} className="rounded-2xl border border-white/10 bg-white/5 p-6 flex flex-col items-center text-center">
+              <div className="w-full aspect-square mb-6 flex items-center justify-center overflow-hidden rounded-xl bg-white">
+                <img src={item.img} alt={item.title} className="w-full h-full object-contain p-4" />
+              </div>
+              <h3 className="text-lg font-semibold text-white mb-2">{item.title}</h3>
+              <p className="text-sm text-slate-400">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* G) Priority Reservation */}
       <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="rounded-2xl border border-[#B4FF33]/30 bg-[#B4FF33]/5 p-8 md:p-12">
