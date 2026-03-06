@@ -5,11 +5,11 @@ const Footer = () => {
   return (
     <footer className="border-t border-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent">
       {/* MAIN FOOTER */}
-      <div className="container-premium py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 text-left">
+      <div className="container-premium py-12 md:py-16 px-6 md:px-8">
+        <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-left">
 
-          {/* Contact - spans 5 columns on desktop */}
-          <div className="space-y-4 md:col-span-4">
+          {/* Contact */}
+          <div className="space-y-4 md:max-w-[280px]">
             <Link
               to="/"
               aria-label="Go to homepage"
@@ -45,38 +45,38 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick links - spans 3 columns */}
-          <div className="space-y-4 md:col-span-3">
+          {/* Quick links */}
+          <div className="space-y-4">
             <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
               Quick Links
             </h3>
-            <nav className="space-y-2.5 text-[15px]">
+            <nav className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:grid-cols-1 md:gap-y-2.5 text-[15px]">
               <Link
-                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/product"
               >
                 Product
               </Link>
               <Link
-                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
               >
                 Blog
               </Link>
               <Link
-                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
               >
                 About Us
               </Link>
               <Link
-                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact"
               >
                 Contact
               </Link>
               <Link
-                className="flex min-h-[44px] md:min-h-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact#career"
               >
                 Career
@@ -84,13 +84,13 @@ const Footer = () => {
             </nav>
           </div>
 
-          {/* Social & Trust signals - spans 4 columns */}
-          <div className="space-y-6 md:col-span-5">
+          {/* Social & Trust signals */}
+          <div className="space-y-6 md:text-right">
             <div className="space-y-3">
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
                 Follow Us
               </h3>
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-2.5 md:justify-end">
                 <a
                   href="https://www.linkedin.com/company/rollo-robotics"
                   target="_blank"
@@ -116,7 +116,7 @@ const Footer = () => {
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
                 Supported by
               </h3>
-              <div className="space-y-3">
+              <div className="space-y-3 md:flex md:flex-col md:items-end">
                 <Link to="/funding" className="block group">
                   <img
                     src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
