@@ -29,6 +29,20 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
 const DRAFT_KEY_PREFIX = "blog-draft-";
 const DEBOUNCE_MS = 1200;
 
+interface DraftData {
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  tag?: string;
+  thumbnailUrl?: string;
+  thumbWidth?: number | "";
+  thumbHeight?: number | "";
+  gallery?: MediaGalleryItem[];
+  thumbFocalX?: number;
+  thumbFocalY?: number;
+  thumbZoom?: number;
+  savedAt?: string;
+}
 const BlogPostEditor = ({ post, onDone }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
