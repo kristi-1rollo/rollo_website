@@ -62,7 +62,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [showDraftBanner, setShowDraftBanner] = useState(false);
-  const [pendingDraft, setPendingDraft] = useState<Record<string, unknown> | null>(null);
+  const [pendingDraft, setPendingDraft] = useState<DraftData | null>(null);
   const dragIndexRef = useRef<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
@@ -80,7 +80,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
   // --- Robust Auto-draft ---
   const draftKey = `${DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
-  const draftDataRef = useRef<Record<string, unknown> | null>(null);
+  const draftDataRef = useRef<DraftData | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const draftRestoredRef = useRef(false);
 
@@ -123,7 +123,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     try {
       const saved = localStorage.getItem(draftKey);
       if (saved) {
-        const draft = JSON.parse(saved);
+        const draft = JSON.parse(saved) as DraftData;
         setPendingDraft(draft);
         setShowDraftBanner(true);
       } else {
