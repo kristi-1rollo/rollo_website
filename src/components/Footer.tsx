@@ -6,10 +6,10 @@ const Footer = () => {
     <footer className="border-t border-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent">
       {/* MAIN FOOTER */}
       <div className="container-premium py-12 md:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 text-left">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 text-left">
 
           {/* Contact - spans 5 columns on desktop */}
-          <div className="space-y-4 md:col-span-5">
+          <div className="space-y-4 md:col-span-4">
             <Link
               to="/"
               aria-label="Go to homepage"
@@ -85,7 +85,7 @@ const Footer = () => {
           </div>
 
           {/* Social & Trust signals - spans 4 columns */}
-          <div className="space-y-6 md:col-span-4">
+          <div className="space-y-6 md:col-span-5">
             <div className="space-y-3">
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
                 Follow Us
