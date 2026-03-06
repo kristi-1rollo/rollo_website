@@ -62,7 +62,7 @@ interface RegistrationModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const FUNCTION_URL = "https://igdxbtuaajrhvuqtwhmm.supabase.co/functions/v1/submit-registration";
+const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
 
 const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
   const [formData, setFormData] = useState({

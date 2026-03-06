@@ -28,8 +28,9 @@ const BlogTab = () => {
     try {
       await deletePost.mutateAsync(id);
       toast({ title: "Post deleted" });
-    } catch (err: any) {
-      toast({ title: "Delete failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Delete failed", description: message, variant: "destructive" });
     }
   };
 

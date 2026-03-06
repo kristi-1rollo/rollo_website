@@ -1,124 +1,19 @@
-import { useState } from "react";
 import { Mail, MapPin, Building2, Briefcase } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "sonner";
-
-const FUNCTION_URL = "https://igdxbtuaajrhvuqtwhmm.supabase.co/functions/v1/submit-registration";
+import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
 
 const Contact = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    country: "",
-    numberOfRobots: "",
-    estimatedDemand: "",
-    deploymentAreas: [] as string[],
-    additionalInfo: ""
+  const {
+    formData,
+    isSubmitting,
+    handleInputChange,
+    handleDeploymentAreaToggle,
+    handleSubmit,
+  } = useContactForm({
+    requiredFields: ["company", "country"],
+    successMessage: "Thank you for your message! We'll be in touch soon.",
+    defaultTopicFallback: true,
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.company || !formData.country) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      // Transform data to match RegistrationModal format
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        region: formData.country,
-        topics: formData.deploymentAreas.length > 0 ? formData.deploymentAreas : ["Other"],
-        message: [
-          formData.company && `Company: ${formData.company}`,
-          formData.numberOfRobots && `Number of Robots: ${formData.numberOfRobots}`,
-          formData.estimatedDemand && `Estimated Demand: ${formData.estimatedDemand}`,
-          formData.additionalInfo && `Additional Info: ${formData.additionalInfo}`,
-        ].filter(Boolean).join("\n"),
-      };
-
-      const res = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = (await res.json().catch(() => ({}))) as unknown as {
-        error?: string;
-        details?: string[];
-      };
-
-      if (!res.ok || data?.error) {
-        const msg = Array.isArray(data?.details)
-          ? data.details.join(", ")
-          : data?.error;
-
-        toast.error(msg ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      toast.success("Thank you for your message! We'll be in touch soon.");
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        country: "",
-        numberOfRobots: "",
-        estimatedDemand: "",
-        deploymentAreas: [],
-        additionalInfo: ""
-      });
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleDeploymentAreaToggle = (area: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      deploymentAreas: prev.deploymentAreas.includes(area)
-        ? prev.deploymentAreas.filter((a) => a !== area)
-        : [...prev.deploymentAreas, area],
-    }));
-  };
-
-  const deploymentAreaOptions = [
-    "Public safety in urban environments",
-    "Airport security",
-    "Hospitals and medical facilities",
-    "Hotels and hospitality sector",
-    "Mining and construction equipment yards",
-    "Industrial plants and manufacturing facilities",
-    "Critical infrastructure protection",
-    "Oil and gas facilities, refineries, and chemical plants",
-    "Corporate and university campuses",
-    "Gated communities, resorts, and golf clubs",
-    "Smart homes, villas, and luxury estates",
-    "Water supply stations and reservoirs",
-    "Data centers",
-    "Law enforcement and military support",
-    "Business investment purposes",
-    "Other"
-  ];
 
   return (
     <div className="pt-24 pb-16">
@@ -315,16 +210,16 @@ const Contact = () => {
                     Intended Area of Deployment
                   </label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-2">
-                    {deploymentAreaOptions.map((area) => (
+                    {DEPLOYMENT_AREA_OPTIONS.map((area) => (
                       <div key={area} className="flex items-start gap-2">
                         <Checkbox
-                          id={area}
+                          id={`contact-${area}`}
                           checked={formData.deploymentAreas.includes(area)}
                           onCheckedChange={() => handleDeploymentAreaToggle(area)}
                           className="mt-1 border-white/20 data-[state=checked]:bg-[#B4FF33] data-[state=checked]:border-[#B4FF33] data-[state=checked]:text-black"
                         />
                         <label
-                          htmlFor={area}
+                          htmlFor={`contact-${area}`}
                           className="text-sm text-slate-300 cursor-pointer leading-tight"
                         >
                           {area}
@@ -393,78 +288,39 @@ const Contact = () => {
               <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
             </div>
             <ul className="space-y-3 text-sm text-slate-300">
-              <li className="flex items-start gap-3">
-                <span className="text-[#B4FF33] mt-1">•</span>
-                <span>Work on cutting-edge robotics and AI technology</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#B4FF33] mt-1">•</span>
-                <span>Join a team with 10+ years of shared robotics experience</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#B4FF33] mt-1">•</span>
-                <span>Impact real-world security and safety challenges</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#B4FF33] mt-1">•</span>
-                <span>Competitive compensation and equity opportunities</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#B4FF33] mt-1">•</span>
-                <span>Flexible work environment and continuous learning</span>
-              </li>
+              {[
+                "Work on cutting-edge robotics and AI technology",
+                "Join a team with 10+ years of shared robotics experience",
+                "Impact real-world security and safety challenges",
+                "Competitive compensation and equity opportunities",
+                "Flexible work environment and continuous learning",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3">
+                  <span className="text-[#B4FF33] mt-1">•</span>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
           </div>
 
           {/* Open Positions */}
           <div className="rounded-2xl border border-white/10 bg-white/5 p-8 space-y-4">
-            <h3 className="text-xl font-semibold text-white">Open Positions</h3>
-            <div className="space-y-4">
-              <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                <h4 className="text-base font-semibold text-white">Robotics Engineer</h4>
-                <p className="text-sm text-slate-400">Full-time • Viljandi, Estonia</p>
-                <p className="text-sm text-slate-300">
-                  Work on mechanical design, control systems, and hardware integration.
-                </p>
+            <div className="flex items-center gap-3">
+              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
+                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
               </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                <h4 className="text-base font-semibold text-white">AI/ML Engineer</h4>
-                <p className="text-sm text-slate-400">Full-time • Viljandi, Estonia</p>
-                <p className="text-sm text-slate-300">
-                  Develop vision systems and autonomous decision-making algorithms.
-                </p>
-              </div>
-              <div className="p-4 rounded-xl bg-white/5 border border-white/5 space-y-2">
-                <h4 className="text-base font-semibold text-white">Software Developer</h4>
-                <p className="text-sm text-slate-400">Full-time • Viljandi, Estonia</p>
-                <p className="text-sm text-slate-300">
-                  Build real-time control systems and cloud integration.
-                </p>
-              </div>
+              <h3 className="text-xl font-semibold text-white">Open Positions</h3>
             </div>
-          </div>
-        </div>
-
-        {/* Apply CTA */}
-        <div className="rounded-2xl border border-white/10 bg-gradient-to-br from-[#B4FF33]/5 to-transparent p-8 md:p-12">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex-1 space-y-2">
-              <h3 className="text-xl md:text-2xl font-bold text-white">
-                Don't See Your Role?
-              </h3>
-              <p className="text-base text-slate-300">
-                We're always looking for talented individuals. Send us your CV and tell us
-                how you can contribute to the future of autonomous robotics.
-              </p>
-            </div>
-            <div>
-              <a
-                href="mailto:info@1rollo.com?subject=Career Opportunity"
-                className="inline-flex min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
-              >
-                Send Application
-              </a>
-            </div>
+            <p className="text-sm text-slate-300">
+              We're always looking for talented people. Even if you don't see a specific
+              opening, we'd love to hear from you.
+            </p>
+            <a
+              href="mailto:info@1rollo.com"
+              className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
+            >
+              Send your CV to info@1rollo.com
+            </a>
           </div>
         </div>
       </section>

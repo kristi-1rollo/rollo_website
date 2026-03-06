@@ -29,6 +29,20 @@ function getImageDimensions(file: File): Promise<{ width: number; height: number
 const DRAFT_KEY_PREFIX = "blog-draft-";
 const DEBOUNCE_MS = 1200;
 
+interface DraftData {
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  tag?: string;
+  thumbnailUrl?: string;
+  thumbWidth?: number | "";
+  thumbHeight?: number | "";
+  gallery?: MediaGalleryItem[];
+  thumbFocalX?: number;
+  thumbFocalY?: number;
+  thumbZoom?: number;
+  savedAt?: string;
+}
 const BlogPostEditor = ({ post, onDone }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
@@ -48,7 +62,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [showDraftBanner, setShowDraftBanner] = useState(false);
-  const [pendingDraft, setPendingDraft] = useState<any>(null);
+  const [pendingDraft, setPendingDraft] = useState<DraftData | null>(null);
   const dragIndexRef = useRef<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
@@ -66,7 +80,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
   // --- Robust Auto-draft ---
   const draftKey = `${DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
-  const draftDataRef = useRef<any>(null);
+  const draftDataRef = useRef<DraftData | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const draftRestoredRef = useRef(false);
 
@@ -109,7 +123,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     try {
       const saved = localStorage.getItem(draftKey);
       if (saved) {
-        const draft = JSON.parse(saved);
+        const draft = JSON.parse(saved) as DraftData;
         setPendingDraft(draft);
         setShowDraftBanner(true);
       } else {
@@ -202,8 +216,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         setExcerpt(data.excerpt);
         toast({ title: "Excerpt generated" });
       }
-    } catch (err: any) {
-      toast({ title: "AI generation failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "AI generation failed", description: message, variant: "destructive" });
     } finally {
       setGeneratingExcerpt(false);
     }
@@ -220,8 +235,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
       thumbOriginalRatio.current = dims.width / dims.height;
       const url = await uploadThumbnail(file);
       setThumbnailUrl(url);
-    } catch (err: any) {
-      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Upload failed", description: message, variant: "destructive" });
     } finally {
       setUploading(false);
     }
@@ -245,8 +261,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         newItems.push({ url, type: isVideo ? "video" : "image", width, height, caption: "" });
       }
       setGallery((prev) => [...prev, ...newItems]);
-    } catch (err: any) {
-      toast({ title: "Gallery upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Gallery upload failed", description: message, variant: "destructive" });
     } finally {
       setGalleryUploading(false);
       if (galleryFileRef.current) galleryFileRef.current.value = "";
@@ -329,8 +346,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
       clearDraft();
       toast({ title: post?.id ? "Post updated" : "Post created" });
       onDone();
-    } catch (err: any) {
-      toast({ title: "Save failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Save failed", description: message, variant: "destructive" });
     }
   };
 
