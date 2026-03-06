@@ -48,7 +48,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
   const [showDraftBanner, setShowDraftBanner] = useState(false);
-  const [pendingDraft, setPendingDraft] = useState<any>(null);
+  const [pendingDraft, setPendingDraft] = useState<Record<string, unknown> | null>(null);
   const dragIndexRef = useRef<number | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const galleryFileRef = useRef<HTMLInputElement>(null);
@@ -66,7 +66,7 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
 
   // --- Robust Auto-draft ---
   const draftKey = `${DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
-  const draftDataRef = useRef<any>(null);
+  const draftDataRef = useRef<Record<string, unknown> | null>(null);
   const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const draftRestoredRef = useRef(false);
 
@@ -202,8 +202,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         setExcerpt(data.excerpt);
         toast({ title: "Excerpt generated" });
       }
-    } catch (err: any) {
-      toast({ title: "AI generation failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "AI generation failed", description: message, variant: "destructive" });
     } finally {
       setGeneratingExcerpt(false);
     }
@@ -220,8 +221,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
       thumbOriginalRatio.current = dims.width / dims.height;
       const url = await uploadThumbnail(file);
       setThumbnailUrl(url);
-    } catch (err: any) {
-      toast({ title: "Upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Upload failed", description: message, variant: "destructive" });
     } finally {
       setUploading(false);
     }
@@ -245,8 +247,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
         newItems.push({ url, type: isVideo ? "video" : "image", width, height, caption: "" });
       }
       setGallery((prev) => [...prev, ...newItems]);
-    } catch (err: any) {
-      toast({ title: "Gallery upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Gallery upload failed", description: message, variant: "destructive" });
     } finally {
       setGalleryUploading(false);
       if (galleryFileRef.current) galleryFileRef.current.value = "";
@@ -329,8 +332,9 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
       clearDraft();
       toast({ title: post?.id ? "Post updated" : "Post created" });
       onDone();
-    } catch (err: any) {
-      toast({ title: "Save failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Save failed", description: message, variant: "destructive" });
     }
   };
 

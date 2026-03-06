@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const team = [
   {
     name: "Mechanical Engineering",
@@ -24,8 +26,6 @@ const team = [
     description: "Production launch planning, distribution network, and customer deployment support.",
   },
 ];
-
-import { Link } from "react-router-dom";
 
 const AboutUs = () => {
   return (

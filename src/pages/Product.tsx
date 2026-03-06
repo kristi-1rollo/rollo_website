@@ -12,128 +12,24 @@ import {
   Plug,
   Navigation,
   ChevronDown,
-  ChevronUp
+  ChevronUp,
 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
-import { toast } from "sonner";
-
-const FUNCTION_URL =
-  "https://iysxjfluapydbocywubv.supabase.co/functions/v1/submit-registration";
+import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
 
 const Product = () => {
   const [showAllSpecs, setShowAllSpecs] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    country: "",
-    numberOfRobots: "",
-    estimatedDemand: "",
-    deploymentAreas: [] as string[],
-    additionalInfo: ""
+
+  const {
+    formData,
+    isSubmitting,
+    handleInputChange,
+    handleDeploymentAreaToggle,
+    handleSubmit,
+  } = useContactForm({
+    requiredFields: ["company", "country", "numberOfRobots", "deploymentAreas"],
+    successMessage: "Thank you for your reservation! We'll be in touch soon.",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    // Validate required fields
-    if (!formData.name || !formData.email || !formData.company || !formData.country || !formData.numberOfRobots || formData.deploymentAreas.length === 0) {
-      toast.error("Please fill in all required fields");
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      // Transform data to match RegistrationModal format
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        region: formData.country,
-        topics: formData.deploymentAreas,
-        message: [
-          `Company: ${formData.company}`,
-          `Number of Robots: ${formData.numberOfRobots}`,
-          formData.estimatedDemand && `Estimated Demand: ${formData.estimatedDemand}`,
-          formData.additionalInfo && `Additional Info: ${formData.additionalInfo}`,
-        ].filter(Boolean).join("\n"),
-      };
-
-      const res = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      const data = (await res.json().catch(() => ({}))) as unknown as {
-        error?: string;
-        details?: string[];
-      };
-
-      if (!res.ok || data?.error) {
-        const msg = Array.isArray(data?.details)
-          ? data.details.join(", ")
-          : data?.error;
-
-        toast.error(msg ?? "Something went wrong. Please try again.");
-        return;
-      }
-
-      toast.success("Thank you for your reservation! We'll be in touch soon.");
-
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        country: "",
-        numberOfRobots: "",
-        estimatedDemand: "",
-        deploymentAreas: [],
-        additionalInfo: ""
-      });
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleDeploymentAreaToggle = (area: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      deploymentAreas: prev.deploymentAreas.includes(area)
-        ? prev.deploymentAreas.filter((a) => a !== area)
-        : [...prev.deploymentAreas, area],
-    }));
-  };
-
-  const deploymentAreaOptions = [
-    "Public safety in urban environments",
-    "Airport security",
-    "Hospitals and medical facilities",
-    "Hotels and hospitality sector",
-    "Mining and construction equipment yards",
-    "Industrial plants and manufacturing facilities",
-    "Critical infrastructure protection",
-    "Oil and gas facilities, refineries, and chemical plants",
-    "Corporate and university campuses",
-    "Gated communities, resorts, and golf clubs",
-    "Smart homes, villas, and luxury estates",
-    "Water supply stations and reservoirs",
-    "Data centers",
-    "Law enforcement and military support",
-    "Business investment purposes",
-    "Other"
-  ];
 
   return (
     <div className="pt-24 pb-16">
@@ -489,12 +385,12 @@ const Product = () => {
             {/* Basic Information */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="res-name" className="block text-sm font-medium text-white mb-2">
                   Name *
                 </label>
                 <input
                   type="text"
-                  id="name"
+                  id="res-name"
                   name="name"
                   required
                   value={formData.name}
@@ -505,12 +401,12 @@ const Product = () => {
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="res-email" className="block text-sm font-medium text-white mb-2">
                   E-mail *
                 </label>
                 <input
                   type="email"
-                  id="email"
+                  id="res-email"
                   name="email"
                   required
                   value={formData.email}
@@ -523,12 +419,12 @@ const Product = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="company" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="res-company" className="block text-sm font-medium text-white mb-2">
                   Company *
                 </label>
                 <input
                   type="text"
-                  id="company"
+                  id="res-company"
                   name="company"
                   required
                   value={formData.company}
@@ -539,12 +435,12 @@ const Product = () => {
               </div>
 
               <div>
-                <label htmlFor="country" className="block text-sm font-medium text-white mb-2">
+                <label htmlFor="res-country" className="block text-sm font-medium text-white mb-2">
                   Country *
                 </label>
                 <input
                   type="text"
-                  id="country"
+                  id="res-country"
                   name="country"
                   required
                   value={formData.country}
@@ -557,12 +453,12 @@ const Product = () => {
 
             {/* Reservation Details */}
             <div>
-              <label htmlFor="numberOfRobots" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="res-numberOfRobots" className="block text-sm font-medium text-white mb-2">
                 Number of Robots to Reserve *
               </label>
               <input
                 type="number"
-                id="numberOfRobots"
+                id="res-numberOfRobots"
                 name="numberOfRobots"
                 required
                 min="1"
@@ -574,12 +470,12 @@ const Product = () => {
             </div>
 
             <div>
-              <label htmlFor="estimatedDemand" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="res-estimatedDemand" className="block text-sm font-medium text-white mb-2">
                 Estimated Robot Demand Within the Next 5 Years
               </label>
               <input
                 type="text"
-                id="estimatedDemand"
+                id="res-estimatedDemand"
                 name="estimatedDemand"
                 value={formData.estimatedDemand}
                 onChange={handleInputChange}
@@ -593,16 +489,16 @@ const Product = () => {
                 Intended Area of Deployment *
               </label>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                {deploymentAreaOptions.map((area) => (
+                {DEPLOYMENT_AREA_OPTIONS.map((area) => (
                   <div key={area} className="flex items-start gap-2">
                     <Checkbox
-                      id={area}
+                      id={`res-${area}`}
                       checked={formData.deploymentAreas.includes(area)}
                       onCheckedChange={() => handleDeploymentAreaToggle(area)}
                       className="mt-1 border-white/20 data-[state=checked]:bg-[#B4FF33] data-[state=checked]:border-[#B4FF33] data-[state=checked]:text-black"
                     />
                     <label
-                      htmlFor={area}
+                      htmlFor={`res-${area}`}
                       className="text-sm text-slate-300 cursor-pointer leading-tight"
                     >
                       {area}
@@ -613,11 +509,11 @@ const Product = () => {
             </div>
 
             <div>
-              <label htmlFor="additionalInfo" className="block text-sm font-medium text-white mb-2">
+              <label htmlFor="res-additionalInfo" className="block text-sm font-medium text-white mb-2">
                 Additional Information
               </label>
               <textarea
-                id="additionalInfo"
+                id="res-additionalInfo"
                 name="additionalInfo"
                 rows={4}
                 value={formData.additionalInfo}
