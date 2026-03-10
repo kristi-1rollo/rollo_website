@@ -382,21 +382,23 @@ const Index = () => {
             <div className="space-y-8">
               <div className="space-y-3">
                 <SectionTag>Business Intelligence</SectionTag>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                  Calculate Your Savings
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+                  The Math of Autonomy.
                 </h2>
                 <p className="text-muted-foreground text-sm max-w-md">
-                  Adjust the sliders to estimate how much you could save by
-                  deploying ROLLO in your facility.
+                  We don't sell costs, we sell returns. Use the sliders to
+                  estimate your savings.
                 </p>
               </div>
 
-              <div className="space-y-7 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+              <div className="space-y-8">
                 <div>
-                  <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
-                    Patrol hours / day:{" "}
-                    <span className="text-primary font-bold">{hours}</span>
-                  </p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                      Patrol Hours per Day
+                    </p>
+                    <span className="text-sm font-bold text-primary">{hours}</span>
+                  </div>
                   <Slider
                     value={[hours]}
                     onValueChange={(val) => setHours(val[0])}
@@ -406,10 +408,12 @@ const Index = () => {
                   />
                 </div>
                 <div>
-                  <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
-                    Sectors / Units:{" "}
-                    <span className="text-primary font-bold">{sectors}</span>
-                  </p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                      Replaced Guard Sectors
+                    </p>
+                    <span className="text-sm font-bold text-primary">{sectors}</span>
+                  </div>
                   <Slider
                     value={[sectors]}
                     onValueChange={(val) => setSectors(val[0])}
@@ -430,23 +434,34 @@ const Index = () => {
                 <p className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary neon-glow leading-none">
                   €{annualSavings > 0 ? annualSavings.toLocaleString() : "—"}
                 </p>
-                <p className="text-sm text-muted-foreground mt-3">
-                  {savingsPercentage > 0
-                    ? `${savingsPercentage.toFixed(0)}% efficiency increase`
-                    : "Adjust sliders to see savings"}
-                </p>
 
-                <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-3">
-                  <Clock className="h-5 w-5 text-primary" />
+                <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
                       ROI Period
                     </p>
-                    <p className="text-xl font-bold text-white">
+                    <p className="text-xl font-bold text-white mt-1">
                       {roiMonths > 0 ? `${roiMonths} Months` : "—"}
                     </p>
                   </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                      Efficiency
+                    </p>
+                    <p className="text-xl font-bold text-white mt-1">
+                      {savingsPercentage > 0
+                        ? `${savingsPercentage.toFixed(0)}%`
+                        : "—"}
+                    </p>
+                  </div>
                 </div>
+
+                <Link
+                  to="/contact"
+                  className="mt-8 min-h-11 inline-flex items-center justify-center rounded-xl border border-primary/30 bg-transparent px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-black transition-all duration-300"
+                >
+                  Get a Quote
+                </Link>
               </div>
             </div>
           </div>
