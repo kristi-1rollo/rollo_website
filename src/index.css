@@ -143,6 +143,25 @@
     background-size: 200px 200px;
   }
 
+  /* Glass-morphism panel */
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  /* Neon glow text */
+  .neon-glow {
+    text-shadow: 0 0 40px rgba(180, 255, 51, 0.3), 0 0 80px rgba(180, 255, 51, 0.15);
+  }
+
+  /* Geometric grid background */
+  .geo-grid {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0H0v60' fill='none' stroke='rgba(255,255,255,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+    background-size: 60px 60px;
+  }
+
   /* Section spacing — doubled for maximum breathing room */
   .section {
     padding-top: 160px;
