@@ -1,13 +1,12 @@
 
+# EU rahastuse lehe link footerisse tagasi
 
-# Hero pildi asendamine
+## Probleem
+Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
 
-Kasutaja soovib asendada praeguse hero taustapildi (`/hero/rollo_street.png`) uue üleslaetud pildiga (`rollo-roterman.png`). Uus pilt on puhas, ilma vesimärgita.
+## Lahendus
+Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
 
-## Muudatused
-
-1. **Kopeeri pilt**: `user-uploads://rollo-roterman.png` → `public/hero/rollo_street.png` (asendab olemasoleva)
-2. **Koodi muudatusi pole vaja** — failinimi jääb samaks, seega `Index.tsx` viitab endiselt `/hero/rollo_street.png`.
-
-Uuel pildil on robot paremal pool, mis sobib praeguse `object-[75%_center]` fookuspunktiga hästi.
-
+## Tehniline detail
+- **Fail:** `src/components/Footer.tsx`, read 120-126
+- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
