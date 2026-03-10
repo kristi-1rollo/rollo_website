@@ -15,9 +15,7 @@ import {
   Home,
   Droplets,
   ChevronRight,
-  Users,
   TrendingDown,
-  Clock,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
@@ -330,74 +328,48 @@ const Index = () => {
 
       {/* ═══ MARKET ═══ */}
       <Section className="py-24 md:py-40 relative">
-        {/* Geometric grid background */}
         <div className="absolute inset-0 geo-grid opacity-40 pointer-events-none" />
 
         <ScrollFadeIn>
-          <SectionTag>Market</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 md:mb-16">
-            A Massive Market Ready for Automation
+          <SectionTag>Market Opportunity</SectionTag>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-16 md:mb-20 max-w-3xl">
+            Global Reach, Untouched Potential.
           </h2>
         </ScrollFadeIn>
 
-        {/* Borderless stat numbers */}
-        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 mb-16 md:mb-20">
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-12 md:gap-16">
           {[
             {
               num: "28.5M",
-              desc: "Frontline security workers globally — one of the largest human-labor markets",
+              desc: "Frontline security workers globally.",
+              sub: "A critical mass where automation begins.",
             },
             {
               num: "$500B",
-              desc: "Projected physical security equipment & services market by 2026",
+              desc: "Security equipment market by 2030.",
+              sub: "We don't create markets, we optimize them.",
             },
             {
               num: "80%+",
-              desc: "Customer labor cost reduction enabled by 1ROLLO's service-based model",
+              desc: "Cost savings for customers.",
+              sub: "Efficiency that transforms the business model.",
             },
           ].map((stat, i) => (
             <ScrollFadeIn key={stat.num} delay={i * 150}>
-              <div className="text-center">
+              <div className="text-left">
                 <p className="text-5xl md:text-7xl font-extrabold text-primary neon-glow leading-none">
                   {stat.num}
                 </p>
-                <p className="text-sm text-muted-foreground mt-4 max-w-xs mx-auto">
+                <p className="text-sm text-muted-foreground mt-4">
                   {stat.desc}
+                </p>
+                <p className="text-sm text-muted-foreground/60 italic mt-1">
+                  {stat.sub}
                 </p>
               </div>
             </ScrollFadeIn>
           ))}
         </div>
-
-        {/* Comparison */}
-        <ScrollFadeIn delay={300}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <TrendingDown className="h-6 w-6 text-primary" />
-                <p className="text-xs uppercase tracking-[0.15em] text-primary font-medium">
-                  3 Robots
-                </p>
-              </div>
-              <p className="text-3xl sm:text-4xl font-bold text-white">
-                $72,000–$108,000
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">Annual cost</p>
-            </div>
-            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Users className="h-6 w-6 text-muted-foreground" />
-                <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">
-                  9 Guards
-                </p>
-              </div>
-              <p className="text-3xl sm:text-4xl font-bold text-white">
-                $450,000–$630,000
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">Annual cost</p>
-            </div>
-          </div>
-        </ScrollFadeIn>
       </Section>
 
       {/* ═══ ROI CALCULATOR ═══ */}
@@ -408,21 +380,23 @@ const Index = () => {
             <div className="space-y-8">
               <div className="space-y-3">
                 <SectionTag>Business Intelligence</SectionTag>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                  Calculate Your Savings
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+                  The Math of Autonomy.
                 </h2>
                 <p className="text-muted-foreground text-sm max-w-md">
-                  Adjust the sliders to estimate how much you could save by
-                  deploying ROLLO in your facility.
+                  We don't sell costs, we sell returns. Use the sliders to
+                  estimate your savings.
                 </p>
               </div>
 
-              <div className="space-y-7 rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+              <div className="space-y-8">
                 <div>
-                  <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
-                    Patrol hours / day:{" "}
-                    <span className="text-primary font-bold">{hours}</span>
-                  </p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                      Patrol Hours per Day
+                    </p>
+                    <span className="text-sm font-bold text-primary">{hours}</span>
+                  </div>
                   <Slider
                     value={[hours]}
                     onValueChange={(val) => setHours(val[0])}
@@ -432,10 +406,12 @@ const Index = () => {
                   />
                 </div>
                 <div>
-                  <p className="mb-3 text-xs uppercase tracking-[0.15em] text-white/70">
-                    Sectors / Units:{" "}
-                    <span className="text-primary font-bold">{sectors}</span>
-                  </p>
+                  <div className="flex items-center justify-between mb-3">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                      Replaced Guard Sectors
+                    </p>
+                    <span className="text-sm font-bold text-primary">{sectors}</span>
+                  </div>
                   <Slider
                     value={[sectors]}
                     onValueChange={(val) => setSectors(val[0])}
@@ -456,23 +432,34 @@ const Index = () => {
                 <p className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary neon-glow leading-none">
                   €{annualSavings > 0 ? annualSavings.toLocaleString() : "—"}
                 </p>
-                <p className="text-sm text-muted-foreground mt-3">
-                  {savingsPercentage > 0
-                    ? `${savingsPercentage.toFixed(0)}% efficiency increase`
-                    : "Adjust sliders to see savings"}
-                </p>
 
-                <div className="mt-8 pt-6 border-t border-white/5 flex items-center gap-3">
-                  <Clock className="h-5 w-5 text-primary" />
+                <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-6">
                   <div>
                     <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
                       ROI Period
                     </p>
-                    <p className="text-xl font-bold text-white">
+                    <p className="text-xl font-bold text-white mt-1">
                       {roiMonths > 0 ? `${roiMonths} Months` : "—"}
                     </p>
                   </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                      Efficiency
+                    </p>
+                    <p className="text-xl font-bold text-white mt-1">
+                      {savingsPercentage > 0
+                        ? `${savingsPercentage.toFixed(0)}%`
+                        : "—"}
+                    </p>
+                  </div>
                 </div>
+
+                <Link
+                  to="/contact"
+                  className="mt-8 min-h-11 inline-flex items-center justify-center rounded-xl border border-primary/30 bg-transparent px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-black transition-all duration-300"
+                >
+                  Get a Quote
+                </Link>
               </div>
             </div>
           </div>
