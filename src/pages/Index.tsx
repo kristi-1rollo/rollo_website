@@ -330,74 +330,48 @@ const Index = () => {
 
       {/* ═══ MARKET ═══ */}
       <Section className="py-24 md:py-40 relative">
-        {/* Geometric grid background */}
         <div className="absolute inset-0 geo-grid opacity-40 pointer-events-none" />
 
         <ScrollFadeIn>
-          <SectionTag>Market</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 md:mb-16">
-            A Massive Market Ready for Automation
+          <SectionTag>Market Opportunity</SectionTag>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-16 md:mb-20 max-w-3xl">
+            Global Reach, Untouched Potential.
           </h2>
         </ScrollFadeIn>
 
-        {/* Borderless stat numbers */}
-        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12 mb-16 md:mb-20">
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-12 md:gap-16">
           {[
             {
               num: "28.5M",
-              desc: "Frontline security workers globally — one of the largest human-labor markets",
+              desc: "Frontline security workers globally.",
+              sub: "A critical mass where automation begins.",
             },
             {
               num: "$500B",
-              desc: "Projected physical security equipment & services market by 2026",
+              desc: "Security equipment market by 2030.",
+              sub: "We don't create markets, we optimize them.",
             },
             {
               num: "80%+",
-              desc: "Customer labor cost reduction enabled by 1ROLLO's service-based model",
+              desc: "Cost savings for customers.",
+              sub: "Efficiency that transforms the business model.",
             },
           ].map((stat, i) => (
             <ScrollFadeIn key={stat.num} delay={i * 150}>
-              <div className="text-center">
+              <div className="text-left">
                 <p className="text-5xl md:text-7xl font-extrabold text-primary neon-glow leading-none">
                   {stat.num}
                 </p>
-                <p className="text-sm text-muted-foreground mt-4 max-w-xs mx-auto">
+                <p className="text-sm text-muted-foreground mt-4">
                   {stat.desc}
+                </p>
+                <p className="text-sm text-muted-foreground/60 italic mt-1">
+                  {stat.sub}
                 </p>
               </div>
             </ScrollFadeIn>
           ))}
         </div>
-
-        {/* Comparison */}
-        <ScrollFadeIn delay={300}>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <TrendingDown className="h-6 w-6 text-primary" />
-                <p className="text-xs uppercase tracking-[0.15em] text-primary font-medium">
-                  3 Robots
-                </p>
-              </div>
-              <p className="text-3xl sm:text-4xl font-bold text-white">
-                $72,000–$108,000
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">Annual cost</p>
-            </div>
-            <div className="rounded-2xl border border-white/5 bg-white/[0.03] p-6 md:p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <Users className="h-6 w-6 text-muted-foreground" />
-                <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">
-                  9 Guards
-                </p>
-              </div>
-              <p className="text-3xl sm:text-4xl font-bold text-white">
-                $450,000–$630,000
-              </p>
-              <p className="text-sm text-muted-foreground mt-2">Annual cost</p>
-            </div>
-          </div>
-        </ScrollFadeIn>
       </Section>
 
       {/* ═══ ROI CALCULATOR ═══ */}
