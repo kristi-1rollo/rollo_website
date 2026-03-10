@@ -15,9 +15,6 @@ import {
   Home,
   Droplets,
   ChevronRight,
-  Users,
-  TrendingDown,
-  Clock,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
