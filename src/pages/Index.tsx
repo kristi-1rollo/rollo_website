@@ -317,53 +317,54 @@ const Index = () => {
         </ScrollFadeIn>
 
         {/* Robot centered with orbit labels */}
-        <div className="relative flex justify-center">
+        <div className="relative flex justify-center mx-auto" style={{ maxWidth: '900px' }}>
           <img
-            src="/robot/robot-orbit.png"
+            src="/robot/rollo-orbit-2.png"
             alt="1ROLLO patrol robot"
-            className="h-[420px] sm:h-[520px] lg:h-[700px] object-contain"
+            className="w-full object-contain"
+            style={{ mixBlendMode: 'lighten' }}
           />
 
-          {/* Left labels */}
-          <div className="absolute left-0 top-[12%] flex items-center gap-1.5 lg:gap-2">
+          {/* Left labels — positioned along the outer ring arc */}
+          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '15%' }}>
             <img src={solutionsLeft[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[0].text}</p>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[0].text}</p>
           </div>
-          <div className="absolute left-0 top-[38%] flex items-center gap-1.5 lg:gap-2">
+          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-6%', top: '42%' }}>
             <img src={solutionsLeft[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[1].text}</p>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[1].text}</p>
           </div>
-          <div className="absolute left-0 top-[64%] flex items-center gap-1.5 lg:gap-2">
+          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '68%' }}>
             <img src={solutionsLeft[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[2].text}</p>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[2].text}</p>
           </div>
 
-          {/* Right labels */}
-          <div className="absolute right-0 top-[12%] flex items-center gap-1.5 lg:gap-2 text-right">
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[0].text}</p>
+          {/* Right labels — positioned along the outer ring arc */}
+          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '15%' }}>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[0].text}</p>
             <img src={solutionsRight[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
           </div>
-          <div className="absolute right-0 top-[38%] flex items-center gap-1.5 lg:gap-2 text-right">
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[1].text}</p>
+          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-6%', top: '42%' }}>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[1].text}</p>
             <img src={solutionsRight[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
           </div>
-          <div className="absolute right-0 top-[64%] flex items-center gap-1.5 lg:gap-2 text-right">
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[2].text}</p>
+          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '68%' }}>
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[2].text}</p>
             <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
           </div>
 
-          {/* Inner annotations */}
-          <div className="absolute left-[28%] lg:left-[32%] top-[36%] flex items-center gap-1 lg:gap-2">
+          {/* Inner annotations — on the small inner ring */}
+          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '24%', top: '33%' }}>
             <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
             <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
           </div>
-          <div className="absolute right-[28%] lg:right-[32%] top-[50%] flex items-center gap-1 lg:gap-2">
+          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '24%', top: '46%' }}>
             <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
             <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
           </div>
 
           {/* Bottom label */}
-          <div className="absolute bottom-[2%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+          <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1" style={{ bottom: '0%' }}>
             <img src={solutionBottom.img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight text-center">{solutionBottom.text}</p>
           </div>
