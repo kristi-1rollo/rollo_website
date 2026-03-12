@@ -6,7 +6,7 @@ const Footer = () => {
     <footer className="border-t border-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent">
       {/* MAIN FOOTER */}
       <div className="container-premium py-12 md:py-16 px-6 md:px-8">
-        <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-left">
+        <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-center md:text-left items-center md:items-start">
 
           {/* Contact */}
           <div className="space-y-4 md:max-w-[280px]">
@@ -14,7 +14,7 @@ const Footer = () => {
               to="/"
               aria-label="Go to homepage"
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="inline-flex"
+              className="inline-flex mx-auto md:mx-0"
             >
               <img
                 src="/logos/rollo_logo_white.png"
@@ -22,7 +22,7 @@ const Footer = () => {
                 className="h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
               />
             </Link>
-            <div className="space-y-2.5 max-w-sm">
+            <div className="space-y-2.5 max-w-sm mx-auto md:mx-0">
               <p className="text-[15px] text-slate-200 font-medium tracking-tight">
                 Rollo Robotics OÜ
               </p>
@@ -37,7 +37,7 @@ const Footer = () => {
                   e.preventDefault();
                   window.location.href = "mailto:info@1rollo.com";
                 }}
-                className="inline-flex min-h-[44px] md:min-h-0 items-center gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
+                className="inline-flex min-h-[44px] md:min-h-0 items-center justify-center md:justify-start gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
               >
                 <Mail className="w-4 h-4" />
                 info@1rollo.com
@@ -52,31 +52,31 @@ const Footer = () => {
             </h3>
             <nav className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:grid-cols-1 md:gap-y-2.5 text-[15px]">
               <Link
-                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/product"
               >
                 Product
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
               >
                 Blog
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
               >
                 About Us
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact"
               >
                 Contact
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact#career"
               >
                 Career
@@ -90,7 +90,7 @@ const Footer = () => {
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
                 Follow Us
               </h3>
-              <div className="flex items-center gap-2.5 md:justify-end">
+              <div className="flex items-center gap-2.5 justify-center md:justify-end">
                 <a
                   href="https://www.linkedin.com/company/rollo-robotics"
                   target="_blank"
@@ -116,7 +116,7 @@ const Footer = () => {
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
                 Supported by
               </h3>
-              <div className="space-y-3 md:flex md:flex-col md:items-end">
+              <div className="space-y-3 flex flex-col items-center md:items-end">
                 <Link to="/funding" className="block group">
                   <img
                     src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
@@ -147,11 +147,11 @@ const Footer = () => {
       {/* SUBFOOTER - minimal */}
       <div className="border-t border-white/[0.05]">
         <div className="container-premium py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-left">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-center md:text-left items-center md:items-start">
             <p className="text-xs text-slate-600 tracking-wide">
               © {new Date().getFullYear()} Rollo Robotics OÜ. All rights reserved.
             </p>
-            <div className="flex items-center gap-6">
+            <div className="flex items-center justify-center md:justify-start gap-6">
               <a
                 href="#"
                 className="text-xs text-slate-600 hover:text-slate-400 transition-colors tracking-wide"

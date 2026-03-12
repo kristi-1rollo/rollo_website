@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Brain,
-  Scale,
   Disc3,
   PiggyBank,
   Shield,
@@ -15,7 +13,8 @@ import {
   Home,
   Droplets,
   ChevronRight,
-  TrendingDown,
+  XCircle,
+  Snowflake,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
@@ -24,23 +23,28 @@ import ScrollFadeIn from "@/components/ScrollFadeIn";
 
 const problems = [
   {
-    icon: TrendingDown,
+    icon: XCircle,
     title: "Escalating Security Labor Costs",
     text: "Security labor costs keep rising while efficiency stays flat.",
   },
   {
-    icon: Brain,
+    icon: XCircle,
     title: "Human Performance Bottlenecks",
     text: "Human-level perception and edge intelligence can't scale with demand.",
   },
   {
-    icon: Scale,
+    icon: XCircle,
     title: "Cost–Reliability Imbalance",
     text: "Autonomous robots now deliver higher reliability at a fraction of the cost.",
   },
 ];
 
 const solutions = [
+  {
+    icon: Snowflake,
+    title: "Extreme-Environment Advantage",
+    text: "Engineered for Estonia's harsh climate — rain, snow, ice, and sub-zero temperatures — proving reliability where others fail.",
+  },
   {
     icon: Disc3,
     title: "Gyroscopic Innovation",
@@ -57,6 +61,41 @@ const solutions = [
     text: "Ground-based autonomy delivers far longer operating time and weather independence compared to drones.",
   },
 ];
+
+const solutionsLeft = [
+  {
+    img: "/icon/icon1.png",
+    text: "Patrols predefined indoor and outdoor routes autonomously",
+  },
+  {
+    img: "/icon/icon2.png",
+    text: "Detects people, movement, and anomalies in real time",
+  },
+  {
+    img: "/icon/icon3.png",
+    text: "Remembers events and builds a cause of suspicion",
+  },
+];
+
+const solutionsRight = [
+  {
+    img: "/icon/icon7.png",
+    text: "Communicates with intruders via voice",
+  },
+  {
+    img: "/icon/icon6.png",
+    text: "Streams live video and alerts to remote operators",
+  },
+  {
+    img: "/icon/icon5.png",
+    text: "Works 24/7 without fatigue, breaks, or shift changes",
+  },
+];
+
+const solutionBottom = {
+  img: "/icon/icon4.png",
+  text: "Works in snow and cold weather",
+};
 
 const productTiles = [
   {
@@ -95,7 +134,7 @@ const Section = ({
   className?: string;
   id?: string;
 }) => (
-  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 ${className}`}>
+  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 text-center sm:text-left ${className}`}>
     {children}
   </section>
 );
@@ -135,18 +174,18 @@ const Index = () => {
         />
         <div className="absolute inset-0 bg-black/45" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24 text-left">
+        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <img
             src="/logos/rollo_logo_white.png"
             alt="1ROLLO"
-            className="h-6 sm:h-8 md:h-10 w-auto"
+            className="h-6 sm:h-8 md:h-10 w-auto mx-auto sm:mx-0"
           />
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
             Brings human-level presence to the physical world
           </h1>
 
-          <div className="flex items-center gap-3 sm:gap-4 max-w-sm">
+          <div className="flex items-center gap-3 sm:gap-4 max-w-sm mx-auto sm:mx-0">
             <span className="h-px flex-1 bg-white/25" />
             <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
               Without Humans
@@ -154,11 +193,11 @@ const Index = () => {
             <span className="h-px flex-1 bg-white/25" />
           </div>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300">
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 text-center sm:text-left">
             Autonomous robots that see, hear, speak, and move.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="flex flex-wrap gap-3 pt-2 justify-center sm:justify-start">
             <Link
               to="/product"
               className="min-h-11 inline-flex items-center rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground hover:bg-white hover:text-black transition-all duration-300"
@@ -175,45 +214,61 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ PROBLEM / SOLUTION ═══ */}
-      <Section className="py-24 md:py-40">
-        <ScrollFadeIn>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 md:gap-14">
-            {/* Problem */}
-            <div>
-              <SectionTag>Problem</SectionTag>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 lg:min-h-[120px]">
-                Human Patrol Is Expensive, Inefficient — and Now Replaceable
-              </h2>
-              <div className="mt-6 grid grid-cols-1 gap-4">
-                {problems.map((p, i) => {
-                  const Icon = p.icon;
-                  return (
-                    <ScrollFadeIn key={p.title} delay={i * 100}>
-                      <div className="flex min-h-[132px] items-start gap-4 rounded-2xl border border-white/5 bg-white/[0.03] p-5">
-                        <div className="shrink-0 rounded-full bg-destructive/10 p-2.5 text-red-400">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-semibold text-white">{p.title}</p>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            {p.text}
-                          </p>
-                        </div>
-                      </div>
-                    </ScrollFadeIn>
-                  );
-                })}
-              </div>
-            </div>
+      {/* ═══ PROBLEM ═══ */}
+      <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40">
+        {/* Background guard image */}
+        <img
+          src="/graph/Pilt1.jpg"
+          alt="Security guard"
+          className="absolute inset-0 w-full h-full object-cover object-right"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/40" />
 
-            {/* Solution */}
-            <div>
+        {/* Content */}
+        <div className="relative z-10 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+          <ScrollFadeIn>
+            <p className="text-xs uppercase tracking-[0.2em] text-red-500 mb-2">
+              Problems
+            </p>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-xl mx-auto sm:mx-0 uppercase">
+              Human Patrol Is Expensive, Inefficient — and Now Replaceable
+            </h2>
+            <div className="grid grid-cols-1 gap-4 max-w-xl mx-auto sm:mx-0">
+              {problems.map((p, i) => {
+                const Icon = p.icon;
+                return (
+                  <ScrollFadeIn key={p.title} delay={i * 100}>
+                    <div className="flex min-h-[100px] items-start gap-4 rounded-2xl border border-white/5 bg-black/40 backdrop-blur-sm p-5">
+                      <div className="shrink-0 rounded-full bg-red-500/10 p-2.5 text-red-500">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <div className="min-w-0">
+                        <p className="font-semibold text-white">{p.title}</p>
+                        <p className="text-sm text-white/60 mt-1">
+                          {p.text}
+                        </p>
+                      </div>
+                    </div>
+                  </ScrollFadeIn>
+                );
+              })}
+            </div>
+          </ScrollFadeIn>
+        </div>
+      </section>
+
+      {/* ═══ SOLUTION ═══ */}
+      <section className="relative w-full overflow-hidden bg-[#0d0d0d] py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] min-h-[600px]">
+          {/* Left — text & cards */}
+          <div className="flex flex-col justify-center lg:pr-8">
+            <ScrollFadeIn>
               <SectionTag>Solution</SectionTag>
-              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-2 lg:min-h-[120px]">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-xl mx-auto sm:mx-0 uppercase">
                 A Fundamentally Better Way to Build Patrol Robots
               </h2>
-              <div className="mt-6 grid grid-cols-1 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl">
                 {solutions.map((s, i) => {
                   const Icon = s.icon;
                   return (
@@ -224,7 +279,7 @@ const Index = () => {
                         </div>
                         <div className="min-w-0">
                           <p className="font-semibold text-white">{s.title}</p>
-                          <p className="text-sm text-muted-foreground mt-1">
+                          <p className="text-sm text-white/60 mt-1">
                             {s.text}
                           </p>
                         </div>
@@ -233,19 +288,96 @@ const Index = () => {
                   );
                 })}
               </div>
-            </div>
+            </ScrollFadeIn>
           </div>
+
+          {/* Right — robot renders */}
+          <div className="relative hidden lg:flex items-end justify-center py-8">
+            <img
+              src="/robot/1Rollo Proto render P006.png"
+              alt="1ROLLO rear view"
+              className="h-[360px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-16 mb-8 relative z-0"
+            />
+            <img
+              src="/robot/1Rollo Proto P010.png"
+              alt="1ROLLO front view"
+              className="h-[500px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ CAPABILITIES ═══ */}
+      <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+        <ScrollFadeIn>
+          <SectionTag>Solution</SectionTag>
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 max-w-4xl uppercase">
+            Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
+          </h2>
         </ScrollFadeIn>
-      </Section>
+
+        {/* Robot centered with orbit labels */}
+        <div className="relative flex justify-center">
+          <img
+            src="/robot/robot-orbit.png"
+            alt="1ROLLO patrol robot"
+            className="h-[420px] sm:h-[520px] lg:h-[700px] object-contain"
+          />
+
+          {/* Left labels */}
+          <div className="absolute left-0 top-[12%] flex items-center gap-1.5 lg:gap-2">
+            <img src={solutionsLeft[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[0].text}</p>
+          </div>
+          <div className="absolute left-0 top-[38%] flex items-center gap-1.5 lg:gap-2">
+            <img src={solutionsLeft[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[1].text}</p>
+          </div>
+          <div className="absolute left-0 top-[64%] flex items-center gap-1.5 lg:gap-2">
+            <img src={solutionsLeft[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsLeft[2].text}</p>
+          </div>
+
+          {/* Right labels */}
+          <div className="absolute right-0 top-[12%] flex items-center gap-1.5 lg:gap-2 text-right">
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[0].text}</p>
+            <img src={solutionsRight[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+          </div>
+          <div className="absolute right-0 top-[38%] flex items-center gap-1.5 lg:gap-2 text-right">
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[1].text}</p>
+            <img src={solutionsRight[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+          </div>
+          <div className="absolute right-0 top-[64%] flex items-center gap-1.5 lg:gap-2 text-right">
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[120px] lg:max-w-[200px]">{solutionsRight[2].text}</p>
+            <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+          </div>
+
+          {/* Inner annotations */}
+          <div className="absolute left-[28%] lg:left-[32%] top-[36%] flex items-center gap-1 lg:gap-2">
+            <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
+            <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+          </div>
+          <div className="absolute right-[28%] lg:right-[32%] top-[50%] flex items-center gap-1 lg:gap-2">
+            <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+            <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
+          </div>
+
+          {/* Bottom label */}
+          <div className="absolute bottom-[2%] left-1/2 -translate-x-1/2 flex flex-col items-center gap-1">
+            <img src={solutionBottom.img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <p className="text-[9px] lg:text-sm text-white/80 leading-tight text-center">{solutionBottom.text}</p>
+          </div>
+        </div>
+      </section>
 
       {/* ═══ PRODUCT TEASER ═══ */}
-      <Section className="py-24 md:py-40">
+      <Section className="py-12 md:py-40">
         <ScrollFadeIn>
           <SectionTag>Product</SectionTag>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Protected by Deep Hardware–Software Integration
           </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mb-8">
+          <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
             A defensible platform where hardware and software are inseparable.
           </p>
         </ScrollFadeIn>
@@ -258,22 +390,22 @@ const Index = () => {
           ].map((t, i) => (
             <ScrollFadeIn key={t.title} delay={i * 120}>
               <div className="h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.03] p-6">
-                <div className="w-full aspect-square mb-5 flex items-center justify-center overflow-hidden rounded-xl">
+                <div className="w-full aspect-[4/3] mb-5 flex items-center justify-center overflow-hidden rounded-xl">
                   <img
                     src={t.img}
                     alt={t.title}
-                    className="w-full h-full object-contain p-4"
+                    className="w-full h-full object-contain p-2"
                   />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-3">
                   {t.title}
                 </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed flex-1">
+                <p className="text-sm text-white/60 leading-relaxed flex-1">
                   {t.text}
                 </p>
                 <Link
                   to="/product"
-                  className="mt-6 inline-flex items-center gap-1 text-sm font-medium text-primary hover:text-white transition-colors duration-300"
+                  className="mt-6 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-medium text-primary hover:text-white transition-colors duration-300"
                 >
                   See full spec <ChevronRight className="h-4 w-4" />
                 </Link>
@@ -290,22 +422,22 @@ const Index = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Where to Deploy ROLLO
           </h2>
-          <p className="text-base text-muted-foreground max-w-2xl mb-8">
+          <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
             High-value outdoor and perimeter-security environments where
             autonomy delivers the biggest efficiency gains.
           </p>
         </ScrollFadeIn>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 md:gap-8">
+        <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 md:gap-8">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
               <ScrollFadeIn key={uc.label} delay={i * 60}>
-                <div className="flex flex-col items-center text-center py-6 group cursor-default">
-                  <div className="rounded-full bg-primary/10 p-3 text-primary mb-4 transition-shadow duration-300 group-hover:shadow-[0_0_24px_rgba(180,255,51,0.2)]">
-                    <Icon className="h-5 w-5" />
+                <div className="flex flex-col items-center text-center py-4 sm:py-6 group cursor-default">
+                  <div className="rounded-full bg-primary/10 p-2.5 sm:p-3 text-primary mb-3 sm:mb-4 transition-shadow duration-300 group-hover:shadow-[0_0_24px_rgba(180,255,51,0.2)]">
+                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
-                  <p className="font-semibold text-white text-sm">
+                  <p className="font-semibold text-white text-[11px] sm:text-sm leading-tight">
                     {uc.label}
                   </p>
                 </div>
@@ -332,12 +464,12 @@ const Index = () => {
 
         <ScrollFadeIn>
           <SectionTag>Market Opportunity</SectionTag>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-16 md:mb-20 max-w-3xl">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 md:mb-14 max-w-3xl">
             Global Reach, Untouched Potential.
           </h2>
         </ScrollFadeIn>
 
-        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-12 md:gap-16">
+        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12">
           {[
             {
               num: "28.5M",
@@ -356,14 +488,14 @@ const Index = () => {
             },
           ].map((stat, i) => (
             <ScrollFadeIn key={stat.num} delay={i * 150}>
-              <div className="text-left">
-                <p className="text-5xl md:text-7xl font-extrabold text-primary neon-glow leading-none">
+              <div>
+                <p className="text-3xl md:text-5xl font-bold text-primary neon-glow leading-none">
                   {stat.num}
                 </p>
-                <p className="text-sm text-muted-foreground mt-4">
+                <p className="text-sm text-white/70 mt-3">
                   {stat.desc}
                 </p>
-                <p className="text-sm text-muted-foreground/60 italic mt-1">
+                <p className="text-sm text-white/50 italic mt-1">
                   {stat.sub}
                 </p>
               </div>
@@ -380,10 +512,10 @@ const Index = () => {
             <div className="space-y-8">
               <div className="space-y-3">
                 <SectionTag>Business Intelligence</SectionTag>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white">
+                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                   The Math of Autonomy.
                 </h2>
-                <p className="text-muted-foreground text-sm max-w-md">
+                <p className="text-white/60 text-sm max-w-md">
                   We don't sell costs, we sell returns. Use the sliders to
                   estimate your savings.
                 </p>
@@ -429,13 +561,13 @@ const Index = () => {
                 <p className="text-xs uppercase tracking-[0.15em] text-primary mb-3">
                   Estimated Annual Savings
                 </p>
-                <p className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary neon-glow leading-none">
+                <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary neon-glow leading-none">
                   €{annualSavings > 0 ? annualSavings.toLocaleString() : "—"}
                 </p>
 
                 <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-6">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/50">
                       ROI Period
                     </p>
                     <p className="text-xl font-bold text-white mt-1">
@@ -443,7 +575,7 @@ const Index = () => {
                     </p>
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground">
+                    <p className="text-xs uppercase tracking-[0.15em] text-white/50">
                       Efficiency
                     </p>
                     <p className="text-xl font-bold text-white mt-1">
