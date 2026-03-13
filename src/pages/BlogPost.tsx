@@ -1,14 +1,23 @@
+import { useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
 import { format } from "date-fns";
-import { ArrowLeft, Clock, Linkedin, Facebook, Instagram, Link2, Check } from "lucide-react";
-import BlogMediaGallery from "@/components/BlogMediaGallery";
-import ReadingProgressBar from "@/components/ReadingProgressBar";
-import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
+import {
+  ArrowLeft,
+  Clock,
+  Linkedin,
+  Facebook,
+  Instagram,
+  Link2,
+  Check,
+  ExternalLink,
+} from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
-import { useMemo, useState } from "react";
 import FadeInView from "@/components/FadeInView";
+import BlogMediaGallery from "@/components/BlogMediaGallery";
+import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
+import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
 
 const estimateReadingTime = (html: string) => {
@@ -17,17 +26,15 @@ const estimateReadingTime = (html: string) => {
   return Math.max(1, Math.round(words / 200));
 };
 
-/** Split HTML content by H2 headings into sections for individual fade-in */
 const splitByH2 = (html: string): string[] => {
   const parts = html.split(/(?=<h2[\s>])/i);
   return parts.filter((p) => p.trim().length > 0);
 };
 
 const proseClasses =
-  "prose prose-invert prose-sm sm:prose-base max-w-none text-slate-300 leading-relaxed " +
+  "dossier-prose prose prose-invert prose-sm sm:prose-base max-w-none text-slate-300 leading-relaxed " +
   "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-4 " +
   "[&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 " +
-  "[&_blockquote]:border-l-2 [&_blockquote]:border-primary/60 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-slate-300 " +
   "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-4 " +
   "[&_p]:mb-4 [&_p]:text-justify " +
   "[&_h1]:text-left [&_h2]:text-left [&_h3]:text-left " +
@@ -78,9 +85,20 @@ const BlogPost = () => {
     [post?.content]
   );
 
+  const publishedDate = post?.published_at
+    ? format(new Date(post.published_at), "MMM d, yyyy")
+    : "N/A";
+
+  const authorLabel = post?.author_id
+    ? `Operator ${post.author_id.slice(0, 8)}`
+    : "ROLLO Intelligence Desk";
+
   const handleInstagramShare = () => {
     navigator.clipboard.writeText(window.location.href).then(() => {
-      toast({ title: "Link kopeeritud!", description: "Kleebi see oma Instagram Story'sse või bio'sse." });
+      toast({
+        title: "Link copied",
+        description: "Paste it in your Instagram Story or bio.",
+      });
       window.open("https://www.instagram.com/", "_blank", "noopener,noreferrer");
     });
   };
@@ -89,7 +107,7 @@ const BlogPost = () => {
     return (
       <div className="pt-24 pb-16 min-h-screen">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-muted-foreground text-center py-20">Loading…</p>
+          <p className="text-muted-foreground text-center py-20">Loading...</p>
         </div>
       </div>
     );
@@ -101,7 +119,7 @@ const BlogPost = () => {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center py-20">
           <p className="text-muted-foreground mb-6">Post not found.</p>
           <Link to="/blog" className="text-primary hover:underline">
-            ← Back to Blog
+            Back to Blog
           </Link>
         </div>
       </div>
@@ -109,33 +127,32 @@ const BlogPost = () => {
   }
 
   return (
-    <>
-      <ReadingProgressBar />
-      <div className="pt-24 pb-16 min-h-screen">
-        <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Back link */}
-          <FadeInView>
-            <Link
-              to="/blog"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition mb-8"
-            >
-              <ArrowLeft className="h-4 w-4" />
-              Back to Blog
-            </Link>
-          </FadeInView>
+    <div className="min-h-screen pb-16 dossier-interactive">
+      <BlogPostHeader
+        title={post.title}
+        category={post.tag}
+        imageUrl={post.thumbnail_url}
+      />
 
-          {/* Header */}
-          <FadeInView delay={100}>
-            <header className="mb-10">
-              <div className="flex items-center gap-3 mb-4">
-                <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
+      <div className="container-premium">
+        <article className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
+          <main className="min-w-0">
+            <FadeInView>
+              <Link
+                to="/blog"
+                className="mb-8 inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Blog
+              </Link>
+            </FadeInView>
+
+            <FadeInView delay={100}>
+              <div className="mb-8 flex flex-wrap items-center gap-4 border-y border-white/10 py-4">
+                <span className="rounded-[4px] border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-primary">
                   {post.tag}
                 </span>
-                <span className="text-[11px] text-muted-foreground">
-                  {post.published_at
-                    ? format(new Date(post.published_at), "MMM d, yyyy")
-                    : ""}
-                </span>
+                <span className="text-[11px] text-muted-foreground">{publishedDate}</span>
                 {readingTime > 0 && (
                   <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                     <Clock className="h-3 w-3" />
@@ -143,123 +160,140 @@ const BlogPost = () => {
                   </span>
                 )}
               </div>
-              <h1 className="text-3xl sm:text-4xl font-bold text-white leading-tight">
-                {post.title}
-              </h1>
-            </header>
-          </FadeInView>
+            </FadeInView>
 
-          {/* Thumbnail — fixed 16:9 aspect ratio */}
-          {post.thumbnail_url && (
             <FadeInView delay={200}>
-              <div
-                className="mb-10 overflow-hidden rounded-[4px] border border-border w-full"
-                style={{ aspectRatio: "16/9" }}
-              >
-                <img
-                  src={post.thumbnail_url}
-                  alt={post.title}
-                  className="w-full h-full object-cover"
-                  style={{
-                    objectPosition: post.thumbnail_focal_x != null
-                      ? `${post.thumbnail_focal_x}% ${post.thumbnail_focal_y}%`
-                      : undefined,
-                    transform: post.thumbnail_zoom && post.thumbnail_zoom > 1
-                      ? `scale(${post.thumbnail_zoom})`
-                      : undefined,
-                    transformOrigin: post.thumbnail_focal_x != null
-                      ? `${post.thumbnail_focal_x}% ${post.thumbnail_focal_y}%`
-                      : undefined,
-                  }}
-                  loading="eager"
-                  decoding="async"
+              <TableOfContents html={post.content} />
+            </FadeInView>
+
+            {contentSections.map((section, i) => (
+              <FadeInView key={i} delay={300 + i * 80}>
+                <div
+                  className={`${proseClasses} ${
+                    i === contentSections.length - 1 ? "mb-12" : ""
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: section }}
                 />
+              </FadeInView>
+            ))}
+
+            <FadeInView delay={450}>
+              <div className="mb-12 border-t border-border pt-8">
+                <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                  <span className="inline-block h-[2px] w-4 bg-primary" />
+                  Share this article
+                </p>
+                <div className="flex items-center gap-3">
+                  {(() => {
+                    const url = encodeURIComponent(window.location.href);
+                    return (
+                      <>
+                        <a
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          title="Share on LinkedIn"
+                        >
+                          <Linkedin className="h-4 w-4" />
+                        </a>
+                        <a
+                          href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          title="Share on Facebook"
+                        >
+                          <Facebook className="h-4 w-4" />
+                        </a>
+                        <button
+                          onClick={handleInstagramShare}
+                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          title="Copy link and open Instagram"
+                        >
+                          <Instagram className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(window.location.href);
+                            setCopied(true);
+                            setTimeout(() => setCopied(false), 2000);
+                          }}
+                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          title="Copy link"
+                        >
+                          {copied ? (
+                            <Check className="h-4 w-4 text-primary" />
+                          ) : (
+                            <Link2 className="h-4 w-4" />
+                          )}
+                        </button>
+                      </>
+                    );
+                  })()}
+                </div>
               </div>
             </FadeInView>
-          )}
 
-          {/* Table of Contents */}
-          <FadeInView delay={300}>
-            <TableOfContents html={post.content} />
-          </FadeInView>
+            {post.media_gallery && post.media_gallery.length > 0 && (
+              <FadeInView delay={500}>
+                <section className="mb-12">
+                  <h2 className="mb-6 text-xl font-semibold text-foreground">Gallery</h2>
+                  <BlogMediaGallery items={post.media_gallery} />
+                </section>
+              </FadeInView>
+            )}
+          </main>
 
-          {/* Content — split by H2 sections for individual fade-in */}
-          {contentSections.map((section, i) => (
-            <FadeInView key={i} delay={400 + i * 80}>
-              <div
-                className={`${proseClasses} ${i === contentSections.length - 1 ? "mb-12" : ""}`}
-                dangerouslySetInnerHTML={{ __html: section }}
-              />
-            </FadeInView>
-          ))}
+          <aside className="hidden lg:block">
+            <div className="sticky top-24 space-y-6">
+              <FadeInView delay={120}>
+                <section className="rounded-[4px] border border-white/10 bg-black/30 p-5">
+                  <p className="mono-spec mb-4 text-primary">Metadata</p>
+                  <dl className="space-y-4">
+                    <div>
+                      <dt className="mono-spec text-white/50">Author</dt>
+                      <dd className="mt-1 text-sm text-white">{authorLabel}</dd>
+                    </div>
+                    <div>
+                      <dt className="mono-spec text-white/50">Date</dt>
+                      <dd className="mt-1 text-sm text-white">{publishedDate}</dd>
+                    </div>
+                    <div>
+                      <dt className="mono-spec text-white/50">Category</dt>
+                      <dd className="mt-1 text-sm text-white">{post.tag}</dd>
+                    </div>
+                  </dl>
+                </section>
+              </FadeInView>
 
-          {/* Share */}
-          <FadeInView delay={450}>
-            <div className="border-t border-border pt-8 mb-12">
-              <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-4 flex items-center gap-2">
-                <span className="inline-block w-4 h-[2px] bg-primary" />
-                Share this article
-              </p>
-              <div className="flex items-center gap-3">
-                {(() => {
-                  const url = encodeURIComponent(window.location.href);
-                  return (
-                    <>
-                      <a
-                        href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
-                        title="Share on LinkedIn"
-                      >
-                        <Linkedin className="h-4 w-4" />
-                      </a>
-                      <a
-                        href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
-                        title="Share on Facebook"
-                      >
-                        <Facebook className="h-4 w-4" />
-                      </a>
-                      <button
-                        onClick={handleInstagramShare}
-                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
-                        title="Kopeeri link ja ava Instagram"
-                      >
-                        <Instagram className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() => {
-                          navigator.clipboard.writeText(window.location.href);
-                          setCopied(true);
-                          setTimeout(() => setCopied(false), 2000);
-                        }}
-                        className="p-2.5 rounded-[4px] border border-border bg-card/50 text-muted-foreground hover:text-primary hover:border-primary/40 transition"
-                        title="Copy link"
-                      >
-                        {copied ? <Check className="h-4 w-4 text-primary" /> : <Link2 className="h-4 w-4" />}
-                      </button>
-                    </>
-                  );
-                })()}
-              </div>
+              <FadeInView delay={200}>
+                <section className="rounded-[4px] border border-primary/20 bg-black/40 p-5">
+                  <p className="mono-spec mb-3 text-primary">Target Unit</p>
+                  <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
+                    <img
+                      src="/robot/1Rollo Proto render P013.png"
+                      alt="ROLLO F6 target unit"
+                      className="h-40 w-full object-cover"
+                    />
+                  </div>
+                  <p className="mb-4 text-sm text-slate-300">
+                    Compact autonomous perimeter unit for 24/7 patrol operations.
+                  </p>
+                  <Link
+                    to="/product"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:text-white"
+                  >
+                    View ROLLO F6
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </Link>
+                </section>
+              </FadeInView>
             </div>
-          </FadeInView>
-
-          {/* Media Gallery */}
-          {post.media_gallery && post.media_gallery.length > 0 && (
-            <FadeInView delay={500}>
-              <section className="mb-12">
-                <h2 className="text-xl font-semibold text-foreground mb-6">Gallery</h2>
-                <BlogMediaGallery items={post.media_gallery} />
-              </section>
-            </FadeInView>
-          )}
+          </aside>
         </article>
       </div>
-    </>
+    </div>
   );
 };
 

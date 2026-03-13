@@ -380,6 +380,42 @@
   .blog-card-glow:hover::after {
     opacity: 1;
   }
+
+  /* Blog dossier prose callouts */
+  .dossier-prose blockquote,
+  .dossier-prose .callout,
+  .dossier-prose aside[data-callout] {
+    position: relative;
+    margin: 1.5rem 0;
+    border: 1px solid rgba(180, 255, 51, 0.45);
+    background: #050505;
+    padding: 1rem 1rem 1rem 1.25rem;
+    color: #d5dfc6;
+    font-style: normal;
+  }
+
+  .dossier-prose blockquote::before,
+  .dossier-prose .callout::before,
+  .dossier-prose aside[data-callout]::before {
+    content: "INFO";
+    position: absolute;
+    top: -1px;
+    right: -1px;
+    border-left: 1px solid rgba(180, 255, 51, 0.45);
+    border-bottom: 1px solid rgba(180, 255, 51, 0.45);
+    background: #050505;
+    padding: 0.2rem 0.5rem;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: #99ff00;
+  }
+
+  /* Blog dossier interactive glow */
+  .dossier-interactive a,
+  .dossier-interactive button {
+    mix-blend-mode: color-dodge;
+  }
 }
 
 @layer utilities {
