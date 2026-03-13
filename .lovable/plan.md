@@ -1,18 +1,12 @@
 
-
-# Piltide kuvamise parandamine Solution sektsioonis
+# EU rahastuse lehe link footerisse tagasi
 
 ## Probleem
-Failinimed sisaldavad tühikuid (nt `1Rollo Proto render P006.png`), mis põhjustab probleeme URL-i parsimisel. Brauseri URL-kodeering ei pruugi tühikutega failinimesid korrektselt lahendada.
+Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
 
 ## Lahendus
-Kodeerida failinimed `src/pages/Index.tsx` failis URL-encoded kujul (`%20` tühikute asemel):
+Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
 
-- `/robot/1Rollo Proto render P006.png` → `/robot/1Rollo%20Proto%20render%20P006.png`
-- `/robot/1Rollo Proto P010.png` → `/robot/1Rollo%20Proto%20P010.png`
-
-## Muudatused
-**`src/pages/Index.tsx`** — read 298 ja 303: asendada `src` väärtused URL-encoded versioonidega.
-
-Samuti kontrollida kogu faili teiste roboti piltide viidete osas ja kodeerida need samuti.
-
+## Tehniline detail
+- **Fail:** `src/components/Footer.tsx`, read 120-126
+- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
