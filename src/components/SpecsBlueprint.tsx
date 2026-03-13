@@ -118,7 +118,7 @@ export function SpecsBlueprint() {
         {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
-            src="/robot/1Rollo Proto render P013.png"
+            src="/robot/1Rollo%20Proto%20render%20P013.png"
             alt="ROLLO F6 blueprint"
             className="max-w-[350px] w-full h-auto"
             style={{ mixBlendMode: "screen" }}
