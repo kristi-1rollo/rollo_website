@@ -247,6 +247,139 @@
       border-color: rgba(180,255,51,0.8);
     }
   }
+
+  /* ── Blog Intelligence Feed ─────────────────────────────── */
+
+  /* 1A. Cyber-frame — L-shaped neon corners on images */
+  .cyber-frame {
+    position: relative;
+    overflow: hidden;
+  }
+  .cyber-frame::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+    --corner-size: 24px;
+    --corner-weight: 2px;
+    --corner-color: #B4FF33;
+    background:
+      /* top-left */
+      linear-gradient(var(--corner-color), var(--corner-color)) 0 0 / var(--corner-size) var(--corner-weight) no-repeat,
+      linear-gradient(var(--corner-color), var(--corner-color)) 0 0 / var(--corner-weight) var(--corner-size) no-repeat,
+      /* top-right */
+      linear-gradient(var(--corner-color), var(--corner-color)) 100% 0 / var(--corner-size) var(--corner-weight) no-repeat,
+      linear-gradient(var(--corner-color), var(--corner-color)) 100% 0 / var(--corner-weight) var(--corner-size) no-repeat,
+      /* bottom-left */
+      linear-gradient(var(--corner-color), var(--corner-color)) 0 100% / var(--corner-size) var(--corner-weight) no-repeat,
+      linear-gradient(var(--corner-color), var(--corner-color)) 0 100% / var(--corner-weight) var(--corner-size) no-repeat,
+      /* bottom-right */
+      linear-gradient(var(--corner-color), var(--corner-color)) 100% 100% / var(--corner-size) var(--corner-weight) no-repeat,
+      linear-gradient(var(--corner-color), var(--corner-color)) 100% 100% / var(--corner-weight) var(--corner-size) no-repeat;
+  }
+
+  /* 1B. Scan-lines — CRT overlay on images */
+  .scan-lines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0px,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+  }
+
+  /* 1C. HUD toggle — filter buttons */
+  .hud-toggle {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.65rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 6px 14px;
+    border: 1px solid hsl(var(--border));
+    background: transparent;
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .hud-toggle:hover {
+    border-color: rgba(180, 255, 51, 0.25);
+    color: #ffffff;
+  }
+  .hud-toggle--active {
+    color: #B4FF33;
+    border-color: rgba(180, 255, 51, 0.4);
+    box-shadow: 0 0 12px rgba(180, 255, 51, 0.15), 0 0 24px rgba(180, 255, 51, 0.08);
+  }
+  .hud-toggle--active::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(180, 255, 51, 0.06);
+    mix-blend-mode: color-dodge;
+    pointer-events: none;
+  }
+
+  /* 1D. Dispatch hero — split layout for featured post */
+  .dispatch-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  @media (min-width: 768px) {
+    .dispatch-hero {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  .dispatch-hero__image {
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (min-width: 768px) {
+    .dispatch-hero__image {
+      min-height: 400px;
+    }
+  }
+  .dispatch-hero__body {
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  @media (min-width: 768px) {
+    .dispatch-hero__body {
+      padding: 48px 40px;
+    }
+  }
+
+  /* 1E. Blog card glow — hover radial glow */
+  .blog-card-glow {
+    position: relative;
+    overflow: hidden;
+  }
+  .blog-card-glow::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    background: radial-gradient(ellipse at 50% 50%, rgba(180, 255, 51, 0.08) 0%, transparent 70%);
+    mix-blend-mode: color-dodge;
+  }
+  .blog-card-glow:hover::after {
+    opacity: 1;
+  }
 }
 
 @layer utilities {

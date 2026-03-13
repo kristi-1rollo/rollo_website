@@ -62,7 +62,7 @@ const Header = () => {
           "supports-[backdrop-filter]:backdrop-blur-xl",
           "transition-colors duration-200",
           scrolled
-            ? "bg-[#050505]/75 border-b border-white/[0.06]"
+            ? "bg-[#050505]/90 border-b border-white/[0.10]"
             : "bg-transparent border-b border-transparent",
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
