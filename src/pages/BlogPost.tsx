@@ -8,7 +8,7 @@ import ReadingProgressBar from "@/components/ReadingProgressBar";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
 import { useMemo, useState } from "react";
-import ScrollFadeIn from "@/components/ScrollFadeIn";
+import FadeInView from "@/components/FadeInView";
 import { useToast } from "@/hooks/use-toast";
 
 const estimateReadingTime = (html: string) => {
@@ -114,7 +114,7 @@ const BlogPost = () => {
       <div className="pt-24 pb-16 min-h-screen">
         <article className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Back link */}
-          <ScrollFadeIn>
+          <FadeInView>
             <Link
               to="/blog"
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition mb-8"
@@ -122,10 +122,10 @@ const BlogPost = () => {
               <ArrowLeft className="h-4 w-4" />
               Back to Blog
             </Link>
-          </ScrollFadeIn>
+          </FadeInView>
 
           {/* Header */}
-          <ScrollFadeIn delay={100}>
+          <FadeInView delay={100}>
             <header className="mb-10">
               <div className="flex items-center gap-3 mb-4">
                 <span className="rounded-[4px] bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
@@ -147,11 +147,11 @@ const BlogPost = () => {
                 {post.title}
               </h1>
             </header>
-          </ScrollFadeIn>
+          </FadeInView>
 
           {/* Thumbnail — fixed 16:9 aspect ratio */}
           {post.thumbnail_url && (
-            <ScrollFadeIn delay={200}>
+            <FadeInView delay={200}>
               <div
                 className="mb-10 overflow-hidden rounded-[4px] border border-border w-full"
                 style={{ aspectRatio: "16/9" }}
@@ -175,26 +175,26 @@ const BlogPost = () => {
                   decoding="async"
                 />
               </div>
-            </ScrollFadeIn>
+            </FadeInView>
           )}
 
           {/* Table of Contents */}
-          <ScrollFadeIn delay={300}>
+          <FadeInView delay={300}>
             <TableOfContents html={post.content} />
-          </ScrollFadeIn>
+          </FadeInView>
 
           {/* Content — split by H2 sections for individual fade-in */}
           {contentSections.map((section, i) => (
-            <ScrollFadeIn key={i} delay={400 + i * 80}>
+            <FadeInView key={i} delay={400 + i * 80}>
               <div
                 className={`${proseClasses} ${i === contentSections.length - 1 ? "mb-12" : ""}`}
                 dangerouslySetInnerHTML={{ __html: section }}
               />
-            </ScrollFadeIn>
+            </FadeInView>
           ))}
 
           {/* Share */}
-          <ScrollFadeIn delay={450}>
+          <FadeInView delay={450}>
             <div className="border-t border-border pt-8 mb-12">
               <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-4 flex items-center gap-2">
                 <span className="inline-block w-4 h-[2px] bg-primary" />
@@ -246,16 +246,16 @@ const BlogPost = () => {
                 })()}
               </div>
             </div>
-          </ScrollFadeIn>
+          </FadeInView>
 
           {/* Media Gallery */}
           {post.media_gallery && post.media_gallery.length > 0 && (
-            <ScrollFadeIn delay={500}>
+            <FadeInView delay={500}>
               <section className="mb-12">
                 <h2 className="text-xl font-semibold text-foreground mb-6">Gallery</h2>
                 <BlogMediaGallery items={post.media_gallery} />
               </section>
-            </ScrollFadeIn>
+            </FadeInView>
           )}
         </article>
       </div>

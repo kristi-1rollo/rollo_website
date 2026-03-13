@@ -1,25 +1,12 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import {
-  Battery,
-  Clock,
-  Ruler,
-  Weight,
-  Zap,
-  Shield,
-  Eye,
-  Cloud,
-  Plug,
-  Navigation,
-  ChevronDown,
-  ChevronUp,
-} from "lucide-react";
+import { Navigation, Eye, Plug, Cloud, Shield } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
+import { SpecsBlueprint } from "@/components/SpecsBlueprint";
+import { LiveScanner } from "@/components/LiveScanner";
+import FadeInView from "@/components/FadeInView";
 
 const Product = () => {
-  const [showAllSpecs, setShowAllSpecs] = useState(false);
-
   const {
     formData,
     isSubmitting,
@@ -34,58 +21,73 @@ const Product = () => {
   return (
     <div className="pt-24 pb-16">
       {/* A) Hero / Intro */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-          <div className="flex-1 min-w-0 space-y-6">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
-              ROLLO F6: The Future of Autonomous Security
-            </h1>
-            <p className="text-xl md:text-2xl text-[#B4FF33] font-medium">
-              Continuous patrol. Intelligent awareness. Autonomy that empowers people.
-            </p>
+      <section className="relative w-full min-h-[80svh] md:min-h-0 flex items-center overflow-hidden">
+        {/* Mobile: robot as immersive background */}
+        <div className="absolute inset-0 flex items-center justify-center md:hidden pointer-events-none">
+          <img
+            src="/hero/rollo1.png"
+            alt=""
+            className="h-[70%] max-h-[500px] object-contain opacity-[0.12]"
+            style={{ mixBlendMode: "screen" }}
+          />
+        </div>
 
-            <div className="space-y-4 text-base md:text-lg text-slate-300">
-              <p>
-                The ROLLO F6 is a next-generation autonomous patrol robot designed to deliver continuous
-                situational awareness and reliable security in environments where traditional solutions are
-                no longer sufficient. Combining autonomous mobility, artificial intelligence, and cloud-based
-                fleet management, ROLLO F6 forms a unified security platform that protects territories around
-                the clock and without compromise.
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20 w-full">
+          <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="flex-1 min-w-0 space-y-6 text-center md:text-left">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
+                ROLLO F6: The Future of Autonomous Security
+              </h1>
+              <p className="text-xl md:text-2xl text-[#B4FF33] font-medium">
+                Continuous patrol. Intelligent awareness. Autonomy that empowers people.
               </p>
 
-              <p>
-                ROLLO F6 is not designed to replace human personnel entirely. Instead, it enhances human
-                capabilities by handling routine patrol tasks, maintaining continuous presence, and enabling
-                security teams to focus on critical decision-making and response.
-              </p>
+              <div className="space-y-4 text-base md:text-lg text-slate-300">
+                <p>
+                  The ROLLO F6 is a next-generation autonomous patrol robot designed to deliver continuous
+                  situational awareness and reliable security in environments where traditional solutions are
+                  no longer sufficient. Combining autonomous mobility, artificial intelligence, and cloud-based
+                  fleet management, ROLLO F6 forms a unified security platform that protects territories around
+                  the clock and without compromise.
+                </p>
+
+                <p>
+                  ROLLO F6 is not designed to replace human personnel entirely. Instead, it enhances human
+                  capabilities by handling routine patrol tasks, maintaining continuous presence, and enabling
+                  security teams to focus on critical decision-making and response.
+                </p>
+              </div>
+
+              <div className="flex justify-center md:justify-start">
+                <Link
+                  to="/contact"
+                  className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
+                >
+                  Get in Touch
+                </Link>
+              </div>
             </div>
 
-            <Link
-              to="/contact"
-              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
-            >
-              Get in Touch
-            </Link>
-          </div>
-
-          <div className="flex-1 min-w-0 flex justify-center">
-            <img
-              src="/hero/rollo1.png"
-              alt="ROLLO F6 autonomous patrol robot"
-              className="w-full max-w-md h-auto object-contain"
-            />
+            {/* Desktop: robot image side-by-side */}
+            <div className="hidden md:flex flex-1 min-w-0 justify-center">
+              <img
+                src="/hero/rollo1.png"
+                alt="ROLLO F6 autonomous patrol robot"
+                className="w-full max-w-md h-auto object-contain"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* B) Built for Real-World Environments */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center md:text-left">
         <div className="space-y-6">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             Built for Real-World Environments
           </h2>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl mx-auto md:mx-0">
             ROLLO F6 is engineered for demanding outdoor conditions and large operational areas.
             The robot patrols autonomously, navigates obstacles, collects operational data, and
             analyzes its surroundings in real time.
@@ -144,48 +146,35 @@ const Product = () => {
       </section>
 
       {/* C) Intelligent Situational Awareness */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            Intelligent Situational Awareness
-          </h2>
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center md:text-left">
+        <FadeInView>
+          <div className="space-y-6">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+              Intelligent Situational Awareness
+            </h2>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
-          </p>
+            <p className="text-base md:text-lg text-slate-300 max-w-3xl mx-auto md:mx-0">
+              Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
+            </p>
 
-          <div className="flex flex-wrap gap-3 my-6">
-            {[
-              "Vehicles",
-              "People",
-              "Animals",
-              "Fire hazards and emergency situations",
-              "Unusual or unauthorized activity within secured areas",
-            ].map((detection) => (
-              <span
-                key={detection}
-                className="px-4 py-2 rounded-full border border-[#B4FF33]/30 bg-[#B4FF33]/10 text-[#B4FF33] text-sm font-medium"
-              >
-                {detection}
-              </span>
-            ))}
+            <LiveScanner />
+
+            <p className="text-base md:text-lg text-slate-300 max-w-3xl mx-auto md:mx-0">
+              All events are available through a real-time remote monitoring interface, enabling
+              faster and more accurate response by security teams.
+            </p>
           </div>
-
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            All events are available through a real-time remote monitoring interface, enabling
-            faster and more accurate response by security teams.
-          </p>
-        </div>
+        </FadeInView>
       </section>
 
       {/* D) More Than a Robot: A Security Platform */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 text-center md:text-left">
         <div className="space-y-6">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             More Than a Robot: A Security Platform
           </h2>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl mx-auto md:mx-0">
             ROLLO F6 is part of a scalable autonomous security ecosystem.
           </p>
 
@@ -240,7 +229,7 @@ const Product = () => {
             </div>
           </div>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl mt-6">
+          <p className="text-base md:text-lg text-slate-300 max-w-3xl mx-auto md:mx-0 mt-6">
             The platform integrates seamlessly into existing security environments — from private
             enterprises to national infrastructure operators.
           </p>
@@ -249,103 +238,9 @@ const Product = () => {
 
       {/* E) Technical Specifications */}
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="space-y-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            Technical Specifications
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-8">
-            {/* Primary Capability */}
-            <div className="sm:col-span-2 lg:col-span-3 flex items-start gap-4 rounded-2xl border border-[#B4FF33]/30 bg-[#B4FF33]/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/20 p-2.5 text-[#B4FF33]">
-                <Clock className="h-6 w-6" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-[#B4FF33] mb-1">
-                  Capability
-                </p>
-                <p className="text-lg font-bold text-white">
-                  Fully autonomous 24/7 outdoor patrol capability
-                </p>
-              </div>
-            </div>
-
-            {/* Charging */}
-            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
-                <Plug className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1">
-                  Charging
-                </p>
-                <p className="text-base font-semibold text-white">
-                  Autonomous docking and charging
-                </p>
-              </div>
-            </div>
-
-            {/* Speed */}
-            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
-                <Zap className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1">
-                  Maximum Speed
-                </p>
-                <p className="text-base font-semibold text-white">
-                  Up to 10 km/h
-                </p>
-              </div>
-            </div>
-
-            {/* Battery */}
-            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
-                <Battery className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1">
-                  Battery Endurance
-                </p>
-                <p className="text-base font-semibold text-white">
-                  Up to 8 hours
-                </p>
-              </div>
-            </div>
-
-            {/* Weight */}
-            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
-                <Weight className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1">
-                  Weight
-                </p>
-                <p className="text-base font-semibold text-white">
-                  45 kg
-                </p>
-              </div>
-            </div>
-
-            {/* Dimensions */}
-            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-5">
-              <div className="rounded-full bg-[#B4FF33]/10 p-2.5 text-[#B4FF33]">
-                <Ruler className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="text-xs uppercase tracking-[0.15em] text-slate-400 mb-1">
-                  Dimensions
-                </p>
-                <p className="text-base font-semibold text-white">
-                  60 × 60 × 140 cm
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
+        <FadeInView>
+          <SpecsBlueprint />
+        </FadeInView>
       </section>
 
 

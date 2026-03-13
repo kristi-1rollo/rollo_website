@@ -5,10 +5,10 @@ import {
   PiggyBank,
   Shield,
   Plane,
-  Hospital,
+  Building2,
   Factory,
   HardHat,
-  Server,
+  Database,
   GraduationCap,
   Home,
   Droplets,
@@ -16,8 +16,9 @@ import {
   XCircle,
   Snowflake,
 } from "lucide-react";
+import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
-import ScrollFadeIn from "@/components/ScrollFadeIn";
+import FadeInView from "@/components/FadeInView";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -113,14 +114,14 @@ const productTiles = [
 ];
 
 const useCases = [
-  { icon: Plane, label: "Airports" },
-  { icon: Hospital, label: "Hospitals" },
-  { icon: Factory, label: "Industrial Plants" },
-  { icon: Server, label: "Data Centers" },
-  { icon: HardHat, label: "Construction Sites" },
-  { icon: GraduationCap, label: "Campuses" },
-  { icon: Home, label: "Smart Communities" },
-  { icon: Droplets, label: "Oil & Gas Facilities" },
+  { id: "01", title: "Airports", icon: Plane, tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC", ghost: "/hero/rollo_street.png" },
+  { id: "02", title: "Hospitals", icon: Building2, tech: "ACOUSTIC SENSITIVITY: HIGH / SILENCE PROTOCOL" },
+  { id: "03", title: "Industrial Plants", icon: Factory, tech: "THERMAL SCAN: ACTIVE / HAZMAT V4.2" },
+  { id: "04", title: "Data Centers", icon: Database, tech: "ENCRYPTED UPLINK / TEMP SYNC: 18°C", ghost: "/graph/Pilt1.jpg" },
+  { id: "05", title: "Construction", icon: HardHat, tech: "DYNAMIC 3D MAPPING: ACTIVE / OBSTACLE AVOIDANCE" },
+  { id: "06", title: "Campuses", icon: GraduationCap, tech: "CROWD ANALYTICS: ENABLED / MULTI-ZONE MESH" },
+  { id: "07", title: "Communities", icon: Home, tech: "PRIVACY MASKING: ON / AI PATROL" },
+  { id: "08", title: "Oil & Gas", icon: Droplets, tech: "EX-PROOF RATING: ZONE 0 / GAS LEAK DETECT" },
 ];
 
 /* ── helpers ──────────────────────────────────────────── */
@@ -227,7 +228,7 @@ const Index = () => {
 
         {/* Content */}
         <div className="relative z-10 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
-          <ScrollFadeIn>
+          <FadeInView>
             <p className="text-xs uppercase tracking-[0.2em] text-red-500 mb-2">
               Problems
             </p>
@@ -238,7 +239,7 @@ const Index = () => {
               {problems.map((p, i) => {
                 const Icon = p.icon;
                 return (
-                  <ScrollFadeIn key={p.title} delay={i * 100}>
+                  <FadeInView key={p.title} delay={i * 100}>
                     <div className="flex min-h-[100px] items-start gap-4 rounded-2xl border border-white/5 bg-black/40 backdrop-blur-sm p-5">
                       <div className="shrink-0 rounded-full bg-red-500/10 p-2.5 text-red-500">
                         <Icon className="h-5 w-5" />
@@ -250,11 +251,11 @@ const Index = () => {
                         </p>
                       </div>
                     </div>
-                  </ScrollFadeIn>
+                  </FadeInView>
                 );
               })}
             </div>
-          </ScrollFadeIn>
+          </FadeInView>
         </div>
       </section>
 
@@ -263,7 +264,7 @@ const Index = () => {
         <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] min-h-[600px]">
           {/* Left — text & cards */}
           <div className="flex flex-col justify-center lg:pr-8">
-            <ScrollFadeIn>
+            <FadeInView>
               <SectionTag>Solution</SectionTag>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-xl mx-auto sm:mx-0 uppercase">
                 A Fundamentally Better Way to Build Patrol Robots
@@ -272,7 +273,7 @@ const Index = () => {
                 {solutions.map((s, i) => {
                   const Icon = s.icon;
                   return (
-                    <ScrollFadeIn key={s.title} delay={i * 100}>
+                    <FadeInView key={s.title} delay={i * 100}>
                       <div className="flex min-h-[132px] items-start gap-4 rounded-2xl border border-white/5 bg-white/[0.03] p-5">
                         <div className="shrink-0 rounded-full bg-primary/10 p-2.5 text-primary">
                           <Icon className="h-5 w-5" />
@@ -284,11 +285,11 @@ const Index = () => {
                           </p>
                         </div>
                       </div>
-                    </ScrollFadeIn>
+                    </FadeInView>
                   );
                 })}
               </div>
-            </ScrollFadeIn>
+            </FadeInView>
           </div>
 
           {/* Right — robot renders */}
@@ -296,12 +297,12 @@ const Index = () => {
             <img
               src="/robot/1Rollo Proto render P006.png"
               alt="1ROLLO rear view"
-              className="h-[360px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-16 mb-8 relative z-0"
+              className="h-[480px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-12 mb-6 relative z-0"
             />
             <img
               src="/robot/1Rollo Proto P010.png"
               alt="1ROLLO front view"
-              className="h-[500px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
+              className="h-[640px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
             />
           </div>
         </div>
@@ -309,12 +310,12 @@ const Index = () => {
 
       {/* ═══ CAPABILITIES ═══ */}
       <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
-        <ScrollFadeIn>
+        <FadeInView>
           <SectionTag>Solution</SectionTag>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 max-w-4xl uppercase">
             Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
           </h2>
-        </ScrollFadeIn>
+        </FadeInView>
 
         {/* Robot centered with orbit labels */}
         <div className="relative flex justify-center mx-auto" style={{ maxWidth: '900px' }}>
@@ -373,7 +374,7 @@ const Index = () => {
 
       {/* ═══ PRODUCT TEASER ═══ */}
       <Section className="py-12 md:py-40">
-        <ScrollFadeIn>
+        <FadeInView>
           <SectionTag>Product</SectionTag>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Protected by Deep Hardware–Software Integration
@@ -381,7 +382,7 @@ const Index = () => {
           <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
             A defensible platform where hardware and software are inseparable.
           </p>
-        </ScrollFadeIn>
+        </FadeInView>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
@@ -389,7 +390,7 @@ const Index = () => {
             { img: "/patent/Pilt2.png", ...productTiles[1] },
             { img: "/patent/Pilt3.png", ...productTiles[2] },
           ].map((t, i) => (
-            <ScrollFadeIn key={t.title} delay={i * 120}>
+            <FadeInView key={t.title} delay={i * 120}>
               <div className="h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.03] p-6">
                 <div className="w-full aspect-[4/3] mb-5 flex items-center justify-center overflow-hidden rounded-xl">
                   <img
@@ -411,14 +412,14 @@ const Index = () => {
                   See full spec <ChevronRight className="h-4 w-4" />
                 </Link>
               </div>
-            </ScrollFadeIn>
+            </FadeInView>
           ))}
         </div>
       </Section>
 
       {/* ═══ USE CASES ═══ */}
       <Section className="py-24 md:py-40">
-        <ScrollFadeIn>
+        <FadeInView>
           <SectionTag>Use Cases</SectionTag>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Where to Deploy ROLLO
@@ -427,27 +428,54 @@ const Index = () => {
             High-value outdoor and perimeter-security environments where
             autonomy delivers the biggest efficiency gains.
           </p>
-        </ScrollFadeIn>
+        </FadeInView>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 md:gap-8">
+        <div className="bento-use-cases grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <ScrollFadeIn key={uc.label} delay={i * 60}>
-                <div className="flex flex-col items-center text-center py-4 sm:py-6 group cursor-default">
-                  <div className="rounded-full bg-primary/10 p-2.5 sm:p-3 text-primary mb-3 sm:mb-4 transition-shadow duration-300 group-hover:shadow-[0_0_24px_rgba(180,255,51,0.2)]">
-                    <Icon className="h-4 w-4 sm:h-5 sm:w-5" />
+              <motion.div
+                key={uc.id}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.08 }}
+                className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.01] backdrop-blur-sm p-6 flex flex-col justify-between hover:border-primary/30 transition-all duration-300 cursor-default"
+              >
+                {/* Hover glow overlay */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                  style={{
+                    background: "radial-gradient(ellipse at center, rgba(153,255,0,0.05) 0%, transparent 70%)",
+                    mixBlendMode: "color-dodge",
+                  }}
+                />
+
+                {/* Ghost image — only for featured tiles */}
+                {"ghost" in uc && (
+                  <img
+                    src={(uc as { ghost: string }).ghost}
+                    alt=""
+                    className="absolute inset-0 w-full h-full object-cover opacity-[0.05] pointer-events-none hidden lg:block"
+                  />
+                )}
+
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">{uc.id}</span>
+                    <div className="rounded-full bg-primary/10 p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
+                      <Icon className="h-4 w-4" />
+                    </div>
                   </div>
-                  <p className="font-semibold text-white text-[11px] sm:text-sm leading-tight">
-                    {uc.label}
-                  </p>
+                  <h3 className="text-base font-bold text-white mb-1">{uc.title}</h3>
                 </div>
-              </ScrollFadeIn>
+                <p className="telemetry-pulse relative z-10 text-[10px] font-mono uppercase tracking-widest text-primary/60 mt-4">{uc.tech}</p>
+              </motion.div>
             );
           })}
         </div>
 
-        <ScrollFadeIn delay={400}>
+        <FadeInView delay={400}>
           <div className="mt-10 text-center">
             <Link
               to="/contact"
@@ -456,19 +484,19 @@ const Index = () => {
               Talk to Us
             </Link>
           </div>
-        </ScrollFadeIn>
+        </FadeInView>
       </Section>
 
       {/* ═══ MARKET ═══ */}
       <Section className="py-24 md:py-40 relative">
         <div className="absolute inset-0 geo-grid opacity-40 pointer-events-none" />
 
-        <ScrollFadeIn>
+        <FadeInView>
           <SectionTag>Market Opportunity</SectionTag>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 md:mb-14 max-w-3xl">
             Global Reach, Untouched Potential.
           </h2>
-        </ScrollFadeIn>
+        </FadeInView>
 
         <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12">
           {[
@@ -488,7 +516,7 @@ const Index = () => {
               sub: "Efficiency that transforms the business model.",
             },
           ].map((stat, i) => (
-            <ScrollFadeIn key={stat.num} delay={i * 150}>
+            <FadeInView key={stat.num} delay={i * 150}>
               <div>
                 <p className="text-3xl md:text-5xl font-bold text-primary neon-glow leading-none">
                   {stat.num}
@@ -500,14 +528,14 @@ const Index = () => {
                   {stat.sub}
                 </p>
               </div>
-            </ScrollFadeIn>
+            </FadeInView>
           ))}
         </div>
       </Section>
 
       {/* ═══ ROI CALCULATOR ═══ */}
       <Section className="py-24 md:py-40">
-        <ScrollFadeIn>
+        <FadeInView>
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 md:gap-12">
             {/* Left — title + sliders */}
             <div className="space-y-8">
@@ -596,7 +624,7 @@ const Index = () => {
               </div>
             </div>
           </div>
-        </ScrollFadeIn>
+        </FadeInView>
       </Section>
     </div>
   );

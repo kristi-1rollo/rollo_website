@@ -162,6 +162,62 @@
     background-size: 60px 60px;
   }
 
+  /* Bento Use Cases — 4×4 desktop grid with featured tiles */
+  @media (min-width: 1024px) {
+    .bento-use-cases {
+      grid-template-rows: repeat(4, auto);
+    }
+    /* 01 Airports — large 2×2 top-left */
+    .bento-use-cases > :nth-child(1) {
+      grid-column: 1 / 3;
+      grid-row: 1 / 3;
+    }
+    /* 02 Hospitals — 1×1 */
+    .bento-use-cases > :nth-child(2) {
+      grid-column: 3;
+      grid-row: 1;
+    }
+    /* 03 Industrial Plants — 1×2 right column */
+    .bento-use-cases > :nth-child(3) {
+      grid-column: 4;
+      grid-row: 1 / 3;
+    }
+    /* 05 Construction — 1×1 */
+    .bento-use-cases > :nth-child(5) {
+      grid-column: 3;
+      grid-row: 2;
+    }
+    /* 06 Campuses — 1×2 left column */
+    .bento-use-cases > :nth-child(6) {
+      grid-column: 1;
+      grid-row: 3 / 5;
+    }
+    /* 04 Data Centers — large 2×2 center */
+    .bento-use-cases > :nth-child(4) {
+      grid-column: 2 / 4;
+      grid-row: 3 / 5;
+    }
+    /* 07 Communities — 1×1 */
+    .bento-use-cases > :nth-child(7) {
+      grid-column: 4;
+      grid-row: 3;
+    }
+    /* 08 Oil & Gas — 1×1 */
+    .bento-use-cases > :nth-child(8) {
+      grid-column: 4;
+      grid-row: 4;
+    }
+  }
+
+  /* Telemetry pulse — simulates live data feed */
+  @keyframes telemetry-pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.8; }
+  }
+  .telemetry-pulse {
+    animation: telemetry-pulse 3s ease-in-out infinite;
+  }
+
   /* Section spacing — doubled for maximum breathing room */
   .section {
     padding-top: 160px;
@@ -173,9 +229,32 @@
       padding-bottom: 240px;
     }
   }
+
+  /* Scanner sweep line animation */
+  @keyframes scanner-sweep {
+    0% { left: -2px; }
+    100% { left: 100%; }
+  }
+
+  /* Scanner label glow sync */
+  @keyframes scanner-glow {
+    0%, 15%, 100% {
+      box-shadow: 0 0 0 rgba(180,255,51,0);
+      border-color: rgba(180,255,51,0.3);
+    }
+    20%, 40% {
+      box-shadow: 0 0 20px rgba(180,255,51,0.3), 0 0 40px rgba(180,255,51,0.1);
+      border-color: rgba(180,255,51,0.8);
+    }
+  }
 }
 
 @layer utilities {
+  /* Color dodge glow for HUD neon elements */
+  .color-dodge-glow {
+    mix-blend-mode: color-dodge;
+  }
+
   /* Unified 4px corner radius across Tailwind rounded utilities */
   .rounded-sm { border-radius: 4px; }
   .rounded { border-radius: 4px; }
