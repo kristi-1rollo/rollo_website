@@ -19,6 +19,7 @@ import BlogMediaGallery from "@/components/BlogMediaGallery";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
+import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
 
 const estimateReadingTime = (html: string) => {
   const text = html.replace(/<[^>]+>/g, "").trim();
