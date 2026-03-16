@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import DOMPurify from "dompurify";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
 import FadeInView from "@/components/FadeInView";
 import BlogMediaGallery from "@/components/BlogMediaGallery";
