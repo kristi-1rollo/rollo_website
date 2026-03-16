@@ -19,6 +19,8 @@ import {
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
+import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
 
 /* ── data ─────────────────────────────────────────────── */
 
