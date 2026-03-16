@@ -19,6 +19,8 @@ import {
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
+import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -295,12 +297,12 @@ const Index = () => {
           {/* Right — robot renders */}
           <div className="relative hidden lg:flex items-end justify-center py-8">
             <img
-              src="/robot/1Rollo%20Proto%20render%20P006.png"
+              src={rolloRenderP006}
               alt="1ROLLO rear view"
               className="h-[480px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-12 mb-6 relative z-0"
             />
             <img
-              src="/robot/1Rollo%20Proto%20P010.png"
+              src={rolloFrontP010}
               alt="1ROLLO front view"
               className="h-[640px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
             />

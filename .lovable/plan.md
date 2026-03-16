@@ -1,32 +1,12 @@
 
-
-# Roboti piltide parandamine — failinimede normaliseerimine
+# EU rahastuse lehe link footerisse tagasi
 
 ## Probleem
-Failid `public/robot/` kaustas sisaldavad tühikuid nimedes (nt `1Rollo Proto render P006.png`). Kuigi `%20` kodeering peaks teoreetiliselt töötama, ei lahenda preview/hosting keskkond neid URL-e korrektselt — tagastatakse HTML, mitte pilt.
+Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
 
 ## Lahendus
-Importida pildid otse TypeScriptis `src/assets/` kaudu, mitte kasutada `public/` URL-teid. Vite bundler lahendab imporditud pildid alati õigesti, olenemata failinimest.
+Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
 
-## Sammud
-
-1. **Kopeeri 3 pilti `src/assets/robot/` kausta** turvaliste nimedega:
-   - `1Rollo Proto render P006.png` → `src/assets/robot/rollo-render-p006.png`
-   - `1Rollo Proto P010.png` → `src/assets/robot/rollo-front-p010.png`
-   - `1Rollo Proto render P013.png` → `src/assets/robot/rollo-render-p013.png`
-
-2. **Uuenda `src/pages/Index.tsx`** — impordi pildid ülaosas ja kasuta `src={importedImage}`:
-   ```tsx
-   import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
-   import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
-   ```
-
-3. **Uuenda `src/components/SpecsBlueprint.tsx`** — sama lähenemine P013 pildiga.
-
-4. **Uuenda `src/pages/BlogPost.tsx`** — sama lähenemine P013 pildiga.
-
-## Mõju
-- 3 faili muudetakse: `Index.tsx`, `SpecsBlueprint.tsx`, `BlogPost.tsx`
-- 3 uut pildifaili `src/assets/robot/` kaustas
-- Pildid töötavad garanteeritult, sest Vite bundler haldab neid otse
-
+## Tehniline detail
+- **Fail:** `src/components/Footer.tsx`, read 120-126
+- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
