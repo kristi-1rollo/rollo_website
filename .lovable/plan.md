@@ -1,32 +1,12 @@
 
-
-# Parooli taastamise e-kirja parandamine
+# EU rahastuse lehe link footerisse tagasi
 
 ## Probleem
-
-Edge function `manage-admin` kasutab `admin.generateLink({ type: "recovery" })`, mis **ainult genereerib lingi, aga ei saada e-kirja**. See on Supabase API iseärasus — `generateLink` on mõeldud juhtudeks, kus sa ise saadad kirja.
+Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
 
 ## Lahendus
+Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
 
-Asenda `generateLink` meetodiga, mis tegelikult saadab e-kirja. Kaks võimalust:
-
-**Valik: kasuta `resetPasswordForEmail`** — see käivitab Supabase sisseehitatud e-kirja saatmise. Kuna e-domeeni pole seadistatud, kasutatakse Supabase vaikimisi e-posti süsteemi, mis töötab ilma lisaseadistuseta.
-
-### Muudatus failis `supabase/functions/manage-admin/index.ts`
-
-Rida ~195–198: asenda `generateLink` plokk järgmisega:
-
-```typescript
-const siteUrl = Deno.env.get("SITE_URL") || req.headers.get("origin") || "https://rollo.lovable.app";
-const { error: resetError } = await adminClient.auth.resetPasswordForEmail(
-  targetData.user.email,
-  { redirectTo: `${siteUrl}/set-password` }
-);
-```
-
-See üks muudatus paneb parooli taastamise e-kirja tööle, kasutades Supabase vaikimisi e-posti teenust.
-
-### Pärast parandust
-
-Edge function tuleb uuesti deploy'ida, et muudatus jõustuks.
-
+## Tehniline detail
+- **Fail:** `src/components/Footer.tsx`, read 120-126
+- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)

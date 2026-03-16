@@ -191,11 +191,12 @@ Deno.serve(async (req) => {
         });
       }
 
-      // Generate password reset link and send email
-      const { error: resetError } = await adminClient.auth.admin.generateLink({
-        type: "recovery",
-        email: targetData.user.email,
-      });
+      // Send password reset email
+      const siteUrl = Deno.env.get("SITE_URL") || req.headers.get("origin") || "https://rollo.lovable.app";
+      const { error: resetError } = await adminClient.auth.resetPasswordForEmail(
+        targetData.user.email,
+        { redirectTo: `${siteUrl}/set-password` }
+      );
       if (resetError) throw resetError;
 
       await adminClient.from("admin_audit_log").insert({
