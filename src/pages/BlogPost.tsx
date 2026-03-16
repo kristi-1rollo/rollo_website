@@ -78,7 +78,10 @@ const BlogPost = () => {
   );
 
   const contentSections = useMemo(
-    () => splitByH2(processedContent),
+    () =>
+      splitByH2(processedContent).map((s) =>
+        DOMPurify.sanitize(s, { USE_PROFILES: { html: true }, ADD_ATTR: ["id"] })
+      ),
     [processedContent]
   );
 
