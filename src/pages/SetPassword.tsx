@@ -17,24 +17,43 @@ const SetPassword = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    // Supabase processes the hash fragment automatically and fires SIGNED_IN / PASSWORD_RECOVERY
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        if (session) {
-          setSessionReady(true);
-        }
-        if (event === "PASSWORD_RECOVERY" || event === "SIGNED_IN") {
-          setSessionReady(true);
-        }
+      (_event, session) => {
+        if (session) setSessionReady(true);
       }
     );
 
-    // Also check if already have a session (invite link auto-signs in)
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) setSessionReady(true);
-    });
+    // Handle PKCE code exchange (password reset redirects with ?code=...)
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get("code");
 
-    return () => subscription.unsubscribe();
+    if (code) {
+      supabase.auth.exchangeCodeForSession(code).then(({ data, error: codeError }) => {
+        if (codeError) {
+          setError("Link on aegunud või kehtetu. Palun taotle uus parooli taastamise link.");
+        } else if (data.session) {
+          setSessionReady(true);
+        }
+      });
+    } else {
+      // Fallback: check existing session (invite link or hash fragment)
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (session) setSessionReady(true);
+      });
+    }
+
+    // Timeout to avoid infinite loading
+    const timeout = setTimeout(() => {
+      setSessionReady((prev) => {
+        if (!prev) setError("Link on aegunud või kehtetu.");
+        return prev;
+      });
+    }, 10000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
