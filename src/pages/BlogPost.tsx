@@ -13,6 +13,7 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import DOMPurify from "dompurify";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
 import FadeInView from "@/components/FadeInView";
 import BlogMediaGallery from "@/components/BlogMediaGallery";
@@ -77,7 +78,10 @@ const BlogPost = () => {
   );
 
   const contentSections = useMemo(
-    () => splitByH2(processedContent),
+    () =>
+      splitByH2(processedContent).map((s) =>
+        DOMPurify.sanitize(s, { USE_PROFILES: { html: true }, ADD_ATTR: ["id"] })
+      ),
     [processedContent]
   );
 
