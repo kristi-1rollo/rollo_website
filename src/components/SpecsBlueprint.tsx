@@ -8,6 +8,7 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
 
 interface Spec {
   label: string;
