@@ -1,0 +1,1 @@
+DROP POLICY "Allow public insert registrations" ON public.registrations;
