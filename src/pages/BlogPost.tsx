@@ -273,7 +273,7 @@ const BlogPost = () => {
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
                     <img
-                      src="/robot/1Rollo%20Proto%20render%20P013.png"
+                      src={rolloRenderP013}
                       alt="ROLLO F6 target unit"
                       className="h-40 w-full object-cover"
                     />
