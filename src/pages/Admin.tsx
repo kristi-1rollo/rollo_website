@@ -361,6 +361,12 @@ const Admin = () => {
             Blog
           </TabsTrigger>
           <TabsTrigger
+            value="careers"
+            className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
+          >
+            Careers
+          </TabsTrigger>
+          <TabsTrigger
             value="registrations"
             className="data-[state=active]:bg-primary/10 data-[state=active]:text-primary"
           >
@@ -382,6 +388,9 @@ const Admin = () => {
 
         <TabsContent value="blog">
           <BlogTab />
+        </TabsContent>
+        <TabsContent value="careers">
+          <CareersTab />
         </TabsContent>
         <TabsContent value="registrations">
           <RegistrationsTab />
