@@ -198,6 +198,30 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
 
   return (
     <div className="space-y-6">
+      {/* Draft restore banner */}
+      {showDraftBanner && (
+        <div className="flex items-center gap-3 p-3 rounded-[4px] border border-primary/40 bg-primary/5">
+          <Save className="h-4 w-4 text-primary flex-shrink-0" />
+          <p className="text-sm text-foreground flex-1">
+            Leiti salvestamata mustand{pendingDraft?.savedAt ? ` (${new Date(pendingDraft.savedAt).toLocaleString("et-EE")})` : ""}. Kas soovid selle taastada?
+          </p>
+          <Button size="sm" onClick={restoreDraft} className="h-7 text-xs bg-primary text-primary-foreground hover:bg-primary/90">
+            Taasta
+          </Button>
+          <Button size="sm" variant="outline" onClick={discardDraft} className="h-7 text-xs border-border text-muted-foreground hover:text-foreground">
+            Hülga
+          </Button>
+        </div>
+      )}
+
+      {/* Last saved indicator */}
+      {lastSavedAt && (
+        <p className="text-[10px] text-muted-foreground/60 flex items-center gap-1.5">
+          <Save className="h-3 w-3" />
+          Mustand salvestatud: {lastSavedAt.toLocaleTimeString("et-EE")}
+        </p>
+      )}
+
       {/* Title */}
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">Title</label>
