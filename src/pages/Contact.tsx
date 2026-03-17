@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { Mail, MapPin, Building2, Briefcase } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
@@ -26,6 +27,19 @@ const Contact = () => {
 
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const { toast } = useToast();
+
+  const handleCopyEmail = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText("join@1rollo.com");
+      setEmailCopied(true);
+      toast({ title: "Email copied to clipboard!" });
+      setTimeout(() => setEmailCopied(false), 2000);
+    } catch {
+      toast({ title: "Copy failed", variant: "destructive" });
+    }
+  }, [toast]);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -404,12 +418,12 @@ const Contact = () => {
               />
 
               <div className="mt-6 pt-4 border-t border-white/10">
-                <a
-                  href="mailto:join@1rollo.com"
+                <button
+                  onClick={handleCopyEmail}
                   className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
                 >
-                  Apply — join@1rollo.com
-                </a>
+                  {emailCopied ? "Copied!" : "Apply — join@1rollo.com"}
+                </button>
               </div>
             </>
           )}

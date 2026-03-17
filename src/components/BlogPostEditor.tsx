@@ -15,6 +15,7 @@ const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", 
 interface Props {
   post?: BlogPost | null;
   onDone: () => void;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
@@ -43,7 +44,7 @@ interface DraftData {
   thumbZoom?: number;
   savedAt?: string;
 }
-const BlogPostEditor = ({ post, onDone }: Props) => {
+const BlogPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
@@ -92,7 +93,14 @@ const BlogPostEditor = ({ post, onDone }: Props) => {
     } catch {}
   }, [draftKey]);
 
-  // Keep ref in sync with current state
+  // Keep ref in sync with current state + isDirty tracking
+  const initialRef = useRef({ title: post?.title ?? "", excerpt: post?.excerpt ?? "", content: post?.content ?? "" });
+  const isDirty = title !== initialRef.current.title || excerpt !== initialRef.current.excerpt || content !== initialRef.current.content;
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
   useEffect(() => {
     draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };
   }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom]);
