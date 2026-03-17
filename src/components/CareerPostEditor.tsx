@@ -15,7 +15,14 @@ interface Props {
   post?: CareerPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
-  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; location: string; type: string } | null>;
+  formDataRef?: React.MutableRefObject<{
+    title: string;
+    excerpt: string;
+    content: string;
+    location: string;
+    type: string;
+    posterUrl: string;
+  } | null>;
 }
 
 const CAREER_DRAFT_KEY_PREFIX = "career-draft-";
