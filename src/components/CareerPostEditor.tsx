@@ -7,7 +7,7 @@ import { useUpsertCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Save } from "lucide-react";
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 
