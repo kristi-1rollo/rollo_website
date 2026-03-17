@@ -213,6 +213,7 @@ const CareersTab = () => {
   const [editing, setEditing] = useState<CareerPost | null | "new">(null);
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const careerFormRef = useRef<{ title: string; excerpt: string; content: string; location: string; type: string } | null>(null);
 
   useEffect(() => {
     if (!editing) return;
