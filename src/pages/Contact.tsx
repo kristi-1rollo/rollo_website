@@ -349,10 +349,10 @@ const Contact = () => {
                   opening, we'd love to hear from you.
                 </p>
                 <a
-                  href="mailto:info@1rollo.com"
+                  href="mailto:join@1rollo.com"
                   className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
                 >
-                  Send your CV to info@1rollo.com
+                  Send your CV to join@1rollo.com
                 </a>
               </>
             )}
@@ -387,7 +387,7 @@ const Contact = () => {
               )}
 
               <div
-                className="prose prose-invert prose-sm max-w-none mt-4"
+                className="prose prose-invert prose-sm max-w-none mt-4 [&>p]:mb-4 [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mt-6 [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mt-5 [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-bold [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4 [&>ul>li]:mb-1 [&>ol>li]:mb-1 [&>blockquote]:border-l-2 [&>blockquote]:border-[#B4FF33]/40 [&>blockquote]:pl-4 [&>blockquote]:italic [&>a]:text-[#B4FF33] [&>a]:underline"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(selectedPost.content),
                 }}
@@ -395,10 +395,10 @@ const Contact = () => {
 
               <div className="mt-6 pt-4 border-t border-white/10">
                 <a
-                  href="mailto:info@1rollo.com"
+                  href="mailto:join@1rollo.com"
                   className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
                 >
-                  Apply — info@1rollo.com
+                  Apply — join@1rollo.com
                 </a>
               </div>
             </>
