@@ -27,6 +27,19 @@ const Contact = () => {
 
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+  const [emailCopied, setEmailCopied] = useState(false);
+  const { toast } = useToast();
+
+  const handleCopyEmail = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText("join@1rollo.com");
+      setEmailCopied(true);
+      toast({ title: "Email copied to clipboard!" });
+      setTimeout(() => setEmailCopied(false), 2000);
+    } catch {
+      toast({ title: "Copy failed", variant: "destructive" });
+    }
+  }, [toast]);
 
   useEffect(() => {
     const hash = window.location.hash;
