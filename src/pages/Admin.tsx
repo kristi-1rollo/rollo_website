@@ -66,19 +66,19 @@ const BlogTab = () => {
   };
 
   const handleSaveDraft = async () => {
-    const current = editing;
-    if (!current || current === "new") {
-      // nothing meaningful to save without a title
+    const formData = blogFormRef.current;
+    const postId = editing && editing !== "new" ? editing.id : undefined;
+    if (!formData || !formData.title.trim()) {
       handleDiscard();
       return;
     }
     try {
       await upsertPost.mutateAsync({
-        id: current.id,
-        title: current.title,
-        excerpt: current.excerpt,
-        content: current.content,
-        tag: current.tag,
+        ...(postId ? { id: postId } : {}),
+        title: formData.title,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        tag: formData.tag,
         is_published: false,
         published_at: null,
       } as any);
