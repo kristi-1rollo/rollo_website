@@ -245,19 +245,20 @@ const CareersTab = () => {
   };
 
   const handleSaveDraft = async () => {
-    const current = editing;
-    if (!current || current === "new") {
+    const formData = careerFormRef.current;
+    const postId = editing && editing !== "new" ? editing.id : undefined;
+    if (!formData || !formData.title.trim()) {
       handleDiscard();
       return;
     }
     try {
       await upsertPost.mutateAsync({
-        id: current.id,
-        title: current.title,
-        content: current.content,
-        excerpt: current.excerpt,
-        location: current.location,
-        type: current.type,
+        ...(postId ? { id: postId } : {}),
+        title: formData.title,
+        content: formData.content,
+        excerpt: formData.excerpt,
+        location: formData.location,
+        type: formData.type,
         is_published: false,
         published_at: null,
       } as any);
