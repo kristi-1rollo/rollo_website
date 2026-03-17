@@ -48,6 +48,93 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
     onDirtyChange?.(isDirty);
   }, [isDirty, onDirtyChange]);
 
+  // Keep formDataRef in sync so parent can read current values for Save Draft
+  useEffect(() => {
+    if (formDataRef) {
+      formDataRef.current = { title, excerpt, content, location, type };
+    }
+  }, [title, excerpt, content, location, type, formDataRef]);
+
+  // --- Auto-draft (localStorage) ---
+  const draftKey = `${CAREER_DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
+  const draftDataRef = useRef<CareerDraftData | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const draftRestoredRef = useRef(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const [showDraftBanner, setShowDraftBanner] = useState(false);
+  const [pendingDraft, setPendingDraft] = useState<CareerDraftData | null>(null);
+
+  const saveDraftNow = useCallback(() => {
+    if (!draftDataRef.current) return;
+    try {
+      localStorage.setItem(draftKey, JSON.stringify({ ...draftDataRef.current, savedAt: new Date().toISOString() }));
+      setLastSavedAt(new Date());
+    } catch {}
+  }, [draftKey]);
+
+  useEffect(() => {
+    draftDataRef.current = { title, excerpt, content, location, type, posterUrl: posterUrl };
+  }, [title, excerpt, content, location, type, posterUrl]);
+
+  useEffect(() => {
+    if (!draftRestoredRef.current) return;
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(saveDraftNow, DEBOUNCE_MS);
+    return () => { if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current); };
+  }, [title, excerpt, content, location, type, posterUrl, saveDraftNow]);
+
+  useEffect(() => {
+    const flushDraft = () => saveDraftNow();
+    const handleVisibility = () => { if (document.visibilityState === "hidden") flushDraft(); };
+    window.addEventListener("beforeunload", flushDraft);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      flushDraft();
+      window.removeEventListener("beforeunload", flushDraft);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [saveDraftNow]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(draftKey);
+      if (saved) {
+        const draft = JSON.parse(saved) as CareerDraftData;
+        setPendingDraft(draft);
+        setShowDraftBanner(true);
+      } else {
+        draftRestoredRef.current = true;
+      }
+    } catch {
+      draftRestoredRef.current = true;
+    }
+  }, []);
+
+  const restoreDraft = () => {
+    if (!pendingDraft) return;
+    if (pendingDraft.title != null) setTitle(pendingDraft.title);
+    if (pendingDraft.excerpt != null) setExcerpt(pendingDraft.excerpt);
+    if (pendingDraft.content != null) setContent(pendingDraft.content);
+    if (pendingDraft.location != null) setLocation(pendingDraft.location);
+    if (pendingDraft.type != null) setType(pendingDraft.type);
+    if (pendingDraft.posterUrl != null) setPosterUrl(pendingDraft.posterUrl);
+    toast({ title: "Mustand taastatud" });
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
+
+  const discardDraft = () => {
+    localStorage.removeItem(draftKey);
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
+
+  const clearDraft = useCallback(() => {
+    localStorage.removeItem(draftKey);
+  }, [draftKey]);
+
   useEffect(() => {
     if (!isDirty) return;
     const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
