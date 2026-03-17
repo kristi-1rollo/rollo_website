@@ -1,4 +1,5 @@
 import { useEditor, EditorContent } from "@tiptap/react";
+import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
@@ -104,6 +105,28 @@ const RichTextEditor = ({ content, onChange }: Props) => {
       },
     },
   });
+
+  // Sync content from parent (e.g. draft restore) — only when content differs from editor
+  const contentRef = useRef(content);
+  useEffect(() => {
+    if (!editor) return;
+    // Only update if the content actually changed externally (not from editor's own onUpdate)
+    if (content !== contentRef.current) {
+      contentRef.current = content;
+      const currentHtml = editor.getHTML();
+      if (currentHtml !== content) {
+        editor.commands.setContent(content, { emitUpdate: false });
+      }
+    }
+  }, [content, editor]);
+
+  // Keep ref in sync with editor updates
+  useEffect(() => {
+    if (!editor) return;
+    const handler = () => { contentRef.current = editor.getHTML(); };
+    editor.on("update", handler);
+    return () => { editor.off("update", handler); };
+  }, [editor]);
 
   if (!editor) return null;
 

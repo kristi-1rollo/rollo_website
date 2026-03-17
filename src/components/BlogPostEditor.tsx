@@ -16,6 +16,7 @@ interface Props {
   post?: BlogPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
+  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; tag: string } | null>;
 }
 
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
@@ -44,7 +45,7 @@ interface DraftData {
   thumbZoom?: number;
   savedAt?: string;
 }
-const BlogPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
+const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
@@ -100,6 +101,13 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
   useEffect(() => {
     onDirtyChange?.(isDirty);
   }, [isDirty, onDirtyChange]);
+
+  // Keep formDataRef in sync so parent can read current values for Save Draft
+  useEffect(() => {
+    if (formDataRef) {
+      formDataRef.current = { title, excerpt, content, tag };
+    }
+  }, [title, excerpt, content, tag, formDataRef]);
 
   useEffect(() => {
     draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };

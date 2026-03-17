@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -7,7 +7,7 @@ import { useUpsertCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
 import { supabase } from "@/integrations/supabase/client";
-import { Upload, X } from "lucide-react";
+import { Upload, X, Save } from "lucide-react";
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 
@@ -15,9 +15,23 @@ interface Props {
   post?: CareerPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
+  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; location: string; type: string } | null>;
 }
 
-const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
+const CAREER_DRAFT_KEY_PREFIX = "career-draft-";
+const DEBOUNCE_MS = 1200;
+
+interface CareerDraftData {
+  title?: string;
+  location?: string;
+  type?: string;
+  excerpt?: string;
+  content?: string;
+  posterUrl?: string;
+  savedAt?: string;
+}
+
+const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [location, setLocation] = useState(post?.location ?? "");
   const [type, setType] = useState(post?.type ?? "Full-time");
@@ -33,6 +47,93 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
   useEffect(() => {
     onDirtyChange?.(isDirty);
   }, [isDirty, onDirtyChange]);
+
+  // Keep formDataRef in sync so parent can read current values for Save Draft
+  useEffect(() => {
+    if (formDataRef) {
+      formDataRef.current = { title, excerpt, content, location, type };
+    }
+  }, [title, excerpt, content, location, type, formDataRef]);
+
+  // --- Auto-draft (localStorage) ---
+  const draftKey = `${CAREER_DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
+  const draftDataRef = useRef<CareerDraftData | null>(null);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const draftRestoredRef = useRef(false);
+  const [lastSavedAt, setLastSavedAt] = useState<Date | null>(null);
+  const [showDraftBanner, setShowDraftBanner] = useState(false);
+  const [pendingDraft, setPendingDraft] = useState<CareerDraftData | null>(null);
+
+  const saveDraftNow = useCallback(() => {
+    if (!draftDataRef.current) return;
+    try {
+      localStorage.setItem(draftKey, JSON.stringify({ ...draftDataRef.current, savedAt: new Date().toISOString() }));
+      setLastSavedAt(new Date());
+    } catch {}
+  }, [draftKey]);
+
+  useEffect(() => {
+    draftDataRef.current = { title, excerpt, content, location, type, posterUrl: posterUrl };
+  }, [title, excerpt, content, location, type, posterUrl]);
+
+  useEffect(() => {
+    if (!draftRestoredRef.current) return;
+    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+    debounceTimerRef.current = setTimeout(saveDraftNow, DEBOUNCE_MS);
+    return () => { if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current); };
+  }, [title, excerpt, content, location, type, posterUrl, saveDraftNow]);
+
+  useEffect(() => {
+    const flushDraft = () => saveDraftNow();
+    const handleVisibility = () => { if (document.visibilityState === "hidden") flushDraft(); };
+    window.addEventListener("beforeunload", flushDraft);
+    document.addEventListener("visibilitychange", handleVisibility);
+    return () => {
+      flushDraft();
+      window.removeEventListener("beforeunload", flushDraft);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, [saveDraftNow]);
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(draftKey);
+      if (saved) {
+        const draft = JSON.parse(saved) as CareerDraftData;
+        setPendingDraft(draft);
+        setShowDraftBanner(true);
+      } else {
+        draftRestoredRef.current = true;
+      }
+    } catch {
+      draftRestoredRef.current = true;
+    }
+  }, []);
+
+  const restoreDraft = () => {
+    if (!pendingDraft) return;
+    if (pendingDraft.title != null) setTitle(pendingDraft.title);
+    if (pendingDraft.excerpt != null) setExcerpt(pendingDraft.excerpt);
+    if (pendingDraft.content != null) setContent(pendingDraft.content);
+    if (pendingDraft.location != null) setLocation(pendingDraft.location);
+    if (pendingDraft.type != null) setType(pendingDraft.type);
+    if (pendingDraft.posterUrl != null) setPosterUrl(pendingDraft.posterUrl);
+    toast({ title: "Mustand taastatud" });
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
+
+  const discardDraft = () => {
+    localStorage.removeItem(draftKey);
+    setShowDraftBanner(false);
+    setPendingDraft(null);
+    draftRestoredRef.current = true;
+  };
+
+  const clearDraft = useCallback(() => {
+    localStorage.removeItem(draftKey);
+  }, [draftKey]);
 
   useEffect(() => {
     if (!isDirty) return;
@@ -86,6 +187,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
         poster_url: posterUrl || null,
       } as any);
+      clearDraft();
       toast({ title: post?.id ? "Position updated" : "Position created" });
       onDone();
     } catch (err: unknown) {
@@ -96,6 +198,30 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
 
   return (
     <div className="space-y-6">
+      {/* Draft restore banner */}
+      {showDraftBanner && (
+        <div className="flex items-center gap-3 p-3 rounded-[4px] border border-primary/40 bg-primary/5">
+          <Save className="h-4 w-4 text-primary flex-shrink-0" />
+          <p className="text-sm text-foreground flex-1">
+            Leiti salvestamata mustand{pendingDraft?.savedAt ? ` (${new Date(pendingDraft.savedAt).toLocaleString("et-EE")})` : ""}. Kas soovid selle taastada?
+          </p>
+          <Button size="sm" onClick={restoreDraft} className="h-7 text-xs bg-primary text-primary-foreground hover:bg-primary/90">
+            Taasta
+          </Button>
+          <Button size="sm" variant="outline" onClick={discardDraft} className="h-7 text-xs border-border text-muted-foreground hover:text-foreground">
+            Hülga
+          </Button>
+        </div>
+      )}
+
+      {/* Last saved indicator */}
+      {lastSavedAt && (
+        <p className="text-[10px] text-muted-foreground/60 flex items-center gap-1.5">
+          <Save className="h-3 w-3" />
+          Mustand salvestatud: {lastSavedAt.toLocaleTimeString("et-EE")}
+        </p>
+      )}
+
       {/* Title */}
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">Title</label>

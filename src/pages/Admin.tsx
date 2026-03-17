@@ -32,6 +32,7 @@ const BlogTab = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
   const pendingCloseRef = useRef(false);
+  const blogFormRef = useRef<{ title: string; excerpt: string; content: string; tag: string } | null>(null);
 
   // pushState when entering editor, popstate to go back to list
   useEffect(() => {
@@ -65,19 +66,19 @@ const BlogTab = () => {
   };
 
   const handleSaveDraft = async () => {
-    const current = editing;
-    if (!current || current === "new") {
-      // nothing meaningful to save without a title
+    const formData = blogFormRef.current;
+    const postId = editing && editing !== "new" ? editing.id : undefined;
+    if (!formData || !formData.title.trim()) {
       handleDiscard();
       return;
     }
     try {
       await upsertPost.mutateAsync({
-        id: current.id,
-        title: current.title,
-        excerpt: current.excerpt,
-        content: current.content,
-        tag: current.tag,
+        ...(postId ? { id: postId } : {}),
+        title: formData.title,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        tag: formData.tag,
         is_published: false,
         published_at: null,
       } as any);
@@ -109,6 +110,7 @@ const BlogTab = () => {
           post={editing === "new" ? null : editing}
           onDone={() => { setIsDirty(false); setEditing(null); }}
           onDirtyChange={setIsDirty}
+          formDataRef={blogFormRef}
         />
         <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
           <AlertDialogContent>
@@ -211,6 +213,7 @@ const CareersTab = () => {
   const [editing, setEditing] = useState<CareerPost | null | "new">(null);
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const careerFormRef = useRef<{ title: string; excerpt: string; content: string; location: string; type: string } | null>(null);
 
   useEffect(() => {
     if (!editing) return;
@@ -242,19 +245,20 @@ const CareersTab = () => {
   };
 
   const handleSaveDraft = async () => {
-    const current = editing;
-    if (!current || current === "new") {
+    const formData = careerFormRef.current;
+    const postId = editing && editing !== "new" ? editing.id : undefined;
+    if (!formData || !formData.title.trim()) {
       handleDiscard();
       return;
     }
     try {
       await upsertPost.mutateAsync({
-        id: current.id,
-        title: current.title,
-        content: current.content,
-        excerpt: current.excerpt,
-        location: current.location,
-        type: current.type,
+        ...(postId ? { id: postId } : {}),
+        title: formData.title,
+        content: formData.content,
+        excerpt: formData.excerpt,
+        location: formData.location,
+        type: formData.type,
         is_published: false,
         published_at: null,
       } as any);
@@ -286,6 +290,7 @@ const CareersTab = () => {
           post={editing === "new" ? null : editing}
           onDone={() => { setIsDirty(false); setEditing(null); }}
           onDirtyChange={setIsDirty}
+          formDataRef={careerFormRef}
         />
         <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
           <AlertDialogContent>
