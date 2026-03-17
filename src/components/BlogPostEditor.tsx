@@ -16,6 +16,7 @@ interface Props {
   post?: BlogPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
+  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; tag: string } | null>;
 }
 
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
