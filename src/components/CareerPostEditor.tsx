@@ -18,7 +18,20 @@ interface Props {
   formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; location: string; type: string } | null>;
 }
 
-const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
+const CAREER_DRAFT_KEY_PREFIX = "career-draft-";
+const DEBOUNCE_MS = 1200;
+
+interface CareerDraftData {
+  title?: string;
+  location?: string;
+  type?: string;
+  excerpt?: string;
+  content?: string;
+  posterUrl?: string;
+  savedAt?: string;
+}
+
+const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [location, setLocation] = useState(post?.location ?? "");
   const [type, setType] = useState(post?.type ?? "Full-time");
