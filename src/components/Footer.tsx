@@ -75,12 +75,12 @@ const Footer = () => {
               >
                 Contact
               </Link>
-              <Link
+              <a
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                to="/contact#career"
+                href="/contact#career"
               >
                 Career
-              </Link>
+              </a>
             </nav>
           </div>
 
