@@ -387,7 +387,7 @@ const Contact = () => {
               )}
 
               <div
-                className="prose prose-invert prose-sm max-w-none mt-4"
+                className="prose prose-invert prose-sm max-w-none mt-4 [&>p]:mb-4 [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mt-6 [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mt-5 [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-bold [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4 [&>ul>li]:mb-1 [&>ol>li]:mb-1 [&>blockquote]:border-l-2 [&>blockquote]:border-[#B4FF33]/40 [&>blockquote]:pl-4 [&>blockquote]:italic [&>a]:text-[#B4FF33] [&>a]:underline"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(selectedPost.content),
                 }}
