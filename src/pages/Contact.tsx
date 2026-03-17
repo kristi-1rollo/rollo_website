@@ -349,10 +349,10 @@ const Contact = () => {
                   opening, we'd love to hear from you.
                 </p>
                 <a
-                  href="mailto:info@1rollo.com"
+                  href="mailto:join@1rollo.com"
                   className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
                 >
-                  Send your CV to info@1rollo.com
+                  Send your CV to join@1rollo.com
                 </a>
               </>
             )}
