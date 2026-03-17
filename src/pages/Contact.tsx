@@ -405,12 +405,12 @@ const Contact = () => {
               />
 
               <div className="mt-6 pt-4 border-t border-white/10">
-                <a
-                  href="mailto:join@1rollo.com"
+                <button
+                  onClick={handleCopyEmail}
                   className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
                 >
-                  Apply — join@1rollo.com
-                </a>
+                  {emailCopied ? "Copied!" : "Apply — join@1rollo.com"}
+                </button>
               </div>
             </>
           )}

@@ -17,7 +17,7 @@ interface Props {
   onDirtyChange?: (dirty: boolean) => void;
 }
 
-const CareerPostEditor = ({ post, onDone }: Props) => {
+const CareerPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [location, setLocation] = useState(post?.location ?? "");
   const [type, setType] = useState(post?.type ?? "Full-time");
@@ -26,6 +26,20 @@ const CareerPostEditor = ({ post, onDone }: Props) => {
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
   const [posterUrl, setPosterUrl] = useState(post?.poster_url ?? "");
   const [uploading, setUploading] = useState(false);
+
+  const initialRef = useRef({ title: post?.title ?? "", excerpt: post?.excerpt ?? "", content: post?.content ?? "" });
+  const isDirty = title !== initialRef.current.title || excerpt !== initialRef.current.excerpt || content !== initialRef.current.content;
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
+  useEffect(() => {
+    if (!isDirty) return;
+    const handler = (e: BeforeUnloadEvent) => { e.preventDefault(); };
+    window.addEventListener("beforeunload", handler);
+    return () => window.removeEventListener("beforeunload", handler);
+  }, [isDirty]);
 
   const upsert = useUpsertCareerPost();
   const { toast } = useToast();

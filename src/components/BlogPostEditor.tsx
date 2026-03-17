@@ -93,7 +93,14 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
     } catch {}
   }, [draftKey]);
 
-  // Keep ref in sync with current state
+  // Keep ref in sync with current state + isDirty tracking
+  const initialRef = useRef({ title: post?.title ?? "", excerpt: post?.excerpt ?? "", content: post?.content ?? "" });
+  const isDirty = title !== initialRef.current.title || excerpt !== initialRef.current.excerpt || content !== initialRef.current.content;
+
+  useEffect(() => {
+    onDirtyChange?.(isDirty);
+  }, [isDirty, onDirtyChange]);
+
   useEffect(() => {
     draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };
   }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom]);
