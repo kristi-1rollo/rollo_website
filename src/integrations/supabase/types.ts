@@ -98,6 +98,45 @@ export type Database = {
         }
         Relationships: []
       }
+      career_posts: {
+        Row: {
+          author_id: string | null
+          content: string
+          created_at: string
+          excerpt: string
+          id: string
+          is_published: boolean
+          location: string
+          published_at: string | null
+          title: string
+          type: string
+        }
+        Insert: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          is_published?: boolean
+          location?: string
+          published_at?: string | null
+          title: string
+          type?: string
+        }
+        Update: {
+          author_id?: string | null
+          content?: string
+          created_at?: string
+          excerpt?: string
+          id?: string
+          is_published?: boolean
+          location?: string
+          published_at?: string | null
+          title?: string
+          type?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
