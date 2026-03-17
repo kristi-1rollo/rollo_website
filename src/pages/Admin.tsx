@@ -290,6 +290,7 @@ const CareersTab = () => {
           post={editing === "new" ? null : editing}
           onDone={() => { setIsDirty(false); setEditing(null); }}
           onDirtyChange={setIsDirty}
+          formDataRef={careerFormRef}
         />
         <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
           <AlertDialogContent>
