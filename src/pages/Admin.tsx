@@ -110,6 +110,7 @@ const BlogTab = () => {
           post={editing === "new" ? null : editing}
           onDone={() => { setIsDirty(false); setEditing(null); }}
           onDirtyChange={setIsDirty}
+          formDataRef={blogFormRef}
         />
         <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
           <AlertDialogContent>
