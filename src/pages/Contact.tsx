@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mail, MapPin, Building2, Briefcase } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
