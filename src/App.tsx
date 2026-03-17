@@ -10,8 +10,6 @@ import NotFound from "./pages/NotFound";
 const Product = lazy(() => import("./pages/Product"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
-const Careers = lazy(() => import("./pages/Careers"));
-const CareerPost = lazy(() => import("./pages/CareerPost"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
