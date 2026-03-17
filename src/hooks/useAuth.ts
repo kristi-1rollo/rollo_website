@@ -21,6 +21,9 @@ export function useAuth() {
         setUser(session?.user ?? null);
 
         if (session?.user) {
+          // Mark session active in sessionStorage (survives navigation, cleared on browser close)
+          sessionStorage.setItem("rollo_admin_active", "true");
+
           // Check admin role — use setTimeout to avoid Supabase deadlock
           setTimeout(async () => {
             const { data } = await supabase!
@@ -34,13 +37,19 @@ export function useAuth() {
           }, 0);
         } else {
           setIsAdmin(false);
+          sessionStorage.removeItem("rollo_admin_active");
           setLoading(false);
         }
       }
     );
 
     // Then get current session
-    supabase.auth.getSession().then(({ data: { session } }) => {
+    supabase.auth.getSession().then(async ({ data: { session } }) => {
+      // If browser was closed and reopened, sessionStorage is empty → sign out stale session
+      if (session?.user && !sessionStorage.getItem("rollo_admin_active")) {
+        await supabase!.auth.signOut();
+        return;
+      }
       setSession(session);
       setUser(session?.user ?? null);
       if (!session?.user) setLoading(false);
