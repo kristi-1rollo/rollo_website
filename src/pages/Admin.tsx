@@ -91,6 +91,13 @@ const BlogTab = () => {
         excerpt: formData.excerpt,
         content: formData.content,
         tag: formData.tag,
+        thumbnail_url: formData.thumbnailUrl || null,
+        thumbnail_width: formData.thumbWidth || null,
+        thumbnail_height: formData.thumbHeight || null,
+        thumbnail_focal_x: formData.thumbFocalX,
+        thumbnail_focal_y: formData.thumbFocalY,
+        thumbnail_zoom: formData.thumbZoom,
+        media_gallery: formData.gallery,
         is_published: false,
         published_at: null,
       } as any);
