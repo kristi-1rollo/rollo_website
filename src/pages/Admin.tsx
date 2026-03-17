@@ -32,7 +32,19 @@ const BlogTab = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
   const pendingCloseRef = useRef(false);
-  const blogFormRef = useRef<{ title: string; excerpt: string; content: string; tag: string } | null>(null);
+  const blogFormRef = useRef<{
+    title: string;
+    excerpt: string;
+    content: string;
+    tag: string;
+    thumbnailUrl: string;
+    thumbWidth: number | "";
+    thumbHeight: number | "";
+    gallery: BlogPost["media_gallery"];
+    thumbFocalX: number;
+    thumbFocalY: number;
+    thumbZoom: number;
+  } | null>(null);
 
   // pushState when entering editor, popstate to go back to list
   useEffect(() => {
@@ -79,6 +91,13 @@ const BlogTab = () => {
         excerpt: formData.excerpt,
         content: formData.content,
         tag: formData.tag,
+        thumbnail_url: formData.thumbnailUrl || null,
+        thumbnail_width: formData.thumbWidth || null,
+        thumbnail_height: formData.thumbHeight || null,
+        thumbnail_focal_x: formData.thumbFocalX,
+        thumbnail_focal_y: formData.thumbFocalY,
+        thumbnail_zoom: formData.thumbZoom,
+        media_gallery: formData.gallery,
         is_published: false,
         published_at: null,
       } as any);
@@ -213,7 +232,14 @@ const CareersTab = () => {
   const [editing, setEditing] = useState<CareerPost | null | "new">(null);
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
-  const careerFormRef = useRef<{ title: string; excerpt: string; content: string; location: string; type: string } | null>(null);
+  const careerFormRef = useRef<{
+    title: string;
+    excerpt: string;
+    content: string;
+    location: string;
+    type: string;
+    posterUrl: string;
+  } | null>(null);
 
   useEffect(() => {
     if (!editing) return;
@@ -259,6 +285,7 @@ const CareersTab = () => {
         excerpt: formData.excerpt,
         location: formData.location,
         type: formData.type,
+        poster_url: formData.posterUrl || null,
         is_published: false,
         published_at: null,
       } as any);

@@ -16,7 +16,19 @@ interface Props {
   post?: BlogPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
-  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; tag: string } | null>;
+  formDataRef?: React.MutableRefObject<{
+    title: string;
+    excerpt: string;
+    content: string;
+    tag: string;
+    thumbnailUrl: string;
+    thumbWidth: number | "";
+    thumbHeight: number | "";
+    gallery: MediaGalleryItem[];
+    thumbFocalX: number;
+    thumbFocalY: number;
+    thumbZoom: number;
+  } | null>;
 }
 
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
@@ -95,8 +107,31 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
   }, [draftKey]);
 
   // Keep ref in sync with current state + isDirty tracking
-  const initialRef = useRef({ title: post?.title ?? "", excerpt: post?.excerpt ?? "", content: post?.content ?? "" });
-  const isDirty = title !== initialRef.current.title || excerpt !== initialRef.current.excerpt || content !== initialRef.current.content;
+  const initialRef = useRef({
+    title: post?.title ?? "",
+    excerpt: post?.excerpt ?? "",
+    content: post?.content ?? "",
+    tag: post?.tag ?? "General",
+    thumbnailUrl: post?.thumbnail_url ?? "",
+    thumbWidth: post?.thumbnail_width ?? "",
+    thumbHeight: post?.thumbnail_height ?? "",
+    gallery: post?.media_gallery ?? [],
+    thumbFocalX: post?.thumbnail_focal_x ?? 50,
+    thumbFocalY: post?.thumbnail_focal_y ?? 50,
+    thumbZoom: post?.thumbnail_zoom ?? 1,
+  });
+  const isDirty =
+    title !== initialRef.current.title ||
+    excerpt !== initialRef.current.excerpt ||
+    content !== initialRef.current.content ||
+    tag !== initialRef.current.tag ||
+    thumbnailUrl !== initialRef.current.thumbnailUrl ||
+    thumbWidth !== initialRef.current.thumbWidth ||
+    thumbHeight !== initialRef.current.thumbHeight ||
+    JSON.stringify(gallery) !== JSON.stringify(initialRef.current.gallery) ||
+    thumbFocalX !== initialRef.current.thumbFocalX ||
+    thumbFocalY !== initialRef.current.thumbFocalY ||
+    thumbZoom !== initialRef.current.thumbZoom;
 
   useEffect(() => {
     onDirtyChange?.(isDirty);
@@ -105,9 +140,21 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
   // Keep formDataRef in sync so parent can read current values for Save Draft
   useEffect(() => {
     if (formDataRef) {
-      formDataRef.current = { title, excerpt, content, tag };
+      formDataRef.current = {
+        title,
+        excerpt,
+        content,
+        tag,
+        thumbnailUrl,
+        thumbWidth,
+        thumbHeight,
+        gallery,
+        thumbFocalX,
+        thumbFocalY,
+        thumbZoom,
+      };
     }
-  }, [title, excerpt, content, tag, formDataRef]);
+  }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom, formDataRef]);
 
   useEffect(() => {
     draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };

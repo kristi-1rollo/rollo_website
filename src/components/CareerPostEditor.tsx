@@ -15,7 +15,14 @@ interface Props {
   post?: CareerPost | null;
   onDone: () => void;
   onDirtyChange?: (dirty: boolean) => void;
-  formDataRef?: React.MutableRefObject<{ title: string; excerpt: string; content: string; location: string; type: string } | null>;
+  formDataRef?: React.MutableRefObject<{
+    title: string;
+    excerpt: string;
+    content: string;
+    location: string;
+    type: string;
+    posterUrl: string;
+  } | null>;
 }
 
 const CAREER_DRAFT_KEY_PREFIX = "career-draft-";
@@ -41,8 +48,21 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
   const [posterUrl, setPosterUrl] = useState(post?.poster_url ?? "");
   const [uploading, setUploading] = useState(false);
 
-  const initialRef = useRef({ title: post?.title ?? "", excerpt: post?.excerpt ?? "", content: post?.content ?? "" });
-  const isDirty = title !== initialRef.current.title || excerpt !== initialRef.current.excerpt || content !== initialRef.current.content;
+  const initialRef = useRef({
+    title: post?.title ?? "",
+    excerpt: post?.excerpt ?? "",
+    content: post?.content ?? "",
+    location: post?.location ?? "",
+    type: post?.type ?? "Full-time",
+    posterUrl: post?.poster_url ?? "",
+  });
+  const isDirty =
+    title !== initialRef.current.title ||
+    excerpt !== initialRef.current.excerpt ||
+    content !== initialRef.current.content ||
+    location !== initialRef.current.location ||
+    type !== initialRef.current.type ||
+    posterUrl !== initialRef.current.posterUrl;
 
   useEffect(() => {
     onDirtyChange?.(isDirty);
@@ -51,9 +71,9 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
   // Keep formDataRef in sync so parent can read current values for Save Draft
   useEffect(() => {
     if (formDataRef) {
-      formDataRef.current = { title, excerpt, content, location, type };
+      formDataRef.current = { title, excerpt, content, location, type, posterUrl };
     }
-  }, [title, excerpt, content, location, type, formDataRef]);
+  }, [title, excerpt, content, location, type, posterUrl, formDataRef]);
 
   // --- Auto-draft (localStorage) ---
   const draftKey = `${CAREER_DRAFT_KEY_PREFIX}${post?.id ?? "new"}`;
