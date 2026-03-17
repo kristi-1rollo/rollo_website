@@ -1,6 +1,15 @@
+import { useState } from "react";
 import { Mail, MapPin, Building2, Briefcase } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
+import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import DOMPurify from "dompurify";
 
 const Contact = () => {
   const {
@@ -15,6 +24,9 @@ const Contact = () => {
     defaultTopicFallback: true,
   });
 
+  const { data: careerPosts } = usePublishedCareerPosts();
+  const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+
   return (
     <div className="pt-24 pb-16">
       {/* Hero Section */}
@@ -26,7 +38,7 @@ const Contact = () => {
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
             Let's Talk About Your Security Needs
           </h1>
-          <p className="text-base md:text-lg text-slate-300 leading-relaxed max-w-prose">
+          <p className="text-base md:text-lg text-white leading-relaxed max-w-prose">
             Whether you're interested in partnerships, pilot programs, deployment planning,
             or joining our team, we'd love to hear from you.
           </p>
@@ -53,8 +65,8 @@ const Contact = () => {
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Company Details</h3>
-                  <div className="space-y-1 text-sm text-slate-300">
-                    <p className="font-medium text-slate-200">Rollo Robotics OÜ</p>
+                  <div className="space-y-1 text-sm text-white">
+                    <p className="font-medium">Rollo Robotics OÜ</p>
                     <p>Registry code: 17320003</p>
                   </div>
                 </div>
@@ -66,7 +78,7 @@ const Contact = () => {
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Address</h3>
-                  <div className="space-y-1 text-sm text-slate-300">
+                  <div className="space-y-1 text-sm text-white">
                     <p>Viljandi maakond, Viljandi linn</p>
                     <p>Raua tn 16, 71020</p>
                     <p>Estonia</p>
@@ -98,13 +110,12 @@ const Contact = () => {
                 <h3 className="text-2xl font-bold text-white mb-2">
                   Get in Touch
                 </h3>
-                <p className="text-base text-slate-300">
+                <p className="text-base text-white">
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Basic Information */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-white mb-2">
@@ -173,7 +184,6 @@ const Contact = () => {
                   </div>
                 </div>
 
-                {/* Inquiry Details */}
                 <div>
                   <label htmlFor="numberOfRobots" className="block text-sm font-medium text-white mb-2">
                     Number of Robots to Reserve
@@ -220,7 +230,7 @@ const Contact = () => {
                         />
                         <label
                           htmlFor={`contact-${area}`}
-                          className="text-sm text-slate-300 cursor-pointer leading-tight"
+                          className="text-sm text-white cursor-pointer leading-tight"
                         >
                           {area}
                         </label>
@@ -271,7 +281,7 @@ const Contact = () => {
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             Join the Future of Autonomous Robotics
           </h2>
-          <p className="text-base md:text-lg text-slate-300 max-w-2xl">
+          <p className="text-base md:text-lg text-white max-w-2xl">
             We're building the world's most advanced autonomous security robots. If you're
             passionate about robotics, AI, and creating technology that matters, we want to
             hear from you.
@@ -287,7 +297,7 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
             </div>
-            <ul className="space-y-3 text-sm text-slate-300">
+            <ul className="space-y-3 text-sm text-white">
               {[
                 "Work on cutting-edge robotics and AI technology",
                 "Join a team with 10+ years of shared robotics experience",
@@ -311,19 +321,90 @@ const Contact = () => {
               </div>
               <h3 className="text-xl font-semibold text-white">Open Positions</h3>
             </div>
-            <p className="text-sm text-slate-300">
-              We're always looking for talented people. Even if you don't see a specific
-              opening, we'd love to hear from you.
-            </p>
-            <a
-              href="mailto:info@1rollo.com"
-              className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
-            >
-              Send your CV to info@1rollo.com
-            </a>
+
+            {careerPosts && careerPosts.length > 0 ? (
+              <ul className="space-y-2">
+                {careerPosts.map((post) => (
+                  <li key={post.id}>
+                    <button
+                      onClick={() => setSelectedPost(post)}
+                      className="w-full text-left rounded-lg border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 hover:border-[#B4FF33]/30 transition group"
+                    >
+                      <span className="text-sm font-medium text-[#B4FF33] group-hover:underline">
+                        {post.title}
+                      </span>
+                      <div className="flex items-center gap-3 mt-1 text-xs text-white/60">
+                        <span>{post.location}</span>
+                        <span>·</span>
+                        <span>{post.type}</span>
+                      </div>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <>
+                <p className="text-sm text-white">
+                  We're always looking for talented people. Even if you don't see a specific
+                  opening, we'd love to hear from you.
+                </p>
+                <a
+                  href="mailto:info@1rollo.com"
+                  className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
+                >
+                  Send your CV to info@1rollo.com
+                </a>
+              </>
+            )}
           </div>
         </div>
       </section>
+
+      {/* Career Post Modal */}
+      <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0a0a0a] border-white/10 text-white">
+          {selectedPost && (
+            <>
+              <DialogHeader>
+                <DialogTitle className="text-2xl font-bold text-white">
+                  {selectedPost.title}
+                </DialogTitle>
+                <div className="flex items-center gap-3 text-sm text-white/60 pt-1">
+                  <span>{selectedPost.location}</span>
+                  <span>·</span>
+                  <span>{selectedPost.type}</span>
+                </div>
+              </DialogHeader>
+
+              {selectedPost.poster_url && (
+                <div className="my-4 rounded-lg overflow-hidden border border-white/10">
+                  <img
+                    src={selectedPost.poster_url}
+                    alt={`${selectedPost.title} poster`}
+                    className="w-full h-auto"
+                  />
+                </div>
+              )}
+
+              <div
+                className="prose prose-invert prose-sm max-w-none mt-4"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(selectedPost.content),
+                }}
+              />
+
+              <div className="mt-6 pt-4 border-t border-white/10">
+                <a
+                  href="mailto:info@1rollo.com"
+                  className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
+                >
+                  Apply — info@1rollo.com
+                </a>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
