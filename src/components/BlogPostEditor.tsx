@@ -15,6 +15,7 @@ const TAGS = ["General", "Technology", "Security", "Field Test", "AI & Vision", 
 interface Props {
   post?: BlogPost | null;
   onDone: () => void;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 function getImageDimensions(file: File): Promise<{ width: number; height: number }> {
