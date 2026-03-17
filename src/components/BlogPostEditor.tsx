@@ -102,6 +102,13 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
     onDirtyChange?.(isDirty);
   }, [isDirty, onDirtyChange]);
 
+  // Keep formDataRef in sync so parent can read current values for Save Draft
+  useEffect(() => {
+    if (formDataRef) {
+      formDataRef.current = { title, excerpt, content, tag };
+    }
+  }, [title, excerpt, content, tag, formDataRef]);
+
   useEffect(() => {
     draftDataRef.current = { title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom };
   }, [title, excerpt, content, tag, thumbnailUrl, thumbWidth, thumbHeight, gallery, thumbFocalX, thumbFocalY, thumbZoom]);
