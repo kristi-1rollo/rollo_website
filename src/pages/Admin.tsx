@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
-import { useAllPosts, useDeletePost, type BlogPost } from "@/hooks/useBlogPosts";
-import { useAllCareerPosts, useDeleteCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
+import { useAllPosts, useDeletePost, useUpsertPost, type BlogPost } from "@/hooks/useBlogPosts";
+import { useAllCareerPosts, useDeleteCareerPost, useUpsertCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
 import { useRegistrations } from "@/hooks/useRegistrations";
 import BlogPostEditor from "@/components/BlogPostEditor";
 import CareerPostEditor from "@/components/CareerPostEditor";
@@ -14,6 +14,10 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Table, TableHeader, TableBody, TableHead, TableRow, TableCell,
 } from "@/components/ui/table";
+import {
+  AlertDialog, AlertDialogContent, AlertDialogHeader, AlertDialogTitle,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Pencil, Trash2, LogOut, Search, ChevronDown, ChevronUp, MapPin } from "lucide-react";
 import { format } from "date-fns";
