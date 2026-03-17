@@ -206,8 +206,64 @@ const BlogTab = () => {
 const CareersTab = () => {
   const { data: posts = [], isLoading } = useAllCareerPosts();
   const deletePost = useDeleteCareerPost();
+  const upsertPost = useUpsertCareerPost();
   const { toast } = useToast();
   const [editing, setEditing] = useState<CareerPost | null | "new">(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+
+  useEffect(() => {
+    if (!editing) return;
+    window.history.pushState({ adminEditor: true }, "");
+    const onPopState = () => {
+      if (isDirty) {
+        setShowLeaveDialog(true);
+        window.history.pushState({ adminEditor: true }, "");
+      } else {
+        setEditing(null);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [editing, isDirty]);
+
+  const handleClose = useCallback(() => {
+    if (isDirty) {
+      setShowLeaveDialog(true);
+    } else {
+      setEditing(null);
+    }
+  }, [isDirty]);
+
+  const handleDiscard = () => {
+    setShowLeaveDialog(false);
+    setIsDirty(false);
+    setEditing(null);
+  };
+
+  const handleSaveDraft = async () => {
+    const current = editing;
+    if (!current || current === "new") {
+      handleDiscard();
+      return;
+    }
+    try {
+      await upsertPost.mutateAsync({
+        id: current.id,
+        title: current.title,
+        content: current.content,
+        excerpt: current.excerpt,
+        location: current.location,
+        type: current.type,
+        is_published: false,
+        published_at: null,
+      } as any);
+      toast({ title: "Saved as draft" });
+    } catch {}
+    setShowLeaveDialog(false);
+    setIsDirty(false);
+    setEditing(null);
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this position?")) return;
@@ -228,8 +284,24 @@ const CareersTab = () => {
         </h2>
         <CareerPostEditor
           post={editing === "new" ? null : editing}
-          onDone={() => setEditing(null)}
+          onDone={() => { setIsDirty(false); setEditing(null); }}
+          onDirtyChange={setIsDirty}
         />
+        <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Unsaved changes</AlertDialogTitle>
+              <AlertDialogDescription>
+                You have unsaved changes. Would you like to save as draft or discard?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button variant="outline" onClick={handleDiscard}>Discard</Button>
+              <Button onClick={handleSaveDraft}>Save Draft</Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   }
