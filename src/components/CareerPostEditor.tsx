@@ -14,6 +14,7 @@ const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 interface Props {
   post?: CareerPost | null;
   onDone: () => void;
+  onDirtyChange?: (dirty: boolean) => void;
 }
 
 const CareerPostEditor = ({ post, onDone }: Props) => {
