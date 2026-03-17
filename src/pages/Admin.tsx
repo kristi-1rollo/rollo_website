@@ -2,8 +2,10 @@ import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useAllPosts, useDeletePost, type BlogPost } from "@/hooks/useBlogPosts";
+import { useAllCareerPosts, useDeleteCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
 import { useRegistrations } from "@/hooks/useRegistrations";
 import BlogPostEditor from "@/components/BlogPostEditor";
+import CareerPostEditor from "@/components/CareerPostEditor";
 import { AdminUsersTab, AdminAuditTab } from "@/components/AdminUsersTab";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,7 +15,7 @@ import {
   Table, TableHeader, TableBody, TableHead, TableRow, TableCell,
 } from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Pencil, Trash2, LogOut, Search, ChevronDown, ChevronUp } from "lucide-react";
+import { Plus, Pencil, Trash2, LogOut, Search, ChevronDown, ChevronUp, MapPin } from "lucide-react";
 import { format } from "date-fns";
 
 /* ─── Blog Tab ─── */
