@@ -107,6 +107,7 @@ export type Database = {
           id: string
           is_published: boolean
           location: string
+          poster_url: string | null
           published_at: string | null
           title: string
           type: string
@@ -119,6 +120,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           location?: string
+          poster_url?: string | null
           published_at?: string | null
           title: string
           type?: string
@@ -131,6 +133,7 @@ export type Database = {
           id?: string
           is_published?: boolean
           location?: string
+          poster_url?: string | null
           published_at?: string | null
           title?: string
           type?: string

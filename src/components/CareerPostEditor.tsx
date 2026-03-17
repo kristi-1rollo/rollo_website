@@ -6,6 +6,8 @@ import { Switch } from "@/components/ui/switch";
 import { useUpsertCareerPost, type CareerPost } from "@/hooks/useCareerPosts";
 import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
+import { supabase } from "@/integrations/supabase/client";
+import { Upload, X } from "lucide-react";
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 
@@ -21,9 +23,35 @@ const CareerPostEditor = ({ post, onDone }: Props) => {
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
+  const [posterUrl, setPosterUrl] = useState(post?.poster_url ?? "");
+  const [uploading, setUploading] = useState(false);
 
   const upsert = useUpsertCareerPost();
   const { toast } = useToast();
+
+  const handlePosterUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop();
+      const path = `${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage
+        .from("career-posters")
+        .upload(path, file, { upsert: true });
+      if (error) throw error;
+
+      const { data } = supabase.storage.from("career-posters").getPublicUrl(path);
+      setPosterUrl(data.publicUrl);
+      toast({ title: "Poster uploaded" });
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : "Upload failed";
+      toast({ title: "Upload failed", description: message, variant: "destructive" });
+    } finally {
+      setUploading(false);
+    }
+  };
 
   const handleSave = async () => {
     if (!title.trim()) {
@@ -41,6 +69,7 @@ const CareerPostEditor = ({ post, onDone }: Props) => {
         content,
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
+        poster_url: posterUrl || null,
       } as any);
       toast({ title: post?.id ? "Position updated" : "Position created" });
       onDone();
@@ -88,6 +117,43 @@ const CareerPostEditor = ({ post, onDone }: Props) => {
             ))}
           </select>
         </div>
+      </div>
+
+      {/* Poster Image */}
+      <div>
+        <label className="text-sm text-muted-foreground mb-2 block">
+          Poster Image (794×1123px recommended)
+        </label>
+        {posterUrl ? (
+          <div className="relative inline-block">
+            <img
+              src={posterUrl}
+              alt="Poster preview"
+              className="w-40 h-auto rounded-lg border border-border"
+            />
+            <button
+              type="button"
+              onClick={() => setPosterUrl("")}
+              className="absolute -top-2 -right-2 p-1 rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              <X className="w-3 h-3" />
+            </button>
+          </div>
+        ) : (
+          <label className="flex items-center gap-2 px-4 py-2.5 rounded-lg border border-dashed border-border bg-muted/30 cursor-pointer hover:bg-muted/50 transition w-fit">
+            <Upload className="w-4 h-4 text-muted-foreground" />
+            <span className="text-sm text-muted-foreground">
+              {uploading ? "Uploading…" : "Upload poster"}
+            </span>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePosterUpload}
+              disabled={uploading}
+              className="hidden"
+            />
+          </label>
+        )}
       </div>
 
       {/* Excerpt */}

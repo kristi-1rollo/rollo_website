@@ -12,6 +12,7 @@ export interface CareerPost {
   published_at: string | null;
   created_at: string;
   author_id: string | null;
+  poster_url: string | null;
 }
 
 /** Fetch published career posts (public) */
