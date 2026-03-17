@@ -1,12 +1,22 @@
 
-# EU rahastuse lehe link footerisse tagasi
 
-## Probleem
-Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
+# Parandused: Career link + Apply nupp + sessiooni püsivus
 
-## Lahendus
-Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
+## 1. Footer career link ei scrolli õigesse kohta
+**Fail:** `src/components/Footer.tsx`, rida 78-83
 
-## Tehniline detail
-- **Fail:** `src/components/Footer.tsx`, read 120-126
-- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
+React Routeri `<Link>` ei käivita brauseri natiivset hash-scrollimist teiselt lehelt tulles. Asendan `<Link to="/contact#career">` tavalise `<a href="/contact#career">` elemendiga.
+
+## 2. Apply nupp ei tööta
+**Fail:** `src/pages/Contact.tsx`
+
+Modaali "Apply — join@1rollo.com" nupp on juba `<a href="mailto:join@1rollo.com">` — kontrollin, et see on korrektne. Kui see on `<button>` või `<Link>`, muudan `<a href="mailto:join@1rollo.com">` elemendiks.
+
+## 3. Sessiooni püsivus (eelmisest vestlusest kinnitatud plaan)
+**Fail:** `src/hooks/useAuth.ts`
+
+Lisa `sessionStorage` põhine kontroll:
+- Pärast edukat sisselogimist salvesta `sessionStorage.setItem("rollo_admin_active", "true")`
+- `useEffect`-is kontrolli: kui `sessionStorage` märget pole, aga Supabase sessioon on olemas → logi välja
+- Brauseri sulgemisel `sessionStorage` tühjendatakse automaatselt → järgmisel avamisel logitakse välja
+
