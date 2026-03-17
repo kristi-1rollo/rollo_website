@@ -187,6 +187,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
         poster_url: posterUrl || null,
       } as any);
+      clearDraft();
       toast({ title: post?.id ? "Position updated" : "Position created" });
       onDone();
     } catch (err: unknown) {
