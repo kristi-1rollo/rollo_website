@@ -32,7 +32,19 @@ const BlogTab = () => {
   const [isDirty, setIsDirty] = useState(false);
   const [showLeaveDialog, setShowLeaveDialog] = useState(false);
   const pendingCloseRef = useRef(false);
-  const blogFormRef = useRef<{ title: string; excerpt: string; content: string; tag: string } | null>(null);
+  const blogFormRef = useRef<{
+    title: string;
+    excerpt: string;
+    content: string;
+    tag: string;
+    thumbnailUrl: string;
+    thumbWidth: number | "";
+    thumbHeight: number | "";
+    gallery: BlogPost["media_gallery"];
+    thumbFocalX: number;
+    thumbFocalY: number;
+    thumbZoom: number;
+  } | null>(null);
 
   // pushState when entering editor, popstate to go back to list
   useEffect(() => {
