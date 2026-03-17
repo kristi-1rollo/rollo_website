@@ -26,8 +26,67 @@ import { format } from "date-fns";
 const BlogTab = () => {
   const { data: posts = [], isLoading } = useAllPosts();
   const deletePost = useDeletePost();
+  const upsertPost = useUpsertPost();
   const { toast } = useToast();
   const [editing, setEditing] = useState<BlogPost | null | "new">(null);
+  const [isDirty, setIsDirty] = useState(false);
+  const [showLeaveDialog, setShowLeaveDialog] = useState(false);
+  const pendingCloseRef = useRef(false);
+
+  // pushState when entering editor, popstate to go back to list
+  useEffect(() => {
+    if (!editing) return;
+    window.history.pushState({ adminEditor: true }, "");
+    const onPopState = () => {
+      if (isDirty) {
+        setShowLeaveDialog(true);
+        // re-push so user stays on admin
+        window.history.pushState({ adminEditor: true }, "");
+      } else {
+        setEditing(null);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [editing, isDirty]);
+
+  const handleClose = useCallback(() => {
+    if (isDirty) {
+      setShowLeaveDialog(true);
+    } else {
+      setEditing(null);
+    }
+  }, [isDirty]);
+
+  const handleDiscard = () => {
+    setShowLeaveDialog(false);
+    setIsDirty(false);
+    setEditing(null);
+  };
+
+  const handleSaveDraft = async () => {
+    const current = editing;
+    if (!current || current === "new") {
+      // nothing meaningful to save without a title
+      handleDiscard();
+      return;
+    }
+    try {
+      await upsertPost.mutateAsync({
+        id: current.id,
+        title: current.title,
+        excerpt: current.excerpt,
+        content: current.content,
+        tag: current.tag,
+        is_published: false,
+        published_at: null,
+      } as any);
+      toast({ title: "Saved as draft" });
+    } catch {}
+    setShowLeaveDialog(false);
+    setIsDirty(false);
+    setEditing(null);
+  };
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this post?")) return;
@@ -43,13 +102,29 @@ const BlogTab = () => {
   if (editing) {
     return (
       <div className="max-w-3xl">
-        <h2 className="text-xl font-bold text-white mb-6">
+        <h2 className="text-xl font-bold text-foreground mb-6">
           {editing === "new" ? "New Post" : "Edit Post"}
         </h2>
         <BlogPostEditor
           post={editing === "new" ? null : editing}
-          onDone={() => setEditing(null)}
+          onDone={() => { setIsDirty(false); setEditing(null); }}
+          onDirtyChange={setIsDirty}
         />
+        <AlertDialog open={showLeaveDialog} onOpenChange={setShowLeaveDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Unsaved changes</AlertDialogTitle>
+              <AlertDialogDescription>
+                You have unsaved changes. Would you like to save as draft or discard?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <Button variant="outline" onClick={handleDiscard}>Discard</Button>
+              <Button onClick={handleSaveDraft}>Save Draft</Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </div>
     );
   }
