@@ -16,6 +16,7 @@ import {
 const nav = [
   { label: "Product", to: "/product" },
   { label: "Blog", to: "/blog" },
+  { label: "Careers", to: "/careers" },
   { label: "About Us", to: "/about" },
 ];
 
