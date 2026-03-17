@@ -44,7 +44,7 @@ interface DraftData {
   thumbZoom?: number;
   savedAt?: string;
 }
-const BlogPostEditor = ({ post, onDone }: Props) => {
+const BlogPostEditor = ({ post, onDone, onDirtyChange }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
