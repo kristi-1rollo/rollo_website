@@ -285,6 +285,7 @@ const CareersTab = () => {
         excerpt: formData.excerpt,
         location: formData.location,
         type: formData.type,
+        poster_url: formData.posterUrl || null,
         is_published: false,
         published_at: null,
       } as any);
