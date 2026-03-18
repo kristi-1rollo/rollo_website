@@ -407,7 +407,7 @@ const Index = () => {
         <div className="absolute inset-0 geo-grid opacity-25 pointer-events-none" />
 
         <FadeInView>
-          <div className="max-w-2xl mb-8 md:mb-10">
+          <div className="max-w-2xl mb-10 md:mb-12 pt-3 md:pt-5">
             <SectionTag>Business Case</SectionTag>
             <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
               Market Scale Meets Immediate ROI.
@@ -418,10 +418,10 @@ const Index = () => {
           </div>
         </FadeInView>
 
-        <div className="relative grid grid-cols-1 xl:grid-cols-[0.8fr_1.2fr] gap-8 md:gap-10 items-start">
+        <div className="relative grid grid-cols-1 xl:grid-cols-[0.76fr_1.24fr] gap-7 md:gap-8 items-start">
           <FadeInView>
-            <div className="pt-2">
-              <p className="text-xs uppercase tracking-[0.18em] text-primary mb-5">
+            <div className="pt-6 md:pt-8 xl:pt-10">
+              <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-5">
                 Market Opportunity
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-6">
@@ -431,8 +431,8 @@ const Index = () => {
                   { num: "80%+", desc: "Potential customer cost savings" },
                 ].map((stat, i) => (
                   <FadeInView key={stat.num} delay={i * 120}>
-                    <div className="border-l border-primary/20 pl-4 md:pl-5">
-                      <p className="text-3xl md:text-4xl font-bold text-primary neon-glow leading-none">
+                    <div className="border-l border-white/10 pl-4 md:pl-5">
+                      <p className="text-[1.65rem] md:text-[1.9rem] font-semibold text-white leading-none">
                         {stat.num}
                       </p>
                       <p className="text-sm text-white/68 mt-2 max-w-[22ch]">
@@ -449,7 +449,7 @@ const Index = () => {
             <div className="surface-panel rounded-[1.75rem] p-6 md:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-8 md:gap-10 items-start">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-primary mb-3">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-3">
                     Business Intelligence
                   </p>
                   <h3 className="text-2xl md:text-3xl font-bold text-white max-w-sm">
@@ -461,11 +461,11 @@ const Index = () => {
 
                   <div className="space-y-7">
                     <div>
-                      <div className="flex items-center justify-between mb-3">
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 mb-3">
                         <p className="text-xs uppercase tracking-[0.15em] text-white/70">
                           Patrol Hours per Day
                         </p>
-                        <span className="text-sm font-bold text-primary">{hours}</span>
+                        <span className="text-sm font-semibold text-white text-right min-w-[2ch]">{hours}</span>
                       </div>
                       <Slider
                         value={[hours]}
@@ -473,15 +473,18 @@ const Index = () => {
                         min={1}
                         max={24}
                         step={1}
+                        trackClassName="h-[5px] bg-white/8"
+                        rangeClassName="bg-primary shadow-[0_0_18px_rgba(180,255,51,0.3)]"
+                        thumbClassName="h-3.5 w-3.5 border border-primary/70 bg-white shadow-[0_0_16px_rgba(180,255,51,0.35)] focus-visible:ring-primary/30 focus-visible:ring-offset-0"
                       />
                     </div>
 
                     <div>
-                      <div className="flex items-center justify-between mb-3">
+                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 mb-3">
                         <p className="text-xs uppercase tracking-[0.15em] text-white/70">
                           Replaced Guard Sectors
                         </p>
-                        <span className="text-sm font-bold text-primary">{sectors}</span>
+                        <span className="text-sm font-semibold text-white text-right min-w-[2ch]">{sectors}</span>
                       </div>
                       <Slider
                         value={[sectors]}
@@ -489,19 +492,22 @@ const Index = () => {
                         min={1}
                         max={20}
                         step={1}
+                        trackClassName="h-[5px] bg-white/8"
+                        rangeClassName="bg-primary shadow-[0_0_18px_rgba(180,255,51,0.3)]"
+                        thumbClassName="h-3.5 w-3.5 border border-primary/70 bg-white shadow-[0_0_16px_rgba(180,255,51,0.35)] focus-visible:ring-primary/30 focus-visible:ring-offset-0"
                       />
                     </div>
                   </div>
                 </div>
 
-                <div className="rounded-[1.5rem] border border-white/8 bg-white/[0.03] px-5 py-6 md:px-6 md:py-7">
-                  <p className="text-xs uppercase tracking-[0.15em] text-primary mb-3">
+                <div className="rounded-[1.5rem] border border-white/7 bg-white/[0.025] px-5 py-6 md:px-6 md:py-7">
+                  <p className="text-xs uppercase tracking-[0.15em] text-white/48 mb-3">
                     Estimated Annual Savings
                   </p>
-                  <p className="text-4xl md:text-5xl font-bold text-primary neon-glow leading-[0.95]">
+                  <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary/90">
                     EUR
                   </p>
-                  <p className="text-4xl md:text-5xl font-bold text-primary neon-glow leading-[0.95] mt-1">
+                  <p className="text-4xl md:text-[3.4rem] font-bold text-primary neon-glow leading-[0.92] mt-2">
                     {annualSavings > 0 ? annualSavings.toLocaleString() : "-"}
                   </p>
 
@@ -526,7 +532,7 @@ const Index = () => {
 
                   <Link
                     to="/contact"
-                    className="mt-6 min-h-11 inline-flex w-full items-center justify-center rounded-xl border border-primary/30 bg-transparent px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-black transition-all duration-300"
+                    className="mt-6 min-h-11 inline-flex w-full items-center justify-center rounded-xl border border-primary bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-black hover:bg-primary/90 transition-all duration-300"
                   >
                     Get a Quote
                   </Link>
