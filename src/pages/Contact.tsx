@@ -54,12 +54,12 @@ const Contact = () => {
   return (
     <div className="pt-24 pb-16">
       {/* Hero Section */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="max-w-2xl space-y-6">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Contact
           </p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
+          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
             Let's Talk About Your Security Needs
           </h1>
           <p className="text-base md:text-lg text-white leading-relaxed max-w-prose">
@@ -78,11 +78,11 @@ const Contact = () => {
       </section>
 
       {/* Contact Information & Form */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Company Information */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="rounded-2xl border border-white/10 bg-white/5 p-6 space-y-6">
+            <div className="surface-panel rounded-2xl p-6 space-y-6">
               <div className="flex items-start gap-4">
                 <div className="p-3 rounded-xl bg-[#B4FF33]/10 border border-[#B4FF33]/20">
                   <Building2 className="w-6 h-6 text-[#B4FF33]" />
@@ -129,9 +129,9 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="rounded-2xl border border-[#B4FF33]/30 bg-[#B4FF33]/5 p-8">
+            <div className="surface-panel rounded-2xl p-8">
               <div className="mb-6">
-                <h3 className="text-2xl font-bold text-white mb-2">
+                <h3 className="title-halo text-2xl font-bold text-white mb-2">
                   Get in Touch
                 </h3>
                 <p className="text-base text-white">
@@ -152,7 +152,7 @@ const Contact = () => {
                       required
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                      className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your name"
                     />
                   </div>
@@ -168,7 +168,7 @@ const Contact = () => {
                       required
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                      className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                       placeholder="your.email@company.com"
                     />
                   </div>
@@ -186,7 +186,7 @@ const Contact = () => {
                       required
                       value={formData.company}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                      className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your company"
                     />
                   </div>
@@ -202,7 +202,7 @@ const Contact = () => {
                       required
                       value={formData.country}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                      className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your country"
                     />
                   </div>
@@ -219,7 +219,7 @@ const Contact = () => {
                     min="1"
                     value={formData.numberOfRobots}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                    className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 5"
                   />
                 </div>
@@ -234,7 +234,7 @@ const Contact = () => {
                     name="estimatedDemand"
                     value={formData.estimatedDemand}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent"
+                    className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 20-50 units"
                   />
                 </div>
@@ -273,7 +273,7 @@ const Contact = () => {
                     rows={4}
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-2.5 rounded-lg bg-white/5 border border-white/10 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-[#B4FF33] focus:border-transparent resize-none"
+                    className="form-field-deep w-full px-4 py-2.5 rounded-lg text-white placeholder-slate-500 focus:outline-none resize-none"
                     placeholder="Any additional details about your inquiry or requirements..."
                   />
                 </div>
@@ -296,13 +296,13 @@ const Contact = () => {
       {/* Career Section */}
       <section
         id="career"
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
+        className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
       >
         <div className="space-y-4 mb-12">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Career
           </p>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             Join the Future of Autonomous Robotics
           </h2>
           <p className="text-base md:text-lg text-white max-w-2xl">
@@ -314,7 +314,7 @@ const Contact = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
           {/* Why Join Us */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 space-y-4">
+          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
                 <Briefcase className="w-5 h-5 text-[#B4FF33]" />
@@ -338,7 +338,7 @@ const Contact = () => {
           </div>
 
           {/* Open Positions */}
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-8 space-y-4">
+          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
                 <Briefcase className="w-5 h-5 text-[#B4FF33]" />
@@ -352,7 +352,7 @@ const Contact = () => {
                   <li key={post.id}>
                     <button
                       onClick={() => setSelectedPost(post)}
-                      className="w-full text-left rounded-lg border border-white/10 bg-white/5 px-4 py-3 hover:bg-white/10 hover:border-[#B4FF33]/30 transition group"
+                      className="surface-panel w-full text-left rounded-lg px-4 py-3 transition group hover:border-[#B4FF33]/30"
                     >
                       <span className="text-sm font-medium text-[#B4FF33] group-hover:underline">
                         {post.title}
@@ -386,7 +386,7 @@ const Contact = () => {
 
       {/* Career Post Modal */}
       <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#0a0a0a] border-white/10 text-white">
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#050912] border-white/10 text-white">
           {selectedPost && (
             <>
               <DialogHeader>
@@ -401,7 +401,7 @@ const Contact = () => {
               </DialogHeader>
 
               {selectedPost.poster_url && (
-                <div className="my-4 rounded-lg overflow-hidden border border-white/10">
+                <div className="photo-depth-frame my-4 rounded-lg overflow-hidden border border-white/10">
                   <img
                     src={selectedPost.poster_url}
                     alt={`${selectedPost.title} poster`}

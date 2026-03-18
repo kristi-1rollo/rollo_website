@@ -30,11 +30,11 @@ const Blog = () => {
   return (
     <div className="pt-24 pb-16">
       {/* Page header */}
-      <section className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+      <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="absolute inset-0 geo-grid opacity-30 pointer-events-none" />
         <div className="relative max-w-2xl space-y-4 text-center md:text-left mx-auto md:mx-0">
           <p className="mono-spec text-primary">INTELLIGENCE FEED</p>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground">
+          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground">
             Dispatches & Field Reports
           </h1>
           <p className="text-base md:text-lg text-slate-300">
@@ -60,7 +60,7 @@ const Blog = () => {
       </section>
 
       {/* Content */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
+      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {isLoading ? (
           <p className="text-muted-foreground text-center mono-spec">Loading dispatches…</p>
         ) : filtered.length === 0 ? (
@@ -72,7 +72,7 @@ const Blog = () => {
               <FadeInView>
                 <Link
                   to={`/blog/${heroPost.id}`}
-                  className="block border border-border bg-card/50 overflow-hidden transition hover:border-muted-foreground/30 hover:bg-card/80 group no-underline blog-card-glow mb-12"
+                  className="surface-panel block overflow-hidden transition group no-underline blog-card-glow mb-12"
                 >
                   <div className="dispatch-hero">
                     {/* Image */}
@@ -100,7 +100,7 @@ const Blog = () => {
                       <p className="mono-spec text-muted-foreground telemetry-pulse mb-3">
                         {formatHudTimestamp(heroPost.published_at)}
                       </p>
-                      <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-4 leading-snug">
+                      <h2 className="title-halo text-2xl md:text-3xl font-bold text-foreground mb-4 leading-snug">
                         {heroPost.title}
                       </h2>
                       <p className="text-sm md:text-base text-slate-300 leading-relaxed mb-6 line-clamp-3">
@@ -125,7 +125,7 @@ const Blog = () => {
                     <FadeInView key={a.id} delay={Math.min(i * 80, 400)}>
                       <Link
                         to={`/blog/${a.id}`}
-                        className="h-full flex flex-col border border-border bg-card/50 overflow-hidden transition hover:border-muted-foreground/30 hover:bg-card/80 group no-underline blog-card-glow"
+                        className="surface-panel h-full flex flex-col overflow-hidden transition group no-underline blog-card-glow"
                       >
                         {/* Thumbnail */}
                         <div className="cyber-frame scan-lines relative">
@@ -156,7 +156,7 @@ const Blog = () => {
                           </p>
 
                           {/* Title */}
-                          <h2 className="text-lg font-semibold text-foreground mb-3 leading-snug">
+                          <h2 className="title-halo text-lg font-semibold text-foreground mb-3 leading-snug">
                             {a.title}
                           </h2>
 

@@ -139,7 +139,7 @@ const BlogPost = () => {
         imageUrl={post.thumbnail_url}
       />
 
-      <div className="container-premium">
+      <div className="container-premium section-glow-top">
         <article className="grid grid-cols-1 gap-10 lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-12">
           <main className="min-w-0">
             <FadeInView>
@@ -153,7 +153,7 @@ const BlogPost = () => {
             </FadeInView>
 
             <FadeInView delay={100}>
-              <div className="mb-8 flex flex-wrap items-center gap-4 border-y border-white/10 py-4">
+              <div className="surface-panel mb-8 flex flex-wrap items-center gap-4 rounded-[4px] px-4 py-4">
                 <span className="rounded-[4px] border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-primary">
                   {post.tag}
                 </span>
@@ -183,7 +183,7 @@ const BlogPost = () => {
             ))}
 
             <FadeInView delay={450}>
-              <div className="mb-12 border-t border-border pt-8">
+              <div className="surface-panel mb-12 rounded-[4px] p-5">
                 <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                   <span className="inline-block h-[2px] w-4 bg-primary" />
                   Share this article
@@ -197,7 +197,7 @@ const BlogPost = () => {
                           href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on LinkedIn"
                         >
                           <Linkedin className="h-4 w-4" />
@@ -206,14 +206,14 @@ const BlogPost = () => {
                           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on Facebook"
                         >
                           <Facebook className="h-4 w-4" />
                         </a>
                         <button
                           onClick={handleInstagramShare}
-                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link and open Instagram"
                         >
                           <Instagram className="h-4 w-4" />
@@ -224,7 +224,7 @@ const BlogPost = () => {
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
                           }}
-                          className="rounded-[4px] border border-border bg-card/50 p-2.5 text-muted-foreground transition hover:border-primary/40 hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link"
                         >
                           {copied ? (
@@ -253,7 +253,7 @@ const BlogPost = () => {
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
               <FadeInView delay={120}>
-                <section className="rounded-[4px] border border-white/10 bg-black/30 p-5">
+                <section className="surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-4 text-primary">Metadata</p>
                   <dl className="space-y-4">
                     <div>
@@ -273,7 +273,7 @@ const BlogPost = () => {
               </FadeInView>
 
               <FadeInView delay={200}>
-                <section className="rounded-[4px] border border-primary/20 bg-black/40 p-5">
+                <section className="surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
                     <img

@@ -11,7 +11,7 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
   return (
-    <header className="relative w-full overflow-hidden">
+    <header className="section-glow-top relative w-full overflow-hidden">
       <motion.div
         className="fixed inset-x-0 top-0 z-[100] h-px bg-[#99FF00] origin-left"
         style={{ scaleX }}
@@ -33,17 +33,16 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
           </span>
         </div>
 
-        <h1 className="mb-8 max-w-5xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
+        <h1 className="title-halo mb-8 max-w-5xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
           {title}
         </h1>
 
-        <div className="relative aspect-[21/9] w-full overflow-hidden border border-white/10 bg-black/40 cyber-frame scan-lines">
+        <div className="photo-depth-frame relative aspect-[21/9] w-full overflow-hidden border border-white/10 bg-black/20 cyber-frame scan-lines">
           <img
             src={imageUrl ?? "/hero/rollo-street.png"}
             alt={title}
-            className="h-full w-full object-cover grayscale-[40%] transition-all duration-700 hover:grayscale-0"
+            className="h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-transparent to-transparent opacity-80" />
         </div>
       </div>
     </header>

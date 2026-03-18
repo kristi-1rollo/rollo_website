@@ -1,9 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  Disc3,
-  PiggyBank,
-  Shield,
   Plane,
   Building2,
   Factory,
@@ -13,57 +10,13 @@ import {
   Home,
   Droplets,
   ChevronRight,
-  XCircle,
-  Snowflake,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
-import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
-import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
 
 /* ── data ─────────────────────────────────────────────── */
 
-const problems = [
-  {
-    icon: XCircle,
-    title: "Escalating Security Labor Costs",
-    text: "Security labor costs keep rising while efficiency stays flat.",
-  },
-  {
-    icon: XCircle,
-    title: "Human Performance Bottlenecks",
-    text: "Human-level perception and edge intelligence can't scale with demand.",
-  },
-  {
-    icon: XCircle,
-    title: "Cost–Reliability Imbalance",
-    text: "Autonomous robots now deliver higher reliability at a fraction of the cost.",
-  },
-];
-
-const solutions = [
-  {
-    icon: Snowflake,
-    title: "Extreme-Environment Advantage",
-    text: "Engineered for Estonia's harsh climate — rain, snow, ice, and sub-zero temperatures — proving reliability where others fail.",
-  },
-  {
-    icon: Disc3,
-    title: "Gyroscopic Innovation",
-    text: "First-in-the-world gyroscope-based stabilization enabling a truly autonomous one-wheeled robot (patent pending).",
-  },
-  {
-    icon: PiggyBank,
-    title: "Cost-Efficient Robots",
-    text: "Fewer hardware components make ROLLO lighter, simpler, and cheaper than wheeled robots or humanoids.",
-  },
-  {
-    icon: Shield,
-    title: "Ground Advantages",
-    text: "Ground-based autonomy delivers far longer operating time and weather independence compared to drones.",
-  },
-];
 
 const solutionsLeft = [
   {
@@ -169,13 +122,14 @@ const Index = () => {
   return (
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
-      <section className="relative w-full min-h-[100svh] flex items-center overflow-hidden">
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <img
           src="/hero/rollo-street.png"
           alt="Rollo autonomous patrol robot on street"
           className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
         />
-        <div className="absolute inset-0 bg-black/45" />
+        <div className="absolute inset-0 bg-black/42" />
+        <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <img
@@ -184,7 +138,7 @@ const Index = () => {
             className="h-6 sm:h-8 md:h-10 w-auto mx-auto sm:mx-0"
           />
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
+          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
             Brings human-level presence to the physical world
           </h1>
 
@@ -217,104 +171,12 @@ const Index = () => {
         </div>
       </section>
 
-      {/* ═══ PROBLEM ═══ */}
-      <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40">
-        {/* Background guard image */}
-        <img
-          src="/graph/pilt-1.jpg"
-          alt="Security guard"
-          className="absolute inset-0 w-full h-full object-cover object-right"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] via-[#0a0a0a]/80 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/40" />
-
-        {/* Content */}
-        <div className="relative z-10 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
-          <FadeInView>
-            <p className="text-xs uppercase tracking-[0.2em] text-red-500 mb-2">
-              Problems
-            </p>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-xl mx-auto sm:mx-0 uppercase">
-              Human Patrol Is Expensive, Inefficient — and Now Replaceable
-            </h2>
-            <div className="grid grid-cols-1 gap-4 max-w-xl mx-auto sm:mx-0">
-              {problems.map((p, i) => {
-                const Icon = p.icon;
-                return (
-                  <FadeInView key={p.title} delay={i * 100}>
-                    <div className="flex min-h-[100px] items-start gap-4 rounded-2xl border border-white/5 bg-black/40 backdrop-blur-sm p-5">
-                      <div className="shrink-0 rounded-full bg-red-500/10 p-2.5 text-red-500">
-                        <Icon className="h-5 w-5" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="font-semibold text-white">{p.title}</p>
-                        <p className="text-sm text-white/60 mt-1">
-                          {p.text}
-                        </p>
-                      </div>
-                    </div>
-                  </FadeInView>
-                );
-              })}
-            </div>
-          </FadeInView>
-        </div>
-      </section>
-
-      {/* ═══ SOLUTION ═══ */}
-      <section className="relative w-full overflow-hidden bg-[#0d0d0d] py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
-        <div className="grid grid-cols-1 lg:grid-cols-[55%_45%] min-h-[600px]">
-          {/* Left — text & cards */}
-          <div className="flex flex-col justify-center lg:pr-8">
-            <FadeInView>
-              <SectionTag>Solution</SectionTag>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-xl mx-auto sm:mx-0 uppercase">
-                A Fundamentally Better Way to Build Patrol Robots
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl">
-                {solutions.map((s, i) => {
-                  const Icon = s.icon;
-                  return (
-                    <FadeInView key={s.title} delay={i * 100}>
-                      <div className="flex min-h-[132px] items-start gap-4 rounded-2xl border border-white/5 bg-white/[0.03] p-5">
-                        <div className="shrink-0 rounded-full bg-primary/10 p-2.5 text-primary">
-                          <Icon className="h-5 w-5" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="font-semibold text-white">{s.title}</p>
-                          <p className="text-sm text-white/60 mt-1">
-                            {s.text}
-                          </p>
-                        </div>
-                      </div>
-                    </FadeInView>
-                  );
-                })}
-              </div>
-            </FadeInView>
-          </div>
-
-          {/* Right — robot renders */}
-          <div className="relative hidden lg:flex items-end justify-center py-8">
-            <img
-              src={rolloRenderP006}
-              alt="1ROLLO rear view"
-              className="h-[480px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-12 mb-6 relative z-0"
-            />
-            <img
-              src={rolloFrontP010}
-              alt="1ROLLO front view"
-              className="h-[640px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
-            />
-          </div>
-        </div>
-      </section>
-
       {/* ═══ CAPABILITIES ═══ */}
-      <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+      <section className="section-glow-top relative w-full overflow-hidden py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
         <FadeInView>
           <SectionTag>Solution</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 max-w-4xl uppercase">
+          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 max-w-4xl uppercase">
             Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
           </h2>
         </FadeInView>
@@ -375,10 +237,10 @@ const Index = () => {
       </section>
 
       {/* ═══ PRODUCT TEASER ═══ */}
-      <Section className="py-12 md:py-40">
+      <Section className="section-glow-top py-12 md:py-40">
         <FadeInView>
           <SectionTag>Product</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Protected by Deep Hardware–Software Integration
           </h2>
           <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
@@ -393,7 +255,7 @@ const Index = () => {
             { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.03] p-6">
+              <div className="blue-card-glow h-full flex flex-col rounded-2xl p-6">
                 <div className="w-full aspect-[4/3] mb-5 flex items-center justify-center overflow-hidden rounded-xl">
                   <img
                     src={t.img}
@@ -420,10 +282,10 @@ const Index = () => {
       </Section>
 
       {/* ═══ USE CASES ═══ */}
-      <Section className="py-24 md:py-40">
+      <Section className="section-glow-top py-24 md:py-40">
         <FadeInView>
           <SectionTag>Use Cases</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Where to Deploy ROLLO
           </h2>
           <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
@@ -442,14 +304,14 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.08 }}
-                className="group relative overflow-hidden rounded-2xl border border-white/5 bg-white/[0.01] backdrop-blur-sm p-6 flex flex-col justify-between hover:border-primary/30 transition-all duration-300 cursor-default"
+                className="blue-card-glow group relative overflow-hidden rounded-2xl backdrop-blur-sm p-6 flex flex-col justify-between cursor-default"
               >
                 {/* Hover glow overlay */}
                 <div
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
                   style={{
-                    background: "radial-gradient(ellipse at center, rgba(153,255,0,0.05) 0%, transparent 70%)",
-                    mixBlendMode: "color-dodge",
+                    background: "radial-gradient(ellipse at center, rgba(78,132,255,0.14) 0%, transparent 72%)",
+                    mixBlendMode: "screen",
                   }}
                 />
 
@@ -490,12 +352,12 @@ const Index = () => {
       </Section>
 
       {/* ═══ MARKET ═══ */}
-      <Section className="py-24 md:py-40 relative">
+      <Section className="section-glow-top py-24 md:py-40 relative">
         <div className="absolute inset-0 geo-grid opacity-40 pointer-events-none" />
 
         <FadeInView>
           <SectionTag>Market Opportunity</SectionTag>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 md:mb-14 max-w-3xl">
+          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 md:mb-14 max-w-3xl">
             Global Reach, Untouched Potential.
           </h2>
         </FadeInView>
