@@ -459,6 +459,15 @@
     opacity: 1;
   }
 
+  .use-case-card::after,
+  .use-case-card:hover::after {
+    opacity: 0;
+  }
+
+  .use-case-card:hover {
+    box-shadow: inset 0 1px 0 rgba(138, 181, 255, 0.14), 0 0 0 1px rgba(44, 91, 181, 0.12), 0 14px 36px rgba(3, 14, 40, 0.24);
+  }
+
   .surface-panel {
     position: relative;
     border: 1px solid rgba(255, 255, 255, 0.06);

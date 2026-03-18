@@ -69,14 +69,70 @@ const productTiles = [
 ];
 
 const useCases = [
-  { id: "01", title: "Airports", icon: Plane, tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC", ghost: "/hero/rollo-street.png" },
-  { id: "02", title: "Hospitals", icon: Building2, tech: "ACOUSTIC SENSITIVITY: HIGH / SILENCE PROTOCOL" },
-  { id: "03", title: "Industrial Plants", icon: Factory, tech: "THERMAL SCAN: ACTIVE / HAZMAT V4.2" },
-  { id: "04", title: "Data Centers", icon: Database, tech: "ENCRYPTED UPLINK / TEMP SYNC: 18°C", ghost: "/graph/pilt-1.jpg" },
-  { id: "05", title: "Construction", icon: HardHat, tech: "DYNAMIC 3D MAPPING: ACTIVE / OBSTACLE AVOIDANCE" },
-  { id: "06", title: "Campuses", icon: GraduationCap, tech: "CROWD ANALYTICS: ENABLED / MULTI-ZONE MESH" },
-  { id: "07", title: "Communities", icon: Home, tech: "PRIVACY MASKING: ON / AI PATROL" },
-  { id: "08", title: "Oil & Gas", icon: Droplets, tech: "EX-PROOF RATING: ZONE 0 / GAS LEAK DETECT" },
+  {
+    id: "01",
+    title: "Airports",
+    icon: Plane,
+    image: "/hero/rollo-street.png",
+    description: "Persistent perimeter patrol for wide outdoor zones.",
+    tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC",
+  },
+  {
+    id: "02",
+    title: "Hospitals",
+    icon: Building2,
+    image: "/robot/rollo-futu.jpg",
+    description: "Quiet autonomous monitoring for sensitive public environments.",
+    tech: "ACOUSTIC SENSITIVITY: HIGH / SILENCE PROTOCOL",
+  },
+  {
+    id: "03",
+    title: "Industrial Plants",
+    icon: Factory,
+    image: "/robot/rollo-milit.png",
+    description: "Continuous patrol across high-risk industrial sites.",
+    tech: "THERMAL SCAN: ACTIVE / HAZMAT V4.2",
+  },
+  {
+    id: "04",
+    title: "Data Centers",
+    icon: Database,
+    image: "/graph/pilt-1.jpg",
+    description: "Reliable autonomous presence for high-value facilities.",
+    tech: "ENCRYPTED UPLINK / TEMP SYNC: 18C",
+  },
+  {
+    id: "05",
+    title: "Construction",
+    icon: HardHat,
+    image: "/robot/rollo-tunnel.png",
+    description: "Adaptive patrol for dynamic sites with changing layouts.",
+    tech: "DYNAMIC 3D MAPPING: ACTIVE / OBSTACLE AVOIDANCE",
+  },
+  {
+    id: "06",
+    title: "Campuses",
+    icon: GraduationCap,
+    image: "/robot/rollo-park.png",
+    description: "Scalable coverage across mixed pedestrian environments.",
+    tech: "CROWD ANALYTICS: ENABLED / MULTI-ZONE MESH",
+  },
+  {
+    id: "07",
+    title: "Communities",
+    icon: Home,
+    image: "/robot/rollo-city.png",
+    description: "Autonomous neighborhood patrols with lower operating overhead.",
+    tech: "PRIVACY MASKING: ON / AI PATROL",
+  },
+  {
+    id: "08",
+    title: "Oil & Gas",
+    icon: Droplets,
+    image: "/robot/rollo-des.png",
+    description: "Remote monitoring for harsh operating zones.",
+    tech: "EX-PROOF RATING: ZONE 0 / GAS LEAK DETECT",
+  },
 ];
 
 /* ── helpers ──────────────────────────────────────────── */
@@ -282,19 +338,19 @@ const Index = () => {
       </Section>
 
       {/* ═══ USE CASES ═══ */}
-      <Section className="section-glow-top py-24 md:py-40">
+      <Section className="section-glow-top py-20 md:py-28">
         <FadeInView>
           <SectionTag>Use Cases</SectionTag>
           <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Where to Deploy ROLLO
           </h2>
-          <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
+          <p className="text-sm md:text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-6">
             High-value outdoor and perimeter-security environments where
             autonomy delivers the biggest efficiency gains.
           </p>
         </FadeInView>
 
-        <div className="bento-use-cases grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="bento-use-cases grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
@@ -304,43 +360,38 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.08 }}
-                className="blue-card-glow group relative overflow-hidden rounded-2xl backdrop-blur-sm p-6 flex flex-col justify-between cursor-default"
+                className="blue-card-glow use-case-card group relative overflow-hidden rounded-2xl backdrop-blur-sm p-4 md:p-5 flex min-h-[190px] md:min-h-[205px] flex-col justify-between cursor-default"
               >
-                {/* Hover glow overlay */}
-                <div
-                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-                  style={{
-                    background: "radial-gradient(ellipse at center, rgba(78,132,255,0.14) 0%, transparent 72%)",
-                    mixBlendMode: "screen",
-                  }}
+                <img
+                  src={uc.image}
+                  alt=""
+                  className="absolute inset-0 h-full w-full object-cover opacity-[0.16] pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-[0.28]"
+                  loading="lazy"
+                  decoding="async"
                 />
-
-                {/* Ghost image — only for featured tiles */}
-                {"ghost" in uc && (
-                  <img
-                    src={(uc as { ghost: string }).ghost}
-                    alt=""
-                    className="absolute inset-0 w-full h-full object-cover opacity-[0.05] pointer-events-none hidden lg:block"
-                  />
-                )}
+                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.4)_0%,rgba(3,8,18,0.76)_54%,rgba(3,8,18,0.92)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-85" />
 
                 <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center justify-between mb-2.5">
                     <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">{uc.id}</span>
-                    <div className="rounded-full bg-primary/10 p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
-                      <Icon className="h-4 w-4" />
+                    <div className="rounded-full bg-primary/10 p-1.5 md:p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
+                      <Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
                     </div>
                   </div>
-                  <h3 className="text-base font-bold text-white mb-1">{uc.title}</h3>
+                  <h3 className="text-[15px] md:text-base font-bold text-white mb-1">{uc.title}</h3>
+                  <p className="text-xs md:text-[13px] text-white/62 leading-relaxed max-w-[24ch]">{uc.description}</p>
                 </div>
-                <p className="telemetry-pulse relative z-10 text-[10px] font-mono uppercase tracking-widest text-primary/60 mt-4">{uc.tech}</p>
+
+                <div className="relative z-10">
+                  <p className="telemetry-pulse text-[9px] md:text-[10px] font-mono uppercase tracking-[0.16em] text-primary/58">{uc.tech}</p>
+                </div>
               </motion.div>
             );
           })}
         </div>
 
         <FadeInView delay={400}>
-          <div className="mt-10 text-center">
+          <div className="mt-8 text-center">
             <Link
               to="/contact"
               className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300"
@@ -352,143 +403,138 @@ const Index = () => {
       </Section>
 
       {/* ═══ MARKET ═══ */}
-      <Section className="section-glow-top py-24 md:py-40 relative">
-        <div className="absolute inset-0 geo-grid opacity-40 pointer-events-none" />
+      <Section className="section-glow-top py-20 md:py-28 relative">
+        <div className="absolute inset-0 geo-grid opacity-25 pointer-events-none" />
 
         <FadeInView>
-          <SectionTag>Market Opportunity</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-10 md:mb-14 max-w-3xl">
-            Global Reach, Untouched Potential.
-          </h2>
-        </FadeInView>
-
-        <div className="relative grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-12">
-          {[
-            {
-              num: "28.5M",
-              desc: "Frontline security workers globally.",
-              sub: "A critical mass where automation begins.",
-            },
-            {
-              num: "$500B",
-              desc: "Security equipment market by 2030.",
-              sub: "We don't create markets, we optimize them.",
-            },
-            {
-              num: "80%+",
-              desc: "Cost savings for customers.",
-              sub: "Efficiency that transforms the business model.",
-            },
-          ].map((stat, i) => (
-            <FadeInView key={stat.num} delay={i * 150}>
-              <div>
-                <p className="text-3xl md:text-5xl font-bold text-primary neon-glow leading-none">
-                  {stat.num}
-                </p>
-                <p className="text-sm text-white/70 mt-3">
-                  {stat.desc}
-                </p>
-                <p className="text-sm text-white/50 italic mt-1">
-                  {stat.sub}
-                </p>
-              </div>
-            </FadeInView>
-          ))}
-        </div>
-      </Section>
-
-      {/* ═══ ROI CALCULATOR ═══ */}
-      <Section className="py-24 md:py-40">
-        <FadeInView>
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_1fr] gap-8 md:gap-12">
-            {/* Left — title + sliders */}
-            <div className="space-y-8">
-              <div className="space-y-3">
-                <SectionTag>Business Intelligence</SectionTag>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                  The Math of Autonomy.
-                </h2>
-                <p className="text-white/60 text-sm max-w-md">
-                  We don't sell costs, we sell returns. Use the sliders to
-                  estimate your savings.
-                </p>
-              </div>
-
-              <div className="space-y-8">
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
-                      Patrol Hours per Day
-                    </p>
-                    <span className="text-sm font-bold text-primary">{hours}</span>
-                  </div>
-                  <Slider
-                    value={[hours]}
-                    onValueChange={(val) => setHours(val[0])}
-                    min={1}
-                    max={24}
-                    step={1}
-                  />
-                </div>
-                <div>
-                  <div className="flex items-center justify-between mb-3">
-                    <p className="text-xs uppercase tracking-[0.15em] text-white/70">
-                      Replaced Guard Sectors
-                    </p>
-                    <span className="text-sm font-bold text-primary">{sectors}</span>
-                  </div>
-                  <Slider
-                    value={[sectors]}
-                    onValueChange={(val) => setSectors(val[0])}
-                    min={1}
-                    max={20}
-                    step={1}
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Right — glassmorphism result panel */}
-            <div className="flex items-stretch">
-              <div className="w-full glass rounded-2xl p-8 flex flex-col justify-center">
-                <p className="text-xs uppercase tracking-[0.15em] text-primary mb-3">
-                  Estimated Annual Savings
-                </p>
-                <p className="text-3xl sm:text-4xl md:text-5xl font-bold text-primary neon-glow leading-none">
-                  €{annualSavings > 0 ? annualSavings.toLocaleString() : "—"}
-                </p>
-
-                <div className="mt-8 pt-6 border-t border-white/5 grid grid-cols-2 gap-6">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-white/50">
-                      ROI Period
-                    </p>
-                    <p className="text-xl font-bold text-white mt-1">
-                      {roiMonths > 0 ? `${roiMonths} Months` : "—"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.15em] text-white/50">
-                      Efficiency
-                    </p>
-                    <p className="text-xl font-bold text-white mt-1">
-                      {savingsPercentage > 0
-                        ? `${savingsPercentage.toFixed(0)}%`
-                        : "—"}
-                    </p>
-                  </div>
-                </div>
-
-                <Link
-                  to="/contact"
-                  className="mt-8 min-h-11 inline-flex items-center justify-center rounded-xl border border-primary/30 bg-transparent px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-black transition-all duration-300"
-                >
-                  Get a Quote
-                </Link>
-              </div>
-            </div>
+          <div className="max-w-2xl mb-8 md:mb-10">
+            <SectionTag>Business Case</SectionTag>
+            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+              Market Scale Meets Immediate ROI.
+            </h2>
+            <p className="text-sm md:text-base text-white/60">
+              The market is already there. The operating savings are measurable.
+            </p>
           </div>
         </FadeInView>
+
+        <div className="relative grid grid-cols-1 xl:grid-cols-[0.8fr_1.2fr] gap-8 md:gap-10 items-start">
+          <FadeInView>
+            <div className="pt-2">
+              <p className="text-xs uppercase tracking-[0.18em] text-primary mb-5">
+                Market Opportunity
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-6">
+                {[
+                  { num: "28.5M", desc: "Frontline security workers globally" },
+                  { num: "$500B", desc: "Security equipment market by 2030" },
+                  { num: "80%+", desc: "Potential customer cost savings" },
+                ].map((stat, i) => (
+                  <FadeInView key={stat.num} delay={i * 120}>
+                    <div className="border-l border-primary/20 pl-4 md:pl-5">
+                      <p className="text-3xl md:text-4xl font-bold text-primary neon-glow leading-none">
+                        {stat.num}
+                      </p>
+                      <p className="text-sm text-white/68 mt-2 max-w-[22ch]">
+                        {stat.desc}
+                      </p>
+                    </div>
+                  </FadeInView>
+                ))}
+              </div>
+            </div>
+          </FadeInView>
+
+          <FadeInView delay={120}>
+            <div className="surface-panel rounded-[1.75rem] p-6 md:p-8">
+              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-8 md:gap-10 items-start">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.18em] text-primary mb-3">
+                    Business Intelligence
+                  </p>
+                  <h3 className="text-2xl md:text-3xl font-bold text-white max-w-sm">
+                    Estimate the return from autonomous patrol.
+                  </h3>
+                  <p className="text-white/60 text-sm max-w-md mt-3 mb-8">
+                    Adjust your coverage model and see how quickly operating costs can move in your favor.
+                  </p>
+
+                  <div className="space-y-7">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                          Patrol Hours per Day
+                        </p>
+                        <span className="text-sm font-bold text-primary">{hours}</span>
+                      </div>
+                      <Slider
+                        value={[hours]}
+                        onValueChange={(val) => setHours(val[0])}
+                        min={1}
+                        max={24}
+                        step={1}
+                      />
+                    </div>
+
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <p className="text-xs uppercase tracking-[0.15em] text-white/70">
+                          Replaced Guard Sectors
+                        </p>
+                        <span className="text-sm font-bold text-primary">{sectors}</span>
+                      </div>
+                      <Slider
+                        value={[sectors]}
+                        onValueChange={(val) => setSectors(val[0])}
+                        min={1}
+                        max={20}
+                        step={1}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-[1.5rem] border border-white/8 bg-white/[0.03] px-5 py-6 md:px-6 md:py-7">
+                  <p className="text-xs uppercase tracking-[0.15em] text-primary mb-3">
+                    Estimated Annual Savings
+                  </p>
+                  <p className="text-4xl md:text-5xl font-bold text-primary neon-glow leading-[0.95]">
+                    EUR
+                  </p>
+                  <p className="text-4xl md:text-5xl font-bold text-primary neon-glow leading-[0.95] mt-1">
+                    {annualSavings > 0 ? annualSavings.toLocaleString() : "-"}
+                  </p>
+
+                  <div className="mt-6 pt-5 border-t border-white/6 grid grid-cols-2 gap-5">
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.15em] text-white/45">
+                        ROI Period
+                      </p>
+                      <p className="text-lg md:text-xl font-bold text-white mt-1">
+                        {roiMonths > 0 ? `${roiMonths} Months` : "-"}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[11px] uppercase tracking-[0.15em] text-white/45">
+                        Efficiency
+                      </p>
+                      <p className="text-lg md:text-xl font-bold text-white mt-1">
+                        {savingsPercentage > 0 ? `${savingsPercentage.toFixed(0)}%` : "-"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <Link
+                    to="/contact"
+                    className="mt-6 min-h-11 inline-flex w-full items-center justify-center rounded-xl border border-primary/30 bg-transparent px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-primary hover:bg-primary hover:text-black transition-all duration-300"
+                  >
+                    Get a Quote
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </FadeInView>
+        </div>
       </Section>
     </div>
   );
