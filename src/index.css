@@ -407,7 +407,10 @@
   }
 
   .title-halo {
-    text-shadow: 0 0 18px rgba(116, 158, 255, 0.1), 0 0 40px rgba(36, 88, 203, 0.08);
+    text-shadow:
+      0 2px 18px rgba(0, 0, 0, 0.34),
+      0 0 18px rgba(116, 158, 255, 0.1),
+      0 0 40px rgba(36, 88, 203, 0.08);
   }
 
   .hero-robot-glow {

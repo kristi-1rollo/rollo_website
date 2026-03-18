@@ -146,7 +146,7 @@ const Section = ({
   className?: string;
   id?: string;
 }) => (
-  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 text-center sm:text-left ${className}`}>
+  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 text-left ${className}`}>
     {children}
   </section>
 );
@@ -178,27 +178,29 @@ const Index = () => {
   return (
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
-      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
-        <img
-          src="/hero/rollo-street.png"
-          alt="Rollo autonomous patrol robot on street"
-          className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
-        />
-        <div className="absolute inset-0 bg-black/42" />
-        <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
+        <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+          <img
+            src="/hero/rollo-street.png"
+            alt="Rollo autonomous patrol robot on street"
+            className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
+          />
+          <div className="absolute inset-0 bg-black/42" />
+          <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
+          <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
+          <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <img
             src="/logos/rollo-logo-white.png"
             alt="1ROLLO"
-            className="h-6 sm:h-8 md:h-10 w-auto mx-auto sm:mx-0"
+            className="h-6 sm:h-8 md:h-10 w-auto"
           />
 
-          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl text-center sm:text-left mx-auto sm:mx-0">
+          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
             Brings human-level presence to the physical world
           </h1>
 
-          <div className="flex items-center gap-3 sm:gap-4 max-w-sm mx-auto sm:mx-0">
+          <div className="flex items-center gap-3 sm:gap-4 max-w-sm">
             <span className="h-px flex-1 bg-white/25" />
             <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
               Without Humans
@@ -206,11 +208,11 @@ const Index = () => {
             <span className="h-px flex-1 bg-white/25" />
           </div>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 text-center sm:text-left">
+          <p className="text-sm sm:text-base md:text-lg text-slate-300">
             Autonomous robots that see, hear, speak, and move.
           </p>
 
-          <div className="flex flex-wrap gap-3 pt-2 justify-center sm:justify-start">
+          <div className="flex flex-wrap gap-3 pt-2 justify-start">
             <Link
               to="/product"
               className="min-h-11 inline-flex items-center rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground hover:bg-white hover:text-black transition-all duration-300"
@@ -299,7 +301,7 @@ const Index = () => {
           <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Protected by Deep Hardware–Software Integration
           </h2>
-          <p className="text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-8">
+          <p className="text-base text-white/60 max-w-2xl mb-8">
             A defensible platform where hardware and software are inseparable.
           </p>
         </FadeInView>
@@ -327,7 +329,7 @@ const Index = () => {
                 </p>
                 <Link
                   to="/product"
-                  className="mt-6 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-medium text-primary hover:text-white transition-colors duration-300"
+                  className="mt-6 inline-flex items-center justify-start gap-1 text-sm font-medium text-primary hover:text-white transition-colors duration-300"
                 >
                   See full spec <ChevronRight className="h-4 w-4" />
                 </Link>
@@ -344,7 +346,7 @@ const Index = () => {
           <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
             Where to Deploy ROLLO
           </h2>
-          <p className="text-sm md:text-base text-white/60 max-w-2xl mx-auto sm:mx-0 mb-6">
+          <p className="text-sm md:text-base text-white/60 max-w-2xl mb-6">
             High-value outdoor and perimeter-security environments where
             autonomy delivers the biggest efficiency gains.
           </p>
@@ -391,7 +393,7 @@ const Index = () => {
         </div>
 
         <FadeInView delay={400}>
-          <div className="mt-8 text-center">
+          <div className="mt-8 text-left">
             <Link
               to="/contact"
               className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300"
