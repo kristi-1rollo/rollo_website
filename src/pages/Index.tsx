@@ -67,36 +67,36 @@ const solutions = [
 
 const solutionsLeft = [
   {
-    img: "/icon/icon1.png",
+    img: "/icon/icon-1.png",
     text: "Patrols predefined indoor and outdoor routes autonomously",
   },
   {
-    img: "/icon/icon2.png",
+    img: "/icon/icon-2.png",
     text: "Detects people, movement, and anomalies in real time",
   },
   {
-    img: "/icon/icon3.png",
+    img: "/icon/icon-3.png",
     text: "Remembers events and builds a cause of suspicion",
   },
 ];
 
 const solutionsRight = [
   {
-    img: "/icon/icon7.png",
+    img: "/icon/icon-7.png",
     text: "Communicates with intruders via voice",
   },
   {
-    img: "/icon/icon6.png",
+    img: "/icon/icon-6.png",
     text: "Streams live video and alerts to remote operators",
   },
   {
-    img: "/icon/icon5.png",
+    img: "/icon/icon-5.png",
     text: "Works 24/7 without fatigue, breaks, or shift changes",
   },
 ];
 
 const solutionBottom = {
-  img: "/icon/icon4.png",
+  img: "/icon/icon-4.png",
   text: "Works in snow and cold weather",
 };
 
@@ -116,10 +116,10 @@ const productTiles = [
 ];
 
 const useCases = [
-  { id: "01", title: "Airports", icon: Plane, tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC", ghost: "/hero/rollo_street.png" },
+  { id: "01", title: "Airports", icon: Plane, tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC", ghost: "/hero/rollo-street.png" },
   { id: "02", title: "Hospitals", icon: Building2, tech: "ACOUSTIC SENSITIVITY: HIGH / SILENCE PROTOCOL" },
   { id: "03", title: "Industrial Plants", icon: Factory, tech: "THERMAL SCAN: ACTIVE / HAZMAT V4.2" },
-  { id: "04", title: "Data Centers", icon: Database, tech: "ENCRYPTED UPLINK / TEMP SYNC: 18°C", ghost: "/graph/Pilt1.jpg" },
+  { id: "04", title: "Data Centers", icon: Database, tech: "ENCRYPTED UPLINK / TEMP SYNC: 18°C", ghost: "/graph/pilt-1.jpg" },
   { id: "05", title: "Construction", icon: HardHat, tech: "DYNAMIC 3D MAPPING: ACTIVE / OBSTACLE AVOIDANCE" },
   { id: "06", title: "Campuses", icon: GraduationCap, tech: "CROWD ANALYTICS: ENABLED / MULTI-ZONE MESH" },
   { id: "07", title: "Communities", icon: Home, tech: "PRIVACY MASKING: ON / AI PATROL" },
@@ -171,7 +171,7 @@ const Index = () => {
       {/* ═══ HERO ═══ */}
       <section className="relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <img
-          src="/hero/rollo_street.png"
+          src="/hero/rollo-street.png"
           alt="Rollo autonomous patrol robot on street"
           className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
         />
@@ -179,7 +179,7 @@ const Index = () => {
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <img
-            src="/logos/rollo_logo_white.png"
+            src="/logos/rollo-logo-white.png"
             alt="1ROLLO"
             className="h-6 sm:h-8 md:h-10 w-auto mx-auto sm:mx-0"
           />
@@ -221,7 +221,7 @@ const Index = () => {
       <section className="relative w-full overflow-hidden bg-[#0a0a0a] py-24 md:py-40">
         {/* Background guard image */}
         <img
-          src="/graph/Pilt1.jpg"
+          src="/graph/pilt-1.jpg"
           alt="Security guard"
           className="absolute inset-0 w-full h-full object-cover object-right"
         />
@@ -359,10 +359,10 @@ const Index = () => {
           {/* Inner annotations — on the small inner ring */}
           <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '24%', top: '33%' }}>
             <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
-            <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
           </div>
           <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '24%', top: '46%' }}>
-            <img src="/icon/icon8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
             <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
           </div>
 
@@ -388,9 +388,9 @@ const Index = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { img: "/patent/Pilt1.png", ...productTiles[0] },
-            { img: "/patent/Pilt2.png", ...productTiles[1] },
-            { img: "/patent/Pilt3.png", ...productTiles[2] },
+            { img: "/patent/pilt-1.png", ...productTiles[0] },
+            { img: "/patent/pilt-2.png", ...productTiles[1] },
+            { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
               <div className="h-full flex flex-col rounded-2xl border border-white/5 bg-white/[0.03] p-6">

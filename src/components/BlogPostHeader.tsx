@@ -39,7 +39,7 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
 
         <div className="relative aspect-[21/9] w-full overflow-hidden border border-white/10 bg-black/40 cyber-frame scan-lines">
           <img
-            src={imageUrl ?? "/hero/rollo_street.png"}
+            src={imageUrl ?? "/hero/rollo-street.png"}
             alt={title}
             className="h-full w-full object-cover grayscale-[40%] transition-all duration-700 hover:grayscale-0"
           />

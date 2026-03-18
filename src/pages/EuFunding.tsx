@@ -32,7 +32,7 @@ const EuFunding = () => {
                 </p>
               </div>
               <img
-                src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
+                src="/logos/nextgeneration-eu-funded.jpg"
                 alt="Funded by the European Union - NextGenerationEU"
                 className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto object-contain md:justify-self-end"
               />

@@ -140,7 +140,7 @@ const AboutUs = () => {
 
         <div className="mb-10 flex justify-center">
           <img
-            src="/team/team_transparent.png"
+            src="/team/team-transparent.png"
             alt="Rollo robotics team"
             className="w-full max-w-2xl h-auto object-contain"
           />

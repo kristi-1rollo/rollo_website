@@ -17,7 +17,7 @@ const Footer = () => {
               className="inline-flex mx-auto md:mx-0"
             >
               <img
-                src="/logos/rollo_logo_white.png"
+                src="/logos/rollo-logo-white.png"
                 alt="Rollo Robotics"
                 className="h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
               />
@@ -119,7 +119,7 @@ const Footer = () => {
               <div className="space-y-3 flex flex-col items-center md:items-end">
                 <Link to="/funding" className="block group">
                   <img
-                    src="/logos/nextgen_rahastanud_el_nextgeneration_eng_hor_color.jpg"
+                    src="/logos/nextgeneration-eu-funded.jpg"
                     alt="Funded by the European Union - NextGenerationEU"
                     className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
                   />

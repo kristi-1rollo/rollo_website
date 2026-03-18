@@ -25,7 +25,7 @@ const Product = () => {
         {/* Mobile: robot as immersive background */}
         <div className="absolute inset-0 flex items-center justify-center md:hidden pointer-events-none">
           <img
-            src="/hero/rollo1.png"
+            src="/hero/rollo-1.png"
             alt=""
             className="h-[70%] max-h-[500px] object-contain opacity-[0.12]"
             style={{ mixBlendMode: "screen" }}
@@ -71,7 +71,7 @@ const Product = () => {
             {/* Desktop: robot image side-by-side */}
             <div className="hidden md:flex flex-1 min-w-0 justify-center">
               <img
-                src="/hero/rollo1.png"
+                src="/hero/rollo-1.png"
                 alt="ROLLO F6 autonomous patrol robot"
                 className="w-full max-w-md h-auto object-contain"
               />
