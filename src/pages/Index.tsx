@@ -405,6 +405,8 @@ const Index = () => {
       {/* ═══ MARKET ═══ */}
       <Section className="section-glow-top py-20 md:py-28 relative">
         <div className="absolute inset-0 geo-grid opacity-25 pointer-events-none" />
+        <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none" />
+        <div className="absolute right-[10%] top-[34%] h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(34,91,206,0.16)_0%,rgba(8,23,58,0.08)_36%,rgba(0,0,0,0)_72%)] blur-3xl pointer-events-none" />
 
         <FadeInView>
           <div className="max-w-2xl mb-10 md:mb-12 pt-3 md:pt-5">
@@ -446,7 +448,7 @@ const Index = () => {
           </FadeInView>
 
           <FadeInView delay={120}>
-            <div className="surface-panel rounded-[1.75rem] p-6 md:p-8">
+            <div className="surface-panel business-case-panel rounded-[1.75rem] p-6 md:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-8 md:gap-10 items-start">
                 <div>
                   <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-3">
