@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import { Section, SectionTag } from "@/components/ui/section";
 
 /* ── data ─────────────────────────────────────────────── */
 
