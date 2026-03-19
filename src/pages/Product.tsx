@@ -272,7 +272,7 @@ const Product = () => {
       </Section>
 
       {/* E) Intelligent Situational Awareness */}
-      <Section className="py-12 md:py-20">
+      <Section className="section-glow-top py-12 md:py-20">
         <FadeInView>
           <div className="space-y-6">
             <SectionTag>Awareness</SectionTag>
