@@ -76,7 +76,7 @@ const Blog = () => {
                 >
                   <div className="dispatch-hero">
                     {/* Image */}
-                    <div className="dispatch-hero__image cyber-frame scan-lines">
+                    <div className="dispatch-hero__image cyber-frame scan-lines aspect-[16/9]">
                       {heroPost.thumbnail_url ? (
                         <img
                           src={heroPost.thumbnail_url}
@@ -84,6 +84,11 @@ const Blog = () => {
                           className="w-full h-full object-cover"
                           loading="lazy"
                           decoding="async"
+                          style={{
+                            objectPosition: `${heroPost.thumbnail_focal_x ?? 50}% ${heroPost.thumbnail_focal_y ?? 50}%`,
+                            transform: `scale(${heroPost.thumbnail_zoom ?? 1})`,
+                            transformOrigin: `${heroPost.thumbnail_focal_x ?? 50}% ${heroPost.thumbnail_focal_y ?? 50}%`,
+                          }}
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-muted/30 to-muted/10" />
