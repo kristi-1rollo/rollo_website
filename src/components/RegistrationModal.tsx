@@ -124,7 +124,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         return;
       }
 
-      toast.success("Thank you for your interest! We'll be in touch soon.");
+      toast({ title: "Thank you for your interest! We'll be in touch soon." });
       onOpenChange(false);
       setFormData({
         name: "",
