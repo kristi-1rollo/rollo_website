@@ -295,7 +295,7 @@ const Product = () => {
       </Section>
 
       {/* F) More Than a Robot: A Security Platform */}
-      <Section className="py-12 md:py-20">
+      <Section className="section-glow-top py-12 md:py-20">
         <div className="space-y-6">
           <SectionTag>Platform</SectionTag>
           <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
