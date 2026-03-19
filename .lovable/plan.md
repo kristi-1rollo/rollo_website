@@ -1,12 +1,26 @@
 
-# EU rahastuse lehe link footerisse tagasi
 
-## Probleem
-Footeri "Supported by" sektsioonis on EU NextGenerationEU logo tavalises `div`-is (rida 120), mitte lingina. Kasutaja ei saa sealt enam EU rahastuse lehele navigeerida.
+# Build error fix + career posterite optimeerimine
 
-## Lahendus
-Asendan footeri EU logo umber oleva `<div className="block">` elemendi `<Link to="/funding">` elemendiga, lisades hover-efekti (nagu on juba EDIA logol).
+## 1. Build error parandus
+**Fail:** `src/components/ScrollControlledVideo.tsx` rida 87
+- Eemalda `loading="lazy"` — `<video>` elemendil pole seda atribuuti. Video laisk laadimine on juba tagatud `preload="metadata"` kaudu.
 
-## Tehniline detail
-- **Fail:** `src/components/Footer.tsx`, read 120-126
-- Muudan `<div className="block">` asemele `<Link to="/funding" className="block group">` ja lisan pildile `group-hover:opacity-100 transition-opacity` klassid (sama muster mis EDIA logol real 133-139)
+## 2. Career posterite üleslaadimise optimeerimine
+**Fail:** `src/components/CareerPostEditor.tsx`
+- Kasuta olemasolevat `optimizeImage` funktsiooni (või `uploadThumbnail` mis juba sisaldab optimeerimist) career posterite üleslaadimiseks, et need samuti automaatselt WebP formaati konverteeritaks ja suurust vähendataks.
+
+## 3. OptimizedImage komponent (kuva-aegne)
+**Uus fail:** `src/components/OptimizedImage.tsx`
+- Universaalne `<img>` wrapper mis lisab automaatselt:
+  - `loading="lazy"` + `decoding="async"` (v.a. above-the-fold pildid, kus `priority={true}`)
+  - `width` ja `height` atribuudid CLS vältimiseks
+  - Supabase Storage piltidele `?width=X&format=webp` transformatsiooni parameetrid `srcSet`-is
+
+Seda saab järk-järgult rakendada olemasolevatele komponentidele — kohe automaatset asendust ei tee, aga komponent on valmis kasutamiseks.
+
+### Muudetavad failid
+1. `src/components/ScrollControlledVideo.tsx` — eemalda `loading="lazy"`
+2. `src/components/CareerPostEditor.tsx` — lisa pildi optimeerimine üleslaadimisele
+3. `src/components/OptimizedImage.tsx` — uus komponent
+
