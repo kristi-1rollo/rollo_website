@@ -137,7 +137,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
       if (!res.ok || data?.error) {
         const msg = Array.isArray(data?.details) ? data.details.join(", ") : data?.error;
-        toast.error(msg ?? "Something went wrong. Please try again.");
+        toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
 
