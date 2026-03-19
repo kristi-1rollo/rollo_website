@@ -365,7 +365,7 @@ const Product = () => {
       </Section>
 
       {/* G) Technical Specifications */}
-      <Section className="py-12 md:py-20">
+      <Section className="section-glow-top py-12 md:py-20">
         <FadeInView>
           <SpecsBlueprint />
         </FadeInView>
