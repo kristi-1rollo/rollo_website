@@ -120,7 +120,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
           ? data.details.join(", ")
           : data?.error;
 
-        toast.error(msg ?? "Something went wrong. Please try again.");
+        toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
 
