@@ -88,7 +88,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     for (const field of requiredFields) {
       const value = formData[field];
       if (Array.isArray(value) ? value.length === 0 : !value) {
-        toast.error("Please fill in all required fields");
+        toast({ title: "Please fill in all required fields", variant: "destructive" });
         return false;
       }
     }
