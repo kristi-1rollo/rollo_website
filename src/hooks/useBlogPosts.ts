@@ -104,8 +104,8 @@ export function useDeletePost() {
   });
 }
 
-/** Upload thumbnail image (with optimization) */
-export async function uploadThumbnail(file: File): Promise<string> {
+/** Upload a media file (image or video) with automatic image optimization */
+export async function uploadMedia(file: File): Promise<string> {
   if (!supabase) throw new Error("Backend not available");
   const optimized = await optimizeImage(file);
   const ext = optimized.name.split(".").pop() || "webp";
@@ -115,3 +115,8 @@ export async function uploadThumbnail(file: File): Promise<string> {
   const { data } = supabase.storage.from("blog-images").getPublicUrl(path);
   return data.publicUrl;
 }
+
+/**
+ * @deprecated Use `uploadMedia` instead. Kept for backward compatibility.
+ */
+export const uploadThumbnail = uploadMedia;
