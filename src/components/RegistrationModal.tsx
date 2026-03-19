@@ -65,6 +65,7 @@ interface RegistrationModalProps {
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
 
 const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
