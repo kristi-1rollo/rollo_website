@@ -109,7 +109,7 @@ const Product = () => {
       </section>
 
       {/* B) Problem */}
-      <Section className="py-14 md:py-20">
+      <Section className="section-glow-top py-14 md:py-20">
         <FadeInView>
           <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 md:gap-10 items-start">
             <div className="space-y-4">
