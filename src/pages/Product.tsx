@@ -3,6 +3,7 @@ import { Navigation, Eye, Plug, Cloud, Shield, XCircle, Snowflake, Disc3, PiggyB
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
+import { ScrollControlledVideo } from "@/components/ScrollControlledVideo";
 import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
 import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
 
@@ -75,7 +76,7 @@ const Product = () => {
         <img
           src="/graph/pilt-1.jpg"
           alt="Conventional patrol context"
-          className="absolute inset-0 h-full w-full object-cover object-[65%_center] sm:object-[60%_center] md:object-[58%_center]"
+          className="absolute inset-0 h-full w-full object-cover object-[72%_center] sm:object-[65%_center] md:object-[60%_center]"
         />
         <div className="absolute inset-0 bg-black/58" />
         {/* Mobile: stronger gradient for better text contrast */}
@@ -200,29 +201,19 @@ const Product = () => {
             </FadeInView>
           </div>
 
-          {/* Mobile robot image */}
+          {/* Scroll-controlled video - Mobile */}
           <div className="relative lg:hidden flex items-center justify-center py-8 mt-8">
-            <div className="hero-robot-glow left-1/2 -translate-x-1/2 bottom-[10%] scale-[0.9]" />
-            <img
-              src={rolloFrontP010}
-              alt="ROLLO front view"
-              className="h-[240px] sm:h-[320px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
+            <ScrollControlledVideo
+              src="/robot/vid/rollo-promo-1.mp4"
+              className=""
             />
           </div>
 
-          {/* Desktop robot images */}
-          <div className="relative hidden lg:flex items-end justify-center py-8">
-            <div className="hero-robot-glow left-[18%] bottom-[18%]" />
-            <div className="hero-robot-glow right-[10%] bottom-[24%] scale-[0.82] opacity-70" />
-            <img
-              src={rolloRenderP006}
-              alt="ROLLO rear view"
-              className="h-[480px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] -mr-12 mb-6 relative z-0"
-            />
-            <img
-              src={rolloFrontP010}
-              alt="ROLLO front view"
-              className="h-[640px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
+          {/* Scroll-controlled video - Desktop */}
+          <div className="relative hidden lg:flex items-center justify-center py-8">
+            <ScrollControlledVideo
+              src="/robot/vid/rollo-promo-1.mp4"
+              className=""
             />
           </div>
           </div>
