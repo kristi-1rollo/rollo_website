@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Navigation, Eye, Plug, Cloud, Shield, XCircle, Snowflake, Disc3, PiggyBank } from "lucide-react";
+import { Navigation, Eye, Plug, Cloud, Shield, XCircle, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale } from "lucide-react";
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
@@ -13,8 +13,10 @@ const Section = ({
   children: React.ReactNode;
   className?: string;
 }) => (
-  <section className={`section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-left ${className}`}>
-    {children}
+  <section className={`section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
+    <div className="text-left">
+      {children}
+    </div>
   </section>
 );
 
@@ -26,17 +28,17 @@ const SectionTag = ({ children }: { children: React.ReactNode }) => (
 
 const problems = [
   {
-    icon: XCircle,
+    icon: TrendingUp,
     title: "Escalating Security Labor Costs",
     text: "Security labor costs keep rising while efficiency stays flat.",
   },
   {
-    icon: XCircle,
+    icon: Users,
     title: "Human Performance Bottlenecks",
     text: "Human-level perception and edge intelligence can't scale with demand.",
   },
   {
-    icon: XCircle,
+    icon: Scale,
     title: "Cost-Reliability Imbalance",
     text: "Autonomous robots now deliver higher reliability at a fraction of the cost.",
   },
@@ -67,27 +69,22 @@ const solutions = [
 
 const Product = () => {
   return (
-    <div className="pt-24 pb-16">
+    <div className="pb-16">
       {/* A) Hero / Intro */}
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <img
           src="/graph/pilt-1.jpg"
           alt="Conventional patrol context"
-          className="absolute inset-0 h-full w-full object-cover object-[58%_center]"
+          className="absolute inset-0 h-full w-full object-cover object-[65%_center] sm:object-[60%_center] md:object-[58%_center]"
         />
         <div className="absolute inset-0 bg-black/58" />
+        {/* Mobile: stronger gradient for better text contrast */}
+        <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.88)_28%,rgba(2,6,13,0.62)_58%,rgba(2,6,13,0.28)_88%)]" />
+        {/* Desktop gradients */}
         <div className="absolute inset-y-0 left-0 hidden md:block w-[60%] bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_34%,rgba(2,6,13,0.26)_74%,rgba(2,6,13,0.06)_100%)]" />
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.32)_0%,rgba(0,0,0,0.14)_24%,rgba(0,0,0,0)_56%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
-        <div className="absolute right-[7%] bottom-0 hidden md:block pointer-events-none">
-          <div className="hero-robot-glow left-[16%] bottom-[16%] scale-[1.2]" />
-          <img
-            src="/hero/rollo-1.png"
-            alt=""
-            className="relative z-10 w-[28rem] lg:w-[34rem] object-contain"
-          />
-        </div>
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <SectionTag>Product</SectionTag>
@@ -164,9 +161,10 @@ const Product = () => {
       </Section>
 
       {/* C) Solution */}
-      <section className="section-glow-top relative w-full overflow-hidden py-16 md:py-24 px-4 sm:px-6 lg:px-8 text-left">
+      <section className="section-glow-top relative w-full overflow-hidden py-16 md:py-24 px-4 sm:px-6 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_24%_18%,rgba(20,58,148,0.16),transparent_52%),linear-gradient(180deg,rgba(5,14,32,0.34),rgba(0,0,0,0.1))]" />
-        <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[58%_42%] min-h-[560px]">
+        <div className="text-left">
+          <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[58%_42%] min-h-[560px]">
           <div className="relative z-10 flex flex-col justify-center lg:pr-8">
             <FadeInView>
               <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
@@ -202,6 +200,17 @@ const Product = () => {
             </FadeInView>
           </div>
 
+          {/* Mobile robot image */}
+          <div className="relative lg:hidden flex items-center justify-center py-8 mt-8">
+            <div className="hero-robot-glow left-1/2 -translate-x-1/2 bottom-[10%] scale-[0.9]" />
+            <img
+              src={rolloFrontP010}
+              alt="ROLLO front view"
+              className="h-[240px] sm:h-[320px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
+            />
+          </div>
+
+          {/* Desktop robot images */}
           <div className="relative hidden lg:flex items-end justify-center py-8">
             <div className="hero-robot-glow left-[18%] bottom-[18%]" />
             <div className="hero-robot-glow right-[10%] bottom-[24%] scale-[0.82] opacity-70" />
@@ -215,6 +224,7 @@ const Product = () => {
               alt="ROLLO front view"
               className="h-[640px] object-contain drop-shadow-[0_0_40px_rgba(255,255,255,0.06)] relative z-10"
             />
+          </div>
           </div>
         </div>
       </section>

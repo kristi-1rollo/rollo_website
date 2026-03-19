@@ -20,7 +20,7 @@ const detections: Detection[] = [
 
 export function LiveScanner() {
   return (
-    <div className="relative overflow-hidden geo-grid rounded-xl py-12 px-4 sm:px-8">
+    <div className="relative overflow-hidden geo-grid rounded-xl py-12">
       {/* Scanner line */}
       <div
         className="absolute top-0 w-[2px] h-full bg-[#B4FF33] z-10"
@@ -38,7 +38,7 @@ export function LiveScanner() {
       />
 
       {/* Detection labels */}
-      <div className="relative z-20 flex flex-wrap gap-4 justify-center">
+      <div className="relative z-20 grid grid-cols-2 md:grid-cols-5 gap-4">
         {detections.map((det) => (
           <motion.div
             key={det.name}
@@ -46,7 +46,7 @@ export function LiveScanner() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
-            className="border border-[#B4FF33]/30 bg-black/40 backdrop-blur-sm px-5 py-4 min-w-[160px]"
+            className="border border-[#B4FF33]/30 bg-black/40 backdrop-blur-sm px-4 py-4"
             style={{
               animation: `scanner-glow 6s linear infinite`,
               animationDelay: det.delay,
