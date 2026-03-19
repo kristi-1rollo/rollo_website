@@ -9,6 +9,7 @@ import {
   type CarouselApi,
 } from "@/components/ui/carousel";
 import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
+import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
 
 interface Spec {
   label: string;
@@ -118,12 +119,16 @@ export function SpecsBlueprint() {
 
         {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <img
-            src={rolloRenderP013}
-            alt="ROLLO F6 blueprint"
-            className="max-w-[350px] w-full h-auto"
-            style={{ mixBlendMode: "screen" }}
-          />
+          <picture>
+            <source srcSet={rolloRenderP013WebP} type="image/webp" />
+            <img
+              src={rolloRenderP013}
+              alt="ROLLO F6 blueprint"
+              className="max-w-[350px] w-full h-auto"
+              style={{ mixBlendMode: "screen" }}
+              loading="lazy"
+            />
+          </picture>
         </div>
 
         {/* Left specs */}

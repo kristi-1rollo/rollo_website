@@ -20,6 +20,7 @@ const Footer = () => {
                 src="/logos/rollo-logo-white.png"
                 alt="Rollo Robotics"
                 className="h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                loading="lazy"
               />
             </Link>
             <div className="space-y-2.5 max-w-sm mx-auto md:mx-0">
@@ -118,6 +119,7 @@ const Footer = () => {
                     src="/logos/nextgeneration-eu-funded.jpg"
                     alt="Funded by the European Union - NextGenerationEU"
                     className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                    loading="lazy"
                   />
                 </Link>
                 <a
@@ -131,6 +133,7 @@ const Footer = () => {
                     src="/logos/edia-eas.png"
                     alt="Estonian Defence and Aerospace Industry Association"
                     className="h-11 w-auto object-contain opacity-85 group-hover:opacity-100 transition-opacity"
+                    loading="lazy"
                   />
                 </a>
               </div>

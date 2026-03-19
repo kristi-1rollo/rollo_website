@@ -143,6 +143,7 @@ const AboutUs = () => {
             src="/team/team-transparent.png"
             alt="Rollo robotics team"
             className="w-full max-w-2xl h-auto object-contain"
+            loading="lazy"
           />
         </div>
 

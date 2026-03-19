@@ -406,6 +406,7 @@ const Contact = () => {
                     src={selectedPost.poster_url}
                     alt={`${selectedPost.title} poster`}
                     className="w-full h-auto"
+                    loading="lazy"
                   />
                 </div>
               )}

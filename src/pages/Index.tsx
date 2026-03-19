@@ -73,7 +73,7 @@ const useCases = [
     id: "01",
     title: "Airports",
     icon: Plane,
-    image: "/hero/rollo-street.png",
+    image: "/hero/rollo-street.webp",
     description: "Persistent perimeter patrol for wide outdoor zones.",
     tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC",
   },
@@ -179,11 +179,15 @@ const Index = () => {
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
-          <img
-            src="/hero/rollo-street.png"
-            alt="Rollo autonomous patrol robot on street"
-            className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
-          />
+          <picture>
+            <source media="(min-width: 1px)" srcSet="/hero/rollo-street.webp" type="image/webp" />
+            <img
+              src="/hero/rollo-street.png"
+              alt="Rollo autonomous patrol robot on street"
+              className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
+              fetchPriority="high"
+            />
+          </picture>
           <div className="absolute inset-0 bg-black/42" />
           <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
           <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
@@ -246,49 +250,50 @@ const Index = () => {
             alt="1ROLLO patrol robot"
             className="w-full object-contain"
             style={{ mixBlendMode: 'lighten' }}
+            loading="lazy"
           />
 
           {/* Left labels — positioned along the outer ring arc */}
           <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '15%' }}>
-            <img src={solutionsLeft[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsLeft[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[0].text}</p>
           </div>
           <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-6%', top: '42%' }}>
-            <img src={solutionsLeft[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsLeft[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[1].text}</p>
           </div>
           <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '68%' }}>
-            <img src={solutionsLeft[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsLeft[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[2].text}</p>
           </div>
 
           {/* Right labels — positioned along the outer ring arc */}
           <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '15%' }}>
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[0].text}</p>
-            <img src={solutionsRight[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsRight[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
           </div>
           <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-6%', top: '42%' }}>
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[1].text}</p>
-            <img src={solutionsRight[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsRight[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
           </div>
           <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '68%' }}>
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[2].text}</p>
-            <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
           </div>
 
           {/* Inner annotations — on the small inner ring */}
           <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '24%', top: '33%' }}>
             <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
-            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
           </div>
           <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '24%', top: '46%' }}>
-            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" />
+            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
             <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
           </div>
 
           {/* Bottom label */}
           <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1" style={{ bottom: '0%' }}>
-            <img src={solutionBottom.img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" />
+            <img src={solutionBottom.img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
             <p className="text-[9px] lg:text-sm text-white/80 leading-tight text-center">{solutionBottom.text}</p>
           </div>
         </div>
@@ -319,6 +324,7 @@ const Index = () => {
                     src={t.img}
                     alt={t.title}
                     className="w-full h-full object-contain p-2"
+                    loading="lazy"
                   />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-3">

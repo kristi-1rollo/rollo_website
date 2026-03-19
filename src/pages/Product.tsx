@@ -73,11 +73,15 @@ const Product = () => {
     <div className="pb-16">
       {/* A) Hero / Intro */}
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
-        <img
-          src="/graph/pilt-1.jpg"
-          alt="Conventional patrol context"
-          className="absolute inset-0 h-full w-full object-cover object-[72%_center] sm:object-[65%_center] md:object-[60%_center]"
-        />
+        <picture>
+          <source media="(min-width: 1px)" srcSet="/graph/pilt-1.webp" type="image/webp" />
+          <img
+            src="/graph/pilt-1.jpg"
+            alt="Conventional patrol context"
+            className="absolute inset-0 h-full w-full object-cover object-[72%_center] sm:object-[65%_center] md:object-[60%_center]"
+            fetchPriority="high"
+          />
+        </picture>
         <div className="absolute inset-0 bg-black/58" />
         {/* Mobile: stronger gradient for better text contrast */}
         <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.88)_28%,rgba(2,6,13,0.62)_58%,rgba(2,6,13,0.28)_88%)]" />

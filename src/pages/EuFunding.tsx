@@ -35,6 +35,7 @@ const EuFunding = () => {
                 src="/logos/nextgeneration-eu-funded.jpg"
                 alt="Funded by the European Union - NextGenerationEU"
                 className="h-20 sm:h-24 md:h-28 lg:h-32 w-auto object-contain md:justify-self-end"
+                loading="lazy"
               />
             </div>
           </div>

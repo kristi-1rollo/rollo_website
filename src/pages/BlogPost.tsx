@@ -21,6 +21,7 @@ import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents"
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
 import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
+import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
 
 const estimateReadingTime = (html: string) => {
   const text = html.replace(/<[^>]+>/g, "").trim();
@@ -276,11 +277,15 @@ const BlogPost = () => {
                 <section className="surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
-                    <img
-                      src={rolloRenderP013}
-                      alt="ROLLO F6 target unit"
-                      className="h-40 w-full object-cover"
-                    />
+                    <picture>
+                      <source srcSet={rolloRenderP013WebP} type="image/webp" />
+                      <img
+                        src={rolloRenderP013}
+                        alt="ROLLO F6 target unit"
+                        className="h-40 w-full object-cover"
+                        loading="lazy"
+                      />
+                    </picture>
                   </div>
                   <p className="mb-4 text-sm text-slate-300">
                     Compact autonomous perimeter unit for 24/7 patrol operations.
