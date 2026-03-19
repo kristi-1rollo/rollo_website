@@ -60,6 +60,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     defaultTopicFallback = false,
   } = options;
 
+  const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
