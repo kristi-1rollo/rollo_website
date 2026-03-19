@@ -134,7 +134,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         message: "",
       });
     } catch {
-      toast.error("Something went wrong. Please try again.");
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
