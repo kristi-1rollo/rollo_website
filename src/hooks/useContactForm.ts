@@ -82,7 +82,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
   const validate = (): boolean => {
     if (!formData.name || !formData.email) {
-      toast.error("Please fill in all required fields");
+      toast({ title: "Please fill in all required fields", variant: "destructive" });
       return false;
     }
     for (const field of requiredFields) {
