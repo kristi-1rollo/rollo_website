@@ -1,26 +1,16 @@
 
 
-# Build error fix + career posterite optimeerimine
+# FadeInView ref warning fix
 
-## 1. Build error parandus
-**Fail:** `src/components/ScrollControlledVideo.tsx` rida 87
-- Eemalda `loading="lazy"` — `<video>` elemendil pole seda atribuuti. Video laisk laadimine on juba tagatud `preload="metadata"` kaudu.
+## Problem
+Console shows "Function components cannot be given refs" warning for `FadeInView` in `Index.tsx`. The `FadeInView` component doesn't use `forwardRef`, but somewhere in Index.tsx a ref is being passed to it (likely via the `Section` component or directly).
 
-## 2. Career posterite üleslaadimise optimeerimine
-**Fail:** `src/components/CareerPostEditor.tsx`
-- Kasuta olemasolevat `optimizeImage` funktsiooni (või `uploadThumbnail` mis juba sisaldab optimeerimist) career posterite üleslaadimiseks, et need samuti automaatselt WebP formaati konverteeritaks ja suurust vähendataks.
+## Fix
+Wrap `FadeInView` with `React.forwardRef` so it can accept refs without warnings. The ref will be forwarded to the inner `motion.div`.
 
-## 3. OptimizedImage komponent (kuva-aegne)
-**Uus fail:** `src/components/OptimizedImage.tsx`
-- Universaalne `<img>` wrapper mis lisab automaatselt:
-  - `loading="lazy"` + `decoding="async"` (v.a. above-the-fold pildid, kus `priority={true}`)
-  - `width` ja `height` atribuudid CLS vältimiseks
-  - Supabase Storage piltidele `?width=X&format=webp` transformatsiooni parameetrid `srcSet`-is
+### File: `src/components/FadeInView.tsx`
+- Convert from plain function to `forwardRef` component
+- Forward the ref to `motion.div`
 
-Seda saab järk-järgult rakendada olemasolevatele komponentidele — kohe automaatset asendust ei tee, aga komponent on valmis kasutamiseks.
-
-### Muudetavad failid
-1. `src/components/ScrollControlledVideo.tsx` — eemalda `loading="lazy"`
-2. `src/components/CareerPostEditor.tsx` — lisa pildi optimeerimine üleslaadimisele
-3. `src/components/OptimizedImage.tsx` — uus komponent
+This is a one-file, non-breaking change. No visual differences.
 
