@@ -1,31 +1,12 @@
 import { Link } from "react-router-dom";
-import { Navigation, Eye, Plug, Cloud, Shield, XCircle, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale } from "lucide-react";
+import { Navigation, Eye, Plug, Cloud, Shield, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale } from "lucide-react";
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
 import { ScrollControlledVideo } from "@/components/ScrollControlledVideo";
+import { Section, SectionTag } from "@/components/ui/section";
 import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
 import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
-
-const Section = ({
-  children,
-  className = "",
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => (
-  <section className={`section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 ${className}`}>
-    <div className="text-left">
-      {children}
-    </div>
-  </section>
-);
-
-const SectionTag = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
-    {children}
-  </p>
-);
 
 const problems = [
   {

@@ -136,28 +136,6 @@ const useCases = [
   },
 ];
 
-/* ── helpers ──────────────────────────────────────────── */
-
-const Section = ({
-  children,
-  className = "",
-  id,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-}) => (
-  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 text-left ${className}`}>
-    {children}
-  </section>
-);
-
-const SectionTag = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
-    {children}
-  </p>
-);
-
 /* ── page ─────────────────────────────────────────────── */
 
 const Index = () => {
