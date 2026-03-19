@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -65,6 +65,7 @@ interface RegistrationModalProps {
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
 
 const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -119,11 +120,11 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
           ? data.details.join(", ")
           : data?.error;
 
-        toast.error(msg ?? "Something went wrong. Please try again.");
+        toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
 
-      toast.success("Thank you for your interest! We'll be in touch soon.");
+      toast({ title: "Thank you for your interest! We'll be in touch soon." });
       onOpenChange(false);
       setFormData({
         name: "",
@@ -133,7 +134,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         message: "",
       });
     } catch {
-      toast.error("Something went wrong. Please try again.");
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }

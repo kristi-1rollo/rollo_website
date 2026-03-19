@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { toast } from "sonner";
+import { useToast } from "@/hooks/use-toast";
 
 const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
 
@@ -60,6 +60,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     defaultTopicFallback = false,
   } = options;
 
+  const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -81,13 +82,13 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
   const validate = (): boolean => {
     if (!formData.name || !formData.email) {
-      toast.error("Please fill in all required fields");
+      toast({ title: "Please fill in all required fields", variant: "destructive" });
       return false;
     }
     for (const field of requiredFields) {
       const value = formData[field];
       if (Array.isArray(value) ? value.length === 0 : !value) {
-        toast.error("Please fill in all required fields");
+        toast({ title: "Please fill in all required fields", variant: "destructive" });
         return false;
       }
     }
@@ -136,14 +137,14 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
       if (!res.ok || data?.error) {
         const msg = Array.isArray(data?.details) ? data.details.join(", ") : data?.error;
-        toast.error(msg ?? "Something went wrong. Please try again.");
+        toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
 
-      toast.success(successMessage);
+      toast({ title: successMessage });
       setFormData(INITIAL_FORM_DATA);
     } catch {
-      toast.error("Something went wrong. Please try again.");
+      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }

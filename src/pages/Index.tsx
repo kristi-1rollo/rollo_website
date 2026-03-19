@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import { Section, SectionTag } from "@/components/ui/section";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -134,28 +135,6 @@ const useCases = [
     tech: "EX-PROOF RATING: ZONE 0 / GAS LEAK DETECT",
   },
 ];
-
-/* ── helpers ──────────────────────────────────────────── */
-
-const Section = ({
-  children,
-  className = "",
-  id,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  id?: string;
-}) => (
-  <section id={id} className={`max-w-6xl mx-auto px-6 lg:px-8 text-left ${className}`}>
-    {children}
-  </section>
-);
-
-const SectionTag = ({ children }: { children: React.ReactNode }) => (
-  <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
-    {children}
-  </p>
-);
 
 /* ── page ─────────────────────────────────────────────── */
 
