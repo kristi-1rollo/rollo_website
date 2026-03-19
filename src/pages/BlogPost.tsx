@@ -138,9 +138,6 @@ const BlogPost = () => {
         title={post.title}
         category={post.tag}
         imageUrl={post.thumbnail_url}
-        focalX={post.thumbnail_focal_x}
-        focalY={post.thumbnail_focal_y}
-        zoom={post.thumbnail_zoom}
       />
 
       <div className="container-premium section-glow-top">
