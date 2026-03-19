@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="border-t border-white/[0.08] bg-gradient-to-b from-white/[0.02] to-transparent">
+    <footer className="section-glow-top bg-gradient-to-b from-white/[0.02] to-transparent">
       {/* MAIN FOOTER */}
       <div className="container-premium py-12 md:py-16 px-6 md:px-8">
         <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-center md:text-left items-center md:items-start">
@@ -30,13 +30,9 @@ const Footer = () => {
                 Viljandi maakond, Viljandi linn,<br />
                 Raua tn 16, 71020
               </p>
-              <p className="text-xs text-slate-500">Registry code: 17320003</p>
+              <p className="text-xs text-slate-400">Registry code: 17320003</p>
               <a
                 href="mailto:info@1rollo.com"
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.location.href = "mailto:info@1rollo.com";
-                }}
                 className="inline-flex min-h-[44px] md:min-h-0 items-center justify-center md:justify-start gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
               >
                 <Mail className="w-4 h-4" />
@@ -47,7 +43,7 @@ const Footer = () => {
 
           {/* Quick links */}
           <div className="space-y-4">
-            <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+            <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
               Quick Links
             </h3>
             <nav className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:grid-cols-1 md:gap-y-2.5 text-[15px]">
@@ -87,7 +83,7 @@ const Footer = () => {
           {/* Social & Trust signals */}
           <div className="space-y-6 md:text-right">
             <div className="space-y-3">
-              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Follow Us
               </h3>
               <div className="flex items-center gap-2.5 justify-center md:justify-end">
@@ -113,7 +109,7 @@ const Footer = () => {
             </div>
 
             <div className="space-y-3 pt-2">
-              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-500 font-semibold">
+              <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Supported by
               </h3>
               <div className="space-y-3 flex flex-col items-center md:items-end">
@@ -147,24 +143,10 @@ const Footer = () => {
       {/* SUBFOOTER - minimal */}
       <div className="border-t border-white/[0.05]">
         <div className="container-premium py-6">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-center md:text-left items-center md:items-start">
-            <p className="text-xs text-slate-600 tracking-wide">
+          <div className="flex items-center justify-center text-center">
+            <p className="text-xs text-slate-500 tracking-wide">
               © {new Date().getFullYear()} Rollo Robotics OÜ. All rights reserved.
             </p>
-            <div className="flex items-center justify-center md:justify-start gap-6">
-              <a
-                href="#"
-                className="text-xs text-slate-600 hover:text-slate-400 transition-colors tracking-wide"
-              >
-                Privacy Policy
-              </a>
-              <a
-                href="#"
-                className="text-xs text-slate-600 hover:text-slate-400 transition-colors tracking-wide"
-              >
-                Terms of Service
-              </a>
-            </div>
           </div>
         </div>
       </div>
