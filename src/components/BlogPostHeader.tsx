@@ -4,9 +4,12 @@ interface BlogPostHeaderProps {
   title: string;
   imageUrl: string | null;
   category: string;
+  focalX?: number | null;
+  focalY?: number | null;
+  zoom?: number | null;
 }
 
-const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
+const BlogPostHeader = ({ title, imageUrl, category, focalX, focalY, zoom }: BlogPostHeaderProps) => {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 120, damping: 30 });
 
