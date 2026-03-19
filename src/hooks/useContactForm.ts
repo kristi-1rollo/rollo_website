@@ -141,7 +141,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         return;
       }
 
-      toast.success(successMessage);
+      toast({ title: successMessage });
       setFormData(INITIAL_FORM_DATA);
     } catch {
       toast.error("Something went wrong. Please try again.");
