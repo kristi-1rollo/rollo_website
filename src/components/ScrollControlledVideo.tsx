@@ -84,7 +84,8 @@ export function ScrollControlledVideo({ src, className = "" }: ScrollControlledV
           muted
           playsInline
           preload="metadata"
-          loading="lazy"
+
+
           style={{
             maskImage: 'radial-gradient(ellipse 75% 70% at 50% 50%, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)',
             WebkitMaskImage: 'radial-gradient(ellipse 75% 70% at 50% 50%, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)',

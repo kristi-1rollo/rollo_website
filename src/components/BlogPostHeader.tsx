@@ -40,11 +40,16 @@ const BlogPostHeader = ({ title, imageUrl, category, focalX, focalY, zoom }: Blo
           {title}
         </h1>
 
-        <div className="photo-depth-frame relative aspect-[21/9] w-full overflow-hidden border border-white/10 bg-black/20 cyber-frame scan-lines">
+        <div className="photo-depth-frame relative aspect-[16/9] w-full overflow-hidden border border-white/10 bg-black/20 cyber-frame scan-lines">
           <img
             src={imageUrl ?? "/hero/rollo-street.png"}
             alt={title}
             className="h-full w-full object-cover"
+            style={{
+              objectPosition: `${focalX ?? 50}% ${focalY ?? 50}%`,
+              transform: `scale(${zoom ?? 1})`,
+              transformOrigin: `${focalX ?? 50}% ${focalY ?? 50}%`,
+            }}
           />
         </div>
       </div>
