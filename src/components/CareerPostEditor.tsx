@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import RichTextEditor from "@/components/RichTextEditor";
 import { supabase } from "@/integrations/supabase/client";
 import { Upload, X, Save } from "lucide-react";
+import { optimizeImage } from "@/lib/imageOptimize";
 
 const JOB_TYPES = ["Full-time", "Part-time", "Contract", "Internship"];
 
@@ -171,11 +172,12 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
 
     setUploading(true);
     try {
-      const ext = file.name.split(".").pop();
+      const optimized = await optimizeImage(file, 1200, 1700, 0.85);
+      const ext = optimized.name.split(".").pop() || "webp";
       const path = `${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
         .from("career-posters")
-        .upload(path, file, { upsert: true });
+        .upload(path, optimized, { upsert: true });
       if (error) throw error;
 
       const { data } = supabase.storage.from("career-posters").getPublicUrl(path);
