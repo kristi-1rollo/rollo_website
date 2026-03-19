@@ -1,5 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
+import { optimizeImage } from "@/lib/imageOptimize";
 
 export interface MediaGalleryItem {
   url: string;
