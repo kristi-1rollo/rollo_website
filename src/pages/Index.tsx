@@ -194,21 +194,6 @@ const Index = () => {
           <p className="text-sm sm:text-base md:text-lg text-slate-300">
             Autonomous robots that see, hear, speak, and move.
           </p>
-
-          <div className="flex flex-wrap gap-3 pt-2 justify-start">
-            <Link
-              to="/product"
-              className="min-h-11 inline-flex items-center rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground hover:bg-white hover:text-black transition-all duration-300"
-            >
-              Product
-            </Link>
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-primary hover:text-black hover:border-primary backdrop-blur-sm transition-all duration-300"
-            >
-              Contact
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -312,12 +297,6 @@ const Index = () => {
                 <p className="text-sm text-white/60 leading-relaxed flex-1">
                   {t.text}
                 </p>
-                <Link
-                  to="/product"
-                  className="mt-6 inline-flex items-center justify-start gap-1 text-sm font-medium text-primary hover:text-white transition-colors duration-300"
-                >
-                  See full spec <ChevronRight className="h-4 w-4" />
-                </Link>
               </div>
             </FadeInView>
           ))}
@@ -376,17 +355,6 @@ const Index = () => {
             );
           })}
         </div>
-
-        <FadeInView delay={400}>
-          <div className="mt-8 text-left">
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-primary hover:text-black hover:border-primary transition-all duration-300"
-            >
-              Talk to Us
-            </Link>
-          </div>
-        </FadeInView>
       </Section>
 
       {/* ═══ MARKET ═══ */}
@@ -434,7 +402,8 @@ const Index = () => {
             </div>
           </FadeInView>
 
-          <FadeInView delay={120}>
+          {/* HIDDEN: ROI Calculator - uncomment to restore */}
+          {/* <FadeInView delay={120}>
             <div className="surface-panel business-case-panel rounded-[1.75rem] p-6 md:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-8 md:gap-10 items-start">
                 <div>
@@ -528,7 +497,7 @@ const Index = () => {
                 </div>
               </div>
             </div>
-          </FadeInView>
+          </FadeInView> */}
         </div>
       </Section>
     </div>
