@@ -1,12 +1,9 @@
-import { Link } from "react-router-dom";
 import { Navigation, Eye, Plug, Cloud, Shield, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale } from "lucide-react";
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
 import { ScrollControlledVideo } from "@/components/ScrollControlledVideo";
 import { Section, SectionTag } from "@/components/ui/section";
-import rolloRenderP006 from "@/assets/robot/rollo-render-p006.png";
-import rolloFrontP010 from "@/assets/robot/rollo-front-p010.png";
 
 const problems = [
   {
@@ -90,21 +87,6 @@ const Product = () => {
           <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl">
             Continuous patrol, intelligent awareness, and lower operating cost in one autonomous ground platform.
           </p>
-
-          <div className="flex flex-wrap gap-3 pt-2 justify-start">
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-primary-foreground hover:bg-white hover:text-black transition-all duration-300"
-            >
-              Get in Touch
-            </Link>
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-primary hover:text-black hover:border-primary backdrop-blur-sm transition-all duration-300"
-            >
-              Reserve Priority
-            </Link>
-          </div>
         </div>
       </section>
 
@@ -188,18 +170,12 @@ const Product = () => {
 
           {/* Scroll-controlled video - Mobile */}
           <div className="relative lg:hidden flex items-center justify-center py-8 mt-8">
-            <ScrollControlledVideo
-              src="/robot/vid/rollo-promo-1.mp4"
-              className=""
-            />
+            <ScrollControlledVideo src="/robot/vid/rollo-promo-1.mp4" />
           </div>
 
           {/* Scroll-controlled video - Desktop */}
           <div className="relative hidden lg:flex items-center justify-center py-8">
-            <ScrollControlledVideo
-              src="/robot/vid/rollo-promo-1.mp4"
-              className=""
-            />
+            <ScrollControlledVideo src="/robot/vid/rollo-promo-1.mp4" />
           </div>
           </div>
         </div>
@@ -370,51 +346,6 @@ const Product = () => {
           <SpecsBlueprint />
         </FadeInView>
       </Section>
-
-
-      {/* H) Priority Reservation */}
-      <section className="section-glow-top max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
-        <div className="surface-panel rounded-[1.75rem] p-8 md:p-12 text-center">
-          <SectionTag>Reservation</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-            Request Priority Access
-          </h2>
-          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto">
-            Talk to the team, discuss your deployment environment, and secure early access when ordering opens.
-          </p>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 text-left">
-            {[
-              "Priority access when commercial rollout begins",
-              "Early production allocation for qualified deployments",
-              "No obligation to purchase or rent",
-            ].map((item) => (
-              <div key={item} className="blue-card-glow rounded-2xl p-5">
-                <p className="text-sm text-slate-300">{item}</p>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center justify-center rounded-xl bg-primary px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-primary/90 transition-all duration-300"
-            >
-              Reserve Priority
-            </Link>
-            <Link
-              to="/contact"
-              className="min-h-11 inline-flex items-center justify-center rounded-xl border border-white/20 bg-white/5 px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-white/90 hover:bg-white/10 transition-all duration-300"
-            >
-              Talk to Us
-            </Link>
-          </div>
-
-          <p className="text-center text-sm text-slate-400 mt-4">
-            No obligation | Free reservation | Cancel anytime
-          </p>
-        </div>
-      </section>
     </div>
   );
 };
