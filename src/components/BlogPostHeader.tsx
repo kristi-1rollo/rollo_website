@@ -28,9 +28,6 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
           <span className="mono-spec border border-white/20 px-2.5 py-1 text-[10px]">
             SECURITY_LEVEL: UNCLASSIFIED
           </span>
-          <span className="mono-spec border border-white/20 px-2.5 py-1 text-[10px]">
-            CATEGORY: {category || "GENERAL"}
-          </span>
         </div>
 
         <h1 className="title-halo mb-8 max-w-5xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white uppercase md:text-6xl lg:text-7xl">

@@ -1,11 +1,8 @@
-import { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { usePublishedPosts } from "@/hooks/useBlogPosts";
 import { format } from "date-fns";
 import { ArrowRight } from "lucide-react";
 import FadeInView from "@/components/FadeInView";
-
-const TAGS = ["All", "Technology", "Security", "Field Test", "AI & Vision", "Industry", "Company", "General"];
 
 const formatHudTimestamp = (dateStr: string | null): string => {
   if (!dateStr) return "";
@@ -17,15 +14,9 @@ const formatHudTimestamp = (dateStr: string | null): string => {
 
 const Blog = () => {
   const { data: posts = [], isLoading } = usePublishedPosts();
-  const [activeTag, setActiveTag] = useState("All");
 
-  const filtered = useMemo(() => {
-    if (activeTag === "All") return posts;
-    return posts.filter((p) => p.tag === activeTag);
-  }, [posts, activeTag]);
-
-  const heroPost = filtered.length > 0 ? filtered[0] : null;
-  const gridPosts = filtered.length > 1 ? filtered.slice(1) : [];
+  const heroPost = posts.length > 0 ? posts[0] : null;
+  const gridPosts = posts.length > 1 ? posts.slice(1) : [];
 
   return (
     <div className="pt-24 pb-16">
@@ -44,26 +35,11 @@ const Blog = () => {
         </div>
       </section>
 
-      {/* HUD toggle filters */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-4">
-        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-          {TAGS.map((t) => (
-            <button
-              key={t}
-              onClick={() => setActiveTag(t)}
-              className={`hud-toggle ${activeTag === t ? "hud-toggle--active" : ""}`}
-            >
-              {t}
-            </button>
-          ))}
-        </div>
-      </section>
-
       {/* Content */}
       <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         {isLoading ? (
           <p className="text-muted-foreground text-center mono-spec">Loading dispatches…</p>
-        ) : filtered.length === 0 ? (
+        ) : posts.length === 0 ? (
           <p className="text-muted-foreground text-center mono-spec">No dispatches found</p>
         ) : (
           <>
@@ -92,12 +68,7 @@ const Blog = () => {
 
                     {/* Body */}
                     <div className="dispatch-hero__body text-center md:text-left">
-                      <div className="flex items-center gap-3 mb-4 justify-center md:justify-start">
-                        <span className="bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
-                          {heroPost.tag}
-                        </span>
-                      </div>
-                      <p className="mono-spec text-muted-foreground telemetry-pulse mb-3">
+                      <p className="mono-spec text-white text-base telemetry-pulse mb-3">
                         {formatHudTimestamp(heroPost.published_at)}
                       </p>
                       <h2 className="title-halo text-2xl md:text-3xl font-bold text-foreground mb-4 leading-snug">
@@ -143,15 +114,8 @@ const Blog = () => {
                         </div>
 
                         <div className="p-6 flex flex-col flex-1 text-center md:text-left">
-                          {/* Tag */}
-                          <div className="flex items-center gap-3 mb-3 justify-center md:justify-start">
-                            <span className="bg-primary/10 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
-                              {a.tag}
-                            </span>
-                          </div>
-
                           {/* HUD timestamp */}
-                          <p className="mono-spec text-muted-foreground telemetry-pulse mb-3">
+                          <p className="mono-spec text-white text-base telemetry-pulse mb-3">
                             {formatHudTimestamp(a.published_at)}
                           </p>
 

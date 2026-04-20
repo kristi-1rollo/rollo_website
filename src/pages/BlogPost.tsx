@@ -155,10 +155,7 @@ const BlogPost = () => {
 
             <FadeInView delay={100}>
               <div className="surface-panel mb-8 flex flex-wrap items-center gap-4 rounded-[4px] px-4 py-4">
-                <span className="rounded-[4px] border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.15em] text-primary">
-                  {post.tag}
-                </span>
-                <span className="text-[11px] text-muted-foreground">{publishedDate}</span>
+                <span className="text-sm text-white font-medium">{publishedDate}</span>
                 {readingTime > 0 && (
                   <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
                     <Clock className="h-3 w-3" />
@@ -263,11 +260,7 @@ const BlogPost = () => {
                     </div>
                     <div>
                       <dt className="mono-spec text-white/50">Date</dt>
-                      <dd className="mt-1 text-sm text-white">{publishedDate}</dd>
-                    </div>
-                    <div>
-                      <dt className="mono-spec text-white/50">Category</dt>
-                      <dd className="mt-1 text-sm text-white">{post.tag}</dd>
+                      <dd className="mt-1 text-base text-white font-medium">{publishedDate}</dd>
                     </div>
                   </dl>
                 </section>
