@@ -30,7 +30,7 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
           </span>
         </div>
 
-        <h1 className="title-halo mb-8 max-w-5xl text-4xl font-extrabold leading-[0.95] tracking-tight text-white uppercase md:text-6xl lg:text-7xl">
+        <h1 className="title-halo mb-8 max-w-5xl text-3xl font-extrabold leading-[1.1] tracking-tight text-white uppercase md:text-5xl lg:text-6xl">
           {title}
         </h1>
 

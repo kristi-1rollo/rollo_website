@@ -7,9 +7,7 @@ import FadeInView from "@/components/FadeInView";
 const formatHudTimestamp = (dateStr: string | null): string => {
   if (!dateStr) return "";
   const d = new Date(dateStr);
-  const time = format(d, "HH:mm:ss");
-  const date = format(d, "MMM d yyyy").toUpperCase();
-  return `${time} // ${date}`;
+  return format(d, "MMMM d, yyyy");
 };
 
 const Blog = () => {
@@ -68,6 +66,11 @@ const Blog = () => {
 
                     {/* Body */}
                     <div className="dispatch-hero__body text-center md:text-left">
+                      <div className="flex items-center gap-3 mb-3 justify-center md:justify-start">
+                        <span className="bg-primary/10 border border-primary/30 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
+                          LATEST
+                        </span>
+                      </div>
                       <p className="mono-spec text-white text-base telemetry-pulse mb-3">
                         {formatHudTimestamp(heroPost.published_at)}
                       </p>

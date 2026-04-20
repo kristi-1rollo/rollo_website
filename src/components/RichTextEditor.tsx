@@ -53,10 +53,10 @@ const MenuButton = ({
     type="button"
     onClick={onClick}
     title={title}
-    className={`p-1.5 rounded-[4px] transition-colors ${
+    className={`p-1.5 rounded-[4px] transition-all font-medium ${
       active
-        ? "bg-primary/20 text-primary"
-        : "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+        ? "bg-primary text-black shadow-md ring-2 ring-primary/30"
+        : "text-muted-foreground hover:text-white hover:bg-muted"
     }`}
   >
     {children}
@@ -236,14 +236,23 @@ const RichTextEditor = ({ content, onChange }: Props) => {
 
         <Separator />
 
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive("heading", { level: 1 })} title="Heading 1">
-          <Heading1 className={ic} />
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive("heading", { level: 1 })} title="Heading 1 (Large title)">
+          <span className="flex items-center gap-1 text-xs font-bold">
+            <Heading1 className={ic} />
+            <span>H1</span>
+          </span>
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Heading 2">
-          <Heading2 className={ic} />
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Heading 2 (Section title)">
+          <span className="flex items-center gap-1 text-xs font-bold">
+            <Heading2 className={ic} />
+            <span>H2</span>
+          </span>
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Heading 3">
-          <Heading3 className={ic} />
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Heading 3 (Subsection)">
+          <span className="flex items-center gap-1 text-xs font-bold">
+            <Heading3 className={ic} />
+            <span>H3</span>
+          </span>
         </MenuButton>
 
         <Separator />

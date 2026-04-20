@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
   ArrowLeft,
+  ArrowRight,
   Clock,
   Linkedin,
   Facebook,
@@ -35,18 +36,18 @@ const splitByH2 = (html: string): string[] => {
 };
 
 const proseClasses =
-  "dossier-prose prose prose-invert prose-sm sm:prose-base max-w-none text-slate-300 leading-relaxed " +
-  "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-4 " +
+  "dossier-prose prose prose-invert prose-sm sm:prose-base max-w-none text-white leading-relaxed " +
+  "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-6 " +
   "[&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 " +
-  "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-4 " +
-  "[&_p]:mb-4 [&_p]:text-justify " +
+  "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-6 " +
+  "[&_p]:mb-6 [&_p]:text-justify " +
   "[&_h1]:text-left [&_h2]:text-left [&_h3]:text-left " +
-  "[&_ul]:text-left [&_ol]:text-left [&_li]:leading-snug " +
+  "[&_ul]:text-left [&_ol]:text-left [&_li]:leading-snug [&_ul]:mb-6 [&_ol]:mb-6 " +
   "[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight " +
-  "[&_h2]:border-t [&_h2]:border-border [&_h2]:pt-10 [&_h2]:mt-14 [&_h2]:mb-3 " +
+  "[&_h2]:border-t [&_h2]:border-border [&_h2]:pt-12 [&_h2]:mt-16 [&_h2]:mb-6 " +
   "[&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-8 [&_h2]:before:h-[2px] [&_h2]:before:bg-primary [&_h2]:before:mb-4 " +
-  "[&_h2:first-of-type]:border-t-0 [&_h2:first-of-type]:pt-0 [&_h2:first-of-type]:mt-8 " +
-  "[&_h3]:text-white [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tight [&_h3]:mt-6 [&_h3]:mb-2 " +
+  "[&_h2:first-of-type]:border-t-0 [&_h2:first-of-type]:pt-0 [&_h2:first-of-type]:mt-10 " +
+  "[&_h3]:text-white [&_h3]:font-bold [&_h3]:uppercase [&_h3]:tracking-tight [&_h3]:mt-10 [&_h3]:mb-4 " +
   "[&_strong]:text-white [&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\\00a0']";
 
 const BlogPost = () => {
@@ -72,6 +73,24 @@ const BlogPost = () => {
     },
     enabled: !!id,
   });
+
+  const { data: allPosts = [] } = useQuery({
+    queryKey: ["blog-posts", "all"],
+    queryFn: async () => {
+      if (!supabase) return [];
+      const { data, error } = await supabase
+        .from("blog_posts")
+        .select("id, title, published_at")
+        .eq("is_published", true)
+        .order("published_at", { ascending: false });
+      if (error) throw error;
+      return data;
+    },
+  });
+
+  const currentIndex = allPosts.findIndex((p) => p.id === id);
+  const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
   const processedContent = useMemo(
     () => (post?.content ? injectHeadingIds(post.content) : ""),
@@ -132,8 +151,38 @@ const BlogPost = () => {
     );
   }
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.png",
+    "datePublished": post.published_at,
+    "dateModified": post.updated_at || post.published_at,
+    "author": {
+      "@type": "Organization",
+      "name": "ROLLO Intelligence Desk"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ROLLO",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://rollo.ee/logo.png"
+      }
+    },
+    "description": post.excerpt || post.title,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": window.location.href
+    }
+  };
+
   return (
     <div className="min-h-screen pb-16 dossier-interactive">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
+      />
       <BlogPostHeader
         title={post.title}
         category={post.tag}
@@ -246,6 +295,39 @@ const BlogPost = () => {
                 </section>
               </FadeInView>
             )}
+
+            <FadeInView delay={550}>
+              <nav className="mt-12 pt-8 border-t border-border flex flex-wrap items-center justify-between gap-4">
+                {prevPost ? (
+                  <Link
+                    to={`/blog/${prevPost.id}`}
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                    <span>Previous</span>
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-not-allowed opacity-50">
+                    <ArrowLeft className="h-4 w-4" />
+                    <span>Previous</span>
+                  </span>
+                )}
+                {nextPost ? (
+                  <Link
+                    to={`/blog/${nextPost.id}`}
+                    className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
+                  >
+                    <span>Next</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </Link>
+                ) : (
+                  <span className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-not-allowed opacity-50">
+                    <span>Next</span>
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                )}
+              </nav>
+            </FadeInView>
           </main>
 
           <aside className="hidden lg:block">

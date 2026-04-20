@@ -39,20 +39,20 @@ interface Props {
 const TableOfContents = ({ html }: Props) => {
   const items = useMemo(() => parseHeadings(html), [html]);
 
-  if (items.length < 2) return null;
+  if (items.length === 0) return null;
 
   return (
     <nav className="surface-panel mb-10 p-5 rounded-[4px]">
-      <p className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-semibold mb-3 flex items-center gap-2">
+      <p className="text-xs uppercase tracking-[0.15em] text-white font-medium mb-3 flex items-center gap-2">
         <span className="inline-block w-4 h-[2px] bg-primary" />
         Table of Contents
       </p>
-      <ul className="space-y-1.5">
+      <ul className="space-y-2">
         {items.map((item) => (
           <li key={item.id} className={item.level === 3 ? "ml-4" : ""}>
             <a
               href={`#${item.id}`}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+              className="text-sm text-white hover:text-primary transition-colors leading-relaxed font-normal"
             >
               {item.text}
             </a>
