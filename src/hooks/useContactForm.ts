@@ -18,7 +18,6 @@ export const DEPLOYMENT_AREA_OPTIONS = [
   "Water supply stations and reservoirs",
   "Data centers",
   "Law enforcement and military support",
-  "Business investment purposes",
   "Other",
 ] as const;
 

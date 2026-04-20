@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/sheet";
 
 const nav = [
+  { label: "Home", to: "/" },
   { label: "Product", to: "/product" },
   { label: "Blog", to: "/blog" },
-  
   { label: "About Us", to: "/about" },
 ];
 
@@ -142,20 +142,6 @@ const Header = () => {
                 </SheetHeader>
 
                 <div className="mt-8 flex flex-col gap-3">
-                  <Link
-                    to="/"
-                    onClick={onNavClick}
-                    aria-current={location.pathname === "/" ? "page" : undefined}
-                    className={[
-                      "rounded-lg px-3 py-3 border transition",
-                      location.pathname === "/"
-                        ? "bg-white/[0.07] border-[#B4FF33]/25 text-white"
-                        : "bg-white/[0.03] border-white/[0.06] text-slate-300 hover:text-white hover:bg-white/[0.06]",
-                    ].join(" ")}
-                  >
-                    Home
-                  </Link>
-
                   {nav.map((i) => {
                     const isActive = location.pathname === i.to;
                     return (
