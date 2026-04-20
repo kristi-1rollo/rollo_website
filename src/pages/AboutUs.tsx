@@ -1,5 +1,4 @@
 import { useState, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Briefcase } from "lucide-react";
 import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
@@ -73,14 +72,6 @@ const AboutUs = () => {
             mobility to environments where traditional human patrols are costly,
             inefficient, or unsafe.
           </p>
-          <div className="flex flex-wrap items-center gap-4 pt-2">
-            <Link
-              to="/contact"
-              className="min-h-11 rounded-xl bg-[#B4FF33] px-6 py-2 text-sm font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition inline-flex items-center"
-            >
-              Get in Touch
-            </Link>
-          </div>
         </div>
       </section>
 
