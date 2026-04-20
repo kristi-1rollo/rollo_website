@@ -159,11 +159,10 @@ const Index = () => {
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
           <picture>
-            <source media="(min-width: 1px)" srcSet="/hero/rollo-street.webp" type="image/webp" />
             <img
-              src="/hero/rollo-street.png"
-              alt="Rollo autonomous patrol robot on street"
-              className="absolute inset-0 w-full h-full object-cover object-[75%_center]"
+              src="/robot/F6/1rollo_tll.png"
+              alt="Rollo autonomous patrol robot at airport"
+              className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
               fetchPriority="high"
             />
           </picture>
