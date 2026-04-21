@@ -357,13 +357,25 @@ const Index = () => {
       </Section>
 
       {/* ═══ MARKET ═══ */}
-      <Section className="section-glow-top py-20 md:py-28 relative">
-        <div className="absolute inset-0 geo-grid opacity-25 pointer-events-none" />
-        <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none" />
-        <div className="absolute right-[10%] top-[34%] h-64 w-64 rounded-full bg-[radial-gradient(circle,rgba(34,91,206,0.16)_0%,rgba(8,23,58,0.08)_36%,rgba(0,0,0,0)_72%)] blur-3xl pointer-events-none" />
+      <Section className="section-glow-top py-20 md:py-28 relative overflow-visible">
+        {/* Full-bleed background image - breaks out of container */}
+        <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-screen pointer-events-none">
+          <picture>
+            <img
+              src="/robot/F6/1rollo_market_scale.png"
+              alt="1Rollo autonomous security robot"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: '70% center' }}
+            />
+          </picture>
+          {/* Subtle overlay for text contrast only */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#020611]/80 via-[#020611]/50 to-[#020611]/30" />
+          <div className="absolute inset-0 geo-grid opacity-12 pointer-events-none" />
+        </div>
+        <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.15)_0%,rgba(7,20,49,0.06)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none z-10" />
 
         <FadeInView>
-          <div className="max-w-2xl mb-10 md:mb-12 pt-3 md:pt-5">
+          <div className="relative z-10 max-w-2xl mb-10 md:mb-12 pt-3 md:pt-5">
             <SectionTag>Business Case</SectionTag>
             <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
               Market Scale Meets Immediate ROI.
@@ -374,7 +386,7 @@ const Index = () => {
           </div>
         </FadeInView>
 
-        <div className="relative grid grid-cols-1 xl:grid-cols-[0.76fr_1.24fr] gap-7 md:gap-8 items-start">
+        <div className="relative z-10 grid grid-cols-1 xl:grid-cols-[0.76fr_1.24fr] gap-7 md:gap-8 items-start">
           <FadeInView>
             <div className="pt-6 md:pt-8 xl:pt-10">
               <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-5">
