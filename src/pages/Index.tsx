@@ -209,7 +209,7 @@ const Index = () => {
         {/* Robot centered with orbit labels */}
         <div className="relative flex justify-center mx-auto" style={{ maxWidth: '900px' }}>
           <img
-            src="/robot/rollo-orbit-2.png"
+            src="/robot/F6/1rollo_orbital.png"
             alt="1ROLLO patrol robot"
             className="w-full object-contain"
             style={{ mixBlendMode: 'lighten' }}
@@ -244,12 +244,12 @@ const Index = () => {
             <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
           </div>
 
-          {/* Inner annotations — on the small inner ring */}
-          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '24%', top: '33%' }}>
+          {/* Inner annotations — on the inner white ring */}
+          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '19%', top: '31%' }}>
             <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
             <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
           </div>
-          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '24%', top: '46%' }}>
+          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '19%', top: '49%' }}>
             <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
             <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
           </div>
@@ -356,161 +356,93 @@ const Index = () => {
         </div>
       </Section>
 
-      {/* ═══ MARKET ═══ */}
-      <Section className="section-glow-top py-20 md:py-28 relative overflow-visible">
-        {/* Full-bleed background image - breaks out of container */}
-        <div className="absolute top-0 bottom-0 left-1/2 -translate-x-1/2 w-screen pointer-events-none">
-          <picture>
-            <img
-              src="/robot/F6/1rollo_market_scale.png"
-              alt="1Rollo autonomous security robot"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{ objectPosition: '70% center' }}
-            />
-          </picture>
-          {/* Subtle overlay for text contrast only */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#020611]/80 via-[#020611]/50 to-[#020611]/30" />
-          <div className="absolute inset-0 geo-grid opacity-12 pointer-events-none" />
+      <section className="section-glow-top relative overflow-hidden border-t border-b border-white/8 bg-[#020611] flex items-center justify-center">
+        {/* Inner padding wrapper to create space from borders - perfectly symmetric */}
+        <div className="absolute inset-0 my-12 mx-8 md:my-16 md:mx-12 lg:my-20 lg:mx-16 overflow-hidden">
+          {/* Background image inside padded area */}
+          <div
+            className="absolute inset-0 block"
+            style={{
+              backgroundImage: 'url(/robot/F6/1rollo_market_scale.png)',
+              backgroundSize: 'cover',
+              backgroundPosition: '75% center',
+              backgroundRepeat: 'no-repeat',
+              display: 'block'
+            }}
+          />
+
+          {/* Subtle inner borders for depth */}
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent pointer-events-none" />
+
+          {/* Strong gradient overlay - black on left, transparent on right */}
+          <div
+            className="absolute inset-0 hidden lg:block"
+            style={{
+              background: 'linear-gradient(to right, rgba(2,6,17,1) 0%, rgba(2,6,17,0.95) 20%, rgba(2,6,17,0.8) 40%, rgba(2,6,17,0.3) 70%, rgba(2,6,17,0) 100%)'
+            }}
+          />
+          {/* Mobile gradient - black at bottom, transparent on top */}
+          <div
+            className="absolute inset-0 lg:hidden"
+            style={{
+              background: 'linear-gradient(to top, rgba(2,6,17,1) 0%, rgba(2,6,17,0.95) 30%, rgba(2,6,17,0.7) 60%, rgba(2,6,17,0.3) 100%)'
+            }}
+          />
+
+          {/* Background effects */}
+          <div className="absolute inset-0 geo-grid opacity-8 pointer-events-none" />
+          <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none z-10" />
         </div>
-        <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.15)_0%,rgba(7,20,49,0.06)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none z-10" />
 
-        <FadeInView>
-          <div className="relative z-10 max-w-2xl mb-10 md:mb-12 pt-3 md:pt-5">
-            <SectionTag>Business Case</SectionTag>
-            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
-              Market Scale Meets Immediate ROI.
-            </h2>
-            <p className="text-sm md:text-base text-white/60">
-              The market is already there. The operating savings are measurable.
-            </p>
-          </div>
-        </FadeInView>
-
-        <div className="relative z-10 grid grid-cols-1 xl:grid-cols-[0.76fr_1.24fr] gap-7 md:gap-8 items-start">
-          <FadeInView>
-            <div className="pt-6 md:pt-8 xl:pt-10">
-              <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-5">
-                Market Opportunity
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 xl:grid-cols-1 gap-6">
-                {[
-                  { num: "28.5M", desc: "Frontline security workers globally" },
-                  { num: "$500B", desc: "Security equipment market by 2030" },
-                  { num: "80%+", desc: "Potential customer cost savings" },
-                ].map((stat, i) => (
-                  <FadeInView key={stat.num} delay={i * 120}>
-                    <div className="border-l border-white/10 pl-4 md:pl-5">
-                      <p className="text-[1.65rem] md:text-[1.9rem] font-semibold text-white leading-none">
-                        {stat.num}
-                      </p>
-                      <p className="text-sm text-white/68 mt-2 max-w-[22ch]">
-                        {stat.desc}
-                      </p>
-                    </div>
-                  </FadeInView>
-                ))}
-              </div>
-            </div>
-          </FadeInView>
-
-          {/* HIDDEN: ROI Calculator - uncomment to restore */}
-          {/* <FadeInView delay={120}>
-            <div className="surface-panel business-case-panel rounded-[1.75rem] p-6 md:p-8">
-              <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_300px] gap-8 md:gap-10 items-start">
+        {/* Container with max-width - text content only */}
+        <div className="relative z-10 w-full h-full flex items-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-16">
+            <div className="max-w-xl lg:max-w-2xl">
+            {/* Text Content */}
+            <div className="space-y-8">
+              <FadeInView>
                 <div>
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/48 mb-3">
-                    Business Intelligence
+                  <SectionTag>Business Case</SectionTag>
+                  <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 mt-4">
+                    Market Scale Meets Immediate ROI.
+                  </h2>
+                  <p className="text-sm md:text-base lg:text-lg text-white/70 max-w-xl">
+                    The market is already there. The operating savings are measurable.
                   </p>
-                  <h3 className="text-2xl md:text-3xl font-bold text-white max-w-sm">
-                    Estimate the return from autonomous patrol.
-                  </h3>
-                  <p className="text-white/60 text-sm max-w-md mt-3 mb-8">
-                    Adjust your coverage model and see how quickly operating costs can move in your favor.
+                </div>
+              </FadeInView>
+
+              <FadeInView delay={120}>
+                <div className="pt-6 lg:pt-8">
+                  <p className="text-xs uppercase tracking-[0.18em] text-white/50 mb-6">
+                    Market Opportunity
                   </p>
-
-                  <div className="space-y-7">
-                    <div>
-                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 mb-3">
-                        <p className="text-xs uppercase tracking-[0.15em] text-white/70">
-                          Patrol Hours per Day
-                        </p>
-                        <span className="text-sm font-semibold text-white text-right min-w-[2ch]">{hours}</span>
-                      </div>
-                      <Slider
-                        value={[hours]}
-                        onValueChange={(val) => setHours(val[0])}
-                        min={1}
-                        max={24}
-                        step={1}
-                        trackClassName="h-[5px] bg-white/8"
-                        rangeClassName="bg-primary shadow-[0_0_18px_rgba(180,255,51,0.3)]"
-                        thumbClassName="h-3.5 w-3.5 border border-primary/70 bg-white shadow-[0_0_16px_rgba(180,255,51,0.35)] focus-visible:ring-primary/30 focus-visible:ring-offset-0"
-                      />
-                    </div>
-
-                    <div>
-                      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 mb-3">
-                        <p className="text-xs uppercase tracking-[0.15em] text-white/70">
-                          Replaced Guard Sectors
-                        </p>
-                        <span className="text-sm font-semibold text-white text-right min-w-[2ch]">{sectors}</span>
-                      </div>
-                      <Slider
-                        value={[sectors]}
-                        onValueChange={(val) => setSectors(val[0])}
-                        min={1}
-                        max={20}
-                        step={1}
-                        trackClassName="h-[5px] bg-white/8"
-                        rangeClassName="bg-primary shadow-[0_0_18px_rgba(180,255,51,0.3)]"
-                        thumbClassName="h-3.5 w-3.5 border border-primary/70 bg-white shadow-[0_0_16px_rgba(180,255,51,0.35)] focus-visible:ring-primary/30 focus-visible:ring-offset-0"
-                      />
-                    </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-2xl">
+                    {[
+                      { num: "28.5M", desc: "Frontline security workers globally" },
+                      { num: "$500B", desc: "Security equipment market by 2030" },
+                      { num: "80%+", desc: "Potential customer cost savings" },
+                    ].map((stat, i) => (
+                      <FadeInView key={stat.num} delay={i * 100 + 200}>
+                        <div className="border-l-2 border-white/15 pl-5">
+                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
+                            {stat.num}
+                          </p>
+                          <p className="text-sm md:text-base text-white/70 mt-2.5 max-w-[28ch]">
+                            {stat.desc}
+                          </p>
+                        </div>
+                      </FadeInView>
+                    ))}
                   </div>
                 </div>
-
-                <div className="rounded-[1.5rem] border border-white/7 bg-white/[0.025] px-5 py-6 md:px-6 md:py-7">
-                  <p className="text-xs uppercase tracking-[0.15em] text-white/48 mb-3">
-                    Estimated Annual Savings
-                  </p>
-                  <p className="text-sm font-medium uppercase tracking-[0.24em] text-primary/90">
-                    EUR
-                  </p>
-                  <p className="text-4xl md:text-[3.4rem] font-bold text-primary neon-glow leading-[0.92] mt-2">
-                    {annualSavings > 0 ? annualSavings.toLocaleString() : "-"}
-                  </p>
-
-                  <div className="mt-6 pt-5 border-t border-white/6 grid grid-cols-2 gap-5">
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-white/45">
-                        ROI Period
-                      </p>
-                      <p className="text-lg md:text-xl font-bold text-white mt-1">
-                        {roiMonths > 0 ? `${roiMonths} Months` : "-"}
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-[11px] uppercase tracking-[0.15em] text-white/45">
-                        Efficiency
-                      </p>
-                      <p className="text-lg md:text-xl font-bold text-white mt-1">
-                        {savingsPercentage > 0 ? `${savingsPercentage.toFixed(0)}%` : "-"}
-                      </p>
-                    </div>
-                  </div>
-
-                  <Link
-                    to="/contact"
-                    className="mt-6 min-h-11 inline-flex w-full items-center justify-center rounded-xl border border-primary bg-primary px-6 py-2 text-sm font-semibold uppercase tracking-[0.12em] text-black hover:bg-primary/90 transition-all duration-300"
-                  >
-                    Get a Quote
-                  </Link>
-                </div>
-              </div>
+              </FadeInView>
             </div>
-          </FadeInView> */}
+          </div>
         </div>
-      </Section>
+        </div>
+      </section>
     </div>
   );
 };
