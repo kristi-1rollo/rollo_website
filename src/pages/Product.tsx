@@ -169,12 +169,12 @@ const Product = () => {
 
           {/* Scroll-controlled video - Mobile */}
           <div className="relative lg:hidden flex items-center justify-center py-8 mt-8">
-            <ScrollControlledVideo src="/robot/vid/rollo-promo-1.mp4" />
+            <ScrollControlledVideo src="/robot/vid/1rollo_hall_9-16.mp4" />
           </div>
 
           {/* Scroll-controlled video - Desktop */}
           <div className="relative hidden lg:flex items-center justify-center py-8">
-            <ScrollControlledVideo src="/robot/vid/rollo-promo-1.mp4" />
+            <ScrollControlledVideo src="/robot/vid/1rollo_hall_9-16.mp4" />
           </div>
           </div>
         </div>

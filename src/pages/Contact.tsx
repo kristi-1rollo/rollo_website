@@ -27,17 +27,36 @@ const Contact = () => {
   }, []);
 
   return (
-    <div className="pt-24 pb-16">
-      {/* Hero Section */}
-      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-        <div className="max-w-2xl space-y-6">
+    <div className="pb-16">
+      {/* Hero Section with Video on Right */}
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+        {/* Background */}
+        <div className="absolute inset-0 bg-[#020611]" />
+        <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
+
+        {/* Video positioned on right side - covers right 70% */}
+        <div className="absolute left-[30%] top-0 bottom-0 right-0 overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="h-full w-full object-cover"
+          >
+            <source src="/robot/vid/1Rollo_hallway.mp4" type="video/mp4" />
+          </video>
+          {/* Gradient fade on left edge of video */}
+          <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
+        </div>
+
+        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Contact
           </p>
-          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
+          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
             Let's Talk About Your Security Needs
           </h1>
-          <p className="text-base md:text-lg text-white leading-relaxed max-w-prose">
+          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl">
             Whether you're interested in partnerships, pilot programs, deployment planning,
             or joining our team, we'd love to hear from you.
           </p>
