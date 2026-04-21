@@ -52,21 +52,20 @@ const Product = () => {
       {/* A) Hero / Intro */}
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <picture>
-          <source media="(min-width: 1px)" srcSet="/graph/pilt-1.webp" type="image/webp" />
           <img
-            src="/graph/pilt-1.jpg"
-            alt="Conventional patrol context"
-            className="absolute inset-0 h-full w-full object-cover object-[72%_center] sm:object-[65%_center] md:object-[60%_center]"
-            fetchPriority="high"
+            src="/robot/F6/1rollo_auto_sec.png"
+            alt="Rollo autonomous security robot on patrol"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ objectPosition: '65% center' }}
+            fetchpriority="high"
           />
         </picture>
-        <div className="absolute inset-0 bg-black/58" />
+        <div className="absolute inset-0 bg-black/40" />
         {/* Mobile: stronger gradient for better text contrast */}
         <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.88)_28%,rgba(2,6,13,0.62)_58%,rgba(2,6,13,0.28)_88%)]" />
-        {/* Desktop gradients */}
-        <div className="absolute inset-y-0 left-0 hidden md:block w-[60%] bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_34%,rgba(2,6,13,0.26)_74%,rgba(2,6,13,0.06)_100%)]" />
+        {/* Desktop gradients - blur effect on left for text */}
+        <div className="absolute inset-y-0 left-0 hidden md:block w-[55%] bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_34%,rgba(2,6,13,0.26)_74%,rgba(2,6,13,0.06)_100%)]" />
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
-        <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.32)_0%,rgba(0,0,0,0.14)_24%,rgba(0,0,0,0)_56%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
