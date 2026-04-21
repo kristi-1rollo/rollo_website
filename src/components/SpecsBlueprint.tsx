@@ -8,8 +8,6 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
-import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
 
 interface Spec {
   label: string;
@@ -113,33 +111,33 @@ export function SpecsBlueprint() {
       </div>
 
       {/* ── Desktop blueprint ── */}
-      <div className="hidden md:block relative min-h-[600px]">
+      <div className="hidden md:block relative min-h-[750px]">
         {/* Pulsing glow behind robot */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-[#B4FF33]/10 blur-[60px] animate-pulse color-dodge-glow" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#B4FF33]/15 blur-[80px] animate-pulse color-dodge-glow" />
+
+        {/* Additional blue ambient glow */}
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-500/8 blur-[100px]" />
 
         {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <picture>
-            <source srcSet={rolloRenderP013WebP} type="image/webp" />
-            <img
-              src={rolloRenderP013}
-              alt="ROLLO F6 blueprint"
-              className="max-w-[350px] w-full h-auto"
-              style={{ mixBlendMode: "screen" }}
-              loading="lazy"
-            />
-          </picture>
+          <img
+            src="/robot/F6/f6_tech_spec.png"
+            alt="ROLLO F6 technical specifications"
+            className="max-w-[400px] w-full h-auto opacity-95"
+            style={{ mixBlendMode: "lighten" }}
+            loading="lazy"
+          />
         </div>
 
         {/* Left specs */}
-        <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-12 w-[calc(50%-200px)]">
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-16 w-[calc(50%-200px)]">
           {leftSpecs.map((spec, i) => (
             <SpecLabel key={spec.label} spec={spec} side="left" index={i} />
           ))}
         </div>
 
         {/* Right specs */}
-        <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-12 w-[calc(50%-200px)]">
+        <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-16 w-[calc(50%-200px)]">
           {rightSpecs.map((spec, i) => (
             <SpecLabel
               key={spec.label}
