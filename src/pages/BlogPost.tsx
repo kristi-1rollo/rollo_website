@@ -157,7 +157,7 @@ const BlogPost = () => {
     "headline": post.title,
     "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.png",
     "datePublished": post.published_at,
-    "dateModified": post.updated_at || post.published_at,
+    "dateModified": post.published_at,
     "author": {
       "@type": "Organization",
       "name": "ROLLO Intelligence Desk"
