@@ -57,7 +57,7 @@ const Product = () => {
             alt="Rollo autonomous security robot on patrol"
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '65% center' }}
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </picture>
         <div className="absolute inset-0 bg-black/40" />
