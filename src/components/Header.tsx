@@ -18,6 +18,8 @@ const nav = [
   { label: "Product", to: "/product" },
   { label: "Blog", to: "/blog" },
   { label: "About Us", to: "/about" },
+  { label: "Career", to: "/career" },
+  { label: "Contact", to: "/contact" },
 ];
 
 const Header = () => {
@@ -109,14 +111,6 @@ const Header = () => {
                 </Link>
               );
             })}
-
-            <Link
-              to="/contact"
-              onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="ml-2 px-4 py-1.5 rounded-[4px] bg-[#B4FF33] text-[#050505] text-sm font-semibold hover:bg-[#B4FF33]/90 transition"
-            >
-              Contact
-            </Link>
           </nav>
 
           {/* Mobile actions */}
@@ -161,20 +155,6 @@ const Header = () => {
                       </Link>
                     );
                   })}
-
-                  <Link
-                    to="/contact"
-                    onClick={onNavClick}
-                    aria-current={location.pathname === "/contact" ? "page" : undefined}
-                    className={[
-                      "rounded-lg px-3 py-3 border transition",
-                      location.pathname === "/contact"
-                        ? "bg-[#B4FF33]/20 border-[#B4FF33]/40 text-[#B4FF33] font-semibold"
-                        : "bg-[#B4FF33]/10 border-[#B4FF33]/20 text-[#B4FF33] hover:bg-[#B4FF33]/20",
-                    ].join(" ")}
-                  >
-                    Contact
-                  </Link>
                 </div>
               </SheetContent>
             </Sheet>

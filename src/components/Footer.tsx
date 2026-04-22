@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="section-glow-top bg-gradient-to-b from-white/[0.02] to-transparent">
+    <footer className="relative z-20 section-glow-top bg-[#050912] bg-gradient-to-b from-white/[0.02] to-transparent">
       {/* MAIN FOOTER */}
       <div className="container-premium py-12 md:py-16 px-6 md:px-8">
         <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-center md:text-left items-center md:items-start">
@@ -72,12 +72,12 @@ const Footer = () => {
               >
                 Contact
               </Link>
-              <a
+              <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                href="/contact#career"
+                to="/career"
               >
                 Career
-              </a>
+              </Link>
             </nav>
           </div>
 

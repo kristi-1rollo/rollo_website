@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
@@ -61,12 +62,12 @@ const Contact = () => {
             or joining our team, we'd love to hear from you.
           </p>
           <div className="flex flex-wrap items-center gap-4 pt-2">
-            <a
-              href="#career"
+            <Link
+              to="/career"
               className="text-sm font-medium text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 hover:text-[#B4FF33]/80 transition"
             >
               View Career Opportunities
-            </a>
+            </Link>
           </div>
         </div>
       </section>

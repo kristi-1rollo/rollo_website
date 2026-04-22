@@ -1,14 +1,4 @@
-import { useState, useCallback } from "react";
-import { useToast } from "@/hooks/use-toast";
-import { Briefcase } from "lucide-react";
-import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import DOMPurify from "dompurify";
+import { Link } from "react-router-dom";
 
 const team = [
   {
@@ -38,22 +28,6 @@ const team = [
 ];
 
 const AboutUs = () => {
-  const { data: careerPosts } = usePublishedCareerPosts();
-  const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
-  const [emailCopied, setEmailCopied] = useState(false);
-  const { toast } = useToast();
-
-  const handleCopyEmail = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText("join@1rollo.com");
-      setEmailCopied(true);
-      toast({ title: "Email copied to clipboard!" });
-      setTimeout(() => setEmailCopied(false), 2000);
-    } catch {
-      toast({ title: "Copy failed", variant: "destructive" });
-    }
-  }, [toast]);
-
   return (
     <div className="pb-16">
       {/* A) Hero */}
@@ -198,143 +172,27 @@ const AboutUs = () => {
         </div>
       </section>
 
-      {/* D) Career Section */}
-      <section
-        id="career"
-        className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24"
-      >
-        <div className="space-y-4 mb-12">
+      {/* D) Join Us - Mini Career CTA */}
+      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+        <div className="text-center max-w-2xl mx-auto space-y-6">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-            Career
+            Join Us
           </p>
           <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
             Join the Future of Autonomous Robotics
           </h2>
-          <p className="text-base md:text-lg text-white max-w-2xl">
-            We're building the world's most advanced autonomous security robots. If you're
-            passionate about robotics, AI, and creating technology that matters, we want to
-            hear from you.
+          <p className="text-base md:text-lg text-slate-300">
+            We're building the next generation of security robots. Join our team and help shape the future.
           </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-12">
-          {/* Why Join Us */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
-              </div>
-              <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
-            </div>
-            <ul className="space-y-3 text-sm text-white">
-              {[
-                "Work on cutting-edge robotics and AI technology",
-                "Join a team with 10+ years of shared robotics experience",
-                "Impact real-world security and safety challenges",
-                "Competitive compensation and equity opportunities",
-                "Flexible work environment and continuous learning",
-              ].map((item) => (
-                <li key={item} className="flex items-start gap-3">
-                  <span className="text-[#B4FF33] mt-1">•</span>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Open Positions */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
-              </div>
-              <h3 className="text-xl font-semibold text-white">Open Positions</h3>
-            </div>
-
-            {careerPosts && careerPosts.length > 0 ? (
-              <ul className="space-y-2">
-                {careerPosts.map((post) => (
-                  <li key={post.id}>
-                    <button
-                      onClick={() => setSelectedPost(post)}
-                      className="surface-panel w-full text-left rounded-lg px-4 py-3 transition group hover:border-[#B4FF33]/30"
-                    >
-                      <span className="text-sm font-medium text-[#B4FF33] group-hover:underline">
-                        {post.title}
-                      </span>
-                      <div className="flex items-center gap-3 mt-1 text-xs text-white/60">
-                        <span>{post.location}</span>
-                        <span>·</span>
-                        <span>{post.type}</span>
-                      </div>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <>
-                <p className="text-sm text-white">
-                  We're always looking for talented people. Even if you don't see a specific
-                  opening, we'd love to hear from you.
-                </p>
-                <a
-                  href="mailto:join@1rollo.com"
-                  className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
-                >
-                  Send your CV to join@1rollo.com
-                </a>
-              </>
-            )}
-          </div>
+          <Link
+            to="/career"
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="inline-flex min-h-12 rounded-xl bg-[#B4FF33] px-8 py-3 text-base font-bold uppercase tracking-[0.12em] text-black hover:bg-[#B4FF33]/90 transition"
+          >
+            View Open Positions
+          </Link>
         </div>
       </section>
-
-      {/* Career Post Modal */}
-      <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#050912] border-white/10 text-white">
-          {selectedPost && (
-            <>
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-bold text-white">
-                  {selectedPost.title}
-                </DialogTitle>
-                <div className="flex items-center gap-3 text-sm text-white/60 pt-1">
-                  <span>{selectedPost.location}</span>
-                  <span>·</span>
-                  <span>{selectedPost.type}</span>
-                </div>
-              </DialogHeader>
-
-              {selectedPost.poster_url && (
-                <div className="photo-depth-frame my-4 rounded-lg overflow-hidden border border-white/10">
-                  <img
-                    src={selectedPost.poster_url}
-                    alt={`${selectedPost.title} poster`}
-                    className="w-full h-auto"
-                    loading="lazy"
-                  />
-                </div>
-              )}
-
-              <div
-                className="prose prose-invert prose-sm max-w-none mt-4 [&>p]:mb-4 [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mt-6 [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mt-5 [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-bold [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4 [&>ul>li]:mb-1 [&>ol>li]:mb-1 [&>blockquote]:border-l-2 [&>blockquote]:border-[#B4FF33]/40 [&>blockquote]:pl-4 [&>blockquote]:italic [&>a]:text-[#B4FF33] [&>a]:underline"
-                dangerouslySetInnerHTML={{
-                  __html: DOMPurify.sanitize(selectedPost.content),
-                }}
-              />
-
-              <div className="mt-6 pt-4 border-t border-white/10">
-                <button
-                  onClick={handleCopyEmail}
-                  className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
-                >
-                  {emailCopied ? "Copied!" : "Apply — join@1rollo.com"}
-                </button>
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 };
