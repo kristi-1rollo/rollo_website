@@ -93,7 +93,7 @@ const Career = () => {
             alt="Rollo robotics team"
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '50% center' }}
-            fetchpriority="high"
+            fetchPriority="high"
           />
         </picture>
 
