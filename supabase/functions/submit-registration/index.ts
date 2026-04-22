@@ -50,7 +50,10 @@ serve(async (req) => {
       message: message || null,
     });
 
-    if (error) return json({ error: error?.message ?? JSON.stringify(error) }, 500);
+    if (error) {
+      console.error("submit-registration insert failed", error);
+      return json({ error: "Internal server error" }, 500);
+    }
 
     return json({ ok: true });
   } catch {
