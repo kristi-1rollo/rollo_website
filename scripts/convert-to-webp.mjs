@@ -50,6 +50,7 @@ async function convertToWebP() {
     }
   }
 
+  console.log('\n💡 Build speed tip: run `npm run optimize:images` only when new large source images are added.');
   console.log('✨ Conversion complete!');
 }
 

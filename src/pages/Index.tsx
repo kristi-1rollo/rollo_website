@@ -14,6 +14,7 @@ import {
 import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import OptimizedImage from "@/components/OptimizedImage";
 import { Section, SectionTag } from "@/components/ui/section";
 
 /* ── data ─────────────────────────────────────────────── */
@@ -158,14 +159,12 @@ const Index = () => {
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
-          <picture>
-            <img
-              src="/robot/F6/1rollo_tll.png"
-              alt="Rollo autonomous patrol robot at airport"
-              className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
-              fetchPriority="high"
-            />
-          </picture>
+          <OptimizedImage
+            src="/robot/F6/1rollo_tll.png"
+            alt="Rollo autonomous patrol robot at airport"
+            className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
+            priority
+          />
           <div className="absolute inset-0 bg-black/42" />
           <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
           <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
