@@ -361,28 +361,24 @@ const Index = () => {
         <div className="absolute inset-0 my-12 mx-8 md:my-16 md:mx-12 lg:my-20 lg:mx-16 overflow-hidden">
           {/* Background image inside padded area */}
           <div
-            className="absolute inset-0 block"
+            className="absolute inset-0"
             style={{
               backgroundImage: 'url(/robot/F6/1rollo_market_scale.png)',
               backgroundSize: 'cover',
               backgroundPosition: '75% center',
-              backgroundRepeat: 'no-repeat',
-              display: 'block'
+              backgroundRepeat: 'no-repeat'
             }}
           />
 
-          {/* Subtle inner borders for depth */}
-          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent pointer-events-none" />
-          <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-white/5 via-white/10 to-transparent pointer-events-none" />
-
-          {/* Strong gradient overlay - black on left, transparent on right */}
+          {/* Desktop gradient overlay - left to right fade */}
           <div
             className="absolute inset-0 hidden lg:block"
             style={{
               background: 'linear-gradient(to right, rgba(2,6,17,1) 0%, rgba(2,6,17,0.95) 20%, rgba(2,6,17,0.8) 40%, rgba(2,6,17,0.3) 70%, rgba(2,6,17,0) 100%)'
             }}
           />
-          {/* Mobile gradient - black at bottom, transparent on top */}
+
+          {/* Mobile gradient overlay - bottom to top fade */}
           <div
             className="absolute inset-0 lg:hidden"
             style={{
@@ -392,12 +388,12 @@ const Index = () => {
 
           {/* Background effects */}
           <div className="absolute inset-0 geo-grid opacity-8 pointer-events-none" />
-          <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none z-10" />
+          <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none" />
         </div>
 
-        {/* Container with max-width - text content only */}
+        {/* Container with max-width matching other sections */}
         <div className="relative z-10 w-full h-full flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-12 md:py-16">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 md:py-24">
             <div className="max-w-xl lg:max-w-2xl">
             {/* Text Content */}
             <div className="space-y-8">
