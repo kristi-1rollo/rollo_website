@@ -38,6 +38,14 @@ interface Props {
   onChange: (html: string) => void;
 }
 
+// Helper type for TipTap editor selections with image nodes
+interface ImageNodeSelection {
+  node: {
+    type: { name: string };
+    attrs: { style?: string };
+  };
+}
+
 const MenuButton = ({
   active,
   onClick,
@@ -136,8 +144,9 @@ const RichTextEditor = ({ content, onChange }: Props) => {
     try {
       const url = await uploadThumbnail(file);
       editor.chain().focus().setImage({ src: url }).run();
-    } catch (err: any) {
-      toast({ title: "Image upload failed", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Unknown error";
+      toast({ title: "Image upload failed", description: errorMessage, variant: "destructive" });
     }
     if (imgRef.current) imgRef.current.value = "";
   };
@@ -147,7 +156,7 @@ const RichTextEditor = ({ content, onChange }: Props) => {
     const { selection } = state;
 
     // Try NodeSelection first (image directly selected)
-    if ('node' in selection && (selection as any).node?.type.name === "image") {
+    if ('node' in selection && (selection as ImageNodeSelection).node?.type.name === "image") {
       editor.chain().focus().updateAttributes("image", {
         style: `width: ${width}; border-radius: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);`,
       }).run();
@@ -191,8 +200,9 @@ const RichTextEditor = ({ content, onChange }: Props) => {
   const getCurrentImageWidth = (): string | null => {
     const { state } = editor;
     const { selection } = state;
-    if ('node' in selection && (selection as any).node?.type.name === "image") {
-      const style = (selection as any).node.attrs.style || "";
+    if ('node' in selection && (selection as ImageNodeSelection).node?.type.name === "image") {
+      const imageNode = selection as ImageNodeSelection;
+      const style = imageNode.node.attrs.style || "";
       const match = style.match(/width:\s*(\d+%)/);
       return match ? match[1] : null;
     }
