@@ -61,54 +61,101 @@ export function ScrollControlledVideo({ src, className = "" }: ScrollControlledV
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
-      className="relative cursor-pointer"
+      className="group relative w-full max-w-[24rem] cursor-pointer sm:max-w-[26rem] lg:max-w-[28rem]"
       onClick={showReplay ? handleReplay : undefined}
     >
-      {/* Video wrapper with heavy blur edges */}
-      <div className="relative max-w-2xl mx-auto">
-        {/* Heavy vignette overlay - blends black edges to background */}
+      <div className="relative mx-auto w-full">
         <div
-          className="absolute inset-0 pointer-events-none z-20"
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-[10%] bottom-[-4%] top-[6%] -z-10 blur-3xl"
           style={{
-            background: `
-              radial-gradient(ellipse 70% 60% at 50% 50%, transparent 30%, rgba(0,6,15,0.3) 55%, rgba(0,6,15,0.7) 75%, rgba(0,6,15,0.95) 90%, rgba(0,6,15,1) 100%)
-            `,
-            filter: 'blur(20px)',
+            background:
+              "radial-gradient(ellipse at 50% 50%, hsl(var(--primary) / 0.14) 0%, hsl(var(--ring) / 0.08) 34%, transparent 72%)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-x-[14%] inset-y-[18%] -z-20 blur-[72px]"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 50%, hsl(var(--foreground) / 0.08) 0%, transparent 72%)",
           }}
         />
 
-        {/* Video with softer mask */}
-        <video
-          ref={videoRef}
-          className={`relative z-10 w-full h-auto object-contain ${className}`}
-          muted
-          playsInline
-          preload="metadata"
+        <div
+          className="relative overflow-hidden rounded-[4px] border p-[10px] shadow-2xl"
           style={{
-            maskImage: 'radial-gradient(ellipse 75% 70% at 50% 50%, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)',
-            WebkitMaskImage: 'radial-gradient(ellipse 75% 70% at 50% 50%, black 40%, rgba(0,0,0,0.5) 70%, transparent 100%)',
+            background:
+              "linear-gradient(180deg, hsl(var(--card) / 0.68) 0%, hsl(var(--background) / 0.42) 100%)",
+            borderColor: "hsl(var(--foreground) / 0.08)",
+            boxShadow:
+              "0 30px 80px hsl(var(--background) / 0.55), inset 0 1px 0 hsl(var(--foreground) / 0.08), inset 0 0 0 1px hsl(var(--primary) / 0.05)",
           }}
         >
-          <source src={src} type="video/mp4" />
-        </video>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-[1px] rounded-[3px]"
+            style={{
+              background:
+                "linear-gradient(180deg, hsl(var(--foreground) / 0.04) 0%, transparent 18%, transparent 82%, hsl(var(--primary) / 0.05) 100%)",
+            }}
+          />
 
-        {/* Replay overlay */}
-        {showReplay && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="absolute inset-0 flex items-center justify-center z-30"
-          >
-            <div className="text-center">
-              <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center mb-2 mx-auto">
-                <svg className="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 5V1L7 6l5 5V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z"/>
-                </svg>
-              </div>
-              <p className="text-white text-sm font-medium">Click to replay</p>
-            </div>
-          </motion.div>
-        )}
+          <div className="relative overflow-hidden rounded-[2px]">
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 z-20"
+              style={{
+                background:
+                  "linear-gradient(180deg, hsl(var(--background) / 0.22) 0%, transparent 18%, transparent 82%, hsl(var(--background) / 0.44) 100%), linear-gradient(90deg, hsl(var(--background) / 0.2) 0%, transparent 14%, transparent 86%, hsl(var(--background) / 0.2) 100%)",
+              }}
+            />
+
+            <video
+              ref={videoRef}
+              className={`relative z-10 aspect-[9/16] w-full h-auto object-cover ${className}`}
+              muted
+              playsInline
+              preload="metadata"
+              style={{
+                maskImage:
+                  "linear-gradient(180deg, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+                WebkitMaskImage:
+                  "linear-gradient(180deg, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+              }}
+            >
+              <source src={src} type="video/mp4" />
+            </video>
+
+            {showReplay && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="absolute inset-0 z-30 flex items-center justify-center"
+                style={{
+                  background:
+                    "linear-gradient(180deg, hsl(var(--background) / 0.26) 0%, hsl(var(--background) / 0.58) 100%)",
+                }}
+              >
+                <div className="text-center">
+                  <div
+                    className="mx-auto mb-2 flex h-16 w-16 items-center justify-center rounded-full border backdrop-blur-md transition-transform duration-300 group-hover:scale-105"
+                    style={{
+                      background: "hsl(var(--background) / 0.4)",
+                      borderColor: "hsl(var(--foreground) / 0.14)",
+                      boxShadow: "0 0 30px hsl(var(--primary) / 0.14)",
+                    }}
+                  >
+                    <svg className="h-8 w-8 text-foreground" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 5V1L7 6l5 5V7c3.3 0 6 2.7 6 6s-2.7 6-6 6-6-2.7-6-6H4c0 4.4 3.6 8 8 8s8-3.6 8-8-3.6-8-8-8z" />
+                    </svg>
+                  </div>
+                  <p className="text-sm font-medium text-foreground">Click to replay</p>
+                </div>
+              </motion.div>
+            )}
+          </div>
+        </div>
       </div>
     </motion.div>
   );
