@@ -21,12 +21,12 @@ const Blog = () => {
       {/* Page header */}
       <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="absolute inset-0 geo-grid opacity-30 pointer-events-none" />
-        <div className="relative max-w-2xl space-y-4 text-center md:text-left mx-auto md:mx-0">
+        <div className="relative max-w-2xl space-y-4 text-left mx-auto md:mx-0">
           <p className="mono-spec text-primary">INTELLIGENCE FEED</p>
           <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground">
             Dispatches & Field Reports
           </h1>
-          <p className="text-base md:text-lg text-slate-300">
+          <p className="text-base md:text-lg text-foreground/80">
             Latest thinking on autonomous security, field test results, and the
             future of robotic patrol technology.
           </p>
@@ -65,22 +65,22 @@ const Blog = () => {
                     </div>
 
                     {/* Body */}
-                    <div className="dispatch-hero__body text-center md:text-left">
-                      <div className="flex items-center gap-3 mb-3 justify-center md:justify-start">
+                    <div className="dispatch-hero__body text-left">
+                      <div className="mb-3 flex items-center gap-3 justify-start">
                         <span className="bg-primary/10 border border-primary/30 px-3 py-1 text-[10px] uppercase tracking-[0.15em] text-primary font-medium">
                           LATEST
                         </span>
                       </div>
-                      <p className="mono-spec text-white text-base telemetry-pulse mb-3">
+                      <p className="mono-spec telemetry-pulse mb-3 text-xs text-white/70">
                         {formatHudTimestamp(heroPost.published_at)}
                       </p>
                       <h2 className="title-halo text-2xl md:text-3xl font-bold text-foreground mb-4 leading-snug">
                         {heroPost.title}
                       </h2>
-                      <p className="text-sm md:text-base text-slate-300 leading-relaxed mb-6 line-clamp-3">
+                      <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-foreground/80 md:text-base">
                         {heroPost.excerpt}
                       </p>
-                      <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:underline justify-center md:justify-start">
+                      <span className="inline-flex items-center gap-1.5 justify-start text-sm font-medium text-primary group-hover:underline">
                         Read Dispatch
                         <ArrowRight className="h-3.5 w-3.5" />
                       </span>
@@ -116,9 +116,9 @@ const Blog = () => {
                           )}
                         </div>
 
-                        <div className="p-6 flex flex-col flex-1 text-center md:text-left">
+                        <div className="flex flex-1 flex-col p-5 md:p-6 text-left">
                           {/* HUD timestamp */}
-                          <p className="mono-spec text-white text-base telemetry-pulse mb-3">
+                          <p className="mono-spec telemetry-pulse mb-3 text-xs text-white/70">
                             {formatHudTimestamp(a.published_at)}
                           </p>
 
@@ -128,12 +128,12 @@ const Blog = () => {
                           </h2>
 
                           {/* Excerpt */}
-                          <p className="text-sm text-slate-300 leading-relaxed mb-6 line-clamp-3">
+                          <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-foreground/80">
                             {a.excerpt}
                           </p>
 
                           {/* Read Dispatch */}
-                          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-primary group-hover:underline mt-auto justify-center md:justify-start">
+                          <span className="mt-auto inline-flex items-center gap-1.5 justify-start text-sm font-medium text-primary group-hover:underline">
                             Read Dispatch
                             <ArrowRight className="h-3.5 w-3.5" />
                           </span>

@@ -107,16 +107,16 @@
 @layer components {
   /* Unified container */
   .container-premium {
-    max-width: 1200px;
+    max-width: 72rem;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 16px;
+    padding-right: 16px;
   }
   @media (min-width: 640px) {
     .container-premium {
-      padding-left: 28px;
-      padding-right: 28px;
+      padding-left: 24px;
+      padding-right: 24px;
     }
   }
   @media (min-width: 1024px) {

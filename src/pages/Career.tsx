@@ -80,10 +80,10 @@ const Career = () => {
 
   return (
     <>
-      {/* Fixed Hero Section - stays in place while scrolling */}
+      {/* Fixed Hero Section - stays in place while scrolling on desktop */}
       <header
         ref={heroRef}
-        className="section-glow-top fixed top-0 left-0 w-full h-screen flex items-center overflow-hidden z-0"
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         {/* Hero background image */}
@@ -105,19 +105,19 @@ const Career = () => {
 
         {/* Dynamic overlay - fades in on scroll using CSS variable */}
         <div
-          className="absolute inset-0 bg-[#050912] transition-opacity duration-200"
+          className="absolute inset-0 bg-background transition-opacity duration-200"
           style={{ opacity: 'var(--hero-overlay-opacity)' }}
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
+        <div className="relative z-10 max-w-6xl mx-auto w-full space-y-5 px-4 py-24 sm:px-6 lg:px-8">
           <SectionTag>Career</SectionTag>
 
           <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
             Join the Future of Autonomous Robotics
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl">
+          <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
             We're building the world's most advanced autonomous security robots. If you're
             passionate about robotics, AI, and creating technology that matters, we want to
             hear from you.
@@ -126,18 +126,18 @@ const Career = () => {
       </header>
 
       {/* Main content - scrolls over fixed hero */}
-      <main className="relative z-10 pt-[100vh]">
-        <div className="bg-[#050912] pb-16">
+      <main className="relative z-10 pt-0 md:pt-[100vh]">
+        <div className="bg-background pb-16">
 
       {/* Why Join Rollo & Open Positions Section */}
       <section>
         <Section className="section-glow-top py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Why Join Us */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
+              <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
+                <Briefcase className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
             </div>
@@ -150,7 +150,7 @@ const Career = () => {
                 "Flexible work environment and continuous learning",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <span className="text-[#B4FF33] mt-1">•</span>
+                  <span className="mt-1 text-primary">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -158,10 +158,10 @@ const Career = () => {
           </div>
 
           {/* Open Positions */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
+              <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
+                <Briefcase className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-white">Open Positions</h3>
             </div>
@@ -172,9 +172,9 @@ const Career = () => {
                   <li key={post.id}>
                     <button
                       onClick={() => setSelectedPost(post)}
-                      className="surface-panel w-full text-left rounded-lg px-4 py-3 transition group hover:border-[#B4FF33]/30"
+                      className="surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
                     >
-                      <span className="text-sm font-medium text-[#B4FF33] group-hover:underline">
+                        <span className="text-sm font-medium text-primary group-hover:underline">
                         {post.title}
                       </span>
                       <div className="flex items-center gap-3 mt-1 text-xs text-white/60">
@@ -194,7 +194,7 @@ const Career = () => {
                 </p>
                 <a
                   href="mailto:join@1rollo.com"
-                  className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
+                   className="inline-flex text-sm text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/90"
                 >
                   Send your CV to join@1rollo.com
                 </a>
@@ -207,7 +207,7 @@ const Career = () => {
 
       {/* Career Post Modal */}
       <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
-        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto bg-[#050912] border-white/10 text-white">
+        <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto border-white/10 bg-background text-white">
           {selectedPost && (
             <>
               <DialogHeader>
@@ -222,7 +222,7 @@ const Career = () => {
               </DialogHeader>
 
               {selectedPost.poster_url && (
-                <div className="photo-depth-frame my-4 rounded-lg overflow-hidden border border-white/10">
+                 <div className="photo-depth-frame my-4 overflow-hidden rounded-[4px] border border-white/10">
                   <img
                     src={selectedPost.poster_url}
                     alt={`${selectedPost.title} poster`}
@@ -233,7 +233,7 @@ const Career = () => {
               )}
 
               <div
-                className="prose prose-invert prose-sm max-w-none mt-4 [&>p]:mb-4 [&>h1]:text-xl [&>h1]:font-bold [&>h1]:mt-6 [&>h1]:mb-3 [&>h2]:text-lg [&>h2]:font-bold [&>h2]:mt-5 [&>h2]:mb-2 [&>h3]:text-base [&>h3]:font-bold [&>h3]:mt-4 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol]:mb-4 [&>ul>li]:mb-1 [&>ol>li]:mb-1 [&>blockquote]:border-l-2 [&>blockquote]:border-[#B4FF33]/40 [&>blockquote]:pl-4 [&>blockquote]:italic [&>a]:text-[#B4FF33] [&>a]:underline"
+                className="prose prose-invert prose-sm mt-4 max-w-none [&>a]:text-primary [&>a]:underline [&>blockquote]:border-l-2 [&>blockquote]:border-primary/40 [&>blockquote]:pl-4 [&>blockquote]:italic [&>h1]:mb-3 [&>h1]:mt-6 [&>h1]:text-xl [&>h1]:font-bold [&>h2]:mb-2 [&>h2]:mt-5 [&>h2]:text-lg [&>h2]:font-bold [&>h3]:mb-2 [&>h3]:mt-4 [&>h3]:text-base [&>h3]:font-bold [&>ol]:mb-4 [&>ol]:list-decimal [&>ol]:pl-5 [&>ol>li]:mb-1 [&>p]:mb-4 [&>ul]:mb-4 [&>ul]:list-disc [&>ul]:pl-5 [&>ul>li]:mb-1"
                 dangerouslySetInnerHTML={{
                   __html: DOMPurify.sanitize(selectedPost.content),
                 }}
@@ -242,7 +242,7 @@ const Career = () => {
               <div className="mt-6 pt-4 border-t border-white/10">
                 <button
                   onClick={handleCopyEmail}
-                  className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
+                   className="inline-flex rounded-[4px] bg-primary px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
                 >
                   {emailCopied ? "Copied!" : "Apply — join@1rollo.com"}
                 </button>
