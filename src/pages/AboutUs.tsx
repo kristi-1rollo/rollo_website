@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { PublicContentRail, Section, SectionIntro } from "@/components/ui/section";
+import { Section } from "@/components/ui/section";
 
 const team = [
   {
@@ -45,8 +45,8 @@ const AboutUs = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.85)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.4)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.1)_22%,rgba(0,0,0,0)_52%)]" />
 
-        <PublicContentRail className="relative z-10 py-16 md:py-24">
-          <SectionIntro centered className="flex flex-col items-center space-y-6">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:px-6 md:py-24 lg:px-8">
+          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
             <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               About Us
             </p>
@@ -60,8 +60,8 @@ const AboutUs = () => {
               mobility to environments where traditional human patrols are costly,
               inefficient, or unsafe.
             </p>
-          </SectionIntro>
-        </PublicContentRail>
+          </div>
+        </div>
       </section>
 
       {/* B) About Overview — 3 Pillars */}
