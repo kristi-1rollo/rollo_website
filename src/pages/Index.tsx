@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
 import OptimizedImage from "@/components/OptimizedImage";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Section, SectionTag } from "@/components/ui/section";
 import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.png";
 
@@ -107,6 +108,7 @@ const useCases = [
 const Index = () => {
   const [sectors, setSectors] = useState(3);
   const [hours, setHours] = useState(16);
+  const [isOrbitOpen, setIsOrbitOpen] = useState(false);
 
   const guardHourlyRate = 15;
   const robotMonthlyCost = 2500;
@@ -173,14 +175,32 @@ const Index = () => {
         </FadeInView>
 
         <div className="mx-auto max-w-6xl">
-          <div className="relative mx-auto max-w-5xl">
-            <img
-              src={orbitalCompositeImage}
-              alt="1ROLLO orbit capabilities overview"
-              className="w-full object-contain"
-              loading="lazy"
-            />
-          </div>
+          <Dialog open={isOrbitOpen} onOpenChange={setIsOrbitOpen}>
+            <div className="relative mx-auto max-w-5xl">
+              <DialogTrigger asChild>
+                <button
+                  type="button"
+                  className="block w-full cursor-zoom-in md:cursor-default"
+                  aria-label="Open orbit image in full screen"
+                >
+                  <img
+                    src={orbitalCompositeImage}
+                    alt="1ROLLO orbit capabilities overview"
+                    className="w-full object-contain"
+                    loading="lazy"
+                  />
+                </button>
+              </DialogTrigger>
+            </div>
+
+            <DialogContent className="border-none bg-transparent p-0 shadow-none max-w-[96vw] w-[96vw] sm:max-w-[90vw]">
+              <img
+                src={orbitalCompositeImage}
+                alt="1ROLLO orbit capabilities overview enlarged"
+                className="w-full max-h-[88vh] object-contain"
+              />
+            </DialogContent>
+          </Dialog>
         </div>
       </section>
 
