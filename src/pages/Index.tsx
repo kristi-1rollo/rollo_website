@@ -165,34 +165,36 @@ const Index = () => {
       </section>
 
       {/* ═══ CAPABILITIES ═══ */}
-      <section className="section-glow-top relative w-full overflow-hidden px-4 py-12 sm:px-6 md:py-20 lg:px-8 lg:py-28">
+      <section className="section-glow-top relative w-full overflow-hidden py-12 md:py-20 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
-        <FadeInView>
-          <div className="max-w-6xl mx-auto text-left">
-          <SectionTag>Solution</SectionTag>
-          <h2 className="title-halo mb-8 max-w-4xl text-left text-2xl sm:text-3xl md:mb-12 md:text-4xl font-bold text-white uppercase">
-            Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
-          </h2>
-          </div>
-        </FadeInView>
+        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+          <FadeInView>
+            <div className="text-left">
+              <SectionTag>Solution</SectionTag>
+              <h2 className="title-halo mb-8 max-w-4xl text-2xl font-bold uppercase text-white sm:text-3xl md:mb-12 md:text-4xl">
+                Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
+              </h2>
+            </div>
+          </FadeInView>
 
-        <div className="mx-auto max-w-6xl">
           <Dialog open={isOrbitOpen} onOpenChange={setIsOrbitOpen}>
-            <div className="relative mx-auto max-w-5xl">
-              <DialogTrigger asChild>
-                <button
-                  type="button"
-                  className="block w-full cursor-zoom-in md:cursor-default"
-                  aria-label="Open orbit image in full screen"
-                >
-                  <img
-                    src={orbitalCompositeImage}
-                    alt="1ROLLO orbit capabilities overview"
-                    className="w-full object-contain"
-                    loading="lazy"
-                  />
-                </button>
-              </DialogTrigger>
+            <div className="mt-8 md:mt-10">
+              <div className="relative mx-auto max-w-5xl">
+                <DialogTrigger asChild>
+                  <button
+                    type="button"
+                    className="block w-full cursor-zoom-in md:cursor-default"
+                    aria-label="Open orbit image in full screen"
+                  >
+                    <img
+                      src={orbitalCompositeImage}
+                      alt="1ROLLO orbit capabilities overview"
+                      className="w-full object-contain"
+                      loading="lazy"
+                    />
+                  </button>
+                </DialogTrigger>
+              </div>
             </div>
 
             <DialogContent className="border-none bg-transparent p-0 shadow-none max-w-[96vw] w-[96vw] sm:max-w-[90vw]">
@@ -302,7 +304,7 @@ const Index = () => {
 
       <section className="section-glow-top relative flex items-center justify-center overflow-hidden border-b border-t border-white/8 bg-background">
         {/* Inner padding wrapper to create space from borders - perfectly symmetric */}
-        <div className="absolute inset-0 my-12 mx-8 md:my-16 md:mx-12 lg:my-20 lg:mx-16 overflow-hidden">
+        <div className="absolute inset-0 my-12 mx-4 overflow-hidden sm:mx-6 md:my-16 lg:mx-8 lg:my-20">
           {/* Background image inside padded area */}
           <div
             className="absolute inset-0"
