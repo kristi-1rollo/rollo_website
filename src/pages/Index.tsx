@@ -19,49 +19,6 @@ import { Section, SectionTag } from "@/components/ui/section";
 
 /* ── data ─────────────────────────────────────────────── */
 
-
-const solutionsLeft = [
-  {
-    img: "/icon/icon-1.png",
-    text: "Patrols predefined indoor and outdoor routes autonomously",
-  },
-  {
-    img: "/icon/icon-2.png",
-    text: "Detects people, movement, and anomalies in real time",
-  },
-  {
-    img: "/icon/icon-3.png",
-    text: "Remembers events and builds a cause of suspicion",
-  },
-];
-
-const solutionsRight = [
-  {
-    img: "/icon/icon-7.png",
-    text: "Communicates with intruders via voice",
-  },
-  {
-    img: "/icon/icon-6.png",
-    text: "Streams live video and alerts to remote operators",
-  },
-  {
-    img: "/icon/icon-5.png",
-    text: "Works 24/7 without fatigue, breaks, or shift changes",
-  },
-];
-
-const solutionBottom = {
-  img: "/icon/icon-4.png",
-  text: "Works in snow and cold weather",
-};
-
-const capabilityBadges = [
-  "Two-way audio and sensors",
-  "360° cameras",
-  "Thermal and anomaly detection",
-  "Remote operator escalation",
-];
-
 const productTiles = [
   {
     title: "Single-Wheel Autonomy",
@@ -215,69 +172,13 @@ const Index = () => {
         </FadeInView>
 
         <div className="mx-auto max-w-6xl">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,420px)_minmax(0,1fr)] lg:items-center">
-            <div className="hidden space-y-4 lg:block">
-              {solutionsLeft.map((item) => (
-                <div key={item.text} className="surface-panel rounded-[4px] p-5">
-                  <div className="flex items-start gap-3">
-                    <img src={item.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
-                    <p className="text-sm leading-6 text-white/80">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="space-y-5">
-              <div className="relative mx-auto max-w-[420px] overflow-hidden rounded-[4px] border border-border/70 bg-card/30 p-4 sm:p-6">
-                <img
-                  src="/robot/F6/1rollo_orbital.png"
-                  alt="1ROLLO patrol robot"
-                  className="w-full object-contain"
-                  style={{ mixBlendMode: 'lighten' }}
-                  loading="lazy"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
-                {[...solutionsLeft, ...solutionsRight, solutionBottom].map((item) => (
-                  <div key={item.text} className="surface-panel rounded-[4px] p-4">
-                    <div className="flex items-start gap-3">
-                      <img src={item.img} alt="" className="mt-0.5 h-4 w-4 shrink-0" loading="lazy" />
-                      <p className="text-sm leading-6 text-white/80">{item.text}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-wrap gap-2">
-                {capabilityBadges.map((badge) => (
-                  <span
-                    key={badge}
-                    className="inline-flex rounded-[4px] border border-border bg-card/40 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/65"
-                  >
-                    {badge}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div className="hidden space-y-4 lg:block">
-              {solutionsRight.map((item) => (
-                <div key={item.text} className="surface-panel rounded-[4px] p-5">
-                  <div className="flex items-start gap-3">
-                    <img src={item.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
-                    <p className="text-sm leading-6 text-white/80">{item.text}</p>
-                  </div>
-                </div>
-              ))}
-
-              <div className="surface-panel rounded-[4px] p-5">
-                <div className="flex items-start gap-3">
-                  <img src={solutionBottom.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
-                  <p className="text-sm leading-6 text-white/80">{solutionBottom.text}</p>
-                </div>
-              </div>
-            </div>
+          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[4px] border border-border/70 bg-card/20 p-2 sm:p-3 md:p-4">
+            <img
+              src="/robot/rollo-orbit-2.png"
+              alt="1ROLLO orbit capabilities overview"
+              className="w-full rounded-[4px] object-contain"
+              loading="lazy"
+            />
           </div>
         </div>
       </section>
