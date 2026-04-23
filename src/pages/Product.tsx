@@ -68,24 +68,26 @@ const Product = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
-          <SectionTag>Product</SectionTag>
+        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full py-24">
+          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
+            <SectionTag>Product</SectionTag>
 
-          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
-            Autonomous Security, Built for the Real World
-          </h1>
+            <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
+              Autonomous Security, Built for the Real World
+            </h1>
 
-          <div className="flex items-center gap-3 sm:gap-4 max-w-md">
-            <span className="h-px flex-1 bg-white/25" />
-            <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
-              ROLLO F6
-            </span>
-            <span className="h-px flex-1 bg-white/25" />
+            <div className="flex items-center gap-3 sm:gap-4 max-w-md w-full">
+              <span className="h-px flex-1 bg-white/25" />
+              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
+                ROLLO F6
+              </span>
+              <span className="h-px flex-1 bg-white/25" />
+            </div>
+
+            <p className="max-w-xl text-sm sm:text-base md:text-lg text-slate-300">
+              Continuous patrol, intelligent awareness, and lower operating cost in one autonomous ground platform.
+            </p>
           </div>
-
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl">
-            Continuous patrol, intelligent awareness, and lower operating cost in one autonomous ground platform.
-          </p>
         </div>
       </section>
 

@@ -50,7 +50,7 @@ const Contact = () => {
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl items-center px-4 py-24 sm:px-6 lg:px-8">
           <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
-            <div className="space-y-5 text-left">
+            <div className="mx-auto max-w-2xl space-y-5 text-center md:mx-0 md:max-w-xl md:text-left">
               <p className="text-xs uppercase tracking-[0.2em] text-primary">
                 Contact
               </p>
@@ -61,7 +61,7 @@ const Contact = () => {
                 Whether you're interested in partnerships, pilot programs, deployment planning,
                 or joining our team, we'd love to hear from you.
               </p>
-              <div className="flex flex-wrap items-center gap-4 pt-1">
+              <div className="flex flex-wrap items-center justify-center gap-4 pt-1 md:justify-start">
                 <Link
                   to="/career"
                   className="text-sm font-medium text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/80"
