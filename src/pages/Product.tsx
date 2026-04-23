@@ -3,7 +3,7 @@ import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
 import { ScrollControlledVideo } from "@/components/ScrollControlledVideo";
-import { Section, SectionTag } from "@/components/ui/section";
+import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
 
 const problems = [
   {
@@ -68,8 +68,8 @@ const Product = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full py-24">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
+        <PublicContentRail className="relative z-10 py-24">
+          <SectionIntro centered className="flex flex-col items-center space-y-6">
             <SectionTag>Product</SectionTag>
 
             <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
@@ -87,8 +87,8 @@ const Product = () => {
             <p className="max-w-xl text-sm sm:text-base md:text-lg text-slate-300">
               Continuous patrol, intelligent awareness, and lower operating cost in one autonomous ground platform.
             </p>
-          </div>
-        </div>
+          </SectionIntro>
+        </PublicContentRail>
       </section>
 
       {/* B) Problem */}
@@ -112,7 +112,7 @@ const Product = () => {
                 const Icon = p.icon;
                 return (
                   <FadeInView key={p.title} delay={i * 90}>
-                    <div className="blue-card-glow flex items-start gap-4 rounded-2xl p-5">
+                    <div className="blue-card-glow flex items-start gap-4 rounded-2xl p-4 md:p-5">
                       <div className="shrink-0 rounded-full bg-red-500/10 p-2.5 text-red-500">
                         <Icon className="h-5 w-5" />
                       </div>
@@ -151,7 +151,7 @@ const Product = () => {
                   const featured = i < 2;
                   return (
                     <FadeInView key={s.title} delay={i * 100}>
-                      <div className={`blue-card-glow rounded-2xl p-5 ${featured ? "min-h-[164px]" : "min-h-[132px]"}`}>
+                      <div className={`blue-card-glow rounded-2xl p-4 md:p-5 ${featured ? "min-h-[164px]" : "min-h-[132px]"}`}>
                         <div className="flex items-start gap-4">
                           <div className="shrink-0 rounded-full bg-primary/10 p-2.5 text-primary">
                             <Icon className="h-5 w-5" />
