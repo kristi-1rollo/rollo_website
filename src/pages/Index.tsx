@@ -376,7 +376,7 @@ const Index = () => {
         </div>
       </Section>
 
-      <section className="section-glow-top relative overflow-hidden border-t border-b border-white/8 bg-[#020611] flex items-center justify-center">
+      <section className="section-glow-top relative flex items-center justify-center overflow-hidden border-b border-t border-white/8 bg-background">
         {/* Inner padding wrapper to create space from borders - perfectly symmetric */}
         <div className="absolute inset-0 my-12 mx-8 md:my-16 md:mx-12 lg:my-20 lg:mx-16 overflow-hidden">
           {/* Background image inside padded area */}
