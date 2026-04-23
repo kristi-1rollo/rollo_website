@@ -173,11 +173,11 @@ const Index = () => {
         </FadeInView>
 
         <div className="mx-auto max-w-6xl">
-          <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[4px] border border-border/70 bg-card/20 p-2 sm:p-3 md:p-4">
+          <div className="relative mx-auto max-w-5xl">
             <img
               src={orbitalCompositeImage}
               alt="1ROLLO orbit capabilities overview"
-              className="w-full rounded-[4px] object-contain"
+              className="w-full object-contain"
               loading="lazy"
             />
           </div>
