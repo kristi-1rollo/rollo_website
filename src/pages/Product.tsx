@@ -130,11 +130,11 @@ const Product = () => {
       </Section>
 
       {/* C) Solution */}
-      <section className="section-glow-top relative w-full overflow-hidden py-16 md:py-24 px-4 sm:px-6 lg:px-8">
+      <section className="section-glow-top relative w-full overflow-hidden px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_24%_18%,rgba(20,58,148,0.16),transparent_52%),linear-gradient(180deg,rgba(5,14,32,0.34),rgba(0,0,0,0.1))]" />
         <div className="text-left">
-          <div className="relative max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[58%_42%] min-h-[560px]">
-          <div className="relative z-10 flex flex-col justify-center lg:pr-8">
+          <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:min-h-[560px] lg:grid-cols-[58%_42%] lg:gap-6 xl:gap-10">
+          <div className="relative z-10 flex flex-col justify-center lg:pr-6 xl:pr-8">
             <FadeInView>
               <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
                 Solution
@@ -170,12 +170,12 @@ const Product = () => {
           </div>
 
           {/* Scroll-controlled video - Mobile */}
-          <div className="relative lg:hidden flex items-center justify-center py-8 mt-8">
+          <div className="relative mt-2 flex items-center justify-center py-2 lg:hidden">
             <ScrollControlledVideo src="/robot/vid/1rollo_hall_9-16.mp4" />
           </div>
 
           {/* Scroll-controlled video - Desktop */}
-          <div className="relative hidden lg:flex items-center justify-center py-8">
+          <div className="relative hidden lg:flex items-center justify-center py-4 xl:justify-end">
             <ScrollControlledVideo src="/robot/vid/1rollo_hall_9-16.mp4" />
           </div>
           </div>
