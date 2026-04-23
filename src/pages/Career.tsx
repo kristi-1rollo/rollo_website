@@ -105,7 +105,7 @@ const Career = () => {
 
         {/* Dynamic overlay - fades in on scroll using CSS variable */}
         <div
-          className="absolute inset-0 bg-[#050912] transition-opacity duration-200"
+          className="absolute inset-0 bg-background transition-opacity duration-200"
           style={{ opacity: 'var(--hero-overlay-opacity)' }}
         />
 
@@ -117,7 +117,7 @@ const Career = () => {
             Join the Future of Autonomous Robotics
           </h1>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300 max-w-xl">
+          <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
             We're building the world's most advanced autonomous security robots. If you're
             passionate about robotics, AI, and creating technology that matters, we want to
             hear from you.
@@ -127,7 +127,7 @@ const Career = () => {
 
       {/* Main content - scrolls over fixed hero */}
       <main className="relative z-10 pt-0 md:pt-[100vh]">
-        <div className="bg-[#050912] pb-16">
+        <div className="bg-background pb-16">
 
       {/* Why Join Rollo & Open Positions Section */}
       <section>
@@ -136,8 +136,8 @@ const Career = () => {
           {/* Why Join Us */}
           <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
+              <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
+                <Briefcase className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
             </div>
@@ -150,7 +150,7 @@ const Career = () => {
                 "Flexible work environment and continuous learning",
               ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
-                  <span className="text-[#B4FF33] mt-1">•</span>
+                  <span className="mt-1 text-primary">•</span>
                   <span>{item}</span>
                 </li>
               ))}
@@ -160,8 +160,8 @@ const Career = () => {
           {/* Open Positions */}
           <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                <Briefcase className="w-5 h-5 text-[#B4FF33]" />
+              <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
+                <Briefcase className="w-5 h-5 text-primary" />
               </div>
               <h3 className="text-xl font-semibold text-white">Open Positions</h3>
             </div>

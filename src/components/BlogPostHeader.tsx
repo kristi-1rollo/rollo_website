@@ -12,17 +12,14 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
 
   return (
     <header className="section-glow-top relative w-full overflow-hidden">
-      <motion.div
-        className="fixed inset-x-0 top-0 z-[100] h-px bg-[#99FF00] origin-left"
-        style={{ scaleX }}
-      />
+      <motion.div className="fixed inset-x-0 top-0 z-[100] h-px origin-left bg-primary" style={{ scaleX }} />
 
       <div className="container-premium pt-24 pb-10 md:pt-32 md:pb-14">
         <div className="mb-5 flex flex-wrap gap-2.5 opacity-80">
           <span className="mono-spec border border-white/20 px-2.5 py-1 text-[10px]">
             DOC_TYPE: STRATEGIC_DISPATCH
           </span>
-          <span className="mono-spec border border-[#99FF00]/30 px-2.5 py-1 text-[10px] text-[#99FF00]">
+          <span className="mono-spec border border-primary/30 px-2.5 py-1 text-[10px] text-primary">
             STATUS: VERIFIED
           </span>
           <span className="mono-spec border border-white/20 px-2.5 py-1 text-[10px]">

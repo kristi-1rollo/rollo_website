@@ -32,7 +32,7 @@ const Contact = () => {
       {/* Hero Section with responsive video composition */}
       <section className="section-glow-top relative w-full min-h-[100svh] overflow-hidden">
         {/* Background */}
-        <div className="absolute inset-0 bg-[#020611]" />
+        <div className="absolute inset-0 bg-background" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="absolute inset-0 hidden md:block md:left-[30%] md:right-0 overflow-hidden">
@@ -57,7 +57,7 @@ const Contact = () => {
               <h1 className="title-halo max-w-2xl text-3xl font-bold leading-[1.08] text-white sm:text-4xl md:text-5xl lg:text-6xl">
                 Let's Talk About Your Security Needs
               </h1>
-              <p className="max-w-xl text-sm text-slate-300 sm:text-base md:text-lg">
+              <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
                 Whether you're interested in partnerships, pilot programs, deployment planning,
                 or joining our team, we'd love to hear from you.
               </p>
@@ -93,8 +93,8 @@ const Contact = () => {
           <div className="lg:col-span-1 space-y-6">
             <div className="surface-panel rounded-[4px] p-5 md:p-6 space-y-6">
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                  <Building2 className="w-6 h-6 text-[#B4FF33]" />
+                <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-3">
+                  <Building2 className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Company Details</h3>
@@ -106,8 +106,8 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                  <MapPin className="w-6 h-6 text-[#B4FF33]" />
+                <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-3">
+                  <MapPin className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Address</h3>
@@ -120,8 +120,8 @@ const Contact = () => {
               </div>
 
               <div className="flex items-start gap-4">
-                <div className="p-3 rounded-xl bg-[#B4FF33]/10 border border-[#B4FF33]/20">
-                  <Mail className="w-6 h-6 text-[#B4FF33]" />
+                <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-3">
+                  <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Email</h3>
@@ -259,7 +259,7 @@ const Contact = () => {
                           id={`contact-${area}`}
                           checked={formData.deploymentAreas.includes(area)}
                           onCheckedChange={() => handleDeploymentAreaToggle(area)}
-                          className="mt-1 border-white/20 data-[state=checked]:bg-[#B4FF33] data-[state=checked]:border-[#B4FF33] data-[state=checked]:text-black"
+                           className="mt-1 border-white/20 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground"
                         />
                         <label
                           htmlFor={`contact-${area}`}
