@@ -214,58 +214,70 @@ const Index = () => {
           </div>
         </FadeInView>
 
-        {/* Robot centered with orbit labels */}
-        <div className="relative flex justify-center mx-auto" style={{ maxWidth: '900px' }}>
-          <img
-            src="/robot/F6/1rollo_orbital.png"
-            alt="1ROLLO patrol robot"
-            className="w-full object-contain"
-            style={{ mixBlendMode: 'lighten' }}
-            loading="lazy"
-          />
+        <div className="mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,420px)_minmax(0,1fr)] lg:items-center">
+            <div className="hidden space-y-4 lg:block">
+              {solutionsLeft.map((item) => (
+                <div key={item.text} className="surface-panel rounded-[4px] p-5">
+                  <div className="flex items-start gap-3">
+                    <img src={item.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
+                    <p className="text-sm leading-6 text-white/80">{item.text}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
 
-          {/* Left labels — positioned along the outer ring arc */}
-          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '15%' }}>
-            <img src={solutionsLeft[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[0].text}</p>
-          </div>
-          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-6%', top: '42%' }}>
-            <img src={solutionsLeft[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[1].text}</p>
-          </div>
-          <div className="absolute flex items-center gap-1.5 lg:gap-2" style={{ left: '-2%', top: '68%' }}>
-            <img src={solutionsLeft[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsLeft[2].text}</p>
-          </div>
+            <div className="space-y-5">
+              <div className="relative mx-auto max-w-[420px] overflow-hidden rounded-[4px] border border-border/70 bg-card/30 p-4 sm:p-6">
+                <img
+                  src="/robot/F6/1rollo_orbital.png"
+                  alt="1ROLLO patrol robot"
+                  className="w-full object-contain"
+                  style={{ mixBlendMode: 'lighten' }}
+                  loading="lazy"
+                />
+              </div>
 
-          {/* Right labels — positioned along the outer ring arc */}
-          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '15%' }}>
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[0].text}</p>
-            <img src={solutionsRight[0].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-          </div>
-          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-6%', top: '42%' }}>
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[1].text}</p>
-            <img src={solutionsRight[1].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-          </div>
-          <div className="absolute flex items-center gap-1.5 lg:gap-2 text-right" style={{ right: '-2%', top: '68%' }}>
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight max-w-[100px] lg:max-w-[180px]">{solutionsRight[2].text}</p>
-            <img src={solutionsRight[2].img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-          </div>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:hidden">
+                {[...solutionsLeft, ...solutionsRight, solutionBottom].map((item) => (
+                  <div key={item.text} className="surface-panel rounded-[4px] p-4">
+                    <div className="flex items-start gap-3">
+                      <img src={item.img} alt="" className="mt-0.5 h-4 w-4 shrink-0" loading="lazy" />
+                      <p className="text-sm leading-6 text-white/80">{item.text}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
 
-          {/* Inner annotations — on the inner white ring */}
-          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ left: '19%', top: '31%' }}>
-            <span className="text-[7px] lg:text-xs text-white/60 text-right leading-tight">two-way audio<br />and sensors</span>
-            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
-          </div>
-          <div className="absolute flex items-center gap-1 lg:gap-2" style={{ right: '19%', top: '49%' }}>
-            <img src="/icon/icon-8.png" alt="" className="w-2 h-2 lg:w-3 lg:h-3" loading="lazy" />
-            <span className="text-[7px] lg:text-xs text-white/60 leading-tight">360° cameras</span>
-          </div>
+              <div className="flex flex-wrap gap-2">
+                {capabilityBadges.map((badge) => (
+                  <span
+                    key={badge}
+                    className="inline-flex rounded-[4px] border border-border bg-card/40 px-3 py-2 text-xs uppercase tracking-[0.12em] text-white/65"
+                  >
+                    {badge}
+                  </span>
+                ))}
+              </div>
+            </div>
 
-          {/* Bottom label */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center gap-1" style={{ bottom: '0%' }}>
-            <img src={solutionBottom.img} alt="" className="h-3.5 w-3.5 lg:h-5 lg:w-5" loading="lazy" />
-            <p className="text-[9px] lg:text-sm text-white/80 leading-tight text-center">{solutionBottom.text}</p>
+            <div className="hidden space-y-4 lg:block">
+              {solutionsRight.map((item) => (
+                <div key={item.text} className="surface-panel rounded-[4px] p-5">
+                  <div className="flex items-start gap-3">
+                    <img src={item.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
+                    <p className="text-sm leading-6 text-white/80">{item.text}</p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="surface-panel rounded-[4px] p-5">
+                <div className="flex items-start gap-3">
+                  <img src={solutionBottom.img} alt="" className="h-5 w-5 shrink-0" loading="lazy" />
+                  <p className="text-sm leading-6 text-white/80">{solutionBottom.text}</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
