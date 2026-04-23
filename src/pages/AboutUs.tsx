@@ -45,14 +45,14 @@ const AboutUs = () => {
         <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.1)_22%,rgba(0,0,0,0)_52%)]" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="max-w-2xl space-y-6">
+          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
             <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               About Us
             </p>
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
               Redefining Autonomous Security
             </h1>
-            <p className="text-base md:text-lg text-white leading-relaxed max-w-prose">
+            <p className="max-w-2xl text-base leading-relaxed text-white md:text-lg">
               At Rollo Robotics, we're redefining what autonomous security robots
               mean in the physical world. Our mission is simple yet
               transformative: to bring human-level perception, communication, and
