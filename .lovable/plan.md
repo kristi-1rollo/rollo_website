@@ -1,123 +1,206 @@
 
-# Plaan: miks update on aeglane ja kuidas see professionaalselt korda teha
+# Mobiilivaate ühtlustamise teostusplaan
 
-## Tõenäoline põhipõhjus
-Praeguse koodi põhjal on kõige tõenäolisem põhjus tootmisbuildi aegluses `vite-plugin-imagemin`, mis jookseb igal production buildil failis `vite.config.ts`. See tähendab, et iga publish/update ajal proovitakse staatilisi pilte uuesti optimeerida.
+## Eesmärk
+Viia avaliku veebilehe mobiilivaade ühtse süsteemi peale nii, et:
+- horizontal overflow kaob,
+- tekst ja meedia on loetavad ning stabiilsed,
+- hero-sektsioonid ei kasuta mobiilis desktop-first paigutusi,
+- container, alignment, radius ja spacing järgivad ühtset reeglistikku.
 
-Projektis on samal ajal:
-- palju suuri pilte `public/robot`, `public/hero`, `src/assets/robot` kaustades
-- mitu videot `public/robot/vid` ja muud rasked meediafailid
-- eraldi skript `scripts/convert-to-webp.mjs`, mis näitab, et piltide eeltöötlus on juba osaliselt mõeldud buildist väljapoole
+## 1. Home: orbiti/capabilities sektsiooni mobiilne ümberdisain
+**Fail:** `src/pages/Index.tsx`
 
-Selline kombinatsioon teebki update’i aeglaseks või viib build timeout’ini.
+Rakendan sellele sektsioonile kahe olekuga lahenduse:
+- **desktop/tablet:** jätab alles visuaalse orbiti loogika
+- **mobile:** asendab negatiivsete offsetitega absoluutsed sildid turvalise stackitud layout’iga
 
-## Mida muudaksin
+### Muudatused
+- Eemaldan mobiilis:
+  - `left: '-2%'`, `left: '-6%'`, `right: '-2%'`, `right: '-6%'`
+  - mikrotekstid `text-[7px]`, `text-[9px]`
+- Teen mobiilile eraldi struktuuri:
+  - robotipilt oma konteineris
+  - capability itemid all või ümber grid/list kujul
+  - inner annotations (“two-way audio and sensors”, “360° cameras”) eraldi väikeste infobadge’idena
+- Ühtlustan sektsiooni joondamise:
+  - mobiilis `text-left`
+  - eemaldan `text-center sm:text-left` tüüpi segamustri selles plokis
+- Vähendan mobiilset vertikaalset spacingut:
+  - `py-24 md:py-40` asemel mobiilis kompaktsem sektsioon
 
-### 1. Eemaldan buildi seest raskekaalulise pildioptimeerimise
-**Fail:** `vite.config.ts`
+### Tulemus
+- overflow-risk kaob
+- capability info muutub loetavaks
+- orbiti esteetika jääb desktopis alles, mobiilis muutub robustseks
 
-Teen buildi kiiremaks nii, et eemaldan `vite-plugin-imagemin` production pipeline’ist või piiran selle kasutust väga tugevalt.
+---
 
-Professionaalne lähenemine siin:
-- production build ei peaks igal deploy’l kõiki pilte uuesti ümber pakkima
-- pildid tuleb optimeerida ette, mitte igal buildil nullist
+## 2. Contact: hero kompositsiooni mobiiline versioon
+**Fail:** `src/pages/Contact.tsx`
 
-Tulemus:
-- update/publish muutub märgatavalt kiiremaks
-- väheneb timeout’i risk
-- käitumine lehel ei muutu
+Teen contact hero’le mobiilse paigutuse, kus video ei ole enam “desktop crop” loogikaga teksti kõrval.
 
-### 2. Viin pildioptimeerimise build-time asemel asset pipeline’i
-**Failid:**
-- `scripts/convert-to-webp.mjs`
-- vajadusel `package.json`
+### Muudatused
+- Asendan mobiilis `absolute left-[30%] ... right-0` paigutuse responsive loogikaga:
+  - **mobile:** video kas
+    - täislaiuses eraldi plokina teksti all/taustal, või
+    - nõrgema overlay’ga taustana ilma agressiivse külgnihketa
+  - **desktop:** võib jääda kahekihiline kompositsioon
+- Viin hero content wrapperi sama container-reegli peale nagu mujal:
+  - `px-4 sm:px-6 lg:px-8`
+- Ühtlustan info- ja formikaartide mobiiltiheduse:
+  - `rounded-2xl` ja `p-8` asemel kompaktsem süsteem
+- Vormi väljade ja CTA nuppude spacingu jätan funktsionaalselt samaks, kuid viin visuaalselt tokenitega kooskõlla
 
-Teen loogika selliseks:
-- rasked pildid konverteeritakse WebP-ks ette
-- build kasutab juba optimeeritud faile
-- vajadusel lisan eraldi käsu nagu `npm run optimize:images`, mida saab jooksutada ainult siis, kui uusi suuri pilte lisatakse
+### Tulemus
+- hero ei tundu mobiilis “poolikult desktop”
+- tekst ja video ei konkureeri
+- contact page sobitub paremini ülejäänud avaliku saidiga
 
-See on full stack / production-grade loogika:
-- build = paketiseerimine
-- asset optimization = eraldi ettevalmistusetapp
+---
 
-### 3. Vähendan hero- ja suuremate visuaalide koormust
-**Mõjutatud failid tõenäoliselt:**
-- `src/pages/Index.tsx`
-- `src/pages/Product.tsx`
-- `src/pages/Career.tsx`
+## 3. Career: fixed hero lihtsustamine ja kaartide tihendamine
+**Fail:** `src/pages/Career.tsx`
+
+Karjäärilehel teen mobiilis robustsema hero flow, et vältida `fixed + pt-[100vh]` haprust.
+
+### Muudatused
+- Teen hero sektsioonile responsive käitumise:
+  - **mobile:** eemaldan või leevendan fixed-hero mustri
+  - **desktop:** võib jääda cinematic overlay-scroll efekt
+- Kui fixed-lahendus jääb alles desktopi jaoks, teen mobiilis tavapärase voolava hero-sektsiooni
+- Vähendan kaartide tihedust:
+  - `p-8` -> mobiilis `p-5` või `p-6`
+  - ikooni ja pealkirja ridade spacing kompaktsemaks
+- Open Positions listi nupud viin sama radius/spacing süsteemi peale
+- Hero wrapperi külgmised paddingud viin ühisele standardile
+
+### Tulemus
+- väikestel ekraanidel väheneb layout glitch’i risk
+- karjäärileht tundub kergem ja vähem “raske”
+- hero ja sisu vahel tekib loomulikum rütm
+
+---
+
+## 4. Blog + BlogPost: loetavuse ja hierarhia parandamine
+**Failid:**  
+- `src/pages/Blog.tsx`
 - `src/pages/BlogPost.tsx`
-- muud komponendid, kus kasutatakse suuri pilte otse `img` kaudu
+- `src/components/BlogPostHeader.tsx`
 
-Rakendan järk-järgult:
-- WebP eelistus seal, kus fail juba olemas on
-- `OptimizedImage` komponendi kasutus Supabase/Lovable Cloud storage piltidel
-- ainult above-the-fold piltidel `fetchPriority="high"`
-- mujal lazy loading
-- võimalusel `width` / `height` või stabiilne container ratio CLS vältimiseks
+### Blog list
+- Mobiilis ühtlustan hero ja kaardisisu joondamise:
+  - vaikimisi `text-left`
+- Vähendan meta-info dominantsi:
+  - kuupäeva mono-stiil jääb alles, kuid visuaalne kaal langetatakse
+- Kaartide sisu spacing teen läbivaks:
+  - pildi, meta, pealkirja, excerpti ja CTA vahed standardseks
 
-See ei muuda disaini, aga vähendab lehe ja buildi koormust.
+### BlogPost
+- Eemaldan mobiilis body-textilt `text-justify`
+- Jätan pealkirjad vasakjoondusse
+- Kontrollin H2/H3 vahede mobiilset mõõtu:
+  - suur “editorial” rütm jääb, kuid kitsal ekraanil muutub kompaktsemaks
+- Meta riba (`publishedDate`, read time) teen väiksema visuaalse rõhuga
+- Blog header pildi kuvasuhte teen mobiilis vähem “ultrawide”-ks, kui vaja:
+  - praegune `aspect-[21/9]` võib väiksel ekraanil olla liiga madal
+  - mobiilis sobivam `aspect-video` või muu kõrgem variant
 
-### 4. Kontrollin, et buildis poleks tarbetuid aeglustajaid
-Vaadan üle:
-- kas mõni komponent impordib suuri faile otse `src/assets` kaudu, kui võiks kasutada juba optimeeritud public-faile
-- kas kasutusel on dubleeritud assetid (`png` + `webp`) ilma fallback-loogikata
-- kas mõni video/pilt laetakse liiga vara
+### Tulemus
+- blogiartiklid on mobiilis märksa paremini loetavad
+- meta ei võistle pealkirjaga
+- hero-pilt ja artikli algus tunduvad tasakaalus
 
-Eesmärk:
-- ainult vajalikud kriitilised failid laaditakse kohe
-- ülejäänud defer/lazy
+---
 
-### 5. Teen väikese “safety” puhastuse, et update’d oleksid stabiilsemad
-Kontrollin ja vajadusel korrastan:
-- kas projekt kasutab korraga nii `bun.lock` kui `package-lock.json`
-- kas buildi töövoog sõltub mitmest paketihaldurist
-- kas buildis on pluginaid, mis annavad vähe kasu, aga lisavad palju aega
+## 5. Shared layout system: üks container + alignment standard
+**Failid:**  
+- `src/components/ui/section.tsx`
+- `src/pages/Index.tsx`
+- `src/pages/Contact.tsx`
+- `src/pages/Career.tsx`
+- `src/pages/Blog.tsx`
+- vajadusel `src/components/BlogPostHeader.tsx`
+- vajadusel `src/index.css`
 
-Kui vaja, jätan ühe selge paketihalduri tee, et buildikäitumine oleks üheselt mõistetav.
+### Muudatused
+- Kehtestan avalike lehtede põhistandardi:
+  - `max-w-6xl mx-auto px-4 sm:px-6 lg:px-8`
+- Vähendan käsitsi kirjutatud alternatiive:
+  - näiteks `px-6 lg:px-8`
+  - ning `container-premium`, kui sama ploki jaoks piisab Section-loogikast
+- Kehtestan mobiilis vaikimisi:
+  - `text-left`
+- Center joondus jääb ainult teadlikele eranditele, mitte vaikemustriks
 
-## Mida see kasutaja jaoks tähendab
-Pärast muudatust:
-- publish/update peaks minema märksa kiiremini
-- build timeout’e peaks olema oluliselt vähem
-- veebilehe välimus ei muutu
-- kood jääb puhtamaks ja professionaalsemaks: asset optimization on eraldatud buildist
+### Tulemus
+- lehtede alguspunktid joonduvad visuaalselt ühele teljele
+- avalik UI ei tundu enam eri süsteemide segu
 
-## Tehnilised detailid
-Praegune pudelikael on see:
+---
 
-```text
-production update
-  -> Vite build
-    -> vite-plugin-imagemin
-      -> töötleb suure hulga staatilisi pilte
-        -> build venib / timeout
-```
+## 6. Shared design tokens: radius, spacing, cards
+**Failid:**  
+- `src/index.css`
+- mõjutatud public page failid ülal
 
-Parem arhitektuur:
+### Kehtestatav reeglistik
+#### Container
+- `px-4 sm:px-6 lg:px-8`
+- `max-w-6xl`
 
-```text
-uue pildi lisamine
-  -> eraldi optimize script
-  -> salvesta webp / optimeeritud fail
+#### Alignment
+- mobile default: `text-left`
 
-publish/update
-  -> ainult Vite build
-  -> kiire paketiseerimine
-  -> vähem timeout'e
-```
+#### Section spacing
+- mobile default: `py-12`
+- larger feature sections: `md:py-16` või `md:py-20`
+- vältida mobiilis `py-24+` kui pole mõjuvat põhjust
 
-## Muudetavad failid
-1. `vite.config.ts` — eemaldan või piiran `vite-plugin-imagemin` kasutust
-2. `package.json` — lisan selge asset-optimeerimise skripti, kui vaja
-3. `scripts/convert-to-webp.mjs` — kohandan vajadusel üldisemaks tööriistaks
-4. `src/pages/Index.tsx` — kasutan optimeeritud pildi laadimise mustrit, kus mõistlik
-5. `src/pages/Product.tsx` — sama
-6. `src/pages/Career.tsx` — sama
-7. vajadusel muud meediakomponendid, kus suuri pilte kasutatakse otse
+#### Card system
+- default mobile card padding: `p-5`
+- prominent cards/forms: `p-6`
+- vältida `p-8` mobiili defaultina
+
+#### Radius
+Projektimälu järgi hoian public UI teravama joone peal:
+- eelistatud: `rounded-[4px]`
+- kui kõikjale korraga viimine oleks liiga agressiivne, siis teen vähemalt esimese passi:
+  - avalikel lehtedel lõpetan `rounded-lg / rounded-xl / rounded-2xl` segakasutuse samatüübilistel plokkidel
+
+#### Typography
+- H1: `text-3xl`
+- H2: `text-2xl`
+- H3: `text-lg`
+- body: `text-base`
+- secondary/meta: `text-sm` või `text-xs`
+- ei kasuta sisutekstil alla 12px suurusi
+
+#### Media
+- mobiilis ei kasuta negatiivsete offsetitega overlay-silte
+- pilt/video peab jääma konteineri sisse
+- hero-meedial peab olema eraldi mobiilne kompositsioon, kui desktop kasutab keerukat layout’i
+
+---
+
+## Teostuse järjekord
+1. `src/pages/Index.tsx` — orbit/capabilities overflow ja mobiilloetavus
+2. `src/pages/Contact.tsx` — hero video/text kompositsiooni stabiliseerimine
+3. `src/pages/Career.tsx` — fixed hero mobiilflow + kaartide tihendamine
+4. `src/pages/Blog.tsx` + `src/pages/BlogPost.tsx` + `src/components/BlogPostHeader.tsx` — loetavus ja hierarhia
+5. `src/components/ui/section.tsx` + seotud public page wrapperid — container/alignment pass
+6. `src/index.css` + mõjutatud kaardid/sektsioonid — radius/spacing/card token pass
+
+## Tehnilised märkused
+- Muudatused jäävad front-end tasemele; backendit ega andmeskeemi ei ole vaja muuta.
+- Hoian olemasoleva deep-tech visuaalse suuna alles: must taust, lime accent, uppercase premium typography.
+- Desktop-layout ei kao; teen vajadusel eraldi mobile-only ja desktop-only struktuurid kohtades, kus üksainus markup oleks liiga habras.
 
 ## Oodatav tulemus
-- kiirem update
-- väiksem build timeout’i risk
-- sama visuaal
-- selgem, professionaalsem ja hooldatavam meedialogika
+Pärast teostust:
+- mobiilis puudub kriitiline horizontal overflow,
+- hero-sektsioonid on stabiilsed ja loetavad,
+- blogiartiklid on paremini tarbitavad,
+- avalik veeb kasutab ühtset container-, spacing-, alignment- ja card-süsteemi,
+- kogu sait näeb mobiilis professionaalsem ja ühtlasem välja.
