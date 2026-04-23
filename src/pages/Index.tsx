@@ -252,7 +252,7 @@ const Index = () => {
       <Section className="section-glow-top py-20 md:py-28">
         <div className="space-y-8">
           <FadeInView>
-            <SectionIntro className="max-w-[44rem] space-y-2">
+            <SectionIntro className="space-y-2 md:max-w-2xl">
               <SectionTag>Use Cases</SectionTag>
               <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                 Where to Deploy ROLLO
