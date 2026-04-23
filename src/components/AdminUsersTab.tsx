@@ -26,7 +26,7 @@ interface AuditEntry {
   actor_id: string;
   action: string;
   target_user_id: string | null;
-  metadata: any;
+  metadata: Record<string, unknown>;
   created_at: string;
 }
 
@@ -58,7 +58,7 @@ export const AdminUsersTab = () => {
         .select("id, email, full_name")
         .in("id", userIds);
       const map: Record<string, Profile> = {};
-      (profileData ?? []).forEach((p: any) => {
+      (profileData ?? []).forEach((p: Profile & { id: string }) => {
         map[p.id] = { email: p.email, full_name: p.full_name };
       });
       setProfiles(map);
@@ -88,8 +88,9 @@ export const AdminUsersTab = () => {
       toast({ title: data?.message || "Admin õigused antud" });
       setNewEmail("");
       fetchRoles();
-    } catch (err: any) {
-      toast({ title: "Viga", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Tundmatu viga";
+      toast({ title: "Viga", description: errorMessage, variant: "destructive" });
     } finally {
       setSubmitting(false);
     }
@@ -105,8 +106,9 @@ export const AdminUsersTab = () => {
       if (data?.error) throw new Error(data.error);
       toast({ title: "Admin õigused eemaldatud" });
       fetchRoles();
-    } catch (err: any) {
-      toast({ title: "Viga", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Tundmatu viga";
+      toast({ title: "Viga", description: errorMessage, variant: "destructive" });
     }
   };
 
@@ -119,8 +121,9 @@ export const AdminUsersTab = () => {
       if (error) throw error;
       if (data?.error) throw new Error(data.error);
       toast({ title: data?.message || "Parooli taastamise kiri saadetud" });
-    } catch (err: any) {
-      toast({ title: "Viga", description: err.message, variant: "destructive" });
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Tundmatu viga";
+      toast({ title: "Viga", description: errorMessage, variant: "destructive" });
     } finally {
       setResettingId(null);
     }
@@ -246,7 +249,7 @@ export const AdminAuditTab = () => {
           .select("id, email, full_name")
           .in("id", Array.from(ids));
         const map: Record<string, Profile> = {};
-        (profileData ?? []).forEach((p: any) => {
+        (profileData ?? []).forEach((p: Profile & { id: string }) => {
           map[p.id] = { email: p.email, full_name: p.full_name };
         });
         setProfiles(map);
