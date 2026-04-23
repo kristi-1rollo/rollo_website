@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Section, SectionTag } from "@/components/ui/section";
+import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
 import DOMPurify from "dompurify";
 
 const Career = () => {
@@ -110,8 +110,8 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 sm:px-6 lg:px-8">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center">
+        <PublicContentRail className="relative z-10 py-24">
+          <SectionIntro centered className="flex flex-col items-center space-y-5">
             <SectionTag>Career</SectionTag>
 
             <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
@@ -123,8 +123,8 @@ const Career = () => {
               passionate about robotics, AI, and creating technology that matters, we want to
               hear from you.
             </p>
-          </div>
-        </div>
+          </SectionIntro>
+        </PublicContentRail>
       </header>
 
       {/* Main content - scrolls over fixed hero */}
@@ -136,7 +136,7 @@ const Career = () => {
         <Section className="section-glow-top py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Why Join Us */}
-          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
                 <Briefcase className="w-5 h-5 text-primary" />
@@ -160,7 +160,7 @@ const Career = () => {
           </div>
 
           {/* Open Positions */}
-          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
                 <Briefcase className="w-5 h-5 text-primary" />

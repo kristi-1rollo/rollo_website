@@ -16,7 +16,7 @@ import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Section, SectionTag } from "@/components/ui/section";
+import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
 import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.png";
 
 /* ── data ─────────────────────────────────────────────── */
@@ -137,8 +137,8 @@ const Index = () => {
           <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
           <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-24">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center">
+        <PublicContentRail className="relative z-10 py-24">
+          <SectionIntro centered className="flex flex-col items-center space-y-5">
             <img
               src="/logos/rollo-logo-white.png"
               alt="1ROLLO"
@@ -160,14 +160,14 @@ const Index = () => {
             <p className="max-w-2xl text-sm text-foreground/80 sm:text-base md:text-lg">
               Autonomous robots that see, hear, speak, and move.
             </p>
-          </div>
-        </div>
+          </SectionIntro>
+        </PublicContentRail>
       </section>
 
       {/* ═══ CAPABILITIES ═══ */}
       <section className="section-glow-top relative w-full overflow-hidden py-12 md:py-20 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
-        <div className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <PublicContentRail className="relative z-10">
           <FadeInView>
             <div className="text-left">
               <SectionTag>Solution</SectionTag>
@@ -205,7 +205,7 @@ const Index = () => {
               />
             </DialogContent>
           </Dialog>
-        </div>
+        </PublicContentRail>
       </section>
 
       {/* ═══ PRODUCT TEASER ═══ */}
@@ -227,7 +227,7 @@ const Index = () => {
             { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-5 md:p-6">
+              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-4 md:p-6">
                 <div className="mb-5 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded-[4px]">
                   <img
                     src={t.img}
@@ -250,18 +250,21 @@ const Index = () => {
 
       {/* ═══ USE CASES ═══ */}
       <Section className="section-glow-top py-20 md:py-28">
-        <FadeInView>
-          <SectionTag>Use Cases</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
-            Where to Deploy ROLLO
-          </h2>
-          <p className="text-sm md:text-base text-white/60 max-w-2xl mb-6">
-            High-value outdoor and perimeter-security environments where
-            autonomy delivers the biggest efficiency gains.
-          </p>
-        </FadeInView>
+        <div className="space-y-8">
+          <FadeInView>
+            <SectionIntro className="max-w-[44rem] space-y-2">
+              <SectionTag>Use Cases</SectionTag>
+              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                Where to Deploy ROLLO
+              </h2>
+              <p className="text-sm md:text-base text-white/60 max-w-2xl">
+                High-value outdoor and perimeter-security environments where
+                autonomy delivers the biggest efficiency gains.
+              </p>
+            </SectionIntro>
+          </FadeInView>
 
-        <div className="bento-use-cases grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+          <div className="bento-use-cases grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
@@ -299,6 +302,7 @@ const Index = () => {
               </motion.div>
             );
           })}
+          </div>
         </div>
       </Section>
 
@@ -360,7 +364,7 @@ const Index = () => {
                   <p className="text-xs uppercase tracking-[0.18em] text-white/50 mb-6">
                     Market Opportunity
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-2xl">
+                  <div className="grid grid-cols-1 gap-5 max-w-2xl sm:grid-cols-2 lg:grid-cols-1">
                     {[
                       { num: "28.5M", desc: "Frontline security workers globally" },
                       { num: "$500B", desc: "Security equipment market by 2030" },

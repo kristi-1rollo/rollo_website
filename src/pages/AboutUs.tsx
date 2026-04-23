@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { PublicContentRail, Section, SectionIntro } from "@/components/ui/section";
 
 const team = [
   {
@@ -44,8 +45,8 @@ const AboutUs = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.85)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.4)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.1)_22%,rgba(0,0,0,0)_52%)]" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
+        <PublicContentRail className="relative z-10 py-16 md:py-24">
+          <SectionIntro centered className="flex flex-col items-center space-y-6">
             <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               About Us
             </p>
@@ -59,16 +60,16 @@ const AboutUs = () => {
               mobility to environments where traditional human patrols are costly,
               inefficient, or unsafe.
             </p>
-          </div>
-        </div>
+          </SectionIntro>
+        </PublicContentRail>
       </section>
 
       {/* B) About Overview — 3 Pillars */}
-      <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <Section className="section-glow-top relative py-16 md:py-24">
         <div className="absolute inset-0 geo-grid opacity-20 pointer-events-none" />
         <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Mission */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
+          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
             <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               Mission
             </h3>
@@ -90,7 +91,7 @@ const AboutUs = () => {
           </div>
 
           {/* Technology */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
+          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
             <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               Technology
             </h3>
@@ -110,7 +111,7 @@ const AboutUs = () => {
           </div>
 
           {/* Scale */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-6 space-y-4">
+          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
             <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               Scale
             </h3>
@@ -127,10 +128,10 @@ const AboutUs = () => {
             </div>
           </div>
         </div>
-      </section>
+      </Section>
 
       {/* C) Team */}
-      <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <Section className="section-glow-top relative py-16 md:py-24">
         <div className="space-y-4 mb-10">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             The Team
@@ -159,7 +160,7 @@ const AboutUs = () => {
           {team.map((t) => (
             <div
               key={t.name}
-              className="relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6"
+              className="relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
                 {t.name}
@@ -170,10 +171,10 @@ const AboutUs = () => {
             </div>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* D) Join Us - Mini Career CTA */}
-      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <Section className="section-glow-top py-16 md:py-20">
         <div className="text-center max-w-2xl mx-auto space-y-6">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Join Us
@@ -192,7 +193,7 @@ const AboutUs = () => {
             View Open Positions
           </Link>
         </div>
-      </section>
+      </Section>
     </div>
   );
 };
