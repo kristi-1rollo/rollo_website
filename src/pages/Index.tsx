@@ -138,7 +138,7 @@ const Index = () => {
           <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <PublicContentRail className="relative z-10 py-24">
-          <SectionIntro centered className="flex flex-col items-center space-y-5">
+          <SectionIntro centered className="flex flex-col items-center space-y-5 md:mx-0 md:items-start md:text-left">
             <img
               src="/logos/rollo-logo-white.png"
               alt="1ROLLO"
