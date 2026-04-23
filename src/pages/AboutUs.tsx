@@ -46,7 +46,7 @@ const AboutUs = () => {
         <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.1)_22%,rgba(0,0,0,0)_52%)]" />
 
         <div className="relative z-10 max-w-6xl mx-auto px-4 py-16 md:px-6 md:py-24 lg:px-8">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center">
+          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
             <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
               About Us
             </p>
