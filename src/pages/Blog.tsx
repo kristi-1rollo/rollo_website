@@ -21,7 +21,7 @@ const Blog = () => {
       {/* Page header */}
       <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
         <div className="absolute inset-0 geo-grid opacity-30 pointer-events-none" />
-        <div className="relative mx-auto max-w-3xl space-y-4 text-center">
+        <div className="relative mx-auto max-w-3xl space-y-4 text-center px-3 md:px-0">
           <p className="mono-spec text-primary">INTELLIGENCE FEED</p>
           <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground">
             Dispatches & Field Reports

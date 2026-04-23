@@ -51,7 +51,8 @@ const Contact = () => {
 
         <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl items-center px-4 py-24 sm:px-6 lg:px-8">
           <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
-            <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">
+            <div className="px-3 md:px-0">
+              <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">
               <p className="text-xs uppercase tracking-[0.2em] text-primary">
                 Contact
               </p>
@@ -71,6 +72,7 @@ const Contact = () => {
                 </Link>
               </div>
             </SectionIntro>
+            </div>
 
             <div className="surface-panel overflow-hidden rounded-[4px] md:hidden">
               <video

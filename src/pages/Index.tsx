@@ -169,7 +169,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
         <PublicContentRail className="relative z-10">
           <FadeInView>
-            <div className="text-left">
+            <div className="text-left px-3 md:px-0">
               <SectionTag>Solution</SectionTag>
               <h2 className="title-halo mb-8 max-w-4xl text-2xl font-bold uppercase text-white sm:text-3xl md:mb-12 md:text-4xl">
                 Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
@@ -211,13 +211,15 @@ const Index = () => {
       {/* ═══ PRODUCT TEASER ═══ */}
       <Section className="section-glow-top py-12 md:py-40">
         <FadeInView>
-          <SectionTag>Product</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
-            Protected by Deep Hardware–Software Integration
-          </h2>
-          <p className="text-base text-white/60 max-w-2xl mb-8">
-            A defensible platform where hardware and software are inseparable.
-          </p>
+          <div className="px-3 md:px-0">
+            <SectionTag>Product</SectionTag>
+            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-2">
+              Protected by Deep Hardware–Software Integration
+            </h2>
+            <p className="text-base text-white/60 max-w-2xl mb-8">
+              A defensible platform where hardware and software are inseparable.
+            </p>
+          </div>
         </FadeInView>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -227,7 +229,7 @@ const Index = () => {
             { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-4 md:p-6">
+              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-3 md:p-6">
                 <div className="mb-5 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded-[4px]">
                   <img
                     src={t.img}
@@ -252,16 +254,18 @@ const Index = () => {
       <Section className="section-glow-top py-20 md:py-28">
         <div className="space-y-8">
           <FadeInView>
-            <SectionIntro className="space-y-2 md:max-w-2xl">
-              <SectionTag>Use Cases</SectionTag>
-              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                Where to Deploy ROLLO
-              </h2>
-              <p className="text-sm md:text-base text-white/60 max-w-2xl">
-                High-value outdoor and perimeter-security environments where
-                autonomy delivers the biggest efficiency gains.
-              </p>
-            </SectionIntro>
+            <div className="px-3 md:px-0">
+              <SectionIntro className="space-y-2 md:max-w-2xl">
+                <SectionTag>Use Cases</SectionTag>
+                <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                  Where to Deploy ROLLO
+                </h2>
+                <p className="text-sm md:text-base text-white/60 max-w-2xl">
+                  High-value outdoor and perimeter-security environments where
+                  autonomy delivers the biggest efficiency gains.
+                </p>
+              </SectionIntro>
+            </div>
           </FadeInView>
 
           <div className="bento-use-cases grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
@@ -308,7 +312,7 @@ const Index = () => {
 
       <section className="section-glow-top relative flex items-center justify-center overflow-hidden border-b border-t border-white/8 bg-background">
         {/* Inner padding wrapper to create space from borders - perfectly symmetric */}
-        <div className="absolute inset-0 my-12 mx-4 overflow-hidden sm:mx-6 md:my-16 lg:mx-8 lg:my-20">
+        <div className="absolute inset-0 my-12 mx-0 overflow-hidden md:my-16 lg:mx-8 lg:my-20">
           {/* Background image inside padded area */}
           <div
             className="absolute inset-0"
@@ -348,7 +352,7 @@ const Index = () => {
             {/* Text Content */}
             <div className="space-y-8">
               <FadeInView>
-                <div>
+                <div className="px-3 md:px-0">
                   <SectionTag>Business Case</SectionTag>
                   <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 mt-4">
                     Market Scale Meets Immediate ROI.

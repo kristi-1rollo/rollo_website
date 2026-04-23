@@ -95,7 +95,7 @@ const Product = () => {
       <Section className="section-glow-top py-14 md:py-20">
         <FadeInView>
           <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8 md:gap-10 items-start">
-            <div className="space-y-4">
+            <div className="space-y-4 px-3 md:px-0">
               <p className="text-xs uppercase tracking-[0.2em] text-red-500">
                 Problem
               </p>
@@ -136,15 +136,17 @@ const Product = () => {
           <div className="relative mx-auto grid max-w-6xl grid-cols-1 gap-10 lg:min-h-[560px] lg:grid-cols-[58%_42%] lg:gap-6 xl:gap-10">
           <div className="relative z-10 flex flex-col justify-center lg:pr-6 xl:pr-8">
             <FadeInView>
-              <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
-                Solution
-              </p>
-              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-2xl">
-                A fundamentally better way to build patrol robots
-              </h2>
-              <p className="text-base md:text-lg text-slate-300 max-w-2xl mb-8">
-                ROLLO replaces labor-heavy patrol routines with a ground platform built for persistence, resilience, and lower operating overhead.
-              </p>
+              <div className="px-3 md:px-0">
+                <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
+                  Solution
+                </p>
+                <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-8 max-w-2xl">
+                  A fundamentally better way to build patrol robots
+                </h2>
+                <p className="text-base md:text-lg text-slate-300 max-w-2xl mb-8">
+                  ROLLO replaces labor-heavy patrol routines with a ground platform built for persistence, resilience, and lower operating overhead.
+                </p>
+              </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl">
                 {solutions.map((s, i) => {
                   const Icon = s.icon;
@@ -185,19 +187,21 @@ const Product = () => {
       {/* D) Built for Real-World Environments */}
       <Section className="section-glow-top py-12 md:py-20">
         <div className="space-y-6">
-          <SectionTag>Capabilities</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            Built for Real-World Environments
-          </h2>
+          <div className="px-3 md:px-0">
+            <SectionTag>Capabilities</SectionTag>
+            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+              Built for Real-World Environments
+            </h2>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            ROLLO F6 is engineered for demanding outdoor conditions and large operational areas.
-            The robot patrols autonomously, navigates obstacles, collects operational data, and
-            analyzes its surroundings in real time.
-          </p>
+            <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+              ROLLO F6 is engineered for demanding outdoor conditions and large operational areas.
+              The robot patrols autonomously, navigates obstacles, collects operational data, and
+              analyzes its surroundings in real time.
+            </p>
+          </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Navigation className="h-5 w-5" />
@@ -213,7 +217,7 @@ const Product = () => {
               </div>
             </div>
 
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Eye className="h-5 w-5" />
@@ -229,7 +233,7 @@ const Product = () => {
               </div>
             </div>
 
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Plug className="h-5 w-5" />
@@ -252,14 +256,16 @@ const Product = () => {
       <Section className="section-glow-top py-12 md:py-20">
         <FadeInView>
           <div className="space-y-6">
-            <SectionTag>Awareness</SectionTag>
-            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-              Intelligent Situational Awareness
-            </h2>
+            <div className="px-3 md:px-0">
+              <SectionTag>Awareness</SectionTag>
+              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                Intelligent Situational Awareness
+              </h2>
 
-            <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-              Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
-            </p>
+              <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+                Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
+              </p>
+            </div>
 
             <LiveScanner />
 
@@ -274,17 +280,19 @@ const Product = () => {
       {/* F) More Than a Robot: A Security Platform */}
       <Section className="section-glow-top py-12 md:py-20">
         <div className="space-y-6">
-          <SectionTag>Platform</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-            More Than a Robot: A Security Platform
-          </h2>
+          <div className="px-3 md:px-0">
+            <SectionTag>Platform</SectionTag>
+            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+              More Than a Robot: A Security Platform
+            </h2>
 
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-            ROLLO F6 is part of a scalable autonomous security ecosystem.
-          </p>
+            <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+              ROLLO F6 is part of a scalable autonomous security ecosystem.
+            </p>
+          </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Cloud className="h-5 w-5" />
@@ -301,7 +309,7 @@ const Product = () => {
               </div>
             </div>
 
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Eye className="h-5 w-5" />
@@ -317,7 +325,7 @@ const Product = () => {
               </div>
             </div>
 
-              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
+              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Shield className="h-5 w-5" />

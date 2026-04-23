@@ -132,7 +132,7 @@ const AboutUs = () => {
 
       {/* C) Team */}
       <Section className="section-glow-top relative py-16 md:py-24">
-        <div className="space-y-4 mb-10">
+        <div className="space-y-4 mb-10 px-3 md:px-0">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             The Team
           </p>
@@ -175,7 +175,7 @@ const AboutUs = () => {
 
       {/* D) Join Us - Mini Career CTA */}
       <Section className="section-glow-top py-16 md:py-20">
-        <div className="text-center max-w-2xl mx-auto space-y-6">
+        <div className="text-center max-w-2xl mx-auto space-y-6 px-3 md:px-0">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Join Us
           </p>
