@@ -55,6 +55,13 @@ const solutionBottom = {
   text: "Works in snow and cold weather",
 };
 
+const capabilityBadges = [
+  "Two-way audio and sensors",
+  "360° cameras",
+  "Thermal and anomaly detection",
+  "Remote operator escalation",
+];
+
 const productTiles = [
   {
     title: "Single-Wheel Autonomy",
@@ -170,7 +177,7 @@ const Index = () => {
           <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
           <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full space-y-5 py-24">
           <img
             src="/logos/rollo-logo-white.png"
             alt="1ROLLO"
@@ -196,13 +203,15 @@ const Index = () => {
       </section>
 
       {/* ═══ CAPABILITIES ═══ */}
-      <section className="section-glow-top relative w-full overflow-hidden py-24 md:py-40 px-6 lg:px-[max(2rem,calc((100vw-72rem)/2+2rem))] text-center sm:text-left">
+      <section className="section-glow-top relative w-full overflow-hidden px-4 py-12 sm:px-6 md:py-20 lg:px-8 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
         <FadeInView>
+          <div className="max-w-6xl mx-auto">
           <SectionTag>Solution</SectionTag>
-          <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-12 max-w-4xl uppercase">
+          <h2 className="title-halo mb-8 max-w-4xl text-left text-2xl sm:text-3xl md:mb-12 md:text-4xl font-bold text-white uppercase">
             Rollo Can Observe, Drive, Decide, Report, and Intervene Without a Human on Site.
           </h2>
+          </div>
         </FadeInView>
 
         {/* Robot centered with orbit labels */}
