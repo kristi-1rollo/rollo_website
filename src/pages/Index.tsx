@@ -16,6 +16,7 @@ import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Section, SectionTag } from "@/components/ui/section";
+import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.png";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -174,7 +175,7 @@ const Index = () => {
         <div className="mx-auto max-w-6xl">
           <div className="relative mx-auto max-w-5xl overflow-hidden rounded-[4px] border border-border/70 bg-card/20 p-2 sm:p-3 md:p-4">
             <img
-              src="/robot/rollo-orbit-2.png"
+              src={orbitalCompositeImage}
               alt="1ROLLO orbit capabilities overview"
               className="w-full rounded-[4px] object-contain"
               loading="lazy"
