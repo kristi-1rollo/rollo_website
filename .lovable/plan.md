@@ -1,99 +1,118 @@
 
+## Soovitus
+Parem lahendus on teha video raam taustaga sulanduvaks, mitte panna videole samasuguseid “ikooni + tekstikast” kaarte nagu kõrval olevatel benefit-kaartidel.
+
+Põhjus:
+- benefit-kaardid juba kannavad infot ja loovad sektsioonis selge mustri,
+- kui video ümber lisada samad kastid, tekib visuaalne dubleerimine ja sektsioon muutub raskeks,
+- tootelehe “Solution” plokis peaks video töötama kui emotsionaalne / demonstratiivne ankurobjekt, mitte veel üks kaartide grid.
+
 ## Eesmärk
-Viia public lehtede horisontaalne rütm ühe reegli alla, et:
-- hero’d kasutaksid sama külgvahet nagu ülejäänud sisu,
-- Home “Use Cases” intro ja kaardid jookseksid samal x-teljel,
-- kaardisisu ei tunduks mobiilis liiga sügaval sees,
-- edaspidi oleks selge reegel, mille järgi uusi sektsioone ehitada.
+Muuta `Product` lehe Solution-sektsiooni video elegantsemaks nii, et:
+- video serv ei lõikuks tumeda tausta vastu järsult,
+- video tunduks rohkem “kinni” sektsiooni atmosfääris,
+- video ja tekstikaardid oleksid samas premium deep-tech keeles,
+- desktop ja mobile jääksid puhtad ning mitte ülekujundatud.
 
-## 1. Hero wrapperite ühtlustamine
-Muudan hero-sisu wrapperid lehtedel:
-- `src/pages/Index.tsx`
-- `src/pages/Product.tsx`
-- `src/pages/Contact.tsx`
-- `src/pages/Career.tsx`
+## Soovitatud lahendus
+Rakendan videole “soft ambient frame” lahenduse:
 
-Rakendan sama public container gutter’i:
-- `px-4 sm:px-6 lg:px-8`
+### 1. Eemaldada liiga agressiivne ümmargune mask
+Fail: `src/components/ScrollControlledVideo.tsx`
 
-Sellega kaob olukord, kus hero alustab kitsamalt või laiemalt kui järgmised sektsioonid. Hero võib jääda visuaalselt centered, aga selle “raam” peab olema sama mis teistel public section’itel.
+Praegu video kasutab tugevat radiaalset maski ja blur vignette’i, mis teeb serva veidi uduseks, aga võib jätta ka “ujuva musta laigu” mulje.
 
-## 2. Home “Use Cases” sektsiooni ühe rail’i alla viimine
-Fail: `src/pages/Index.tsx`
+Muudan seda nii, et:
+- mask oleks pehmem ja rohkem ristkülikulise objekti loogikaga,
+- serva fade toimuks õrnemalt,
+- video ise jääks selgem ja vähem “läbi filtri” tunneks.
 
-Praegu intro ja grid on küll samas sektsioonis, aga visuaalselt jääb mulje nagu need ei kasutaks päris sama rail’i.
+### 2. Lisada videole subtiline konteiner, mitte klassikaline kaart
+Fail: `src/components/ScrollControlledVideo.tsx`
 
-Muudan:
-- intro-ploki ja kaardigridi vahelist spacing’ut,
-- vajadusel intro max-width’i,
-- gridi outer alignment’i, et esimese rea kaardid algaksid visuaalselt samast teljest nagu `SectionTag`, pealkiri ja kirjeldus.
+Video ümber tuleks õrn raamistik:
+- väga nõrk border `border-white/10` või `border-primary/15`,
+- tumedast taustast veidi eristuv sisepind `bg-white/[0.02]` või sinakas klaasikiht,
+- kerge inner glow / outer glow,
+- 4px border-radius vastavalt projekti reeglile.
+
+See ei oleks “kaart” samas mõttes nagu info-boxid, vaid pigem cinematic display shell.
+
+### 3. Lisada ambient taustakiht video taha
+Failid:
+- `src/components/ScrollControlledVideo.tsx`
+- vajadusel `src/pages/Product.tsx`
+
+Video taha lisaks:
+- pehme sinakas radiaalne glow,
+- väga nõrk lime-highlight ainult aktsendina,
+- gradient, mis hajub sektsiooni olemasolevasse tumedasse tausta.
 
 Eesmärk:
-- “Use Cases”
-- “Where to Deploy ROLLO”
-- kirjeldus
-- esimene kaardirida
+video ei paista lihtsalt eraldi MP4-na lehe peal, vaid tundub nagu see “kiirgaks” samast keskkonnast.
 
-algaksid optiliselt ühe ja sama joone pealt.
+### 4. Hoida video kompositsioon eraldi kaartidest
+Fail: `src/pages/Product.tsx`
 
-## 3. Kaardisisu mobiilipaddingu normaliseerimine
-Muudan public kaartide sisemisi paddings seal, kus mobiilis tekib “liiga sees” efekt.
+Solution-sektsioonis jätan alles:
+- vasakul tekst + 4 benefit-kaarti,
+- paremal video.
 
-Peamised sihtkohad:
-- `src/pages/Index.tsx`
-- `src/pages/Product.tsx`
-- `src/pages/Contact.tsx`
-- `src/pages/Career.tsx`
-- vajadusel `src/pages/AboutUs.tsx`, kui sama muster kordub
+Aga ma ei lisa video peale ega ümber samu tekstikaste, sest see konkureerib olemasolevate benefit-kaartidega.
 
-Reegel:
-- mobiilis vähendan liiga suuri sisemisi paddings väärtusi,
-- desktopis jätan õhulisuse alles või säilitan mõõduka astmevahe,
-- kaardi sisu algusjoon peab tunduma kooskõlas section headingu ja lehe põhigutter’iga.
+Kui on vaja lisada rohkem “toote tunnet”, siis parem alternatiiv on:
+- 1–2 väikest floating micro-label elementi video nurkadesse,
+- näiteks “Autonomous patrol” või “All-weather operation” stiilis mini-meta sildid,
+- mitte täismõõdus info-kaardid.
 
-Tõenäoline suund:
-- `p-6` või suuremad väärtused vaatan üle,
-- eelistan mobiilis `p-4` või `p-5`, desktopis `md:p-5` või `md:p-6` sõltuvalt kaardi tüübist,
-- ei tee kogu UI-d kitsaks, vaid vähendan ainult optilist “liiga sügaval sees” tunnet.
+## Soovitatud visuaalne hierarhia
+Sektsioon jääb selliseks:
 
-## 4. Ühine public joondusreegel shared wrapperisse
-Fail: `src/components/ui/section.tsx`
+```text
+[ vasak: pealkiri + kirjeldus + 4 benefit kaarti ]   [ parem: sulanduva raamiga video ]
+```
 
-Lisan väikese, selge kasutusreegli shared wrapperi tasemele, et vältida tulevast drift’i.
+Mitte selliseks:
 
-Variant, mida rakendan:
-- kas täiendan `Section` komponendi dokumenteeritud kasutusmustrit kommentaariga,
-- või lisan väikese abikomponendi / klassipõhise mustri stiilis:
-  - public section outer wrapper
-  - public content rail
-  - intro wrapper, mis võib olla centered
-  - content wrapper, mis jääb alati vasakule ja sama gutter’i peale
+```text
+[ vasak: benefit kaardid ]   [ parem: video + veel uued kaardid ]
+```
 
-Eesmärk ei ole teha keerulist süsteemi, vaid kehtestada üks selge public-page horizontal rhythm rule:
-- taust võib olla full-bleed,
-- meedia võib olla centered objekt,
-- aga tekstiline content rail peab tulema ühest standardist.
+See hoiab sektsiooni puhtamana ja professionaalsemana.
 
 ## Tehniline teostus
-Muudan peamiselt:
-- `src/pages/Index.tsx`
-- `src/pages/Product.tsx`
-- `src/pages/Contact.tsx`
-- `src/pages/Career.tsx`
-- `src/components/ui/section.tsx`
+### Muudan komponenti
+`src/components/ScrollControlledVideo.tsx`
+- asendan praeguse raske vignette/mask lahenduse rafineerituma frame + ambient glow mudeliga,
+- lisan eraldi wrapper-layerid:
+  - ambient back glow
+  - subtle shell
+  - optional edge fade
+  - replay overlay, mis sobib uue raamiga.
 
-Vajadusel teen väikse consistency-pass’i ka:
-- `src/pages/AboutUs.tsx`
+### Häälestan sektsiooni kasutust
+`src/pages/Product.tsx`
+- vajadusel annan video wrapperile sektsioonis parema laiuse, vertikaalse joondamise või spacing’u,
+- hoian video ja vasaku sisu visuaalses tasakaalus, ilma et video tunduks liiga väike või liiga “uppuv”.
 
-## Mida ei muuda
-- Deep-tech visuaalkeelt
-- olemasolevaid taustu, glow’sid ja imagery kompositsioone
-- hero’de põhistruktuuri
-- Home orbit pildi lightbox-funktsiooni
+## Mida ei muudeta
+- Solution-sektsiooni üldstruktuuri ei muudeta,
+- olemasolevad ikooniga tekstikastid jäävad alles,
+- videot ei muudeta sisuliselt, ainult selle esitusviisi,
+- mobile autoplay / replay loogika jääb alles.
+
+## Kui soovid tugevamat visuaalset efekti
+Teise taseme variant oleks lisada videole mitte “kastid”, vaid:
+- väga väikesed HUD-stiilis markerid,
+- õhukesed jooned või corner brackets,
+- üks diskreetne status-chip.
+
+See sobib deep-tech esteetikaga palju paremini kui täisväärtuslikud info-kaardid video kõrval või peal.
 
 ## Oodatav tulemus
 Pärast muudatust:
-- hero tekstid algavad sama külgvahega nagu ülejäänud public lehe sektsioonid,
-- Home “Use Cases” intro ja kaardid tunduvad samal horisontaalsel rail’il,
-- mobiilis ei mõju kaarditekstid enam liiga sügaval sees,
-- uute sektsioonide ehitamisel on olemas üks selge reegel, mis hoiab alignment drift’i ära.
+- video serv sulandub loomulikult tumeda taustaga,
+- video näeb välja kallim ja sihilikum,
+- Solution-sektsioon ei tundu ülekoormatud,
+- olemasolevad benefit-kaardid jäävad põhisisu kandjaks,
+- kogu plokk mõjub rohkem “premium product showcase” kui lihtsalt tekst + eraldi video.
