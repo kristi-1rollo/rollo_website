@@ -110,18 +110,20 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl mx-auto w-full space-y-5 px-4 py-24 sm:px-6 lg:px-8">
-          <SectionTag>Career</SectionTag>
+        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 sm:px-6 lg:px-8">
+          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center">
+            <SectionTag>Career</SectionTag>
 
-          <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
-            Join the Future of Autonomous Robotics
-          </h1>
+            <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
+              Join the Future of Autonomous Robotics
+            </h1>
 
-          <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
-            We're building the world's most advanced autonomous security robots. If you're
-            passionate about robotics, AI, and creating technology that matters, we want to
-            hear from you.
-          </p>
+            <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
+              We're building the world's most advanced autonomous security robots. If you're
+              passionate about robotics, AI, and creating technology that matters, we want to
+              hear from you.
+            </p>
+          </div>
         </div>
       </header>
 

@@ -40,7 +40,7 @@ const proseClasses =
   "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-6 " +
   "[&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 " +
   "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-6 " +
-  "[&_p]:mb-5 md:[&_p]:mb-6 [&_p]:text-left md:[&_p]:text-justify " +
+  "[&_p]:mb-5 md:[&_p]:mb-6 [&_p]:text-left " +
   "[&_h1]:text-left [&_h2]:text-left [&_h3]:text-left " +
   "[&_ul]:text-left [&_ol]:text-left [&_li]:leading-snug [&_ul]:mb-6 [&_ol]:mb-6 " +
   "[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight " +
@@ -297,7 +297,7 @@ const BlogPost = () => {
             )}
 
             <FadeInView delay={550}>
-              <nav className="mt-12 pt-8 border-t border-border flex flex-wrap items-center justify-between gap-4">
+              <nav className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 text-left">
                 {prevPost ? (
                   <Link
                     to={`/blog/${prevPost.id}`}
