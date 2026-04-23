@@ -87,8 +87,9 @@ const SetPassword = () => {
 
       toast({ title: "Parool loodud!", description: "Nüüd saad sisse logida." });
       navigate("/login", { replace: true });
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "An error occurred";
+      setError(errorMessage);
     } finally {
       setSubmitting(false);
     }

@@ -19,10 +19,11 @@ const Login = () => {
     try {
       await signIn(email, password);
       navigate("/admin", { replace: true });
-    } catch (err: any) {
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "Invalid credentials";
       toast({
         title: "Login failed",
-        description: err.message ?? "Invalid credentials",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
