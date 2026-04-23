@@ -90,7 +90,9 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
     try {
       localStorage.setItem(draftKey, JSON.stringify({ ...draftDataRef.current, savedAt: new Date().toISOString() }));
       setLastSavedAt(new Date());
-    } catch {}
+    } catch {
+      // Intentionally ignore localStorage errors (quota exceeded, private browsing, etc.)
+    }
   }, [draftKey]);
 
   useEffect(() => {
@@ -208,7 +210,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
         poster_url: posterUrl || null,
-      } as any);
+      });
       clearDraft();
       toast({ title: post?.id ? "Position updated" : "Position created" });
       onDone();

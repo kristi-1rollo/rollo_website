@@ -103,7 +103,9 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
     try {
       localStorage.setItem(draftKey, JSON.stringify({ ...draftDataRef.current, savedAt: new Date().toISOString() }));
       setLastSavedAt(new Date());
-    } catch {}
+    } catch {
+      // Intentionally ignore localStorage errors (quota exceeded, private browsing, etc.)
+    }
   }, [draftKey]);
 
   // Keep ref in sync with current state + isDirty tracking
@@ -405,7 +407,7 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
         media_gallery: gallery,
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
-      } as any);
+      });
       clearDraft();
       toast({ title: post?.id ? "Post updated" : "Post created" });
       onDone();
