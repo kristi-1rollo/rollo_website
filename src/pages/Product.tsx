@@ -196,8 +196,8 @@ const Product = () => {
             analyzes its surroundings in real time.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="blue-card-glow rounded-2xl p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Navigation className="h-5 w-5" />
@@ -213,7 +213,7 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="blue-card-glow rounded-2xl p-6">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Eye className="h-5 w-5" />
@@ -229,7 +229,7 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="blue-card-glow rounded-2xl p-6">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Plug className="h-5 w-5" />
@@ -283,8 +283,8 @@ const Product = () => {
             ROLLO F6 is part of a scalable autonomous security ecosystem.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-            <div className="blue-card-glow rounded-2xl p-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Cloud className="h-5 w-5" />
@@ -301,7 +301,7 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="blue-card-glow rounded-2xl p-6">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Eye className="h-5 w-5" />
@@ -317,7 +317,7 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="blue-card-glow rounded-2xl p-6">
+              <div className="blue-card-glow rounded-2xl p-4 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
                   <Shield className="h-5 w-5" />
