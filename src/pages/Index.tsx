@@ -227,7 +227,7 @@ const Index = () => {
             { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-5 md:p-6">
+              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-4 md:p-6">
                 <div className="mb-5 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded-[4px]">
                   <img
                     src={t.img}
@@ -364,7 +364,7 @@ const Index = () => {
                   <p className="text-xs uppercase tracking-[0.18em] text-white/50 mb-6">
                     Market Opportunity
                   </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-6 max-w-2xl">
+                  <div className="grid grid-cols-1 gap-5 max-w-2xl sm:grid-cols-2 lg:grid-cols-1">
                     {[
                       { num: "28.5M", desc: "Frontline security workers globally" },
                       { num: "$500B", desc: "Security equipment market by 2030" },

@@ -131,7 +131,7 @@ const AboutUs = () => {
       </Section>
 
       {/* C) Team */}
-      <section className="section-glow-top relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <Section className="section-glow-top relative py-16 md:py-24">
         <div className="space-y-4 mb-10">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             The Team
@@ -160,7 +160,7 @@ const AboutUs = () => {
           {team.map((t) => (
             <div
               key={t.name}
-              className="relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-6"
+              className="relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
                 {t.name}
@@ -171,10 +171,10 @@ const AboutUs = () => {
             </div>
           ))}
         </div>
-      </section>
+      </Section>
 
       {/* D) Join Us - Mini Career CTA */}
-      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-20">
+      <Section className="section-glow-top py-16 md:py-20">
         <div className="text-center max-w-2xl mx-auto space-y-6">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Join Us
@@ -193,7 +193,7 @@ const AboutUs = () => {
             View Open Positions
           </Link>
         </div>
-      </section>
+      </Section>
     </div>
   );
 };
