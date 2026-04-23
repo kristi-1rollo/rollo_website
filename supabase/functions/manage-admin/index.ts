@@ -72,7 +72,7 @@ Deno.serve(async (req) => {
       const { data: listData, error: listError } = await adminClient.auth.admin.listUsers();
       if (listError) throw listError;
 
-      const targetUser = listData.users.find((u: any) => u.email === email);
+      const targetUser = listData.users.find((u: { email?: string }) => u.email === email);
 
       if (!targetUser) {
         // User doesn't exist — invite them (creates account + sends invite email)
