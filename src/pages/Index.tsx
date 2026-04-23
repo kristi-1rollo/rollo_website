@@ -196,7 +196,7 @@ const Index = () => {
             <span className="h-px flex-1 bg-white/25" />
           </div>
 
-          <p className="text-sm sm:text-base md:text-lg text-slate-300">
+          <p className="text-sm text-foreground/80 sm:text-base md:text-lg">
             Autonomous robots that see, hear, speak, and move.
           </p>
         </div>
@@ -301,8 +301,8 @@ const Index = () => {
             { img: "/patent/pilt-3.png", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="blue-card-glow h-full flex flex-col rounded-2xl p-6">
-                <div className="w-full aspect-[4/3] mb-5 flex items-center justify-center overflow-hidden rounded-xl">
+              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-5 md:p-6">
+                <div className="mb-5 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded-[4px]">
                   <img
                     src={t.img}
                     alt={t.title}
@@ -345,7 +345,7 @@ const Index = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.1 }}
                 transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.08 }}
-                className="blue-card-glow use-case-card group relative overflow-hidden rounded-2xl backdrop-blur-sm p-4 md:p-5 flex min-h-[190px] md:min-h-[205px] flex-col justify-between cursor-default"
+                className="blue-card-glow use-case-card group relative flex min-h-[190px] cursor-default flex-col justify-between overflow-hidden rounded-[4px] p-4 backdrop-blur-sm md:min-h-[205px] md:p-5"
               >
                 <img
                   src={uc.image}

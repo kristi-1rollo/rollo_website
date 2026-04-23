@@ -26,7 +26,7 @@ const Blog = () => {
           <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-foreground">
             Dispatches & Field Reports
           </h1>
-          <p className="text-base md:text-lg text-slate-300">
+          <p className="text-base md:text-lg text-foreground/80">
             Latest thinking on autonomous security, field test results, and the
             future of robotic patrol technology.
           </p>
@@ -77,7 +77,7 @@ const Blog = () => {
                       <h2 className="title-halo text-2xl md:text-3xl font-bold text-foreground mb-4 leading-snug">
                         {heroPost.title}
                       </h2>
-                      <p className="text-sm md:text-base text-slate-300 leading-relaxed mb-6 line-clamp-3">
+                      <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-foreground/80 md:text-base">
                         {heroPost.excerpt}
                       </p>
                       <span className="inline-flex items-center gap-1.5 justify-start text-sm font-medium text-primary group-hover:underline">
@@ -128,7 +128,7 @@ const Blog = () => {
                           </h2>
 
                           {/* Excerpt */}
-                          <p className="text-sm text-slate-300 leading-relaxed mb-6 line-clamp-3">
+                          <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-foreground/80">
                             {a.excerpt}
                           </p>
 

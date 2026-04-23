@@ -362,7 +362,7 @@ const BlogPost = () => {
                       />
                     </picture>
                   </div>
-                  <p className="mb-4 text-sm text-slate-300">
+                  <p className="mb-4 text-sm text-foreground/80">
                     Compact autonomous perimeter unit for 24/7 patrol operations.
                   </p>
                   <Link
