@@ -68,7 +68,7 @@ const Product = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 md:px-6 lg:px-8">
+        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 sm:px-6 lg:px-8">
           <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
             <SectionTag>Product</SectionTag>
 
