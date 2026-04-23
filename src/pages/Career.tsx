@@ -80,10 +80,10 @@ const Career = () => {
 
   return (
     <>
-      {/* Fixed Hero Section - stays in place while scrolling */}
+      {/* Fixed Hero Section - stays in place while scrolling on desktop */}
       <header
         ref={heroRef}
-        className="section-glow-top fixed top-0 left-0 w-full h-screen flex items-center overflow-hidden z-0"
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         {/* Hero background image */}
@@ -110,7 +110,7 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl mx-auto px-6 lg:px-8 w-full space-y-6 py-24">
+        <div className="relative z-10 max-w-6xl mx-auto w-full space-y-5 px-4 py-24 sm:px-6 lg:px-8">
           <SectionTag>Career</SectionTag>
 
           <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
@@ -126,7 +126,7 @@ const Career = () => {
       </header>
 
       {/* Main content - scrolls over fixed hero */}
-      <main className="relative z-10 pt-[100vh]">
+      <main className="relative z-10 pt-0 md:pt-[100vh]">
         <div className="bg-[#050912] pb-16">
 
       {/* Why Join Rollo & Open Positions Section */}
@@ -134,7 +134,7 @@ const Career = () => {
         <Section className="section-glow-top py-16 md:py-24">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Why Join Us */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
                 <Briefcase className="w-5 h-5 text-[#B4FF33]" />
@@ -158,7 +158,7 @@ const Career = () => {
           </div>
 
           {/* Open Positions */}
-          <div className="blue-card-glow rounded-2xl p-8 space-y-4">
+          <div className="blue-card-glow rounded-[4px] p-5 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="p-2.5 rounded-lg bg-[#B4FF33]/10 border border-[#B4FF33]/20">
                 <Briefcase className="w-5 h-5 text-[#B4FF33]" />
@@ -172,9 +172,9 @@ const Career = () => {
                   <li key={post.id}>
                     <button
                       onClick={() => setSelectedPost(post)}
-                      className="surface-panel w-full text-left rounded-lg px-4 py-3 transition group hover:border-[#B4FF33]/30"
+                      className="surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
                     >
-                      <span className="text-sm font-medium text-[#B4FF33] group-hover:underline">
+                        <span className="text-sm font-medium text-primary group-hover:underline">
                         {post.title}
                       </span>
                       <div className="flex items-center gap-3 mt-1 text-xs text-white/60">
@@ -194,7 +194,7 @@ const Career = () => {
                 </p>
                 <a
                   href="mailto:join@1rollo.com"
-                  className="inline-flex text-sm text-[#B4FF33] underline decoration-[#B4FF33]/60 underline-offset-4 transition hover:text-[#B4FF33]/90"
+                   className="inline-flex text-sm text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/90"
                 >
                   Send your CV to join@1rollo.com
                 </a>
@@ -222,7 +222,7 @@ const Career = () => {
               </DialogHeader>
 
               {selectedPost.poster_url && (
-                <div className="photo-depth-frame my-4 rounded-lg overflow-hidden border border-white/10">
+                 <div className="photo-depth-frame my-4 overflow-hidden rounded-[4px] border border-white/10">
                   <img
                     src={selectedPost.poster_url}
                     alt={`${selectedPost.title} poster`}
@@ -242,7 +242,7 @@ const Career = () => {
               <div className="mt-6 pt-4 border-t border-white/10">
                 <button
                   onClick={handleCopyEmail}
-                  className="inline-flex px-5 py-2.5 rounded-lg bg-[#B4FF33] text-black text-sm font-bold uppercase tracking-wider hover:bg-[#B4FF33]/90 transition"
+                   className="inline-flex rounded-[4px] bg-primary px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
                 >
                   {emailCopied ? "Copied!" : "Apply — join@1rollo.com"}
                 </button>
