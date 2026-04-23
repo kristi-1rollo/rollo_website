@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -40,7 +40,7 @@ export const AdminUsersTab = () => {
   const [resettingId, setResettingId] = useState<string | null>(null);
   const { toast } = useToast();
 
-  const fetchRoles = async () => {
+  const fetchRoles = useCallback(async () => {
     setLoading(true);
     const { data, error } = await supabase.from("user_roles").select("*");
     if (error) {
@@ -64,9 +64,9 @@ export const AdminUsersTab = () => {
       setProfiles(map);
     }
     setLoading(false);
-  };
+  }, [toast]);
 
-  useEffect(() => { fetchRoles(); }, []);
+  useEffect(() => { fetchRoles(); }, [fetchRoles]);
 
   const displayName = (userId: string) => {
     const p = profiles[userId];

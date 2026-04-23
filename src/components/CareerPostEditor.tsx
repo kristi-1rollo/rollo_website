@@ -131,7 +131,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
     } catch {
       draftRestoredRef.current = true;
     }
-  }, []);
+  }, [draftKey]);
 
   const restoreDraft = () => {
     if (!pendingDraft) return;
