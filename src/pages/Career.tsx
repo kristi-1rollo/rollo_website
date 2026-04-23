@@ -8,7 +8,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
+import { Section, SectionIntro, SectionTag } from "@/components/ui/section";
 import DOMPurify from "dompurify";
 
 const Career = () => {
@@ -110,8 +110,8 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <PublicContentRail className="relative z-10 py-24">
-          <SectionIntro centered className="flex flex-col items-center space-y-5">
+        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 md:px-6 lg:px-8">
+          <SectionIntro centered className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center">
             <SectionTag>Career</SectionTag>
 
             <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
@@ -124,7 +124,7 @@ const Career = () => {
               hear from you.
             </p>
           </SectionIntro>
-        </PublicContentRail>
+        </div>
       </header>
 
       {/* Main content - scrolls over fixed hero */}

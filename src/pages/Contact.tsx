@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
-import { PublicContentRail, SectionIntro } from "@/components/ui/section";
+import { SectionIntro } from "@/components/ui/section";
 
 const Contact = () => {
   const {
@@ -49,7 +49,7 @@ const Contact = () => {
           <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
         </div>
 
-        <PublicContentRail className="relative z-10 flex min-h-[100svh] items-center py-24">
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl items-center px-4 py-24 md:px-6 lg:px-8">
           <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
             <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">
               <p className="text-xs uppercase tracking-[0.2em] text-primary">
@@ -84,7 +84,7 @@ const Contact = () => {
               </video>
             </div>
           </div>
-        </PublicContentRail>
+        </div>
       </section>
 
       {/* Contact Information & Form */}
