@@ -67,47 +67,29 @@ export function ScrollControlledVideo({ src, className = "" }: ScrollControlledV
       <div className="relative mx-auto w-full">
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-[10%] bottom-[-4%] top-[6%] -z-10 blur-3xl"
+          className="pointer-events-none absolute inset-x-[14%] bottom-[2%] top-[10%] -z-10 blur-3xl"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 50%, hsl(var(--primary) / 0.14) 0%, hsl(var(--ring) / 0.08) 34%, transparent 72%)",
+              "radial-gradient(ellipse at 50% 50%, hsl(var(--primary) / 0.1) 0%, hsl(var(--ring) / 0.05) 38%, transparent 76%)",
           }}
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -inset-x-[14%] inset-y-[18%] -z-20 blur-[72px]"
+          className="pointer-events-none absolute -inset-x-[18%] inset-y-[20%] -z-20 blur-[80px]"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 50%, hsl(var(--foreground) / 0.08) 0%, transparent 72%)",
+              "radial-gradient(ellipse at 50% 50%, hsl(var(--foreground) / 0.05) 0%, transparent 72%)",
           }}
         />
 
-        <div
-          className="relative overflow-hidden rounded-[4px] border p-[10px] shadow-2xl"
-          style={{
-            background:
-              "linear-gradient(180deg, hsl(var(--card) / 0.68) 0%, hsl(var(--background) / 0.42) 100%)",
-            borderColor: "hsl(var(--foreground) / 0.08)",
-            boxShadow:
-              "0 30px 80px hsl(var(--background) / 0.55), inset 0 1px 0 hsl(var(--foreground) / 0.08), inset 0 0 0 1px hsl(var(--primary) / 0.05)",
-          }}
-        >
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-[1px] rounded-[3px]"
-            style={{
-              background:
-                "linear-gradient(180deg, hsl(var(--foreground) / 0.04) 0%, transparent 18%, transparent 82%, hsl(var(--primary) / 0.05) 100%)",
-            }}
-          />
-
-          <div className="relative overflow-hidden rounded-[2px]">
+        <div className="relative overflow-hidden rounded-[4px]">
+          <div className="relative overflow-hidden rounded-[4px]">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute inset-0 z-20"
               style={{
                 background:
-                  "linear-gradient(180deg, hsl(var(--background) / 0.22) 0%, transparent 18%, transparent 82%, hsl(var(--background) / 0.44) 100%), linear-gradient(90deg, hsl(var(--background) / 0.2) 0%, transparent 14%, transparent 86%, hsl(var(--background) / 0.2) 100%)",
+                  "linear-gradient(180deg, hsl(var(--background) / 0.12) 0%, transparent 16%, transparent 84%, hsl(var(--background) / 0.3) 100%), linear-gradient(90deg, hsl(var(--background) / 0.12) 0%, transparent 10%, transparent 90%, hsl(var(--background) / 0.12) 100%), radial-gradient(ellipse at 50% 50%, transparent 58%, hsl(var(--background) / 0.12) 100%)",
               }}
             />
 
@@ -119,9 +101,10 @@ export function ScrollControlledVideo({ src, className = "" }: ScrollControlledV
               preload="metadata"
               style={{
                 maskImage:
-                  "linear-gradient(180deg, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+                  "linear-gradient(180deg, transparent 0%, black 5%, black 95%, transparent 100%), linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%)",
                 WebkitMaskImage:
-                  "linear-gradient(180deg, transparent 0%, black 7%, black 93%, transparent 100%), linear-gradient(90deg, transparent 0%, black 6%, black 94%, transparent 100%)",
+                  "linear-gradient(180deg, transparent 0%, black 5%, black 95%, transparent 100%), linear-gradient(90deg, transparent 0%, black 5%, black 95%, transparent 100%)",
+                filter: "saturate(0.96) contrast(1.02)",
               }}
             >
               <source src={src} type="video/mp4" />
@@ -134,7 +117,7 @@ export function ScrollControlledVideo({ src, className = "" }: ScrollControlledV
                 className="absolute inset-0 z-30 flex items-center justify-center"
                 style={{
                   background:
-                    "linear-gradient(180deg, hsl(var(--background) / 0.26) 0%, hsl(var(--background) / 0.58) 100%)",
+                    "linear-gradient(180deg, hsl(var(--background) / 0.18) 0%, hsl(var(--background) / 0.5) 100%)",
                 }}
               >
                 <div className="text-center">
