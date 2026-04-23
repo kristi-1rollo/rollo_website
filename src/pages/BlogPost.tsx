@@ -40,7 +40,7 @@ const proseClasses =
   "[&_img]:rounded-[4px] [&_img]:max-w-full [&_img]:shadow-lg [&_img]:shadow-black/20 [&_img]:my-6 " +
   "[&_a]:text-primary [&_a]:underline [&_a:hover]:text-primary/80 " +
   "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-6 " +
-  "[&_p]:mb-6 [&_p]:text-justify " +
+  "[&_p]:mb-5 md:[&_p]:mb-6 [&_p]:text-left md:[&_p]:text-justify " +
   "[&_h1]:text-left [&_h2]:text-left [&_h3]:text-left " +
   "[&_ul]:text-left [&_ol]:text-left [&_li]:leading-snug [&_ul]:mb-6 [&_ol]:mb-6 " +
   "[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight " +
@@ -203,10 +203,10 @@ const BlogPost = () => {
             </FadeInView>
 
             <FadeInView delay={100}>
-              <div className="surface-panel mb-8 flex flex-wrap items-center gap-4 rounded-[4px] px-4 py-4">
-                <span className="text-sm text-white font-medium">{publishedDate}</span>
+              <div className="surface-panel mb-8 flex flex-wrap items-center gap-3 rounded-[4px] px-4 py-3">
+                <span className="text-sm font-medium text-white/85">{publishedDate}</span>
                 {readingTime > 0 && (
-                  <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground">
+                  <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
                     <Clock className="h-3 w-3" />
                     {readingTime} min read
                   </span>
