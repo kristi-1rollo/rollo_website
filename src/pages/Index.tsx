@@ -13,10 +13,12 @@ import {
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import LazySection from "@/components/LazySection";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
-import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.webp";
+
+const orbitalCompositeImage = "/robot/F6/1rollo_orbital_2.webp";
 
 /* ── data ─────────────────────────────────────────────── */
 
