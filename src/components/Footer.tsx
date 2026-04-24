@@ -56,27 +56,27 @@ const Footer = () => {
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                to="/blog"
-              >
-                Blog
-              </Link>
-              <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
               >
                 About Us
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
-                to="/contact"
+                to="/blog"
               >
-                Contact
+                Blog
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/career"
               >
                 Career
+              </Link>
+              <Link
+                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                to="/contact"
+              >
+                Contact
               </Link>
             </nav>
           </div>
