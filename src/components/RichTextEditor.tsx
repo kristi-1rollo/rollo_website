@@ -1,4 +1,4 @@
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, EditorContent, useEditorState } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
@@ -114,6 +114,22 @@ const RichTextEditor = ({ content, onChange }: Props) => {
           "[&_iframe]:rounded-[4px] [&_iframe]:my-3 [&_iframe]:max-w-full",
       },
     },
+  });
+
+  // Reactive state for BubbleMenu — re-renders on every selection change
+  const editorState = useEditorState({
+    editor,
+    selector: (ctx) => ({
+      isBold: ctx.editor?.isActive("bold") ?? false,
+      isItalic: ctx.editor?.isActive("italic") ?? false,
+      isUnderline: ctx.editor?.isActive("underline") ?? false,
+      isH1: ctx.editor?.isActive("heading", { level: 1 }) ?? false,
+      isH2: ctx.editor?.isActive("heading", { level: 2 }) ?? false,
+      isH3: ctx.editor?.isActive("heading", { level: 3 }) ?? false,
+      isBulletList: ctx.editor?.isActive("bulletList") ?? false,
+      isOrderedList: ctx.editor?.isActive("orderedList") ?? false,
+      isLink: ctx.editor?.isActive("link") ?? false,
+    }),
   });
 
   // Sync content from parent (e.g. draft restore) — only when content differs from editor
@@ -350,34 +366,34 @@ const RichTextEditor = ({ content, onChange }: Props) => {
         editor={editor}
         className="flex items-center gap-0.5 rounded-[4px] border border-border bg-popover p-1 shadow-lg shadow-black/40"
       >
-        <MenuButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Bold">
+        <MenuButton onClick={() => editor.chain().focus().toggleBold().run()} active={editorState?.isBold} title="Bold">
           <Bold className={ic} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italic">
+        <MenuButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editorState?.isItalic} title="Italic">
           <Italic className={ic} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive("underline")} title="Underline">
+        <MenuButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editorState?.isUnderline} title="Underline">
           <UnderlineIcon className={ic} />
         </MenuButton>
         <Separator />
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive("heading", { level: 1 })} title="Heading 1">
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editorState?.isH1} title="Heading 1">
           <Heading1 className={ic} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Heading 2">
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editorState?.isH2} title="Heading 2">
           <Heading2 className={ic} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Heading 3">
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editorState?.isH3} title="Heading 3">
           <Heading3 className={ic} />
         </MenuButton>
         <Separator />
-        <MenuButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive("bulletList")} title="Bullet list">
+        <MenuButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editorState?.isBulletList} title="Bullet list">
           <List className={ic} />
         </MenuButton>
-        <MenuButton onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive("orderedList")} title="Ordered list">
+        <MenuButton onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editorState?.isOrderedList} title="Ordered list">
           <ListOrdered className={ic} />
         </MenuButton>
         <Separator />
-        <MenuButton onClick={addLink} active={editor.isActive("link")} title="Add link">
+        <MenuButton onClick={addLink} active={editorState?.isLink} title="Add link">
           <LinkIcon className={ic} />
         </MenuButton>
       </BubbleMenu>
