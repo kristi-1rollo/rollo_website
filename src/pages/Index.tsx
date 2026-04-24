@@ -130,6 +130,10 @@ const Index = () => {
             alt="Rollo autonomous patrol robot at airport"
             className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
             priority
+            localVariants={[640, 960]}
+            sizes="100vw"
+            width={1920}
+            height={1080}
           />
           <div className="absolute inset-0 bg-black/42" />
           <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
