@@ -41,7 +41,9 @@ const proseClasses =
   "[&_iframe]:rounded-[4px] [&_iframe]:max-w-full [&_iframe]:my-6 " +
   "[&_p]:mb-5 md:[&_p]:mb-6 [&_p]:text-left " +
   "[&_h1]:text-left [&_h2]:text-left [&_h3]:text-left " +
-  "[&_ul]:text-left [&_ol]:text-left [&_li]:leading-snug [&_ul]:mb-6 [&_ol]:mb-6 " +
+  "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:text-left [&_ul]:mb-6 " +
+  "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:text-left [&_ol]:mb-6 " +
+  "[&_li]:leading-snug [&_li]:my-1 [&_li]:text-white/90 " +
   "[&_h2]:text-white [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-tight " +
   "[&_h2]:border-t [&_h2]:border-border [&_h2]:pt-12 [&_h2]:mt-16 [&_h2]:mb-6 " +
   "[&_h2]:before:content-[''] [&_h2]:before:block [&_h2]:before:w-8 [&_h2]:before:h-[2px] [&_h2]:before:bg-primary [&_h2]:before:mb-4 " +
