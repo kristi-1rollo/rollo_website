@@ -21,7 +21,6 @@ import BlogMediaGallery from "@/components/BlogMediaGallery";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
-import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
 import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
 
 const estimateReadingTime = (html: string) => {
@@ -155,7 +154,7 @@ const BlogPost = () => {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
-    "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.png",
+    "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.webp",
     "datePublished": post.published_at,
     "dateModified": post.published_at,
     "author": {

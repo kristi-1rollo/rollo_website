@@ -53,7 +53,7 @@ const Product = () => {
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <picture>
           <img
-            src="/robot/F6/1rollo_auto_sec.png"
+            src="/robot/F6/1rollo_auto_sec.webp"
             alt="Rollo autonomous security robot on patrol"
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '65% center' }}

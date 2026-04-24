@@ -33,7 +33,7 @@ const BlogPostHeader = ({ title, imageUrl, category }: BlogPostHeaderProps) => {
 
         <div className="photo-depth-frame cyber-frame scan-lines relative aspect-video md:aspect-[21/9] w-full overflow-hidden border border-white/10 bg-black/20">
           <img
-            src={imageUrl ?? "/hero/rollo-street.png"}
+            src={imageUrl ?? "/hero/rollo-street.webp"}
             alt={title}
             className="h-full w-full object-cover"
           />
