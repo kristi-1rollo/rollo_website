@@ -1,3 +1,9 @@
+# ─────────────────────────────────────────────
+# Website design & development: Whau OÜ
+# https://whau.ee  ·  whau@whau.ee
+# Content & brand: 1ROLLO
+# ─────────────────────────────────────────────
+
 User-agent: Googlebot
 Allow: /
 
