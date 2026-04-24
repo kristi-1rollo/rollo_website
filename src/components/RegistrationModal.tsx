@@ -72,6 +72,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
     region: "",
     topics: [] as string[],
     message: "",
+    website: "", // honeypot
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
