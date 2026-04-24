@@ -133,6 +133,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         region: "",
         topics: [],
         message: "",
+        website: "",
       });
     } catch {
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
