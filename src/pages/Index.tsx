@@ -227,7 +227,7 @@ const Index = () => {
           </div>
         </FadeInView>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <LazySection minHeight={520} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { img: "/patent/pilt-1.png", ...productTiles[0] },
             { img: "/patent/pilt-2.png", ...productTiles[1] },
@@ -239,8 +239,11 @@ const Index = () => {
                   <img
                     src={t.img}
                     alt={t.title}
+                    width={800}
+                    height={600}
                     className="w-full h-full object-contain p-2"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-3">
@@ -252,7 +255,7 @@ const Index = () => {
               </div>
             </FadeInView>
           ))}
-        </div>
+        </LazySection>
       </Section>
 
       {/* ═══ USE CASES ═══ */}
