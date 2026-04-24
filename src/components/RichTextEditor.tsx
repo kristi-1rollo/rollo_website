@@ -1,4 +1,5 @@
 import { useEditor, EditorContent } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
 import { useEffect } from "react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
@@ -100,9 +101,9 @@ const RichTextEditor = ({ content, onChange }: Props) => {
           "[&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 [&_h2]:text-left " +
           "[&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-5 [&_h3]:text-left " +
           "[&_p]:mb-4 [&_p]:text-justify " +
-          "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-2 [&_ul]:text-left " +
-          "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-2 [&_ol]:text-left " +
-          "[&_li]:leading-snug [&_li]:my-1 " +
+          "[&_ul]:list-disc [&_ul]:pl-6 [&_ul]:my-2 [&_ul]:text-left " +
+          "[&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:my-2 [&_ol]:text-left " +
+          "[&_li]:leading-tight [&_li]:my-0.5 [&_li>p]:my-0 " +
           "[&_h1]:mt-8 [&_h2]:mt-6 " +
           "[&_p:empty]:min-h-[1.5em] [&_p:empty]:before:content-['\\00a0'] " +
           "[&_blockquote]:border-l-2 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic " +
@@ -343,6 +344,43 @@ const RichTextEditor = ({ content, onChange }: Props) => {
           <Redo className={ic} />
         </MenuButton>
       </div>
+
+      {/* Floating bubble menu - appears near selected text */}
+      <BubbleMenu
+        editor={editor}
+        className="flex items-center gap-0.5 rounded-[4px] border border-border bg-popover p-1 shadow-lg shadow-black/40"
+      >
+        <MenuButton onClick={() => editor.chain().focus().toggleBold().run()} active={editor.isActive("bold")} title="Bold">
+          <Bold className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().toggleItalic().run()} active={editor.isActive("italic")} title="Italic">
+          <Italic className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().toggleUnderline().run()} active={editor.isActive("underline")} title="Underline">
+          <UnderlineIcon className={ic} />
+        </MenuButton>
+        <Separator />
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} active={editor.isActive("heading", { level: 1 })} title="Heading 1">
+          <Heading1 className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} active={editor.isActive("heading", { level: 2 })} title="Heading 2">
+          <Heading2 className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} active={editor.isActive("heading", { level: 3 })} title="Heading 3">
+          <Heading3 className={ic} />
+        </MenuButton>
+        <Separator />
+        <MenuButton onClick={() => editor.chain().focus().toggleBulletList().run()} active={editor.isActive("bulletList")} title="Bullet list">
+          <List className={ic} />
+        </MenuButton>
+        <MenuButton onClick={() => editor.chain().focus().toggleOrderedList().run()} active={editor.isActive("orderedList")} title="Ordered list">
+          <ListOrdered className={ic} />
+        </MenuButton>
+        <Separator />
+        <MenuButton onClick={addLink} active={editor.isActive("link")} title="Add link">
+          <LinkIcon className={ic} />
+        </MenuButton>
+      </BubbleMenu>
 
       {/* Editor */}
       <EditorContent editor={editor} />
