@@ -1,34 +1,31 @@
-# Airports + Communities pildi parandus
+# Plaan: Airport pildi positsioneerimine
 
-## Probleem
-Eelmises sammus sai `rollo-city.webp` (Communities kast) ekslikult üle kirjutatud sinu üleslaaditud lennujaama pildiga. Lisaks pole Airports kast veel uue pildiga seotud — see näitab praegu hero-pilti `/hero/rollo-street.webp`.
+## Eesmärk
+Airports use-case kaardi taustapildi (`/robot/rollo-airport.webp`) nihutamine nii, et robot kuvatakse paremas 1/3 alas. Teised use-case kaardid jäävad muutmata (vaikimisi keskele).
 
-Sa ei soovi AI-genereeritud asenduspilti Communities jaoks — peame taastama algse `rollo-city` pildi.
+## Muudatused
 
-## Mida teen
-
-### 1. Taasta Communities pilt
-Vaatan, kas algne `rollo-city.webp` on saadaval src/assets või mõnes varukoopias. Kui ei ole, küsin sinult uue Communities pildi üleslaadimist enne edasiminekut. **Ma ei genereeri AI pilti.**
-
-Kui leian algse, taastan need failid:
-- `public/robot/rollo-city.webp`
-- `public/robot/rollo-city-640.webp`
-- `public/robot/rollo-city-960.webp`
-
-### 2. Seo Airports kast uue pildiga
-Failis `src/pages/Index.tsx` (rida 45) muudan Airports kirje:
-
-```diff
-- image: "/hero/rollo-street.webp",
-+ image: "/robot/rollo-airport.webp",
+### 1. `src/pages/Index.tsx` (üks rida)
+Lisame `useCases` massiivi Airports kirjele uue valikulise välja `objectPosition`:
+```ts
+{
+  id: "...",
+  title: "Airports",
+  icon: Plane,
+  image: "/robot/rollo-airport.webp",
+  objectPosition: "75% center", // robot paremas 1/3 alas
+  description: "...",
+  tech: "...",
+}
 ```
 
-Pilt `rollo-airport.webp` (74 KB) ja variandid (640w: 16 KB, 960w: 28 KB) on juba olemas ning optimeeritud — ei ole vaja uuesti genereerida.
+### 2. `src/pages/Index.tsx` (`OptimizedImage` kasutuskoht use-case kaardil)
+Anname `style={{ objectPosition: uc.objectPosition ?? 'center' }}` `OptimizedImage` komponendile, et igal kaardil saab vajadusel oma fookust määrata. `OptimizedImage` annab kõik täiendavad `img` atribuudid (sh `style`) edasi `<img>` elemendile, seega täiendavat komponendi muutmist pole vaja.
 
-### 3. Kinnitamine
-- Kontrollin, et Communities kast näitab algset linnatänava pilti
-- Kontrollin, et Airports kast näitab uut lennujaama pilti (sinu üleslaaditud rollo_nordica)
-- Kontrollin, et `OptimizedImage` srcSet kasutab `localVariants={[640, 960]}` mõlemas kastis (mobiilne payload jääb minimaalseks)
+## Visuaalne tulemus
+- Airports kaart: pildil olev robot nihkub paremasse äärde (~75% horisontaalne fookus), maastik vasakul jääb rohkem nähtavale.
+- Teised kaardid: muutusteta.
 
-## Kui algne Communities pilt pole leitav
-Peatun ja palun sul üles laadida algne `rollo-city` pilt (linnatänav). Ei genereeri AI-d ega kasuta asenduspilti.
+## Mõju jõudlusele / muudele süsteemidele
+- Ainult CSS `object-position` muudatus, ei mõjuta srcSet, lazy-loadi ega fail-süsteemi.
+- Muudatus on tagasiühilduv – teised kaardid kasutavad vaikeväärtust `center`.
