@@ -84,7 +84,7 @@ const useCases = [
     id: "06",
     title: "Data Centers",
     icon: Database,
-    image: "/graph/pilt-1.jpg",
+    image: "/robot/rollo-datacenter.webp",
     description: "Reliable autonomous presence for high-value facilities.",
     tech: "ENCRYPTED UPLINK / TEMP SYNC: 18C",
   },
