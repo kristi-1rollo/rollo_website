@@ -1,36 +1,32 @@
-## Update Use Cases grid on Home page
+## Probleem
+`prose` ja `prose-invert` klassid on kasutuses nii `RichTextEditor.tsx` kui `BlogPost.tsx` failis, aga `@tailwindcss/typography` plugin pole `tailwind.config.ts` plugins-massiivis aktiveeritud. Tailwind preflight reset eemaldab `<ul>`, `<ol>` jt. vaikevormingud, mistõttu täpid (bullets) ja numbrid kaovad ning pealkirjad jäävad ilma vahedeta.
 
-Restructure the bento grid in `src/pages/Index.tsx` to introduce a new "Ports & Marine" tile and reposition "Data Centers".
+## Muudatused
 
-### Changes
+### 1. `tailwind.config.ts`
+- Lisan ülaossa: `import typography from "@tailwindcss/typography";`
+- Muudan `plugins: [animate]` → `plugins: [animate, typography]`
 
-**1. Add new image asset**
-- Copy uploaded `user-uploads://rollo_marine.png` to `public/robot/rollo-marine.png`.
+### 2. `src/components/RichTextEditor.tsx` (rida 98-112)
+Lisan olemasolevasse `editorProps.attributes.class` stringi täpsed list-fallbackid, et bullets/numbrid kuvaksid ka siis, kui `prose` failib:
+- `[&_ul]:list-disc [&_ul]:pl-6`
+- `[&_ol]:list-decimal [&_ol]:pl-6`
+- `[&_li]:my-1`
 
-**2. Update `useCases` array in `src/pages/Index.tsx`**
+### 3. `src/pages/BlogPost.tsx` (rida 37-50, `proseClasses`)
+Sama loogika avalikule blogile — lisan:
+- `[&_ul]:list-disc [&_ul]:pl-6`
+- `[&_ol]:list-decimal [&_ol]:pl-6`
+- `[&_li]:my-1 [&_li]:text-white/90`
 
-The 8 tiles will become (in order):
+Säilitan kogu ülejäänud premium-stiili (uppercase H2, lime-aktsendijooned, jne).
 
-| # | Title | Notes |
-|---|-------|-------|
-| 01 | Airports | unchanged |
-| 02 | Hospitals | unchanged |
-| 03 | Industrial Plants | unchanged |
-| 04 | **Ports & Marine** (NEW) | Replaces the current "Data Centers" slot. Uses new uploaded image. |
-| 05 | Construction | unchanged |
-| 06 | **Data Centers** (MOVED) | Takes over the current "Campuses" slot — same icon (`Database`), description and tech as today's Data Centers tile. |
-| 07 | Communities | unchanged |
-| 08 | Oil & Gas | unchanged |
+## Tulemus
+- Admin TipTap redaktoris on bullets, numbrid ja H1/H2/H3 visuaalselt korrektsed.
+- Avalikus blogis renderdub sama vorming identselt premium-aestheetikaga.
+- Olemasolev memory `mem://design/blog-premium-aesthetic` reegleid ei muudeta.
 
-**Net effect:** "Campuses" is removed, "Data Centers" moves to slot 06, and a new "Ports & Marine" tile lands in slot 04.
-
-**3. New "Ports & Marine" tile content**
-- icon: `Anchor` (from lucide-react) — fits maritime context
-- image: `/robot/rollo-marine.png`
-- description: `Continuous perimeter surveillance in high-traffic maritime zones.`
-- tech: `MARITIME-GRADE IP67 / SALT-AIR HARDENED`
-
-### Technical notes
-- Add `Anchor` to the lucide-react import list, remove `GraduationCap` (no longer used after Campuses is removed).
-- Keep existing `objectPosition` / `imageScale` logic as-is — the new tile will use defaults (centered, no scale). If the robot framing in the new image needs tweaking after preview, we can add `objectPosition` later.
-- No changes to the rendering loop or grid layout.
+## Failid
+- `tailwind.config.ts`
+- `src/components/RichTextEditor.tsx`
+- `src/pages/BlogPost.tsx`
