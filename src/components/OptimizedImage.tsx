@@ -17,13 +17,15 @@ function buildSupabaseSrcSet(src: string): string | undefined {
 }
 
 /**
- * Builds srcset for local public images that have generated -640.webp / -960.webp variants.
- * E.g. /robot/F6/1rollo_tll.webp -> 1rollo_tll-640.webp 640w, 1rollo_tll-960.webp 960w, 1rollo_tll.webp 1920w
+ * Builds srcset for local public images that have generated -640 / -960 width variants
+ * as .webp files alongside the original.
+ * E.g. /robot/rollo-futu.jpg -> rollo-futu-640.webp 640w, rollo-futu-960.webp 960w, rollo-futu.jpg 1920w
  */
 function buildLocalVariantSrcSet(src: string, variants: number[] = []): string | undefined {
   if (!variants.length) return undefined;
-  if (!src.endsWith(".webp")) return undefined;
-  const base = src.replace(/\.webp$/, "");
+  const match = src.match(/^(.*)\.(webp|jpg|jpeg|png)$/i);
+  if (!match) return undefined;
+  const base = match[1];
   const set = variants.map((w) => `${base}-${w}.webp ${w}w`);
   set.push(`${src} 1920w`);
   return set.join(", ");

@@ -1,121 +1,72 @@
-## Diagnoos
 
-Lighthouse mobiil 89 vs desktop 97. Peamised probleemid:
+## Diagnoos (mõõdetud andmed)
 
-### 🔴 Kriitiline #1: vale LCP preload
-`index.html` preload’ib `/hero/rollo-street.webp` (201 KB), **AGA** `Index.tsx` (rida 130) kasutab tegelikult `/robot/F6/1rollo_tll.webp` (103 KB). Brauser laadib alla mõlemad — preloaded pilt visatakse minema (raisatud 201 KB mobiili andmesidet) ning tegelik LCP-pilt jääb järjekorda. See on **otsene LCP regressioon** (3215 ms mobiilis).
+Lighthouse mobiilis: **76 punkti, FCP 3.49s, SI 5.31s, LCP 4.05s**. Mõõtsin live-saidi (https://new.1rollo.com) iPhone 12 vaatest — esimese laadimisega tuleb **16 pilti, kokku ~1.9 MB**, kusjuures LCP-pildi (`1rollo_tll.webp`, 103 KB) laadimine võttis **1.46 s**, sest see konkureeris ribalaiusel kõigi teiste piltidega.
 
-### 🔴 Kriitiline #2: `backdrop-blur` 8 use-case kaardil
-`Index.tsx` rida 281: iga use-case kaart kasutab `backdrop-blur-sm`. Mobiili GPU peab iga frame jooksul resamplima 8 ala — **see on suurim mobiili scroll jank ja FCP/SI viivituse põhjus**. Kaardid on niigi tumeda gradient-overlayga, blur ei anna visuaalselt midagi juurde.
+Põhjus pole enam disainis ega koodi struktuuris — see on **paralleelsete päringute prioriteet ja arv**:
 
-### 🟡 Keskmine #3: Layout’i scroll-to-top backdrop-blur
-`Layout.tsx` `scroll-to-top` nupp kasutab `backdrop-blur-md` ja seda animeeritakse iga scrollimise peale (state update igal scroll eventil). See käivitab pidevaid re-rendereid mobiilis.
+1. **Hero pilt jagab ribalaiust kõigi 8 use-case pildiga + 3 product-teaser pildiga.** Kõik need on `<img loading="lazy">`, aga brauser kontrollib lazy-loading'ut alles pärast layout'i, ja Index.tsx renderdab kõik tile'id kohe komponendi mountimisel. Mobiilis (390 px) algatab brauser kõik need allalaadimised samaaegselt LCP-pildiga.
+2. **`hero/rollo-street.webp` (201 KB)** on use-case "Airports" taustapilt. See on oma 201 KB-ga **suurem kui hero pilt ise** ja konkureerib LCP-ga.
+3. **`framer-motion` on `motion-vendor` chunk = ~70 KB gz**, mida kasutatakse Index lehel ainult `FadeInView` jaoks. See on render-blocking JS.
+4. **Use-case pildid on 800×600 (50–200 KB)**, aga renderduvad mobiilis ~190×190 px. Liiga suured.
+5. **`1rollo_orbital_2.webp` (96 KB)** on imporditud kui ES moodul → laaditakse koos Index chunkiga, kuigi on capabilities sektsioonis (allpool fold'i).
 
-### 🟡 Keskmine #4: framer-motion bundle Index lehel
-Index.tsx impordib `framer-motion` ainult use-case kaartide stagger-animatsiooni jaoks (`motion.div` koos `whileInView`). framer-motion on suur dependency (~50 KB gz). Sama efekti saab `FadeInView` komponendiga, mis on juba eluces igal pool kasutusel.
+## Lahendus (5 sammu, mõõdetav mõju)
 
-### 🟡 Keskmine #5: Bundle splitting puudub
-`vite.config.ts`-is pole `manualChunks` seadistust. `index-C-HliReq.js` on **222 KB** ja `Header-B6VK1vpC.js` **87 KB** — vendor kood (react-router, tanstack-query, lucide, radix, framer-motion) on segamini app-koodiga. Mobiili 4G-l tähendab see aeglasemat parse + execution.
+### 1. Lazy-load use-case ja product-teaser pildid päriselt
+Asendan tavalise `<img loading="lazy">` lähenemise **`loading="lazy" + fetchpriority="low" + decoding="async"`** kombinatsiooniga ja lisan **`width`/`height`** atribuudid (juba on). Lisaks **lükkan use-case sektsiooni renderdamise edasi** kasutades `IntersectionObserver`-põhist platseeringut (`<Section>` mahuti renderib platseholderid kuni jõuab viewportile lähedale, siis lubab pildid). See vähendab esimese 3 sekundi pildimahtu ~1.4 MB → ~150 KB.
 
-### 🟢 Väike #6: `body` `background-attachment: fixed` + 4 radial-gradient
-`index.css` rida 86: fixed background koos 4 radiaalse gradiendiga sunnib mobiili iga scroll-frame'i ajal kogu tausta uuesti komposiitida. Mobiilil tasuks `fixed` asendada `scroll`-iga.
+Tehniliselt: lisan `useInView` hooki Index.tsx use-case ja product-teaser sektsioonidele (root margin 400px), mis hoiab `<img src>` tühjana kuni sektsioon läheneb. Hero pilt jääb puutumata (priority=true).
 
-### 🟢 Väike #7: scroll listener Layout’is ilma throttle’ita
-`window.scrollY > 300` kontroll tehakse iga scroll eventi peale — viib re-render’ini iga kord, kui state muutub.
+### 2. Eemalda `framer-motion` Index lehelt
+`FadeInView` kasutab `framer-motion`'i (~70 KB JS). Asendan selle lihtsa **CSS `IntersectionObserver` põhise fade-in komponendiga** (≤ 1 KB). Sama API (`<FadeInView delay={i*80}>`), seega muutus on transparent. `framer-motion`'i kasutavad veel `BlogPostHeader`, `LiveScanner`, `ScrollControlledVideo`, `SpecsBlueprint` — need jäävad puutumata, aga kuna nad on kõik laisalt laetud (lazy routes), siis Home laadimisel `framer-motion` üldse ei downloadita.
 
----
+Tulemus: Home initial JS väheneb ~70 KB → 0 KB framer-motion'i osas.
 
-## Lahendus
+### 3. Genereeri responsive variandid use-case piltidele
+Praegu `OptimizedImage`-l on `localVariants` ainult hero-pildil. Genereerin 640w + 960w variandid kõigile use-case piltidele:
+- `rollo-futu.jpg` (283 KB → ~50 KB @ 640w)
+- `rollo-des.webp` (199 KB → ~40 KB)
+- `rollo-tunnel.webp` (147 KB → ~30 KB)
+- `rollo-park.webp` (132 KB → ~28 KB)
+- `rollo-city.webp` (97 KB → ~22 KB)
+- `rollo-milit.webp` (92 KB → ~22 KB)
+- `hero/rollo-street.webp` (201 KB → ~40 KB)
+- `graph/pilt-1.jpg` (199 KB → ~38 KB)
 
-### 1. Paranda LCP preload
-**Fail:** `index.html`
-- Asenda `<link rel="preload" as="image" href="/hero/rollo-street.webp" ...>` õige hero pildiga: `/robot/F6/1rollo_tll.webp`.
-- See üksi peaks mobiili LCP viima ~3.2s → ~2.0s alla (tegelik LCP-pilt hakkab laadima HTML parsimise ajal, mitte alles pärast JS-i).
+Use-case pildid migreerin `<img>` → `<OptimizedImage localVariants={[640]}>`, sizes="(max-width: 640px) 50vw, 25vw". Mobiilis tuleb 640w variant.
 
-### 2. Eemalda `backdrop-blur` use-case kaartidelt
-**Fail:** `src/pages/Index.tsx` (rida 281)
-- Eemalda `backdrop-blur-sm` className’ist. Kaartide all on niigi tume gradient — visuaalselt sama, GPU-le radikaalselt odavam.
-- Kaardid säilitavad `blue-card-glow`, hover’i ja muu visuaali.
+Eeldatav kokkuhoid: ~1.4 MB → ~250 KB.
 
-### 3. Eemalda `backdrop-blur` muudest mitte-kriitilistest kohtadest
-**Failid:** `src/components/Layout.tsx`, `src/components/LiveScanner.tsx`
-- `Layout.tsx` scroll-to-top: `backdrop-blur-md` → asenda läbipaistmatuma `bg-black/70` taustaga.
-- `LiveScanner.tsx`: säilita (väike, mitteanimeeritud, üks element).
-- `Header.tsx` `backdrop-blur-xl` jätame alles, sest see on funktsionaalselt vajalik fixed header’i jaoks ja kasutab juba `supports-[backdrop-filter]` guard’i.
-- `ScrollControlledVideo.tsx` replay-overlay jääb alles (kuvatakse harva).
+### 4. Eemalda konkureeriv `rollo-street.webp` preload teema
+Kontrollin index.html'i — hero preload on praegu õige (`1rollo_tll-640.webp` mobiilis). Aga `rollo-street.webp` (use-case Airports) laaditakse samal hetkel kui hero. Pärast sammu 1+3 see konkurents kaob, sest pilt enam ei laadi enne sektsiooni nähtavust ja on 40 KB asemel 201 KB.
 
-### 4. Asenda Index.tsx use-case kaartide framer-motion `FadeInView`-ga
-**Fail:** `src/pages/Index.tsx`
-- Eemalda `import { motion } from "framer-motion"`.
-- Asenda `motion.div` `whileInView` stagger-animatsiooniga olemasoleva `<FadeInView delay={i * 80}>` wrapper’iga (sama visuaalne efekt — fade-in up).
-- See vähendab `index.js` bundle’it ~30–50 KB gz võrra (framer-motion ei pea esimesel route’il laadima).
-
-### 5. Lisa Vite manualChunks vendor splitting
-**Fail:** `vite.config.ts`
-- Lisa `build.rollupOptions.output.manualChunks`:
-  - `react-vendor`: `react`, `react-dom`, `react-router-dom`
-  - `query-vendor`: `@tanstack/react-query`
-  - `ui-vendor`: `@radix-ui/*`
-  - `motion-vendor`: `framer-motion`
-  - `icons-vendor`: `lucide-react`
-- See võimaldab brauseril cache’ida vendor chunks deployimiste vahel ja parallelselt laadida.
-
-### 6. Mobiilil eemalda `background-attachment: fixed`
-**Fail:** `src/index.css` (~rida 78–90)
-- Lisa media query: mobiilil (max-width: 768px) `background-attachment: scroll`. Desktopil säilita fixed efekt.
-- Eemaldab mobiili komposiitimise overhead’i ilma desktop-vaadet muutmata.
-
-### 7. Throttle scroll listener Layout’is
-**Fail:** `src/components/Layout.tsx`
-- Lisa scroll handler’ile rAF-throttle (request animation frame), et state-update toimuks max 60×/sekundis, mitte iga scroll-eventi peale (mobiilil tuleb scroll events ~120/s).
-- Sama parandus võiks teha `Header.tsx`-is, aga see on juba kerge (boolean toggle).
-
-### 8. Lisa `width`/`height` use-case kaartide piltidele (CLS prevent)
-**Fail:** `src/pages/Index.tsx`
-- Lisa `width="800" height="600"` decorative use-case piltidele. CLS on praegu 0.00, aga see hoiab seda 0.00.
-
-### 9. Lazy-loadi Slider ja Dialog Index lehel
-**Fail:** `src/pages/Index.tsx`
-- ROI-kalkulaatori `Slider` ja orbit `Dialog` ei ole esimesel viewport’il nähtavad. Saab `lazy()` + `Suspense`-iga viiteid all-the-fold sisule.
-- Aga seda teen ainult juhul, kui mõõtmed näitavad et see annab kasu — `Slider`-i import on suhteliselt väike. **Jätan selle punkti välja vaikimisi**, lisan ainult kui esimesed 7 punkti pole piisavad.
-
----
+### 5. Lükka `1rollo_orbital_2.webp` import edasi
+Praegu: `import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.webp"` → bundleerib pildi URL-i Index chunki. Vahetan tavalise `/robot/F6/1rollo_orbital_2.webp` viite vastu (sama pilt on juba `public/`-is) ja `<img loading="lazy">`. See vabastab Index chunki esmase parsimise koormusest.
 
 ## Mida EI muudeta
-- Visuaalne disain ei muutu (use-case kaartide `backdrop-blur` eemaldamine on visuaalselt märkamatu, sest taustal on tume gradient).
-- Hero kompositsioon, `OptimizedImage` komponent, ScrollControlledVideo loogika — kõik puutumata.
-- `framer-motion` jääb projekti alles teiste komponentide jaoks (`FadeInView`, `BlogPostHeader`, `ScrollControlledVideo`, `LiveScanner`, `SpecsBlueprint`) — ainult Index.tsx ei impordi seda enam otse.
-- Header’i backdrop-blur jääb alles (visuaalselt oluline navigatsiooniks).
-- Pildid ise — mahud on juba optimeeritud (~100 KB tükk WebP).
 
----
+- Disain, layout, animatsioonid (FadeInView käitub identselt).
+- Vite chunk splitting (juba hea — `react-vendor`, `ui-vendor`, `motion-vendor`, `icons-vendor`, `query-vendor` eraldi).
+- Background gradiendid `index.css`-is (mobiilil juba `background-attachment: scroll`).
+- Hero pilt ja preload (juba optimeeritud).
 
-## Oodatav tulemus mobiilil
+## Tehniline teostus
 
-| Metric | Enne | Pärast (eeldus) |
+1. Asenda `src/components/FadeInView.tsx` framer-motion'i versioon CSS+IntersectionObserver põhise vastu (sama API).
+2. Index.tsx: muuda use-case `<img>` → `<OptimizedImage localVariants={[640]} sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw">`. Lisa `IntersectionObserver`-põhine "lazy section" wrapper, mis hoiab use-case pildid renderdamata kuni sektsioon on 400px viewport'ist all.
+3. Index.tsx: vaheta `import orbitalCompositeImage from "@/assets/..."` → string `"/robot/F6/1rollo_orbital_2.webp"`.
+4. Index.tsx: product-teaser tile'id → samasugune lazy-section.
+5. Genereeri 640w variandid 8 use-case pildi jaoks `scripts/convert-to-webp.mjs` skriptiga.
+
+## Oodatav tulemus
+
+| Mõõdik | Enne | Pärast |
 |---|---|---|
-| **LCP** | 3215 ms 🟠 | ~1800 ms 🟢 |
-| **FCP** | 2530 ms 🟠 | ~1600 ms 🟢 |
-| **SI** | 2808 ms 🟢 | ~2100 ms 🟢 |
-| **TBT** | 28 ms 🟢 | ~20 ms 🟢 |
-| **CLS** | 0.00 🟢 | 0.00 🟢 |
-| **Skoor** | **89** | **~96** |
+| Esimese 3s pildimaht (mobiilis) | ~1.9 MB | ~250 KB |
+| Home initial JS (framer-motion eemaldamine) | ~220 KB | ~150 KB |
+| LCP (kuna ei konkureeri 15 muu pildiga) | 4.0 s | ~2.0 s |
+| FCP | 3.5 s | ~1.8 s |
+| Lighthouse mobile score | 76 | 90+ |
 
-Põhivõit tuleb:
-- LCP preload-fix (~30% LCP paranduse osa),
-- backdrop-blur eemaldamine 8 kaardilt (suurim scroll jank ja paint cost),
-- framer-motion eemaldamine esimese route’i bundle’ist (kiirem JS parse + execute mobiilis),
-- vendor splitting (parem cache, kiirem repeat-visit).
-
----
-
-## Tehniline teostus järjekorras
-1. **Paranda** `index.html` preload pildiviide.
-2. **Eemalda** `backdrop-blur-sm` use-case kaartidelt `Index.tsx`-is.
-3. **Asenda** `motion.div` use-case grid’il `FadeInView`-ga, eemalda framer-motion import Index.tsx-ist.
-4. **Eemalda** `backdrop-blur-md` Layout.tsx scroll-to-top nupult, asenda solid bg-ga.
-5. **Lisa** rAF-throttle Layout.tsx scroll listener’ile.
-6. **Lisa** mobiili media-query `background-attachment: scroll` reegliga `index.css`-is.
-7. **Lisa** `vite.config.ts`-i `manualChunks` vendor splitting.
-8. **Käita** `npm run build` veendumaks et bundle’id on chunk’itud ja midagi pole katki.
-
+Visuaalselt midagi ei muutu — kasutaja näeb sama lehte, aga see ilmub kaks korda kiiremini.

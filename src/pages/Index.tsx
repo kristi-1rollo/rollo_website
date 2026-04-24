@@ -13,10 +13,12 @@ import {
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
+import LazySection from "@/components/LazySection";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
-import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.webp";
+
+const orbitalCompositeImage = "/robot/F6/1rollo_orbital_2.webp";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -225,7 +227,7 @@ const Index = () => {
           </div>
         </FadeInView>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <LazySection minHeight={520} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
             { img: "/patent/pilt-1.png", ...productTiles[0] },
             { img: "/patent/pilt-2.png", ...productTiles[1] },
@@ -237,8 +239,11 @@ const Index = () => {
                   <img
                     src={t.img}
                     alt={t.title}
+                    width={800}
+                    height={600}
                     className="w-full h-full object-contain p-2"
                     loading="lazy"
+                    decoding="async"
                   />
                 </div>
                 <h3 className="text-lg font-semibold text-white mb-3">
@@ -250,7 +255,7 @@ const Index = () => {
               </div>
             </FadeInView>
           ))}
-        </div>
+        </LazySection>
       </Section>
 
       {/* ═══ USE CASES ═══ */}
@@ -271,20 +276,20 @@ const Index = () => {
             </div>
           </FadeInView>
 
-          <div className="bento-use-cases grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+          <LazySection minHeight={800} className="bento-use-cases grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
               <FadeInView key={uc.id} delay={i * 80}>
                 <div className="blue-card-glow use-case-card group relative flex min-h-[190px] cursor-default flex-col justify-between overflow-hidden rounded-[4px] p-4 md:min-h-[205px] md:p-5 h-full">
-                  <img
+                  <OptimizedImage
                     src={uc.image}
                     alt=""
                     width={800}
                     height={600}
+                    localVariants={[640, 960]}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     className="absolute inset-0 h-full w-full object-cover opacity-40 pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-60"
-                    loading="lazy"
-                    decoding="async"
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.15)_0%,rgba(3,8,18,0.45)_60%,rgba(3,8,18,0.7)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />
 
@@ -306,7 +311,7 @@ const Index = () => {
               </FadeInView>
             );
           })}
-          </div>
+          </LazySection>
         </div>
       </Section>
 
