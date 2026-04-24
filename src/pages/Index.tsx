@@ -44,6 +44,7 @@ const useCases = [
     icon: Plane,
     image: "/robot/rollo-airport.webp",
     objectPosition: "0% center",
+    imageScale: 1.5,
     description: "Persistent perimeter patrol for wide outdoor zones.",
     tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC",
   },
@@ -290,7 +291,10 @@ const Index = () => {
                     height={600}
                     localVariants={[640, 960]}
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    style={{ objectPosition: uc.objectPosition ?? "center" }}
+                    style={{
+                      objectPosition: uc.objectPosition ?? "center",
+                      transform: uc.imageScale ? `scale(${uc.imageScale})` : undefined,
+                    }}
                     className="absolute inset-0 h-full w-full object-cover opacity-40 pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-60"
                   />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.15)_0%,rgba(3,8,18,0.45)_60%,rgba(3,8,18,0.7)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />
