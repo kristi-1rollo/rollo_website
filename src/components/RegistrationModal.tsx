@@ -72,6 +72,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
     region: "",
     topics: [] as string[],
     message: "",
+    website: "", // honeypot
   });
 
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -132,6 +133,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         region: "",
         topics: [],
         message: "",
+        website: "",
       });
     } catch {
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
@@ -151,6 +153,30 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+          {/* Honeypot — hidden from real users */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: "absolute",
+              left: "-9999px",
+              width: "1px",
+              height: "1px",
+              overflow: "hidden",
+            }}
+          >
+            <label htmlFor="rm-website">Leave this field empty</label>
+            <input
+              type="text"
+              id="rm-website"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              value={formData.website}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, website: e.target.value }))
+              }
+            />
+          </div>
           <div className="space-y-2">
             <Label htmlFor="name">Name *</Label>
             <Input

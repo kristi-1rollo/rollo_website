@@ -30,6 +30,8 @@ export interface ContactFormData {
   estimatedDemand: string;
   deploymentAreas: string[];
   additionalInfo: string;
+  /** Honeypot field — must remain empty for legitimate submissions */
+  website: string;
 }
 
 const INITIAL_FORM_DATA: ContactFormData = {
@@ -41,6 +43,7 @@ const INITIAL_FORM_DATA: ContactFormData = {
   estimatedDemand: "",
   deploymentAreas: [],
   additionalInfo: "",
+  website: "",
 };
 
 interface UseContactFormOptions {
@@ -113,6 +116,8 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         email: formData.email,
         region: formData.country,
         topics,
+        // Honeypot — bots tend to fill every field; humans never see this
+        website: formData.website,
         message: [
           formData.company && `Company: ${formData.company}`,
           formData.numberOfRobots && `Number of Robots: ${formData.numberOfRobots}`,

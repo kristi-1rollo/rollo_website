@@ -1,129 +1,120 @@
+# 🛡️ Turvapakett — Soovituslik (1–6) + AI scraperite blokeerimine
+
 ## Eesmärk
-Lisada veebilehe arendaja (Whau OÜ — Kristi Vahter) credit **koodi tasandil**, ilma visuaalsete muudatusteta lehel. Krediit jaotatakse 7 erinevasse kohta, et eemaldamine oleks tahtlik tegevus, ja sõnastus piiritleb autorluse selgelt **kujundusele, koodile ja tehnilisele teostusele** (mitte sisule, mis kuulub 1ROLLO-le).
+Tugevdada veebilehe turvalisust 6 omavahel täiendava kihiga, ilma et see häiriks tavakasutaja kogemust. Lisaks blokeerida AI scraperid, et sisu ei jõuaks treeningandmetesse.
 
-## Mõjutatud failid
+---
 
-### 1. `index.html` — `<head>` lisandused
-- HTML-kommentaar pärast `<meta charset>`:
-  ```html
-  <!--
-    ─────────────────────────────────────────────
-     Website design & development by Whau OÜ
-     Kristi Vahter — https://whau.ee
-    ─────────────────────────────────────────────
-  -->
-  ```
-- Uued meta-tagid (olemasoleva `<meta name="author" content="1ROLLO">` kõrvale, mis jääb alles sisu autorina):
-  ```html
-  <meta name="designer" content="Whau OÜ — website design & development" />
-  <meta name="developer" content="Whau OÜ — Kristi Vahter (https://whau.ee)" />
-  <link rel="author" href="/humans.txt" />
-  ```
-- JSON-LD struktureeritud andmed (Schema.org `author` = sisu, `creator` = veebilehe looja):
-  ```html
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "ROLLO",
-    "url": "https://1rollo.com",
-    "author": { "@type": "Organization", "name": "1ROLLO" },
-    "creator": {
-      "@type": "Organization",
-      "name": "Whau OÜ",
-      "url": "https://whau.ee",
-      "email": "whau@whau.ee",
-      "description": "Website design and development"
-    }
-  }
-  </script>
-  ```
+## 1. Content Security Policy + turvaheaderid (`index.html`)
 
-### 2. `public/humans.txt` (uus fail)
-```
-/* WEBSITE DESIGN & DEVELOPMENT */
-Developer: Kristi Vahter
-Company: Whau OÜ
-Role: Website design, UI/UX, front-end & back-end development
-Contact: whau@whau.ee
-Site: https://whau.ee
-Location: Estonia
+Lisan `<head>`-i:
+- **CSP meta-tag** — lubatud allikad: `'self'`, Supabase (`*.supabase.co`), Google Fonts, YouTube nocookie embed (blogi), Lovable preview
+- **X-Content-Type-Options: nosniff**
+- **X-Frame-Options: SAMEORIGIN** (clickjacking-kaitse)
+- **Referrer-Policy: strict-origin-when-cross-origin**
+- **Permissions-Policy** — keelan kaamera, mikrofoni, geolokatsiooni
 
-/* CONTENT */
-Owner: 1ROLLO
-Note: All textual content, product information, and brand assets
-      are the property of 1ROLLO.
+## 2. HIBP lekkinud paroolide kontroll (Lovable Cloud Auth)
 
-/* SITE */
-Last update: 2026/04
-Standards: HTML5, CSS3, TypeScript
-Components: React, Vite, Tailwind CSS
-```
+Kasutan `configure_auth` tööriista koos `password_hibp_enabled: true`. Adminid ei saa enam kasutada teadaolevalt lekkinud paroole.
 
-### 3. `public/robots.txt` — kommentaar faili algusesse (olemasolevad reeglid säilivad)
-```
-# ─────────────────────────────────────────────
-# Website design & development: Whau OÜ
-# https://whau.ee  ·  whau@whau.ee
-# Content & brand: 1ROLLO
-# ─────────────────────────────────────────────
-```
+## 3. Honeypot bot-kaitse (3 faili + 1 edge function)
 
-### 4. `src/main.tsx` — stiliseeritud konsooli sõnum enne `createRoot`
+Peidetud `<input name="website" />` (CSS `position:absolute; left:-9999px; opacity:0; tabindex=-1; aria-hidden`):
+- `src/components/RegistrationModal.tsx`
+- `src/hooks/useContactForm.ts` (lisan väli + saadan payload'is)
+- `src/pages/Contact.tsx` (kontaktivormis)
+
+**Server-side** `submit-registration` edge functionis: kui `website` field on täidetud → tagastame `{ ok: true }` (bot arvab, et õnnestus), aga ei salvesta DB-sse.
+
+## 4. CORS päiste kitsendamine (3 edge functioni)
+
+Asendan `Access-Control-Allow-Origin: *` dünaamilise origin-validaatoriga:
 ```ts
-console.log(
-  '%c Website by Whau OÜ ',
-  'background:#BEFF4B;color:#050505;font-size:14px;padding:6px 10px;font-weight:700;border-radius:4px'
-);
-console.log('%cDesign & development → https://whau.ee', 'color:#BEFF4B;font-size:12px');
+const ALLOWED_ORIGINS = [
+  "https://1rollo.com",
+  "https://www.1rollo.com",
+  "https://new.1rollo.com",
+  "https://rollo.lovable.app",
+];
+const ALLOWED_PATTERNS = [
+  /^https:\/\/[\w-]+\.lovable\.app$/,
+  /^https:\/\/[\w-]+--1e9f235c-7103-4e02-85ab-d7a638683566\.lovable\.app$/,
+  /^http:\/\/localhost(:\d+)?$/,
+];
+```
+Mõjutatud failid:
+- `supabase/functions/submit-registration/index.ts`
+- `supabase/functions/manage-admin/index.ts`
+- `supabase/functions/generate-excerpt/index.ts`
+
+## 5. AI-scraperite blokeerimine (`public/robots.txt`)
+
+Lisan olemasoleva faili lõppu:
+```
+# AI training crawlers — disallowed
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: cohere-ai
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
 ```
 
-### 5. `package.json` — lisa väljad
-```json
-"author": "Whau OÜ <whau@whau.ee> (https://whau.ee)",
-"contributors": ["Kristi Vahter <whau@whau.ee> (https://whau.ee)"]
-```
+## 6. Storage bucket listing piiramine (uus migration)
 
-### 6. `LICENSE` (uus fail) — Proprietary + Attribution Required, sisu/kood eraldi
-```
-Copyright (c) 2026 1ROLLO. All rights reserved.
+Praegu `blog-images` ja `career-posters` lubavad anon-ile failide listimist. Migration:
+- Eemaldab laia anon `SELECT` policy storage.objects-l (kui olemas)
+- Lisab kitsama policy: avalik lugemine konkreetse faili järgi OK, aga `list()` API anon-ile ei tagasta loendit
 
-This repository contains both proprietary content and original creative work
-by third parties. Rights are divided as follows:
+> Pildid laadivad endiselt `<img src="...">` kaudu. Ainult brute-force file enumeration ei toimi.
 
-────────────────────────────────────────────────────────────────────
-CONTENT (owned by 1ROLLO)
-────────────────────────────────────────────────────────────────────
-All textual content, product information, brand assets, logos, photographs,
-renderings, videos, and marketing copy are the property of 1ROLLO.
-Unauthorized copying, modification, or distribution is prohibited.
+---
 
-────────────────────────────────────────────────────────────────────
-WEBSITE DESIGN, CODE & IMPLEMENTATION (created by Whau OÜ)
-────────────────────────────────────────────────────────────────────
-The website's visual design, user interface, layout, interaction patterns,
-front-end and back-end source code, component architecture, and technical
-implementation were designed and developed by:
+## Mõjutatud failid kokku
 
-  Whau OÜ — Kristi Vahter
-  https://whau.ee
-  whau@whau.ee
+| Fail | Tüüp |
+|---|---|
+| `index.html` | Edit (CSP + headerid) |
+| `public/robots.txt` | Edit (AI blokk) |
+| `src/components/RegistrationModal.tsx` | Edit (honeypot) |
+| `src/hooks/useContactForm.ts` | Edit (honeypot) |
+| `src/pages/Contact.tsx` | Edit (honeypot vorm) |
+| `supabase/functions/submit-registration/index.ts` | Edit (honeypot + CORS) |
+| `supabase/functions/manage-admin/index.ts` | Edit (CORS) |
+| `supabase/functions/generate-excerpt/index.ts` | Edit (CORS) |
+| Auth seaded | `configure_auth` tool — HIBP |
+| Uus SQL migration | Storage RLS kitsendus |
+| `mem://technical-decisions/security-measures` | Update (uus turvatase) |
 
-ATTRIBUTION REQUIREMENT
-All authorship metadata referencing Whau OÜ — including HTML comments,
-meta tags (designer, developer), humans.txt, package.json author fields,
-console attribution, and this LICENSE file — must remain intact in any
-deployed or derivative version of this codebase. Removal or alteration
-of design/code attribution constitutes a breach of the development
-agreement under which this work was delivered.
-```
+## Testimisplaan pärast rakendamist
 
-## Tulemus
-- ✅ Visuaalselt lehel mitte midagi ei muutu
-- ✅ "View Source", DevTools, `/humans.txt`, `/robots.txt`, Console — kõikjal arendaja credit
-- ✅ Google/SEO mõistab JSON-LD kaudu, et lehe lõi Whau OÜ
-- ✅ Sisu autorlus (1ROLLO) ja koodi/disaini autorlus (Whau OÜ) on selgelt piiritletud
-- ✅ LICENSE annab juriidilise kaalu attribution-nõudele
+1. Kontaktivorm saadab edukalt
+2. Registreerumisvorm töötab (RegistrationModal)
+3. Admin login + manage-admin toimingud töötavad
+4. Blog/karjäär pildid kuvatakse
+5. YouTube embedid blogis töötavad
+6. Lovable preview pole CSP poolt blokeeritud
+7. Konsoolis pole CSP-rikkumiste hoiatusi
+8. Honeypot — täidetud `website` väli → server tagastab ok, aga DB-sse ei salvestata
 
-## Mälu
-Salvestan uue mälu `mem://technical-decisions/developer-attribution`, mis dokumenteerib Whau OÜ krediidi paiknemise 7 kohas, et tulevased muudatused ei eemaldaks neid kogemata.
+## Manuaalne kinnitus (sina)
+
+Pärast rakendamist palun kontrolli **Lovable Cloud → Users → Auth Settings**, kas HIBP päringu lüliti on aktiivne.

@@ -1,10 +1,32 @@
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
-};
+const ALLOWED_ORIGINS = new Set<string>([
+  "https://1rollo.com",
+  "https://www.1rollo.com",
+  "https://new.1rollo.com",
+  "https://rollo.lovable.app",
+]);
+
+const ALLOWED_PATTERNS: RegExp[] = [
+  /^https:\/\/[\w-]+\.lovable\.app$/,
+  /^https:\/\/[\w-]+\.lovable\.dev$/,
+  /^http:\/\/localhost(:\d+)?$/,
+  /^http:\/\/127\.0\.0\.1(:\d+)?$/,
+];
+
+function buildCorsHeaders(origin: string | null) {
+  const isAllowed =
+    !!origin &&
+    (ALLOWED_ORIGINS.has(origin) || ALLOWED_PATTERNS.some((re) => re.test(origin)));
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : "https://1rollo.com",
+    "Access-Control-Allow-Headers":
+      "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+    Vary: "Origin",
+  };
+}
 
 Deno.serve(async (req) => {
+  const corsHeaders = buildCorsHeaders(req.headers.get("origin"));
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
