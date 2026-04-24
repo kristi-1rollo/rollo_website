@@ -89,7 +89,7 @@ const Career = () => {
         {/* Hero background image */}
         <picture>
           <img
-            src="/team/team-hero.png"
+            src="/team/team-hero.webp"
             alt="Rollo robotics team"
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '50% center' }}

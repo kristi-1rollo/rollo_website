@@ -33,13 +33,16 @@ export default function OptimizedImage({
   ...rest
 }: OptimizedImageProps) {
   const srcSet = src ? buildSrcSet(src) : undefined;
+  // Only emit the `sizes` attribute when we actually have a srcSet.
+  // Otherwise browsers may issue an unused-`sizes` warning for plain local images.
+  const sizesAttr = srcSet ? (sizes ?? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw") : undefined;
 
   return (
     <img
       src={src}
       alt={alt}
       srcSet={srcSet}
-      sizes={sizes ?? "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
+      sizes={sizesAttr}
       loading={priority ? "eager" : "lazy"}
       decoding={priority ? "sync" : "async"}
       fetchPriority={priority ? "high" : "auto"}

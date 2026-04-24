@@ -21,7 +21,6 @@ import BlogMediaGallery from "@/components/BlogMediaGallery";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
-import rolloRenderP013 from "@/assets/robot/rollo-render-p013.png";
 import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
 
 const estimateReadingTime = (html: string) => {
@@ -155,7 +154,7 @@ const BlogPost = () => {
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     "headline": post.title,
-    "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.png",
+    "image": post.thumbnail_url || "https://rollo.ee/hero/rollo-street.webp",
     "datePublished": post.published_at,
     "dateModified": post.published_at,
     "author": {
@@ -352,15 +351,12 @@ const BlogPost = () => {
                 <section className="surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
-                    <picture>
-                      <source srcSet={rolloRenderP013WebP} type="image/webp" />
-                      <img
-                        src={rolloRenderP013}
-                        alt="ROLLO F6 target unit"
-                        className="h-40 w-full object-cover"
-                        loading="lazy"
-                      />
-                    </picture>
+                    <img
+                      src={rolloRenderP013WebP}
+                      alt="ROLLO F6 target unit"
+                      className="h-40 w-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                   <p className="mb-4 text-sm text-foreground/80">
                     Compact autonomous perimeter unit for 24/7 patrol operations.

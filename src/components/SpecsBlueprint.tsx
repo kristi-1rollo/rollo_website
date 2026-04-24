@@ -121,7 +121,7 @@ export function SpecsBlueprint() {
         {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
-            src="/robot/F6/f6_tech_spec.png"
+            src="/robot/F6/f6_tech_spec.webp"
             alt="ROLLO F6 technical specifications"
             className="max-w-[400px] w-full h-auto opacity-95"
             style={{ mixBlendMode: "lighten" }}

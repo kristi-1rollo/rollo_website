@@ -17,7 +17,7 @@ import FadeInView from "@/components/FadeInView";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
-import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.png";
+import orbitalCompositeImage from "@/assets/robot/1rollo_orbital_2.webp";
 
 /* ── data ─────────────────────────────────────────────── */
 
@@ -57,7 +57,7 @@ const useCases = [
     id: "03",
     title: "Industrial Plants",
     icon: Factory,
-    image: "/robot/rollo-milit.png",
+    image: "/robot/rollo-milit.webp",
     description: "Continuous patrol across high-risk industrial sites.",
     tech: "THERMAL SCAN: ACTIVE / HAZMAT V4.2",
   },
@@ -73,7 +73,7 @@ const useCases = [
     id: "05",
     title: "Construction",
     icon: HardHat,
-    image: "/robot/rollo-tunnel.png",
+    image: "/robot/rollo-tunnel.webp",
     description: "Adaptive patrol for dynamic sites with changing layouts.",
     tech: "DYNAMIC 3D MAPPING: ACTIVE / OBSTACLE AVOIDANCE",
   },
@@ -81,7 +81,7 @@ const useCases = [
     id: "06",
     title: "Campuses",
     icon: GraduationCap,
-    image: "/robot/rollo-park.png",
+    image: "/robot/rollo-park.webp",
     description: "Scalable coverage across mixed pedestrian environments.",
     tech: "CROWD ANALYTICS: ENABLED / MULTI-ZONE MESH",
   },
@@ -89,7 +89,7 @@ const useCases = [
     id: "07",
     title: "Communities",
     icon: Home,
-    image: "/robot/rollo-city.png",
+    image: "/robot/rollo-city.webp",
     description: "Autonomous neighborhood patrols with lower operating overhead.",
     tech: "PRIVACY MASKING: ON / AI PATROL",
   },
@@ -97,7 +97,7 @@ const useCases = [
     id: "08",
     title: "Oil & Gas",
     icon: Droplets,
-    image: "/robot/rollo-des.png",
+    image: "/robot/rollo-des.webp",
     description: "Remote monitoring for harsh operating zones.",
     tech: "EX-PROOF RATING: ZONE 0 / GAS LEAK DETECT",
   },
@@ -127,7 +127,7 @@ const Index = () => {
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
           <OptimizedImage
-            src="/robot/F6/1rollo_tll.png"
+            src="/robot/F6/1rollo_tll.webp"
             alt="Rollo autonomous patrol robot at airport"
             className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
             priority
@@ -317,7 +317,7 @@ const Index = () => {
           <div
             className="absolute inset-0"
             style={{
-              backgroundImage: 'url(/robot/F6/1rollo_market_scale.png)',
+              backgroundImage: 'url(/robot/F6/1rollo_market_scale.webp)',
               backgroundSize: 'cover',
               backgroundPosition: '75% center',
               backgroundRepeat: 'no-repeat'
