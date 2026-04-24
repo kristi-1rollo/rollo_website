@@ -96,12 +96,6 @@
     }
   }
 
-  /* placeholder to keep original line layout */
-  body { /* noop */ }
-    color: hsl(var(--foreground));
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
 
   /* Media elements must not push layout wider */
   img,
