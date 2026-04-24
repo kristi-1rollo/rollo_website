@@ -116,6 +116,8 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         email: formData.email,
         region: formData.country,
         topics,
+        // Honeypot — bots tend to fill every field; humans never see this
+        website: formData.website,
         message: [
           formData.company && `Company: ${formData.company}`,
           formData.numberOfRobots && `Number of Robots: ${formData.numberOfRobots}`,
