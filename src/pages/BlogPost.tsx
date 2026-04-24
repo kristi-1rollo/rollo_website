@@ -351,15 +351,12 @@ const BlogPost = () => {
                 <section className="surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
-                    <picture>
-                      <source srcSet={rolloRenderP013WebP} type="image/webp" />
-                      <img
-                        src={rolloRenderP013}
-                        alt="ROLLO F6 target unit"
-                        className="h-40 w-full object-cover"
-                        loading="lazy"
-                      />
-                    </picture>
+                    <img
+                      src={rolloRenderP013WebP}
+                      alt="ROLLO F6 target unit"
+                      className="h-40 w-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                   <p className="mb-4 text-sm text-foreground/80">
                     Compact autonomous perimeter unit for 24/7 patrol operations.
