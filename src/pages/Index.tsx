@@ -278,11 +278,11 @@ const Index = () => {
                     alt=""
                     width={800}
                     height={600}
-                    className="absolute inset-0 h-full w-full object-cover opacity-[0.16] pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-[0.28]"
+                    className="absolute inset-0 h-full w-full object-cover opacity-40 pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-60"
                     loading="lazy"
                     decoding="async"
                   />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.4)_0%,rgba(3,8,18,0.76)_54%,rgba(3,8,18,0.92)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-85" />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.15)_0%,rgba(3,8,18,0.45)_60%,rgba(3,8,18,0.7)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />
 
                   <div className="relative z-10">
                     <div className="flex items-center justify-between mb-2.5">
