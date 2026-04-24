@@ -19,4 +19,20 @@ export default defineConfig(({ mode }) => ({
     },
     dedupe: ["react", "react-dom", "react/jsx-runtime"],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-router")) return "react-vendor";
+            if (id.includes("/react-dom/") || id.includes("/react/")) return "react-vendor";
+            if (id.includes("@tanstack/react-query")) return "query-vendor";
+            if (id.includes("framer-motion")) return "motion-vendor";
+            if (id.includes("lucide-react")) return "icons-vendor";
+            if (id.includes("@radix-ui")) return "ui-vendor";
+          }
+        },
+      },
+    },
+  },
 }));

@@ -11,7 +11,6 @@ import {
   Droplets,
   ChevronRight,
 } from "lucide-react";
-import { motion } from "framer-motion";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
 import OptimizedImage from "@/components/OptimizedImage";
@@ -272,38 +271,35 @@ const Index = () => {
           {useCases.map((uc, i) => {
             const Icon = uc.icon;
             return (
-              <motion.div
-                key={uc.id}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ duration: 0.7, ease: "easeOut", delay: i * 0.08 }}
-                className="blue-card-glow use-case-card group relative flex min-h-[190px] cursor-default flex-col justify-between overflow-hidden rounded-[4px] p-4 backdrop-blur-sm md:min-h-[205px] md:p-5"
-              >
-                <img
-                  src={uc.image}
-                  alt=""
-                  className="absolute inset-0 h-full w-full object-cover opacity-[0.16] pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-[0.28]"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.4)_0%,rgba(3,8,18,0.76)_54%,rgba(3,8,18,0.92)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-85" />
+              <FadeInView key={uc.id} delay={i * 80}>
+                <div className="blue-card-glow use-case-card group relative flex min-h-[190px] cursor-default flex-col justify-between overflow-hidden rounded-[4px] p-4 md:min-h-[205px] md:p-5 h-full">
+                  <img
+                    src={uc.image}
+                    alt=""
+                    width={800}
+                    height={600}
+                    className="absolute inset-0 h-full w-full object-cover opacity-[0.16] pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-[0.28]"
+                    loading="lazy"
+                    decoding="async"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.4)_0%,rgba(3,8,18,0.76)_54%,rgba(3,8,18,0.92)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-85" />
 
-                <div className="relative z-10">
-                  <div className="flex items-center justify-between mb-2.5">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">{uc.id}</span>
-                    <div className="rounded-full bg-primary/10 p-1.5 md:p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
-                      <Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                  <div className="relative z-10">
+                    <div className="flex items-center justify-between mb-2.5">
+                      <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">{uc.id}</span>
+                      <div className="rounded-full bg-primary/10 p-1.5 md:p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
+                        <Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
+                      </div>
                     </div>
+                    <h3 className="text-[15px] md:text-base font-bold text-white mb-1">{uc.title}</h3>
+                    <p className="text-xs md:text-[13px] text-white/62 leading-relaxed max-w-[24ch]">{uc.description}</p>
                   </div>
-                  <h3 className="text-[15px] md:text-base font-bold text-white mb-1">{uc.title}</h3>
-                  <p className="text-xs md:text-[13px] text-white/62 leading-relaxed max-w-[24ch]">{uc.description}</p>
-                </div>
 
-                <div className="relative z-10">
-                  <p className="telemetry-pulse text-[9px] md:text-[10px] font-mono uppercase tracking-[0.16em] text-primary/58">{uc.tech}</p>
+                  <div className="relative z-10">
+                    <p className="telemetry-pulse text-[9px] md:text-[10px] font-mono uppercase tracking-[0.16em] text-primary/58">{uc.tech}</p>
+                  </div>
                 </div>
-              </motion.div>
+              </FadeInView>
             );
           })}
           </div>

@@ -89,6 +89,14 @@
     overflow-x: hidden;
   }
 
+  /* Mobile: avoid expensive fixed-background compositing on every scroll frame */
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
+
   /* Media elements must not push layout wider */
   img,
   video,
