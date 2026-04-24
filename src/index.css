@@ -89,6 +89,20 @@
     overflow-x: hidden;
   }
 
+  /* Mobile: avoid expensive fixed-background compositing on every scroll frame */
+  @media (max-width: 768px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+
+  /* placeholder to keep original line layout */
+  body { /* noop */ }
+    color: hsl(var(--foreground));
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
   /* Media elements must not push layout wider */
   img,
   video,
