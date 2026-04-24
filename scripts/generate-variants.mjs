@@ -19,7 +19,7 @@ const targets = [
   { src: 'public/robot/rollo-marine.webp',  widths: [640, 960] },
   { src: 'public/robot/rollo-milit.webp',   widths: [640, 960] },
   { src: 'public/hero/rollo-street.webp',   widths: [640, 960] },
-  { src: 'public/graph/pilt-1.jpg',         widths: [640, 960], format: 'webp' },
+  { src: 'public/robot/rollo-datacenter.webp', widths: [640, 960] },
 ];
 
 const QUALITY = 80;
