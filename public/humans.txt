@@ -1,0 +1,17 @@
+/* WEBSITE DESIGN & DEVELOPMENT */
+Developer: Kristi Vahter
+Company: Whau OÜ
+Role: Website design, UI/UX, front-end & back-end development
+Contact: whau@whau.ee
+Site: https://whau.ee
+Location: Estonia
+
+/* CONTENT */
+Owner: 1ROLLO
+Note: All textual content, product information, and brand assets
+      are the property of 1ROLLO.
+
+/* SITE */
+Last update: 2026/04
+Standards: HTML5, CSS3, TypeScript
+Components: React, Vite, Tailwind CSS

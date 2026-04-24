@@ -1,0 +1,30 @@
+Copyright (c) 2026 1ROLLO. All rights reserved.
+
+This repository contains both proprietary content and original creative work
+by third parties. Rights are divided as follows:
+
+────────────────────────────────────────────────────────────────────
+CONTENT (owned by 1ROLLO)
+────────────────────────────────────────────────────────────────────
+All textual content, product information, brand assets, logos, photographs,
+renderings, videos, and marketing copy are the property of 1ROLLO.
+Unauthorized copying, modification, or distribution is prohibited.
+
+────────────────────────────────────────────────────────────────────
+WEBSITE DESIGN, CODE & IMPLEMENTATION (created by Whau OÜ)
+────────────────────────────────────────────────────────────────────
+The website's visual design, user interface, layout, interaction patterns,
+front-end and back-end source code, component architecture, and technical
+implementation were designed and developed by:
+
+  Whau OÜ — Kristi Vahter
+  https://whau.ee
+  whau@whau.ee
+
+ATTRIBUTION REQUIREMENT
+All authorship metadata referencing Whau OÜ — including HTML comments,
+meta tags (designer, developer), humans.txt, robots.txt, console
+attribution, and this LICENSE file — must remain intact in any deployed
+or derivative version of this codebase. Removal or alteration of design
+and code attribution constitutes a breach of the development agreement
+under which this work was delivered.
