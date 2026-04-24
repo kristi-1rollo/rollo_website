@@ -1,8 +1,7 @@
-import { useEffect, useState } from "react";
+import { lazy, Suspense, useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu } from "lucide-react";
 import logo from "@/assets/logo.png";
-import RegistrationModal from "./RegistrationModal";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+
+const RegistrationModal = lazy(() => import("./RegistrationModal"));
 
 const nav = [
   { label: "Home", to: "/" },
@@ -162,7 +163,11 @@ const Header = () => {
         </div>
       </header>
 
-      <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+      {isModalOpen && (
+        <Suspense fallback={null}>
+          <RegistrationModal open={isModalOpen} onOpenChange={setIsModalOpen} />
+        </Suspense>
+      )}
     </>
   );
 };
