@@ -1,118 +1,102 @@
 
-## Soovitus
-Parem lahendus on teha video raam taustaga sulanduvaks, mitte panna videole samasuguseid “ikooni + tekstikast” kaarte nagu kõrval olevatel benefit-kaartidel.
-
-Põhjus:
-- benefit-kaardid juba kannavad infot ja loovad sektsioonis selge mustri,
-- kui video ümber lisada samad kastid, tekib visuaalne dubleerimine ja sektsioon muutub raskeks,
-- tootelehe “Solution” plokis peaks video töötama kui emotsionaalne / demonstratiivne ankurobjekt, mitte veel üks kaartide grid.
 
 ## Eesmärk
-Muuta `Product` lehe Solution-sektsiooni video elegantsemaks nii, et:
-- video serv ei lõikuks tumeda tausta vastu järsult,
-- video tunduks rohkem “kinni” sektsiooni atmosfääris,
-- video ja tekstikaardid oleksid samas premium deep-tech keeles,
-- desktop ja mobile jääksid puhtad ning mitte ülekujundatud.
+Vähendada lehe laadimisaega ja paranda piltide kuvamise kiirust, eemaldada koodist ja `public/`-ist kasutuseta failid.
 
-## Soovitatud lahendus
-Rakendan videole “soft ambient frame” lahenduse:
+## Probleemi diagnoos
 
-### 1. Eemaldada liiga agressiivne ümmargune mask
-Fail: `src/components/ScrollControlledVideo.tsx`
+### Mahukad probleemid
+- **`public/robot/` = 274 MB**, sellest enamus on kasutuseta (kõik `1rollo-proto-*` failid, `lumes-1.mp4` 57 MB, `lumes-2.mp4` 34 MB, jne).
+- **Reaalselt kasutatavad pildid on samuti üüratud:** `team-hero.png` 5.4 MB, `rollo-park.png` 5.8 MB, `rollo-des.png` 5.5 MB, `rollo-milit.png` 4.2 MB, F6 pildid 3–5 MB tükk. Kokku ~40 MB pilte renderdub Home / About / Product lehtedel **PNG-na originaalsuuruses**.
+- **`OptimizedImage` ei aita lokaalsete piltide puhul** — see genereerib `srcSet` ainult Supabase URL-idele, mitte `/public/...` failidele. Seega kõik staatilised PNG-d laetakse 1:1 originaalmõõtudes.
+- Hero LCP-pilt `rollo-street.webp` (201 KB) on juba ok, aga PNG-versiooni (`rollo-street.png` 2 MB) ei kasutata kunagi.
 
-Praegu video kasutab tugevat radiaalset maski ja blur vignette’i, mis teeb serva veidi uduseks, aga võib jätta ka “ujuva musta laigu” mulje.
+### Kasutuseta failid (turvaline kustutada)
+**Pildid / videod (`public/`):**
+- `public/robot/1rollo-proto-p001.png` … `p013.png` (13 faili, ~50 MB)
+- `public/robot/1rollo-proto-render-p002/p006/p013/p016/p017/p018.png` (~32 MB)
+- `public/robot/lumes-1.mp4` (57 MB), `lumes-2.mp4` (34 MB)
+- `public/robot/vid/rollo-promo-1.mp4`
+- `public/robot/pre-seed-round.png`, `robot-orbit.png`, `rollo-airport.png`, `rollo-datacentre.png`, `rollo-mud.png`, `rollo-night.png`, `rollo-orbit-2.png`
+- `public/robot/F6/1Rollo_window_lights_evening.png`, `1rollo-autonomous_security.png`, `1rollo_orbital.png`
+- `public/team/team-bluish.png`, `team-transparent.png`
+- `public/hero/rollo-1.png`, `rollo-2.png`, `rollo-street.png` (PNG; jätame ainult `.webp`)
+- `public/hero-orbit.mp4`
+- `public/icon/icon-1.png` … `icon-8.png` (kõik 8)
+- `public/graph/pilt-1.webp` (jätame `.jpg`, mida tegelikult kasutatakse), `pilt-5.png`
+- `public/logos/rollo-favicon.png`, `rollo-logo-black.png`
+- `public/placeholder.svg`, `public/favicon.ico`
 
-Muudan seda nii, et:
-- mask oleks pehmem ja rohkem ristkülikulise objekti loogikaga,
-- serva fade toimuks õrnemalt,
-- video ise jääks selgem ja vähem “läbi filtri” tunneks.
+**`src/assets/`:**
+- `eu-cofunded.png`, `rollo1.png`, `rollo2.png`, `rollo3.png`
+- `src/assets/robot/rollo-front-p010.png`, `rollo-render-p006.png`
 
-### 2. Lisada videole subtiline konteiner, mitte klassikaline kaart
-Fail: `src/components/ScrollControlledVideo.tsx`
+**Komponendid / hookid:**
+- `src/components/ReadingProgressBar.tsx` (mitte kuskil imporditud)
+- `src/hooks/useAutoDraft.ts` (mitte kuskil imporditud)
 
-Video ümber tuleks õrn raamistik:
-- väga nõrk border `border-white/10` või `border-primary/15`,
-- tumedast taustast veidi eristuv sisepind `bg-white/[0.02]` või sinakas klaasikiht,
-- kerge inner glow / outer glow,
-- 4px border-radius vastavalt projekti reeglile.
+**Kokkuhoid: ~250 MB repos / git LFS-is, kiirem clone, kiirem deploy.**
 
-See ei oleks “kaart” samas mõttes nagu info-boxid, vaid pigem cinematic display shell.
+## Lahendus
 
-### 3. Lisada ambient taustakiht video taha
-Failid:
-- `src/components/ScrollControlledVideo.tsx`
-- vajadusel `src/pages/Product.tsx`
+### 1. Kustutada kasutuseta failid
+Eemaldan kõik ülaltoodud kasutuseta pildid, videod, komponendid ja hookid. Public lehel ei muutu midagi visuaalselt.
 
-Video taha lisaks:
-- pehme sinakas radiaalne glow,
-- väga nõrk lime-highlight ainult aktsendina,
-- gradient, mis hajub sektsiooni olemasolevasse tumedasse tausta.
+### 2. Konverteerida ülejäänud suured PNG-d WebP-sse
+Laiendan `scripts/convert-to-webp.mjs` skripti, et see konverteeriks ka kõik **reaalselt kasutatavad** rasked pildid:
+- `public/robot/rollo-park.png`, `rollo-des.png`, `rollo-milit.png`, `rollo-tunnel.png`, `rollo-city.png`
+- `public/robot/F6/1rollo_auto_sec.png`, `1rollo_close.png`, `1rollo_market_scale.png`, `1rollo_tll.png`, `f6_tech_spec.png`
+- `public/team/team-hero.png`
+- `public/robot/team/1rollo_team_3.png`
+- `public/robot/1rollo_orbital_2.png` (kasutatakse läbi `src/assets`)
 
-Eesmärk:
-video ei paista lihtsalt eraldi MP4-na lehe peal, vaid tundub nagu see “kiirgaks” samast keskkonnast.
+Kvaliteet 82, max laius 1920 px. Eeldatav kokkuhoid: **40 MB → ~4 MB** (90% väiksem).
 
-### 4. Hoida video kompositsioon eraldi kaartidest
-Fail: `src/pages/Product.tsx`
+Käitan skripti ja **kustutan PNG originaalid** (kuna kõik kasutuskohad uuendatakse `.webp`-le).
 
-Solution-sektsioonis jätan alles:
-- vasakul tekst + 4 benefit-kaarti,
-- paremal video.
+### 3. Uuendada koodis pildiviited `.webp`-le
+Asendan `.png` → `.webp` viited:
+- `src/pages/Index.tsx` (use cases hero pildid, capabilities orbit jne)
+- `src/pages/Product.tsx` (F6 pildid)
+- `src/pages/AboutUs.tsx` (team-hero, team_3)
+- vajadusel teised pages
 
-Aga ma ei lisa video peale ega ümber samu tekstikaste, sest see konkureerib olemasolevate benefit-kaartidega.
+### 4. Parandada `OptimizedImage` ka lokaalsete failide jaoks
+Praegu komponent annab `srcSet` ainult Supabase URL-idele. Lisan tugi:
+- kui src on `.webp` lokaalne fail, pannakse korrektsed `loading`, `decoding`, `fetchPriority` atribuudid (ilma `srcSet`-ita, kuna Vite ei genereeri eri laiusi),
+- pisi-täiendus: vaikimisi `width`/`height` atribuudid CLS vältimiseks, kus võimalik.
 
-Kui on vaja lisada rohkem “toote tunnet”, siis parem alternatiiv on:
-- 1–2 väikest floating micro-label elementi video nurkadesse,
-- näiteks “Autonomous patrol” või “All-weather operation” stiilis mini-meta sildid,
-- mitte täismõõdus info-kaardid.
+### 5. Paranda Home hero LCP
+- Eemaldan kasutuseta `rollo-street.png` (PNG variant), kasutusel jääb ainult `.webp`.
+- Veendun, et `<link rel="preload" as="image" href="/hero/rollo-street.webp">` on lisatud `index.html`-i, et hero laaditaks parsimise ajal paralleelselt (kiirem LCP).
 
-## Soovitatud visuaalne hierarhia
-Sektsioon jääb selliseks:
+### 6. Lisada `index.html`-i tagasihoidlikud performance-vinjettid
+- `<link rel="preconnect" href="https://igdxbtuaajrhvuqtwhmm.supabase.co">` — kiirendab esimest Supabase päringut.
+- Hero pildi preload (vt punkt 5).
 
-```text
-[ vasak: pealkiri + kirjeldus + 4 benefit kaarti ]   [ parem: sulanduva raamiga video ]
-```
+## Mida EI muudeta
+- visuaalne disain ja layout ei muutu,
+- F6 sektsiooni pildid jäävad samadeks (ainult formaat WebP),
+- video kompositsioonid ja `ScrollControlledVideo` jäävad puutumata,
+- admin-paneeli komponendid jäävad puutumata,
+- Supabase / RLS / auth ei muutu,
+- shadcn UI komponente ei kustuta (kuigi paljud on praegu kasutamata, hoiame need alles, sest nad on pisikesed ja võivad olla vaja edaspidi).
 
-Mitte selliseks:
-
-```text
-[ vasak: benefit kaardid ]   [ parem: video + veel uued kaardid ]
-```
-
-See hoiab sektsiooni puhtamana ja professionaalsemana.
-
-## Tehniline teostus
-### Muudan komponenti
-`src/components/ScrollControlledVideo.tsx`
-- asendan praeguse raske vignette/mask lahenduse rafineerituma frame + ambient glow mudeliga,
-- lisan eraldi wrapper-layerid:
-  - ambient back glow
-  - subtle shell
-  - optional edge fade
-  - replay overlay, mis sobib uue raamiga.
-
-### Häälestan sektsiooni kasutust
-`src/pages/Product.tsx`
-- vajadusel annan video wrapperile sektsioonis parema laiuse, vertikaalse joondamise või spacing’u,
-- hoian video ja vasaku sisu visuaalses tasakaalus, ilma et video tunduks liiga väike või liiga “uppuv”.
-
-## Mida ei muudeta
-- Solution-sektsiooni üldstruktuuri ei muudeta,
-- olemasolevad ikooniga tekstikastid jäävad alles,
-- videot ei muudeta sisuliselt, ainult selle esitusviisi,
-- mobile autoplay / replay loogika jääb alles.
-
-## Kui soovid tugevamat visuaalset efekti
-Teise taseme variant oleks lisada videole mitte “kastid”, vaid:
-- väga väikesed HUD-stiilis markerid,
-- õhukesed jooned või corner brackets,
-- üks diskreetne status-chip.
-
-See sobib deep-tech esteetikaga palju paremini kui täisväärtuslikud info-kaardid video kõrval või peal.
+## Tehniline teostus järjekorras
+1. **Kustuta** kõik nimetatud kasutuseta `public/` failid.
+2. **Kustuta** `src/assets/eu-cofunded.png`, `rollo1.png`, `rollo2.png`, `rollo3.png`, `rollo-front-p010.png`, `rollo-render-p006.png`.
+3. **Kustuta** `src/components/ReadingProgressBar.tsx`, `src/hooks/useAutoDraft.ts`.
+4. **Laienda** `scripts/convert-to-webp.mjs` ja **käita** `npm run optimize:images` → tekitab `.webp` versioonid.
+5. **Kustuta** suured PNG originaalid pärast WebP genereerimist (ainult need, mille kõik kasutuskohad on uuendatud).
+6. **Asenda** kõik `.png` viited koodis `.webp`-le.
+7. **Täienda** `OptimizedImage.tsx` lokaalsete piltide tugi.
+8. **Lisa** `index.html`-i preconnect ja hero preload.
+9. **Käita** `npm run build` veendumaks, et midagi pole katki.
 
 ## Oodatav tulemus
-Pärast muudatust:
-- video serv sulandub loomulikult tumeda taustaga,
-- video näeb välja kallim ja sihilikum,
-- Solution-sektsioon ei tundu ülekoormatud,
-- olemasolevad benefit-kaardid jäävad põhisisu kandjaks,
-- kogu plokk mõjub rohkem “premium product showcase” kui lihtsalt tekst + eraldi video.
+- Repo / deploy maht väheneb **~250 MB** võrra.
+- Home, Product ja About lehe esmase laadimise pildimaht väheneb hinnanguliselt **~40 MB → ~4 MB** (~90%).
+- Hero LCP paraneb tänu preload + preconnect kombinatsioonile.
+- Pole enam unused-koodi varbide all (`ReadingProgressBar`, `useAutoDraft`).
+- Visuaalselt ei muutu midagi.
+
