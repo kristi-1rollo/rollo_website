@@ -43,7 +43,7 @@ const useCases = [
     title: "Airports",
     icon: Plane,
     image: "/robot/rollo-airport.webp",
-    objectPosition: "75% center",
+    objectPosition: "25% center",
     description: "Persistent perimeter patrol for wide outdoor zones.",
     tech: "LIDAR RANGE: 250M / NO-FLY ZONE SYNC",
   },
