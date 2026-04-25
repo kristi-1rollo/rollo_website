@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { SectionTag } from "@/components/ui/section";
+import { LazyVideo } from "@/components/LazyVideo";
 import DOMPurify from "dompurify";
 import type { Variants } from "framer-motion";
 
