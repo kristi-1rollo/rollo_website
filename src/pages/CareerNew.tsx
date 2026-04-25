@@ -179,10 +179,14 @@ const CareerNew = () => {
               "linear-gradient(180deg, #000b18 0%, #000000 100%), radial-gradient(ellipse 1400px 950px at 12% 2%, rgba(64, 124, 255, 0.18), transparent 62%), radial-gradient(ellipse 1100px 900px at 82% 24%, rgba(14, 65, 170, 0.14), transparent 60%), radial-gradient(ellipse 1400px 1000px at 50% 100%, rgba(6, 32, 96, 0.12), transparent 68%)",
           }}
         />
-
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
-        </div>
+        <img
+          src="/team/team-hero.webp"
+          alt="Rollo team and robotics workspace"
+          className="absolute inset-0 h-full w-full object-cover object-center opacity-62"
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,17,0.8)_0%,rgba(2,6,17,0.7)_26%,rgba(2,6,17,0.42)_54%,rgba(2,6,17,0.18)_78%,rgba(2,6,17,0.38)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.06)_0%,rgba(2,6,17,0.16)_48%,rgba(2,6,17,0.66)_100%)]" />
+        <div className="absolute left-[12%] top-[14%] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(54,118,255,0.22)_0%,rgba(54,118,255,0.08)_36%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 flex min-h-[100svh] items-center">
           <div className="w-full px-4 py-12 sm:px-6 lg:px-8">
@@ -192,7 +196,7 @@ const CareerNew = () => {
                   initial="hidden"
                   animate="visible"
                   variants={fadeInUp}
-                  className="lg:col-span-5"
+                  className="lg:col-span-6"
                 >
                   <SectionTag>Careers</SectionTag>
 
@@ -221,29 +225,7 @@ const CareerNew = () => {
                   </div>
                 </motion.div>
 
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  className="lg:col-span-7"
-                >
-                  <div className="group relative aspect-video overflow-hidden rounded-[4px] border border-white/10 bg-white/5">
-                    <img
-                      src="/team/team-hero.webp"
-                      alt="Rollo team and robotics workspace"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.06)_0%,rgba(2,6,17,0.22)_55%,rgba(2,6,17,0.72)_100%)]" />
-                    <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
-                      <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-primary/90">
-                        Employer Brand
-                      </p>
-                      <p className="max-w-md text-sm text-white/88 sm:text-base">
-                        Built by a compact team working close to hardware, testing and real deployment conditions.
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
+                <div className="hidden lg:block lg:col-span-6" />
               </div>
             </div>
           </div>
@@ -363,61 +345,7 @@ const CareerNew = () => {
           </div>
         </section>
 
-        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
-          <div
-            className="absolute inset-0 -z-10"
-            style={{
-              background:
-                "radial-gradient(ellipse 1400px 700px at 50% 0%, rgba(54, 118, 255, 0.12), transparent 65%), radial-gradient(ellipse 1000px 600px at 20% 100%, rgba(180, 255, 51, 0.06), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)",
-            }}
-          />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={staggerContainer}
-            >
-              <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
-                <SectionTag>The Challenge</SectionTag>
-
-                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
-                  The hard part
-                </h2>
-
-                <p className="mb-6 text-base font-semibold text-primary sm:mb-8 sm:text-lg md:text-xl">
-                  This is not a solved problem.
-                </p>
-              </div>
-
-              <div className="mx-auto mb-8 grid max-w-6xl grid-cols-1 gap-4 sm:mb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-                {[
-                  "Stable autonomous movement on a single wheel",
-                  "Real-world perception in unpredictable environments",
-                  "Reliable operation without constant human input",
-                ].map((challenge, i) => (
-                  <motion.div
-                    key={challenge}
-                    variants={fadeInUp}
-                    className="blue-card-glow relative rounded-[4px] border border-white/10 p-6 sm:p-8"
-                  >
-                    <span className="mb-3 block text-4xl font-bold text-primary/20 sm:mb-4 sm:text-5xl md:text-6xl">
-                      0{i + 1}
-                    </span>
-                    <p className="text-sm text-white/80 sm:text-base">{challenge}</p>
-                  </motion.div>
-                ))}
-              </div>
-
-              <p className="text-center text-base font-semibold text-white sm:text-lg">
-                That&apos;s what we&apos;re solving.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
         <section
-          id="how-we-work"
           className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
           style={{
             background:
@@ -440,12 +368,13 @@ const CareerNew = () => {
                 </h2>
 
                 <p className="mb-6 max-w-xl text-base text-white/80 sm:text-lg md:mb-8 md:text-xl">
-                  This part is doing double duty: culture explanation plus a more memorable scroll experience.
+                  We&apos;re a small team building real hardware.
                 </p>
 
-                <p className="mb-8 max-w-xl text-sm text-white/68 sm:text-base">
-                  On larger screens the visual panel stays anchored while the culture cards on the right advance as you scroll through them.
-                </p>
+                <div className="mb-8 max-w-xl space-y-3 text-sm text-white/70 sm:space-y-4 sm:text-base">
+                  <p>No layers. No corporate structure.</p>
+                  <p>Fast iteration. High ownership.</p>
+                </div>
 
                 <div className="lg:sticky lg:top-24">
                   <motion.div
