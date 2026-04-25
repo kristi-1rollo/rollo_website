@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { SectionTag } from "@/components/ui/section";
+import { LazyVideo } from "@/components/LazyVideo";
 import DOMPurify from "dompurify";
 import type { Variants } from "framer-motion";
 
@@ -336,16 +337,11 @@ const CareerNew = () => {
 
               <div className="lg:col-span-7">
                 <div className="relative aspect-video overflow-hidden rounded-[4px] border border-white/10 bg-white/5">
-                  <video
+                  <LazyVideo
                     className="h-full w-full object-cover"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                  >
-                    <source src="/robot/vid/rollo_test_drive.mp4" type="video/mp4" />
-                  </video>
+                    src="https://igdxbtuaajrhvuqtwhmm.supabase.co/storage/v1/object/public/videos/rollo_test_drive.mp4"
+                    type="video/mp4"
+                  />
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.04)_0%,rgba(2,6,17,0.2)_50%,rgba(2,6,17,0.78)_100%)]" />
                   <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
                     <p className="mb-2 text-[10px] uppercase tracking-[0.18em] text-primary/85">
