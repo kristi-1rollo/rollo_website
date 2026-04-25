@@ -85,7 +85,7 @@ const culturePanels = [
     eyebrow: "03 Fast Iteration",
     title: "Speed comes from learning",
     text: "We move fast by testing, debugging and improving in the open. Momentum matters more than performative polish.",
-    image: "/robot/rollo-tunnel.webp",
+    image: "/robot/team/team_learning.jpg",
   },
   {
     eyebrow: "04 Shared Mission",
@@ -95,23 +95,18 @@ const culturePanels = [
   },
 ];
 
-const teamGallery = [
-  {
-    title: "Workshop energy",
-    image: "/team/team-hero.webp",
-  },
-  {
-    title: "Team in action",
-    image: "/robot/team/1rollo_team_3.webp",
-  },
-  {
-    title: "Field testing",
-    image: "/robot/F6/1rollo_auto_sec.webp",
-  },
-  {
-    title: "Real environments",
-    image: "/robot/rollo-tunnel.webp",
-  },
+const teamProfiles = [
+  { name: "Arno Kütt", image: "/robot/team/profile/arno_kutt.png" },
+  { name: "Sander Sebastian Agur", image: "/robot/team/profile/sander_sebastjan_agur.png" },
+  { name: "Kristi Vahter", image: "/robot/team/profile/kristi_vahter.png" },
+  { name: "Laido Valdvee", image: "/robot/team/profile/laido_valdvee.png" },
+  { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.png" },
+  { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.png" },
+  { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.png" },
+  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.png" },
+  { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.png" },
+  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.png" },
+  { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.png" },
 ];
 
 const CareerNew = () => {
@@ -322,18 +317,23 @@ const CareerNew = () => {
 
               <div className="lg:col-span-7">
                 <div className="relative aspect-video overflow-hidden rounded-[4px] border border-white/10 bg-white/5">
-                  <img
-                    src="/robot/F6/1rollo_close.webp"
-                    alt="Close-up of Rollo autonomous security robot"
+                  <video
                     className="h-full w-full object-cover"
-                  />
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="metadata"
+                  >
+                    <source src="/robot/vid/rollo_test_drive.mp4" type="video/mp4" />
+                  </video>
                   <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.04)_0%,rgba(2,6,17,0.2)_50%,rgba(2,6,17,0.78)_100%)]" />
                   <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
                     <p className="mb-2 text-[10px] uppercase tracking-[0.18em] text-primary/85">
-                      Temporary Media
+                      Field Footage
                     </p>
                     <p className="max-w-sm text-sm text-white/85">
-                      Product visual while we gather dedicated careers photography.
+                      Real-world test drive footage from the robot development process.
                     </p>
                   </div>
                 </div>
@@ -589,23 +589,24 @@ const CareerNew = () => {
                 </p>
               </div>
 
-              <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
-                {teamGallery.map((item) => (
-                  <div
-                    key={item.title}
-                    className="group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5"
-                  >
-                    <img
-                      src={item.image}
-                      alt={item.title}
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.04)_0%,rgba(3,8,18,0.16)_48%,rgba(3,8,18,0.78)_100%)]" />
-                    <div className="absolute inset-x-3 bottom-3">
-                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/55">{item.title}</p>
+              <div className="team-marquee mx-auto max-w-6xl">
+                <div className="team-marquee__edge team-marquee__edge--left" />
+                <div className="team-marquee__edge team-marquee__edge--right" />
+                <div className="team-marquee__track">
+                  {[...teamProfiles, ...teamProfiles].map((member, index) => (
+                    <div
+                      key={`${member.name}-${index}`}
+                      className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5"
+                    >
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.02)_0%,rgba(3,8,18,0.08)_42%,rgba(3,8,18,0.42)_100%)]" />
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </motion.div>
           </div>

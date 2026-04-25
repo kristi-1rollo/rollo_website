@@ -525,6 +525,59 @@
     opacity: 0.8;
   }
 
+  @keyframes team-marquee-scroll {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(-50% - (var(--team-marquee-gap) / 2)));
+    }
+  }
+
+  .team-marquee {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .team-marquee__track {
+    --team-marquee-gap: 0.75rem;
+    display: flex;
+    width: max-content;
+    gap: var(--team-marquee-gap);
+    animation: team-marquee-scroll 48s linear infinite;
+    will-change: transform;
+  }
+
+  .team-marquee__item {
+    width: clamp(9rem, 16vw, 11.5rem);
+    flex: 0 0 auto;
+  }
+
+  .team-marquee:hover .team-marquee__track,
+  .team-marquee:active .team-marquee__track,
+  .team-marquee:focus-within .team-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .team-marquee__edge {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: clamp(2rem, 7vw, 5rem);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .team-marquee__edge--left {
+    left: 0;
+    background: linear-gradient(90deg, rgba(0, 6, 15, 1) 0%, rgba(0, 6, 15, 0) 100%);
+  }
+
+  .team-marquee__edge--right {
+    right: 0;
+    background: linear-gradient(270deg, rgba(0, 6, 15, 1) 0%, rgba(0, 6, 15, 0) 100%);
+  }
+
   /* Blog dossier prose callouts */
   .dossier-prose blockquote,
   .dossier-prose .callout,
