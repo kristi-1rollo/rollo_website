@@ -1,8 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
-import { ArrowRight, Target, Users, CheckCircle2, XCircle } from "lucide-react";
+import {
+  ArrowRight,
+  Target,
+  CheckCircle2,
+  XCircle,
+  Wrench,
+  Radar,
+  TimerReset,
+} from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -12,10 +20,9 @@ import {
 import { SectionTag } from "@/components/ui/section";
 import DOMPurify from "dompurify";
 
-// Animation variants - mobile-optimized
 const fadeInUp = {
   hidden: { opacity: 0, y: 15 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 
 const staggerContainer = {
@@ -23,20 +30,128 @@ const staggerContainer = {
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08
-    }
-  }
+      staggerChildren: 0.08,
+    },
+  },
 };
+
+const principles = [
+  {
+    title: "Build in the real world",
+    description:
+      "We work close to hardware, field tests and messy environments where the product actually has to perform.",
+    icon: Wrench,
+  },
+  {
+    title: "Move before it's comfortable",
+    description:
+      "A lot of our work starts with incomplete information. We prototype, test and learn instead of waiting for certainty.",
+    icon: TimerReset,
+  },
+  {
+    title: "Own the outcome",
+    description:
+      "You are not here to hand work to someone else. You help define the problem and push it through to reality.",
+    icon: Target,
+  },
+  {
+    title: "Stay close to the mission",
+    description:
+      "Everything connects back to autonomous patrol in complex environments. The work is technical, but the purpose stays visible.",
+    icon: Radar,
+  },
+];
+
+const hiringSteps = [
+  "Intro call to understand your background and motivation.",
+  "Practical conversation about how you think, build and solve problems.",
+  "On-site discussion with the team so both sides can judge the fit honestly.",
+];
+
+const culturePanels = [
+  {
+    eyebrow: "01 Field Proximity",
+    title: "Close to the product",
+    text: "The work stays connected to real robots, real tests and real constraints. You see quickly whether something actually works outside a slide deck.",
+    image: "/robot/F6/1rollo_auto_sec.webp",
+  },
+  {
+    eyebrow: "02 High Ownership",
+    title: "Responsibility is not abstract",
+    text: "People here do not hand work across five layers. You help define the direction, make the thing and carry it until it behaves properly.",
+    image: "/robot/F6/1rollo_close.webp",
+  },
+  {
+    eyebrow: "03 Fast Iteration",
+    title: "Speed comes from learning",
+    text: "We move fast by testing, debugging and improving in the open. Momentum matters more than performative polish.",
+    image: "/robot/rollo-tunnel.webp",
+  },
+  {
+    eyebrow: "04 Shared Mission",
+    title: "The mission stays visible",
+    text: "You are not a tiny cog in an invisible system. The line from your work to the product and its impact is short and obvious.",
+    image: "/robot/team/1rollo_team_3.webp",
+  },
+];
+
+const teamGallery = [
+  {
+    title: "Workshop energy",
+    image: "/team/team-hero.webp",
+  },
+  {
+    title: "Team in action",
+    image: "/robot/team/1rollo_team_3.webp",
+  },
+  {
+    title: "Field testing",
+    image: "/robot/F6/1rollo_auto_sec.webp",
+  },
+  {
+    title: "Real environments",
+    image: "/robot/rollo-tunnel.webp",
+  },
+];
 
 const CareerNew = () => {
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
+  const [activeCulturePanel, setActiveCulturePanel] = useState(0);
+  const cultureCardRefs = useRef<Array<HTMLDivElement | null>>([]);
   const { toast } = useToast();
 
-  // Scroll to top when component mounts
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, []);
+
+  useEffect(() => {
+    const cards = cultureCardRefs.current.filter(Boolean) as HTMLDivElement[];
+    if (!cards.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+        if (!mostVisible) return;
+
+        const index = Number((mostVisible.target as HTMLElement).dataset.index);
+        if (!Number.isNaN(index)) {
+          setActiveCulturePanel(index);
+        }
+      },
+      {
+        threshold: [0.35, 0.6, 0.85],
+        rootMargin: "-20% 0px -30% 0px",
+      }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+
+    return () => observer.disconnect();
   }, []);
 
   const handleCopyEmail = async () => {
@@ -56,24 +171,23 @@ const CareerNew = () => {
 
   return (
     <>
-      {/* HERO - Mobile-first asymmetric with blue glow */}
       <header className="section-glow-top relative min-h-[100svh] overflow-hidden">
-        {/* Background with blue radial gradients */}
-        <div className="absolute inset-0" style={{
-          background: 'linear-gradient(180deg, #000b18 0%, #000000 100%), radial-gradient(ellipse 1400px 950px at 12% 2%, rgba(64, 124, 255, 0.18), transparent 62%), radial-gradient(ellipse 1100px 900px at 82% 24%, rgba(14, 65, 170, 0.14), transparent 60%), radial-gradient(ellipse 1400px 1000px at 50% 100%, rgba(6, 32, 96, 0.12), transparent 68%)'
-        }} />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(180deg, #000b18 0%, #000000 100%), radial-gradient(ellipse 1400px 950px at 12% 2%, rgba(64, 124, 255, 0.18), transparent 62%), radial-gradient(ellipse 1100px 900px at 82% 24%, rgba(14, 65, 170, 0.14), transparent 60%), radial-gradient(ellipse 1400px 1000px at 50% 100%, rgba(6, 32, 96, 0.12), transparent 68%)",
+          }}
+        />
 
-        {/* Optional: Hero image placeholder */}
-        <div className="absolute inset-0 opacity-20">
+        <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent" />
         </div>
 
-        {/* Content - mobile first */}
         <div className="relative z-10 flex min-h-[100svh] items-center">
           <div className="w-full px-4 py-12 sm:px-6 lg:px-8">
             <div className="mx-auto max-w-7xl">
-              <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12 items-center">
-                {/* Text - 5 columns on desktop */}
+              <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
                 <motion.div
                   initial="hidden"
                   animate="visible"
@@ -82,41 +196,52 @@ const CareerNew = () => {
                 >
                   <SectionTag>Careers</SectionTag>
 
-                  <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] text-white mb-4 sm:mb-6">
+                  <h1 className="title-halo mb-4 text-3xl font-bold leading-[1.1] text-white sm:text-4xl md:mb-6 md:text-5xl lg:text-6xl">
                     Build the future of autonomous security
                   </h1>
 
-                  <p className="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8 max-w-xl">
-                    We're building robots that replace human patrol — operating 24/7 in real-world
-                    environments where humans can't.
+                  <p className="mb-6 max-w-xl text-base text-white/80 sm:text-lg md:mb-8 md:text-xl">
+                    We&apos;re building robots that replace human patrol operating 24/7 in real-world environments where humans can&apos;t.
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
                     <a
                       href="#open-roles"
-                      className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90 min-h-[48px]"
+                      className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
                     >
                       View open roles
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="h-4 w-4" />
                     </a>
                     <a
                       href="#how-we-work"
-                      className="inline-flex items-center justify-center gap-2 rounded-[4px] border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-white/10 min-h-[48px]"
+                      className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[4px] border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-white/10"
                     >
                       See how we build
                     </a>
                   </div>
                 </motion.div>
 
-                {/* Hero visual - 7 columns on desktop */}
                 <motion.div
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6, delay: 0.2 }}
                   className="lg:col-span-7"
                 >
-                  <div className="aspect-video rounded-[4px] border border-white/10 bg-white/5 flex items-center justify-center overflow-hidden">
-                    <p className="text-white/30 text-sm">Hero visual placeholder</p>
+                  <div className="group relative aspect-video overflow-hidden rounded-[4px] border border-white/10 bg-white/5">
+                    <img
+                      src="/team/team-hero.webp"
+                      alt="Rollo team and robotics workspace"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.03]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.06)_0%,rgba(2,6,17,0.22)_55%,rgba(2,6,17,0.72)_100%)]" />
+                    <div className="absolute bottom-4 left-4 right-4 sm:bottom-6 sm:left-6 sm:right-6">
+                      <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-primary/90">
+                        Employer Brand
+                      </p>
+                      <p className="max-w-md text-sm text-white/88 sm:text-base">
+                        Built by a compact team working close to hardware, testing and real deployment conditions.
+                      </p>
+                    </div>
                   </div>
                 </motion.div>
               </div>
@@ -125,14 +250,15 @@ const CareerNew = () => {
         </div>
       </header>
 
-      {/* MAIN CONTENT */}
       <main className="relative z-10">
-
-        {/* THE PROBLEM - Light background with blue glow */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
-          <div className="absolute inset-0 -z-10" style={{
-            background: 'radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
-          }} />
+        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
+            }}
+          />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -143,74 +269,108 @@ const CareerNew = () => {
             >
               <SectionTag>The Problem</SectionTag>
 
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-                Security hasn't evolved the way the world has
+              <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                Security hasn&apos;t evolved the way the world has
               </h2>
 
-              <p className="text-base sm:text-lg text-white/70 mb-6 sm:mb-8">
-                It's still human-based, expensive and limited.
+              <p className="mb-6 text-base text-white/70 sm:text-lg md:mb-8">
+                It&apos;s still human-based, expensive and limited.
               </p>
 
-              <div className="space-y-3 sm:space-y-4 text-left max-w-2xl mx-auto text-sm sm:text-base text-white/60">
+              <div className="mx-auto max-w-2xl space-y-3 text-center text-sm text-white/60 sm:space-y-4 sm:text-base">
                 <p>24/7 coverage is difficult.</p>
                 <p>Dangerous or remote environments are often left unmonitored.</p>
               </div>
 
-              <p className="text-base sm:text-lg font-semibold text-white mt-6 sm:mt-8">
+              <p className="mt-6 text-base font-semibold text-white sm:mt-8 sm:text-lg">
                 We believe this needs to change.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* WHAT WE'RE BUILDING - Dark background with subtle blue */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
-          background: 'radial-gradient(ellipse 1200px 800px at 50% 50%, rgba(6, 32, 96, 0.06), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.8) 0%, rgba(0, 0, 0, 1) 100%)'
-        }}>
+        <section
+          className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+          style={{
+            background:
+              "radial-gradient(ellipse 1200px 800px at 50% 50%, rgba(6, 32, 96, 0.06), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.8) 0%, rgba(0, 0, 0, 1) 100%)",
+          }}
+        >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
+              className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-center lg:gap-12"
             >
-              <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-12">
+              <div className="lg:col-span-5">
                 <SectionTag>Our Solution</SectionTag>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-                  What we're building
+                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                  What we&apos;re building
                 </h2>
 
-                <div className="space-y-4 sm:space-y-6 text-left text-sm sm:text-base">
-                  <p className="text-base sm:text-lg text-white/80">
-                    Rollo is developing autonomous ground robots designed for real-world patrol
-                    and monitoring.
+                <div className="max-w-2xl space-y-4 text-left text-sm sm:space-y-6 sm:text-base">
+                  <p className="text-base text-white/80 sm:text-lg">
+                    Rollo is developing autonomous ground robots designed for real-world patrol and monitoring.
                   </p>
 
                   <p className="text-white/70">
-                    Our robots move, see, hear and react — without constant human control.
+                    Our robots move, see, hear and react without constant human control.
                   </p>
 
                   <p className="text-white/70">
-                    Built for both indoor and outdoor environments, they are designed to operate
-                    continuously, efficiently and reliably.
+                    Built for both indoor and outdoor environments, they are designed to operate continuously, efficiently and reliably.
                   </p>
+                </div>
+
+                <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+                  {[
+                    "Autonomous patrol, not remote-controlled demos",
+                    "Built for long-duration work in changing environments",
+                    "Designed to reduce reliance on on-site human presence",
+                  ].map((item) => (
+                    <div key={item} className="border-l border-primary/40 pl-4 text-sm text-white/70">
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Robot visual placeholder */}
-              <div className="rounded-[4px] border border-white/10 bg-white/5 aspect-video flex items-center justify-center">
-                <p className="text-white/30 text-xs sm:text-sm">Robot visual placeholder</p>
+              <div className="lg:col-span-7">
+                <div className="relative aspect-video overflow-hidden rounded-[4px] border border-white/10 bg-white/5">
+                  <img
+                    src="/robot/F6/1rollo_close.webp"
+                    alt="Close-up of Rollo autonomous security robot"
+                    className="h-full w-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,17,0.04)_0%,rgba(2,6,17,0.2)_50%,rgba(2,6,17,0.78)_100%)]" />
+                  <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6">
+                    <p className="mb-2 text-[10px] uppercase tracking-[0.18em] text-primary/85">
+                      Temporary Media
+                    </p>
+                    <p className="max-w-sm text-sm text-white/85">
+                      Product visual while we gather dedicated careers photography.
+                    </p>
+                  </div>
+                </div>
+                <p className="mt-3 text-xs uppercase tracking-[0.18em] text-white/35">
+                  Product direction shown through real-world deployment readiness
+                </p>
               </div>
             </motion.div>
           </div>
         </section>
 
-        {/* THE HARD PART - Accent with blue radial glow */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
-          <div className="absolute inset-0 -z-10" style={{
-            background: 'radial-gradient(ellipse 1400px 700px at 50% 0%, rgba(54, 118, 255, 0.12), transparent 65%), radial-gradient(ellipse 1000px 600px at 20% 100%, rgba(180, 255, 51, 0.06), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)'
-          }} />
+        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1400px 700px at 50% 0%, rgba(54, 118, 255, 0.12), transparent 65%), radial-gradient(ellipse 1000px 600px at 20% 100%, rgba(180, 255, 51, 0.06), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)",
+            }}
+          />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -218,86 +378,141 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={staggerContainer}
             >
-              <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-12">
+              <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
                 <SectionTag>The Challenge</SectionTag>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
                   The hard part
                 </h2>
 
-                <p className="text-base sm:text-lg md:text-xl font-semibold text-primary mb-6 sm:mb-8">
+                <p className="mb-6 text-base font-semibold text-primary sm:mb-8 sm:text-lg md:text-xl">
                   This is not a solved problem.
                 </p>
               </div>
 
-              {/* Numbered challenge boxes - mobile-first grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto mb-8 sm:mb-12">
+              <div className="mx-auto mb-8 grid max-w-6xl grid-cols-1 gap-4 sm:mb-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
                 {[
                   "Stable autonomous movement on a single wheel",
                   "Real-world perception in unpredictable environments",
-                  "Reliable operation without constant human input"
+                  "Reliable operation without constant human input",
                 ].map((challenge, i) => (
                   <motion.div
-                    key={i}
+                    key={challenge}
                     variants={fadeInUp}
-                    className="blue-card-glow relative border border-white/10 rounded-[4px] p-6 sm:p-8"
+                    className="blue-card-glow relative rounded-[4px] border border-white/10 p-6 sm:p-8"
                   >
-                    <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary/20 mb-3 sm:mb-4 block">
+                    <span className="mb-3 block text-4xl font-bold text-primary/20 sm:mb-4 sm:text-5xl md:text-6xl">
                       0{i + 1}
                     </span>
-                    <p className="text-sm sm:text-base text-white/80">
-                      {challenge}
-                    </p>
+                    <p className="text-sm text-white/80 sm:text-base">{challenge}</p>
                   </motion.div>
                 ))}
               </div>
 
-              <p className="text-base sm:text-lg font-semibold text-white text-center">
-                That's what we're solving.
+              <p className="text-center text-base font-semibold text-white sm:text-lg">
+                That&apos;s what we&apos;re solving.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* HOW WE WORK - Dark background with subtle blue */}
-        <section id="how-we-work" className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
-          background: 'radial-gradient(ellipse 1000px 600px at 30% 50%, rgba(14, 65, 170, 0.05), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.6) 0%, rgba(0, 0, 0, 1) 100%)'
-        }}>
+        <section
+          id="how-we-work"
+          className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+          style={{
+            background:
+              "radial-gradient(ellipse 1000px 600px at 30% 50%, rgba(14, 65, 170, 0.05), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.6) 0%, rgba(0, 0, 0, 1) 100%)",
+          }}
+        >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
-              className="mx-auto max-w-3xl text-center"
+              className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-12"
             >
-              <SectionTag>Culture</SectionTag>
+              <div className="lg:col-span-5">
+                <SectionTag>Culture</SectionTag>
 
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-                How we work
-              </h2>
+                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                  How we work
+                </h2>
 
-              <p className="text-base sm:text-lg md:text-xl text-white/80 mb-6 sm:mb-8">
-                We're a small team building real hardware.
-              </p>
+                <p className="mb-6 max-w-xl text-base text-white/80 sm:text-lg md:mb-8 md:text-xl">
+                  This part is doing double duty: culture explanation plus a more memorable scroll experience.
+                </p>
 
-              <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-white/70 max-w-2xl mx-auto">
-                <p>No layers. No corporate structure.</p>
-                <p>Fast iteration. High ownership.</p>
+                <p className="mb-8 max-w-xl text-sm text-white/68 sm:text-base">
+                  On larger screens the visual panel stays anchored while the culture cards on the right advance as you scroll through them.
+                </p>
+
+                <div className="lg:sticky lg:top-24">
+                  <motion.div
+                    key={culturePanels[activeCulturePanel].title}
+                    initial={{ opacity: 0.35, y: 18 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="overflow-hidden rounded-[4px] border border-white/10 bg-white/5"
+                  >
+                    <div className="relative aspect-[4/5] sm:aspect-[16/10] lg:aspect-[4/5]">
+                      <img
+                        src={culturePanels[activeCulturePanel].image}
+                        alt={culturePanels[activeCulturePanel].title}
+                        className="h-full w-full object-cover"
+                      />
+                      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.06)_0%,rgba(3,8,18,0.26)_45%,rgba(3,8,18,0.84)_100%)]" />
+                      <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6">
+                        <p className="mb-2 text-[10px] uppercase tracking-[0.2em] text-primary/90">
+                          {culturePanels[activeCulturePanel].eyebrow}
+                        </p>
+                        <h3 className="mb-3 text-xl font-semibold text-white sm:text-2xl">
+                          {culturePanels[activeCulturePanel].title}
+                        </h3>
+                        <p className="max-w-md text-sm text-white/78 sm:text-base">
+                          {culturePanels[activeCulturePanel].text}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                </div>
               </div>
 
-              <p className="text-sm sm:text-base md:text-lg text-white/90 font-medium mt-6 sm:mt-8">
-                You don't just design — you build, test and improve.
-              </p>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:col-span-7">
+                {culturePanels.map((item, index) => (
+                  <div
+                    key={item.title}
+                    ref={(element) => {
+                      cultureCardRefs.current[index] = element;
+                    }}
+                    data-index={index}
+                    onMouseEnter={() => setActiveCulturePanel(index)}
+                    className={`rounded-[4px] p-5 sm:p-6 transition-all duration-300 ${
+                      activeCulturePanel === index
+                        ? "blue-card-glow border-primary/30"
+                        : "border border-white/10 bg-white/5"
+                    }`}
+                  >
+                    <p className="mb-3 text-[10px] uppercase tracking-[0.18em] text-primary/75">
+                      {item.eyebrow}
+                    </p>
+                    <h3 className="mb-3 text-lg font-semibold text-white">{item.title}</h3>
+                    <p className="text-sm leading-relaxed text-white/68 sm:text-base">{item.text}</p>
+                  </div>
+                ))}
+              </div>
             </motion.div>
           </div>
         </section>
 
-        {/* WHO WE'RE LOOKING FOR - Light background with blue glow */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
-          <div className="absolute inset-0 -z-10" style={{
-            background: 'radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
-          }} />
+        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1200px 650px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 72%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
+            }}
+          />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -305,22 +520,74 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={staggerContainer}
             >
-              <div className="text-center mb-8 sm:mb-12">
+              <div className="mb-8 max-w-3xl lg:mb-12">
+                <SectionTag>Principles</SectionTag>
+                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                  What good work looks like here
+                </h2>
+                <p className="max-w-2xl text-sm text-white/70 sm:text-base md:text-lg">
+                  The role matters, but the working style matters just as much. These are the instincts that tend to fit.
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:gap-6">
+                {principles.map((principle) => {
+                  const Icon = principle.icon;
+                  return (
+                    <motion.div
+                      key={principle.title}
+                      variants={fadeInUp}
+                      className="blue-card-glow rounded-[4px] p-5 sm:p-6 md:p-7"
+                    >
+                      <div className="mb-5 inline-flex rounded-[4px] border border-primary/20 bg-primary/10 p-3 text-primary">
+                        <Icon className="h-5 w-5" />
+                      </div>
+                      <h3 className="mb-3 text-lg font-semibold text-white sm:text-xl">
+                        {principle.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-white/68 sm:text-base">
+                        {principle.description}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
+            }}
+          />
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerContainer}
+            >
+              <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
                 <SectionTag>Who We Need</SectionTag>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-                  Who we're looking for
+                <h2 className="text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
+                  Who we&apos;re looking for
                 </h2>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
-                {/* YOU'LL FIT IN - Blue card glow design */}
+              <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 lg:gap-8">
                 <motion.div
                   variants={fadeInUp}
-                  className="blue-card-glow border-2 border-primary/40 rounded-[4px] p-5 sm:p-6 md:p-8"
+                  className="blue-card-glow rounded-[4px] border-2 border-primary/40 p-5 sm:p-6 md:p-8"
                 >
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                    <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary flex-shrink-0" />
-                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">You'll fit in if you:</h3>
+                  <div className="mb-4 flex items-center gap-2 sm:mb-6 sm:gap-3">
+                    <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-primary sm:h-6 sm:w-6" />
+                    <h3 className="text-base font-semibold text-white sm:text-lg md:text-xl">
+                      You&apos;ll fit in if you:
+                    </h3>
                   </div>
 
                   <ul className="space-y-2 sm:space-y-3">
@@ -328,34 +595,35 @@ const CareerNew = () => {
                       "enjoy solving problems without clear answers",
                       "like building things from scratch",
                       "are comfortable with uncertainty",
-                      "want your work to exist in the real world"
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-white/80">
-                        <span className="text-primary mt-0.5 flex-shrink-0">•</span>
+                      "want your work to exist in the real world",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-xs text-white/80 sm:gap-3 sm:text-sm">
+                        <span className="mt-0.5 flex-shrink-0 text-primary">•</span>
                         <span>{item}</span>
                       </li>
                     ))}
                   </ul>
                 </motion.div>
 
-                {/* YOU WON'T FIT IN - Clean border design */}
                 <motion.div
                   variants={fadeInUp}
-                  className="border border-white/20 bg-white/5 rounded-[4px] p-5 sm:p-6 md:p-8"
+                  className="rounded-[4px] border border-white/20 bg-white/5 p-5 sm:p-6 md:p-8"
                 >
-                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
-                    <XCircle className="w-5 h-5 sm:w-6 sm:h-6 text-red-400/80 flex-shrink-0" />
-                    <h3 className="text-base sm:text-lg md:text-xl font-semibold text-white">You won't fit in if you:</h3>
+                  <div className="mb-4 flex items-center gap-2 sm:mb-6 sm:gap-3">
+                    <XCircle className="h-5 w-5 flex-shrink-0 text-red-400/80 sm:h-6 sm:w-6" />
+                    <h3 className="text-base font-semibold text-white sm:text-lg md:text-xl">
+                      You won&apos;t fit in if you:
+                    </h3>
                   </div>
 
                   <ul className="space-y-2 sm:space-y-3">
                     {[
                       "need clear structure and constant guidance",
                       "prefer predictable environments",
-                      "want slow, incremental work"
-                    ].map((item, i) => (
-                      <li key={i} className="flex items-start gap-2 sm:gap-3 text-xs sm:text-sm text-white/60">
-                        <span className="text-red-400/60 mt-0.5 flex-shrink-0">•</span>
+                      "want slow, incremental work",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-xs text-white/60 sm:gap-3 sm:text-sm">
+                        <span className="mt-0.5 flex-shrink-0 text-red-400/60">•</span>
                         <span>{item}</span>
                       </li>
                     ))}
@@ -366,10 +634,13 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* TEAM - Dark background with subtle blue */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
-          background: 'radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)'
-        }}>
+        <section
+          className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+          style={{
+            background:
+              "radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)",
+          }}
+        >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -377,26 +648,33 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
             >
-              <div className="mx-auto max-w-3xl text-center mb-8 sm:mb-12">
+              <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
                 <SectionTag>Team</SectionTag>
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
-                  We're engineers, builders and problem-solvers
+                <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                  We&apos;re engineers, builders and problem-solvers
                 </h2>
 
-                <p className="text-sm sm:text-base md:text-lg text-white/70">
-                  Everyone here works hands-on with the product — from idea to real-world testing.
+                <p className="text-sm text-white/70 sm:text-base md:text-lg">
+                  Everyone here works hands-on with the product from idea to real-world testing.
                 </p>
               </div>
 
-              {/* Team photo placeholders - mobile-first grid */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 max-w-4xl mx-auto">
-                {[1, 2, 3, 4].map((i) => (
+              <div className="mx-auto grid max-w-5xl grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-4 lg:grid-cols-4">
+                {teamGallery.map((item) => (
                   <div
-                    key={i}
-                    className="aspect-square rounded-[4px] border border-white/10 bg-white/5 flex items-center justify-center"
+                    key={item.title}
+                    className="group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5"
                   >
-                    <Users className="w-6 h-6 sm:w-8 sm:h-8 text-white/20" />
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.04)_0%,rgba(3,8,18,0.16)_48%,rgba(3,8,18,0.78)_100%)]" />
+                    <div className="absolute inset-x-3 bottom-3">
+                      <p className="text-[10px] uppercase tracking-[0.18em] text-white/55">{item.title}</p>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -404,10 +682,13 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* LOCATION - Light background with blue glow */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
-          background: 'radial-gradient(ellipse 1000px 500px at 50% 50%, rgba(30, 84, 196, 0.06), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
-        }}>
+        <section
+          className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+          style={{
+            background:
+              "radial-gradient(ellipse 1000px 500px at 50% 50%, rgba(30, 84, 196, 0.06), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
+          }}
+        >
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -418,22 +699,28 @@ const CareerNew = () => {
             >
               <SectionTag>Location</SectionTag>
 
-              <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
+              <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
                 Based in Estonia
               </h2>
 
-              <p className="text-sm sm:text-base md:text-lg text-white/70">
-                Most of the work happens on-site — where the robots are built and tested.
+              <p className="text-sm text-white/70 sm:text-base md:text-lg">
+                Most of the work happens on-site where the robots are built and tested.
               </p>
             </motion.div>
           </div>
         </section>
 
-        {/* OPEN ROLES - Dark background with blue glow */}
-        <section id="open-roles" className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
-          <div className="absolute inset-0 -z-10" style={{
-            background: 'radial-gradient(ellipse 1300px 800px at 50% 0%, rgba(30, 84, 196, 0.1), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.9) 0%, rgba(0, 0, 0, 1) 100%)'
-          }} />
+        <section
+          id="open-roles"
+          className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32"
+        >
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1300px 800px at 50% 0%, rgba(30, 84, 196, 0.1), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.9) 0%, rgba(0, 0, 0, 1) 100%)",
+            }}
+          />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -441,50 +728,71 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={staggerContainer}
             >
-              <div className="text-center mb-8 sm:mb-12">
-                <SectionTag>Open Positions</SectionTag>
-                <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-                  Open roles
-                </h2>
+              <div className="mb-8 grid grid-cols-1 gap-8 sm:mb-12 lg:grid-cols-12 lg:gap-12">
+                <div className="lg:col-span-6">
+                  <SectionTag>Open Positions</SectionTag>
+                  <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:text-4xl lg:text-5xl">
+                    Open roles
+                  </h2>
+                  <p className="max-w-xl text-sm text-white/70 sm:text-base md:text-lg">
+                    We hire for people who want to work close to the product, close to the constraints and close to the outcome.
+                  </p>
+                </div>
+
+                <div className="lg:col-span-6">
+                  <div className="rounded-[4px] border border-white/10 bg-white/5 p-5 sm:p-6">
+                    <p className="mb-4 text-xs uppercase tracking-[0.18em] text-primary">How We Hire</p>
+                    <div className="space-y-4">
+                      {hiringSteps.map((step, index) => (
+                        <div key={step} className="flex items-start gap-4">
+                          <span className="mt-0.5 text-xs font-bold tracking-[0.18em] text-white/35">
+                            0{index + 1}
+                          </span>
+                          <p className="text-sm text-white/72 sm:text-base">{step}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
               </div>
 
               {careerPosts && careerPosts.length > 0 ? (
                 <motion.div
                   variants={staggerContainer}
-                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 max-w-6xl mx-auto"
+                  className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
                 >
                   {careerPosts.map((post) => (
                     <motion.button
                       key={post.id}
                       variants={fadeInUp}
                       onClick={() => handleApply(post)}
-                      className="group surface-panel hover:border-primary/30 rounded-[4px] p-5 sm:p-6 text-left transition min-h-[140px] flex flex-col"
+                      className="group surface-panel flex min-h-[140px] flex-col rounded-[4px] p-5 text-left transition hover:border-primary/30 sm:p-6"
                     >
-                      <h3 className="text-base sm:text-lg font-semibold text-white mb-2 group-hover:text-primary transition flex-grow">
+                      <h3 className="mb-2 flex-grow text-base font-semibold text-white transition group-hover:text-primary sm:text-lg">
                         {post.title}
                       </h3>
 
-                      <div className="flex items-center gap-2 text-xs text-white/60 mb-3 sm:mb-4">
+                      <div className="mb-3 flex items-center gap-2 text-xs text-white/60 sm:mb-4">
                         <span>{post.location}</span>
                         <span>·</span>
                         <span>{post.type}</span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs sm:text-sm text-primary font-medium">
+                      <div className="flex items-center gap-2 text-xs font-medium text-primary sm:text-sm">
                         Apply
-                        <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-1" />
+                        <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 sm:h-4 sm:w-4" />
                       </div>
                     </motion.button>
                   ))}
                 </motion.div>
               ) : (
-                <motion.div variants={fadeInUp} className="text-center max-w-2xl mx-auto">
-                  <p className="text-sm sm:text-base md:text-lg text-white/70 mb-6">
-                    We don't have open positions right now, but we're always looking for strong builders.
+                <motion.div variants={fadeInUp} className="mx-auto max-w-2xl text-center">
+                  <p className="mb-6 text-sm text-white/70 sm:text-base md:text-lg">
+                    We don&apos;t have open positions right now, but we&apos;re always looking for strong builders.
                   </p>
                   <button
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90 min-h-[48px]"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
                   >
                     {emailCopied ? "Copied!" : "Get in touch — join@1rollo.com"}
                   </button>
@@ -494,11 +802,14 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* FINAL CTA - Accent with blue radial glow */}
-        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
-          <div className="absolute inset-0 -z-10" style={{
-            background: 'radial-gradient(ellipse 1200px 700px at 50% 50%, rgba(54, 118, 255, 0.1), transparent 65%), radial-gradient(ellipse 900px 500px at 80% 20%, rgba(180, 255, 51, 0.08), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)'
-          }} />
+        <section className="section-glow-top relative w-full py-12 sm:py-16 md:py-20 lg:py-32">
+          <div
+            className="absolute inset-0 -z-10"
+            style={{
+              background:
+                "radial-gradient(ellipse 1200px 700px at 50% 50%, rgba(54, 118, 255, 0.1), transparent 65%), radial-gradient(ellipse 900px 500px at 80% 20%, rgba(180, 255, 51, 0.08), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)",
+            }}
+          />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -506,39 +817,35 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
             >
-              <div className="blue-card-glow border-2 border-primary/40 rounded-[4px] p-6 sm:p-8 md:p-12 text-center max-w-3xl mx-auto">
-                <SectionTag>Don't See Your Role?</SectionTag>
+              <div className="blue-card-glow mx-auto max-w-3xl rounded-[4px] border-2 border-primary/40 p-6 text-center sm:p-8 md:p-12">
+                <SectionTag>Don&apos;t See Your Role?</SectionTag>
 
-                <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 sm:mb-8">
-                  If you want to work on problems that don't have clear answers — you'll feel at home here
+                <h2 className="mb-6 text-xl font-bold text-white sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl">
+                  If you want to work on problems that don&apos;t have clear answers you&apos;ll feel at home here
                 </h2>
 
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mb-4 sm:mb-6">
+                <div className="mb-4 flex flex-col justify-center gap-3 sm:mb-6 sm:flex-row sm:gap-4">
                   <button
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90 min-h-[48px]"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[4px] bg-primary px-5 py-3 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
                   >
                     {emailCopied ? "Email Copied!" : "Apply Now"}
                   </button>
                   <button
                     onClick={handleCopyEmail}
-                    className="inline-flex items-center justify-center gap-2 rounded-[4px] border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-white/10 min-h-[48px]"
+                    className="inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[4px] border border-white/20 bg-white/5 px-5 py-3 text-sm font-bold uppercase tracking-wider text-white transition hover:bg-white/10"
                   >
                     Or just reach out
                   </button>
                 </div>
 
-                <p className="text-xs sm:text-sm text-white/60">
-                  join@1rollo.com
-                </p>
+                <p className="text-xs text-white/60 sm:text-sm">join@1rollo.com</p>
               </div>
             </motion.div>
           </div>
         </section>
-
       </main>
 
-      {/* Job Detail Modal */}
       <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
         <DialogContent className="max-h-[85vh] max-w-2xl overflow-y-auto border-white/10 bg-background text-white">
           {selectedPost && (
@@ -547,7 +854,7 @@ const CareerNew = () => {
                 <DialogTitle className="text-2xl font-bold text-white">
                   {selectedPost.title}
                 </DialogTitle>
-                <div className="flex items-center gap-3 text-sm text-white/60 pt-1">
+                <div className="flex items-center gap-3 pt-1 text-sm text-white/60">
                   <span>{selectedPost.location}</span>
                   <span>·</span>
                   <span>{selectedPost.type}</span>
@@ -559,7 +866,7 @@ const CareerNew = () => {
                   <img
                     src={selectedPost.poster_url}
                     alt={`${selectedPost.title} poster`}
-                    className="w-full h-auto"
+                    className="h-auto w-full"
                     loading="lazy"
                   />
                 </div>
@@ -572,7 +879,7 @@ const CareerNew = () => {
                 }}
               />
 
-              <div className="mt-6 pt-4 border-t border-white/10">
+              <div className="mt-6 border-t border-white/10 pt-4">
                 <button
                   onClick={handleCopyEmail}
                   className="inline-flex rounded-[4px] bg-primary px-5 py-2.5 text-sm font-bold uppercase tracking-wider text-primary-foreground transition hover:bg-primary/90"
