@@ -56,10 +56,12 @@ const CareerNew = () => {
 
   return (
     <>
-      {/* HERO - Mobile-first asymmetric */}
+      {/* HERO - Mobile-first asymmetric with blue glow */}
       <header className="section-glow-top relative min-h-[100svh] overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+        {/* Background with blue radial gradients */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(180deg, #000b18 0%, #000000 100%), radial-gradient(ellipse 1400px 950px at 12% 2%, rgba(64, 124, 255, 0.18), transparent 62%), radial-gradient(ellipse 1100px 900px at 82% 24%, rgba(14, 65, 170, 0.14), transparent 60%), radial-gradient(ellipse 1400px 1000px at 50% 100%, rgba(6, 32, 96, 0.12), transparent 68%)'
+        }} />
 
         {/* Optional: Hero image placeholder */}
         <div className="absolute inset-0 opacity-20">
@@ -80,7 +82,7 @@ const CareerNew = () => {
                 >
                   <SectionTag>Careers</SectionTag>
 
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] text-white mb-4 sm:mb-6">
+                  <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] text-white mb-4 sm:mb-6">
                     Build the future of autonomous security
                   </h1>
 
@@ -126,8 +128,11 @@ const CareerNew = () => {
       {/* MAIN CONTENT */}
       <main className="relative z-10">
 
-        {/* THE PROBLEM - Light background for contrast */}
-        <section className="w-full bg-zinc-900/30 py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* THE PROBLEM - Light background with blue glow */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
+          <div className="absolute inset-0 -z-10" style={{
+            background: 'radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
+          }} />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -158,8 +163,10 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* WHAT WE'RE BUILDING - Dark background */}
-        <section className="w-full bg-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* WHAT WE'RE BUILDING - Dark background with subtle blue */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
+          background: 'radial-gradient(ellipse 1200px 800px at 50% 50%, rgba(6, 32, 96, 0.06), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.8) 0%, rgba(0, 0, 0, 1) 100%)'
+        }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -199,8 +206,11 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* THE HARD PART - Accent gradient background */}
-        <section className="section-glow-top w-full bg-gradient-to-br from-primary/10 via-background to-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* THE HARD PART - Accent with blue radial glow */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
+          <div className="absolute inset-0 -z-10" style={{
+            background: 'radial-gradient(ellipse 1400px 700px at 50% 0%, rgba(54, 118, 255, 0.12), transparent 65%), radial-gradient(ellipse 1000px 600px at 20% 100%, rgba(180, 255, 51, 0.06), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.4) 0%, rgba(0, 0, 0, 0.8) 100%)'
+          }} />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -230,7 +240,7 @@ const CareerNew = () => {
                   <motion.div
                     key={i}
                     variants={fadeInUp}
-                    className="relative border border-white/10 bg-zinc-900/50 rounded-[4px] p-6 sm:p-8"
+                    className="blue-card-glow relative border border-white/10 rounded-[4px] p-6 sm:p-8"
                   >
                     <span className="text-4xl sm:text-5xl md:text-6xl font-bold text-primary/20 mb-3 sm:mb-4 block">
                       0{i + 1}
@@ -249,8 +259,10 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* HOW WE WORK - Dark background */}
-        <section id="how-we-work" className="w-full bg-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* HOW WE WORK - Dark background with subtle blue */}
+        <section id="how-we-work" className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
+          background: 'radial-gradient(ellipse 1000px 600px at 30% 50%, rgba(14, 65, 170, 0.05), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.6) 0%, rgba(0, 0, 0, 1) 100%)'
+        }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -281,8 +293,11 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* WHO WE'RE LOOKING FOR - Light background */}
-        <section className="section-glow-top w-full bg-zinc-900/30 py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* WHO WE'RE LOOKING FOR - Light background with blue glow */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
+          <div className="absolute inset-0 -z-10" style={{
+            background: 'radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
+          }} />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -298,10 +313,10 @@ const CareerNew = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
-                {/* YOU'LL FIT IN - Clean border design */}
+                {/* YOU'LL FIT IN - Blue card glow design */}
                 <motion.div
                   variants={fadeInUp}
-                  className="border-2 border-primary/40 bg-primary/5 rounded-[4px] p-5 sm:p-6 md:p-8"
+                  className="blue-card-glow border-2 border-primary/40 rounded-[4px] p-5 sm:p-6 md:p-8"
                 >
                   <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
                     <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-primary flex-shrink-0" />
@@ -351,8 +366,10 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* TEAM - Dark background */}
-        <section className="w-full bg-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* TEAM - Dark background with subtle blue */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
+          background: 'radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)'
+        }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -387,8 +404,10 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* LOCATION - Light background */}
-        <section className="w-full bg-zinc-900/30 py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* LOCATION - Light background with blue glow */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32 border-t border-white/10" style={{
+          background: 'radial-gradient(ellipse 1000px 500px at 50% 50%, rgba(30, 84, 196, 0.06), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)'
+        }}>
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -410,8 +429,11 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* OPEN ROLES - Dark background */}
-        <section id="open-roles" className="section-glow-top w-full bg-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* OPEN ROLES - Dark background with blue glow */}
+        <section id="open-roles" className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
+          <div className="absolute inset-0 -z-10" style={{
+            background: 'radial-gradient(ellipse 1300px 800px at 50% 0%, rgba(30, 84, 196, 0.1), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.9) 0%, rgba(0, 0, 0, 1) 100%)'
+          }} />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -436,7 +458,7 @@ const CareerNew = () => {
                       key={post.id}
                       variants={fadeInUp}
                       onClick={() => handleApply(post)}
-                      className="group border border-white/10 bg-white/5 hover:border-primary/30 rounded-[4px] p-5 sm:p-6 text-left transition min-h-[140px] flex flex-col"
+                      className="group surface-panel hover:border-primary/30 rounded-[4px] p-5 sm:p-6 text-left transition min-h-[140px] flex flex-col"
                     >
                       <h3 className="text-base sm:text-lg font-semibold text-white mb-2 group-hover:text-primary transition flex-grow">
                         {post.title}
@@ -472,8 +494,11 @@ const CareerNew = () => {
           </div>
         </section>
 
-        {/* FINAL CTA - Accent background */}
-        <section className="section-glow-top w-full bg-gradient-to-br from-primary/10 via-primary/5 to-background py-12 sm:py-16 md:py-20 lg:py-32">
+        {/* FINAL CTA - Accent with blue radial glow */}
+        <section className="section-glow-top w-full relative py-12 sm:py-16 md:py-20 lg:py-32">
+          <div className="absolute inset-0 -z-10" style={{
+            background: 'radial-gradient(ellipse 1200px 700px at 50% 50%, rgba(54, 118, 255, 0.1), transparent 65%), radial-gradient(ellipse 900px 500px at 80% 20%, rgba(180, 255, 51, 0.08), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)'
+          }} />
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <motion.div
               initial="hidden"
@@ -481,7 +506,7 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
             >
-              <div className="border-2 border-primary/40 bg-primary/5 rounded-[4px] p-6 sm:p-8 md:p-12 text-center max-w-3xl mx-auto">
+              <div className="blue-card-glow border-2 border-primary/40 rounded-[4px] p-6 sm:p-8 md:p-12 text-center max-w-3xl mx-auto">
                 <SectionTag>Don't See Your Role?</SectionTag>
 
                 <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-6 sm:mb-8">

@@ -406,7 +406,7 @@
     background: linear-gradient(90deg, transparent 0%, rgba(93, 145, 255, 0.5) 18%, rgba(128, 176, 255, 0.82) 50%, rgba(93, 145, 255, 0.5) 82%, transparent 100%);
     box-shadow: 0 0 16px rgba(54, 112, 255, 0.35), 0 0 44px rgba(11, 73, 187, 0.24);
     opacity: 0.9;
-    z-index: 0;
+    z-index: 10;
   }
   .section-glow-top::after {
     content: "";
@@ -417,7 +417,7 @@
     height: 160px;
     pointer-events: none;
     background: radial-gradient(ellipse at top center, rgba(30, 84, 196, 0.12) 0%, rgba(5, 15, 39, 0.05) 42%, transparent 74%);
-    z-index: 0;
+    z-index: 5;
   }
 
   .title-halo {
