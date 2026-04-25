@@ -12,6 +12,7 @@ const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
 const AboutUs = lazy(() => import("./pages/AboutUs"));
 const Career = lazy(() => import("./pages/Career"));
+const CareerNew = lazy(() => import("./pages/CareerNew"));
 const Contact = lazy(() => import("./pages/Contact"));
 const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
@@ -42,6 +43,7 @@ const App = () => (
                   <Route path="/blog/:id" element={<BlogPost />} />
                   <Route path="/about" element={<AboutUs />} />
                   <Route path="/career" element={<Career />} />
+                  <Route path="/career-new" element={<CareerNew />} />
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/funding" element={<EuFunding />} />
                   <Route path="/eu-kaasrahastus" element={<EuFunding />} />
