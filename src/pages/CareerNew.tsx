@@ -10,6 +10,7 @@ import {
   Wrench,
   Radar,
   TimerReset,
+  ImagePlus,
 } from "lucide-react";
 import {
   Dialog,
@@ -112,6 +113,7 @@ const teamProfiles = [
 const CareerNew = () => {
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+  const [selectedTeamIndex, setSelectedTeamIndex] = useState<number | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const [activeCulturePanel, setActiveCulturePanel] = useState(0);
   const cultureCardRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -163,6 +165,22 @@ const CareerNew = () => {
   const handleApply = (post: CareerPost) => {
     setSelectedPost(post);
   };
+
+  const handleOpenTeamMember = (index: number) => {
+    setSelectedTeamIndex(index);
+  };
+
+  const handleCloseTeamMember = () => {
+    setSelectedTeamIndex(null);
+  };
+
+  const handleTeamNavigate = (direction: 1 | -1) => {
+    if (selectedTeamIndex === null) return;
+
+    setSelectedTeamIndex((selectedTeamIndex + direction + teamProfiles.length) % teamProfiles.length);
+  };
+
+  const selectedTeamMember = selectedTeamIndex !== null ? teamProfiles[selectedTeamIndex] : null;
 
   return (
     <>
@@ -594,9 +612,12 @@ const CareerNew = () => {
                 <div className="team-marquee__edge team-marquee__edge--right" />
                 <div className="team-marquee__track">
                   {[...teamProfiles, ...teamProfiles].map((member, index) => (
-                    <div
+                    <button
                       key={`${member.name}-${index}`}
-                      className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5"
+                      type="button"
+                      onClick={() => handleOpenTeamMember(index % teamProfiles.length)}
+                      className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5 text-left"
+                      aria-label={`Open ${member.name} profile photo`}
                     >
                       <img
                         src={member.image}
@@ -604,7 +625,11 @@ const CareerNew = () => {
                         className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                       />
                       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.02)_0%,rgba(3,8,18,0.08)_42%,rgba(3,8,18,0.42)_100%)]" />
-                    </div>
+                      <div className="absolute inset-x-3 bottom-3 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/72">
+                        <span>View</span>
+                        <ImagePlus className="h-3.5 w-3.5" />
+                      </div>
+                    </button>
                   ))}
                 </div>
               </div>
@@ -696,20 +721,33 @@ const CareerNew = () => {
                       key={post.id}
                       variants={fadeInUp}
                       onClick={() => handleApply(post)}
-                      className="group surface-panel flex min-h-[140px] flex-col rounded-[4px] p-5 text-left transition hover:border-primary/30 sm:p-6"
+                      className="blue-card-glow group relative flex min-h-[210px] flex-col overflow-hidden rounded-[4px] border border-white/10 p-5 text-left transition hover:border-primary/35 hover:-translate-y-1 sm:p-6"
                     >
-                      <h3 className="mb-2 flex-grow text-base font-semibold text-white transition group-hover:text-primary sm:text-lg">
+                      <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(128,176,255,0.65),rgba(180,255,51,0.45),transparent)]" />
+                      <div className="mb-5 flex items-start justify-between gap-4">
+                        <span className="inline-flex rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] text-primary">
+                          Open Role
+                        </span>
+                        <span className="text-[10px] uppercase tracking-[0.18em] text-white/38">
+                          Click to view
+                        </span>
+                      </div>
+                      <h3 className="mb-3 flex-grow text-lg font-semibold text-white transition group-hover:text-primary sm:text-[1.35rem]">
                         {post.title}
                       </h3>
 
-                      <div className="mb-3 flex items-center gap-2 text-xs text-white/60 sm:mb-4">
-                        <span>{post.location}</span>
+                      <div className="mb-5 flex flex-wrap items-center gap-2 text-[0px] sm:mb-6">
+                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/72">
+                          {post.location}
+                        </span>
                         <span>·</span>
-                        <span>{post.type}</span>
+                        <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-white/72">
+                          {post.type}
+                        </span>
                       </div>
 
-                      <div className="flex items-center gap-2 text-xs font-medium text-primary sm:text-sm">
-                        Apply
+                      <div className="mt-auto flex items-center gap-2 text-sm font-medium text-primary">
+                        View role
                         <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1 sm:h-4 sm:w-4" />
                       </div>
                     </motion.button>
@@ -818,6 +856,72 @@ const CareerNew = () => {
                 </button>
               </div>
             </>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={selectedTeamIndex !== null} onOpenChange={(open) => !open && handleCloseTeamMember()}>
+        <DialogContent className="max-w-5xl border-white/10 bg-[#020813]/95 p-0 text-white">
+          {selectedTeamMember && (
+            <div className="overflow-hidden rounded-[4px]">
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-primary/85">Team</p>
+                  <DialogTitle className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                    {selectedTeamMember.name}
+                  </DialogTitle>
+                </div>
+                <p className="hidden text-xs uppercase tracking-[0.18em] text-white/38 sm:block">
+                  Drag left or right
+                </p>
+              </div>
+
+              <div className="relative bg-[radial-gradient(ellipse_at_center,rgba(33,94,221,0.12)_0%,rgba(2,8,19,0)_70%)] p-4 sm:p-6">
+                <button
+                  type="button"
+                  onClick={() => handleTeamNavigate(-1)}
+                  className="absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-background/75 text-white/85 transition hover:border-primary/30 hover:text-primary sm:flex"
+                  aria-label="Previous team photo"
+                >
+                  <ArrowRight className="h-4 w-4 rotate-180" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleTeamNavigate(1)}
+                  className="absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-background/75 text-white/85 transition hover:border-primary/30 hover:text-primary sm:flex"
+                  aria-label="Next team photo"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <motion.div
+                  key={selectedTeamMember.image}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.18}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x <= -80) {
+                      handleTeamNavigate(1);
+                    } else if (info.offset.x >= 80) {
+                      handleTeamNavigate(-1);
+                    }
+                  }}
+                  initial={{ opacity: 0.8, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="mx-auto max-w-3xl cursor-grab active:cursor-grabbing"
+                >
+                  <div className="overflow-hidden rounded-[4px] border border-white/10 bg-[#09111f] shadow-[0_28px_80px_rgba(1,6,16,0.42)]">
+                    <img
+                      src={selectedTeamMember.image}
+                      alt={selectedTeamMember.name}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            </div>
           )}
         </DialogContent>
       </Dialog>
