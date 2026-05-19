@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase } from "lucide-react";
+import { Briefcase, ImagePlus, ArrowRight } from "lucide-react";
 import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
 import {
   Dialog,
@@ -9,14 +10,39 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Section, SectionIntro, SectionTag } from "@/components/ui/section";
+import FadeInView from "@/components/FadeInView";
 import DOMPurify from "dompurify";
+
+const teamProfiles = [
+  { name: "Arno Kütt", image: "/robot/team/profile/arno_kutt.webp" },
+  { name: "Sander Sebastian Agur", image: "/robot/team/profile/sander_sebastjan_agur.webp" },
+  { name: "Kristi Vahter", image: "/robot/team/profile/kristi_vahter.webp" },
+  { name: "Laido Valdvee", image: "/robot/team/profile/laido_valdvee.webp" },
+  { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.webp" },
+  { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.webp" },
+  { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.webp" },
+  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.webp" },
+  { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.webp" },
+  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.webp" },
+  { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.webp" },
+];
 
 const Career = () => {
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+  const [selectedTeamIndex, setSelectedTeamIndex] = useState<number | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const { toast } = useToast();
   const heroRef = useRef<HTMLElement>(null);
+
+  const handleOpenTeamMember = (index: number) => setSelectedTeamIndex(index);
+  const handleCloseTeamMember = () => setSelectedTeamIndex(null);
+  const handleTeamNavigate = (direction: 1 | -1) => {
+    if (selectedTeamIndex === null) return;
+    setSelectedTeamIndex((selectedTeamIndex + direction + teamProfiles.length) % teamProfiles.length);
+  };
+  const selectedTeamMember = selectedTeamIndex !== null ? teamProfiles[selectedTeamIndex] : null;
+
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -131,7 +157,60 @@ const Career = () => {
 
       {/* Main content - scrolls over fixed hero */}
       <main className="relative z-10 pt-0 md:pt-[100vh]">
-        <div className="bg-background pb-16">
+      <div className="bg-background pb-16">
+
+      {/* Team Gallery Section */}
+      <section
+        className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+        style={{
+          background:
+            "radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)",
+        }}
+      >
+        <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+          <FadeInView>
+            <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
+              <SectionTag>Team</SectionTag>
+              <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                We&apos;re engineers, builders and problem-solvers
+              </h2>
+              <p className="text-sm text-white/70 sm:text-base md:text-lg">
+                Everyone here works hands-on with the product from idea to real-world testing.
+              </p>
+            </div>
+
+            <div className="team-marquee mx-auto max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]">
+              <div className="team-marquee__edge team-marquee__edge--left" />
+              <div className="team-marquee__edge team-marquee__edge--right" />
+              <div className="team-marquee__track">
+                {[...teamProfiles, ...teamProfiles].map((member, index) => (
+                  <button
+                    key={`${member.name}-${index}`}
+                    type="button"
+                    onClick={() => handleOpenTeamMember(index % teamProfiles.length)}
+                    className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5 text-left"
+                    aria-label={`Open ${member.name} profile photo`}
+                  >
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.02)_0%,rgba(3,8,18,0.08)_42%,rgba(3,8,18,0.42)_100%)]" />
+                    <div className="absolute inset-x-3 bottom-3 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/72">
+                      <span>View</span>
+                      <ImagePlus className="h-3.5 w-3.5" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </FadeInView>
+        </div>
+      </section>
+
+
 
       {/* Why Join Rollo & Open Positions Section */}
       <section>
@@ -255,9 +334,74 @@ const Career = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Team Member Modal */}
+      <Dialog open={selectedTeamIndex !== null} onOpenChange={(open) => !open && handleCloseTeamMember()}>
+        <DialogContent className="max-w-5xl border-white/10 bg-[#020813]/95 p-0 text-white">
+          {selectedTeamMember && (
+            <div className="overflow-hidden rounded-[4px]">
+              <div className="flex items-center justify-between border-b border-white/10 px-5 py-4 sm:px-6">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-primary/85">Team</p>
+                  <DialogTitle className="mt-2 text-xl font-bold text-white sm:text-2xl">
+                    {selectedTeamMember.name}
+                  </DialogTitle>
+                </div>
+                <p className="hidden text-xs uppercase tracking-[0.18em] text-white/38 sm:block">
+                  Drag left or right
+                </p>
+              </div>
+
+              <div className="relative bg-[radial-gradient(ellipse_at_center,rgba(33,94,221,0.12)_0%,rgba(2,8,19,0)_70%)] p-4 sm:p-6">
+                <button
+                  type="button"
+                  onClick={() => handleTeamNavigate(-1)}
+                  className="absolute left-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-background/75 text-white/85 transition hover:border-primary/30 hover:text-primary sm:flex"
+                  aria-label="Previous team photo"
+                >
+                  <ArrowRight className="h-4 w-4 rotate-180" />
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleTeamNavigate(1)}
+                  className="absolute right-3 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/12 bg-background/75 text-white/85 transition hover:border-primary/30 hover:text-primary sm:flex"
+                  aria-label="Next team photo"
+                >
+                  <ArrowRight className="h-4 w-4" />
+                </button>
+
+                <motion.div
+                  key={selectedTeamMember.image}
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={0.18}
+                  onDragEnd={(_, info) => {
+                    if (info.offset.x <= -80) handleTeamNavigate(1);
+                    else if (info.offset.x >= 80) handleTeamNavigate(-1);
+                  }}
+                  initial={{ opacity: 0.8, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.25, ease: "easeOut" }}
+                  className="mx-auto max-w-3xl cursor-grab active:cursor-grabbing"
+                >
+                  <div className="overflow-hidden rounded-[4px] border border-white/10 bg-[#09111f] shadow-[0_28px_80px_rgba(1,6,16,0.42)]">
+                    <img
+                      src={selectedTeamMember.image}
+                      alt={selectedTeamMember.name}
+                      className="h-auto w-full object-cover"
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
         </div>
       </main>
     </>
+
   );
 };
 
