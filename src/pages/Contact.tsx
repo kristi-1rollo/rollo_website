@@ -37,15 +37,12 @@ const Contact = () => {
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="absolute inset-0 hidden md:block md:left-[30%] md:right-0 overflow-hidden">
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
+          <img
+            src="/images/1rollo_deploy.webp"
+            alt="1Rollo deployment"
             className="h-full w-full object-cover"
-          >
-            <source src="/robot/vid/1Rollo_hallway.mp4" type="video/mp4" />
-          </video>
+            loading="eager"
+          />
           <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
         </div>
 
@@ -75,15 +72,12 @@ const Contact = () => {
             </div>
 
             <div className="surface-panel overflow-hidden rounded-[4px] md:hidden">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
+              <img
+                src="/images/1rollo_deploy.webp"
+                alt="1Rollo deployment"
                 className="aspect-[4/5] w-full object-cover"
-              >
-                <source src="/robot/vid/1Rollo_hallway.mp4" type="video/mp4" />
-              </video>
+                loading="eager"
+              />
             </div>
           </div>
         </div>
