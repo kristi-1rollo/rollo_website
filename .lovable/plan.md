@@ -1,52 +1,57 @@
-## Probleem
+## Plaan: meedia optimeerimine ja kasutamata failide kustutamine
 
-Career posteri üleslaadimine viskab `new row violates row-level security policy`.
+Praegu on `public/` kaustas ~45 MB pilte/videosid ja Cloud storage'is ~166 MB. Suur osa sellest on kasutamata või optimeerimata.
 
-## Diagnostika tulemused
+### 1. Kustuta kasutamata failid `public/` ja `src/assets/` kaustadest
 
-- Bucket `career-posters` on olemas ja `public=true`, ilma mime/size piiranguteta.
-- RLS poliitika `Admins upload career posters` lubab INSERT'i kui kasutaja on admin rollis.
-- Sisselogitud kasutaja JWT (network logist): `admin@rollo.ee` (id `3ab2615d…`) — `user_roles` tabelis on tal `admin` roll.
-- Otsene test: `has_role('3ab2615d…', 'admin')` tagastab `true`.
-- Eelmised edukad uploadid (aprillis) tegi sama poliitika alt teine admin (Kristi).
+Kontrollisin koodiviiteid kogu `src/` ja `index.html` ulatuses — järgnevaid faile ei impordita ega refereerita kuskil:
 
-Loogiliselt **peaks** upload õnnestuma. Tähendab — viga tuleb millestki muust, mis pole praeguses snapshot'is näha.
+| Fail | Suurus |
+|---|---|
+| `public/graph/pilt-2.png` | 115 KB |
+| `public/graph/pilt-3.png` | 123 KB |
+| `public/images/1rollo_security_guard.png` | 967 KB |
+| `public/images/1rollo_market_3robots.png` | 2.4 MB |
+| `public/images/rollo_hiring.png` | 1.7 MB |
+| `public/robot/F6/1rollo_market_scale.webp` (+ -640/-960 variandid) | 115 KB |
+| `public/robot/rollo-park.webp` (+ -640/-960 variandid) | 192 KB |
+| `public/robot/team/field_prox.jpg` | 1.3 MB |
+| `public/robot/vid/1rollo_hall_9-16.mp4` | 0.5 KB (tühi placeholder) |
+| `src/assets/robot/1rollo_orbital_2.webp` (duplikaat public versioonist) | 94 KB |
 
-## Kõige tõenäolisem põhjus
+**Kokku säästame: ~7 MB.**
 
-`CareerPostEditor` kasutab `upload(path, file, { upsert: true })`. Bucketil ei ole `SELECT` poliitikat (ainult INSERT/UPDATE/DELETE), ja UPDATE poliitikal puudub `WITH CHECK`. Upsert nõuab tegelikult mõlemat (INSERT + UPDATE) policyt korraga ja võib failida `WITH CHECK` puudumise tõttu, isegi kui sihtfail ei eksisteeri (juhuslik UUID).
+### 2. Optimeeri suured kasutusel olevad PNG-d → WebP
 
-## Plaan
+Need failid on aktiivselt kasutuses, aga liiga suured (PNG asemel saaks WebP-d):
 
-1. **Lisa puuduvad storage policy'd** `career-posters` (ja samasugune `blog-images`) jaoks:
-   - `SELECT` — admin näeb kõiki faile (avalik lugemine käib juba `public=true` bucketi kaudu).
-   - Täienda olemasolevat `UPDATE` policyt nii et `WITH CHECK` on samuti määratud (sama tingimus kui `USING`).
+| Fail | Praegu | Sihtmärk |
+|---|---|---|
+| `public/favicon.png` | 686 KB | ~10 KB (32×32 favicon ei vaja suurt resolutsiooni) |
+| `public/hero/1rollo_home_hero.png` | 1.5 MB | ~150 KB WebP |
+| `public/images/1rollo_deploy.png` | 1.3 MB | ~150 KB WebP |
+| `public/images/1rollo_solution_graph.png` | 1.6 MB | ~200 KB WebP |
+| `public/images/1rollo_guards.png` | 2.0 MB | ~200 KB WebP |
+| `public/images/1rollo_robots.png` | 3.6 MB | ~300 KB WebP |
+| `public/patent/pilt-{1,2,3}.png` | 350 KB | ~80 KB WebP |
+| `public/robot/team/profile/*.png` (11 faili: Sander, Lauri V, Lauri H, Kristi, Taavi, Rein, Raivo, Remi, Laido, Lauri L, Arno) | **~35 MB kokku** | ~5 MB WebP kokku |
 
-2. **Eemalda `upsert: true`** `CareerPostEditor.tsx`'ist — failinimi on juba `crypto.randomUUID()`, nii et kokkupõrget ei teki ja saame puhta INSERT'i, mis on policy'ga garanteeritult lubatud. Sama parandus rakendub `BlogPostEditor`is, kui seal sama muster esineb.
+Kasutan `sharp`'i (skript `/tmp/optimize.mjs`) — convert quality 82, max width 1600px (team profiilidele 800px). Originaalsed PNG-d kustutan pärast veendumist, et WebP versioon töötab. Uuendan kõik koodi viited (PNG → WebP).
 
-3. **Pärast migratsiooni** palun proovi uuesti posterit üles laadida ja anna teada, kas õnnestus. Kui viga jätkub, vaatame `storage.objects` logi ja täpset HTTP vastust.
+**Kokku säästame: ~40+ MB.**
 
-## Tehnilised detailid
+### 3. Cloud storage (blog-images / career-posters)
 
-```sql
--- 1. SELECT policy (lubab admin'il ka private kontekstis lugeda; avalik lugemine niikuinii toimib)
-CREATE POLICY "Admins read career posters"
-  ON storage.objects FOR SELECT TO authenticated
-  USING (bucket_id = 'career-posters' AND has_role(auth.uid(), 'admin'::app_role));
+Sealne suur ruum (157 MB blog-images, 9 MB career-posters) sisaldab ka aktiivselt kasutuses olevaid faile (blog post sisus viidatud, mitte ainult thumbnail/galerii). **Automaatne "leia kasutamata" päring ei ole usaldusväärne** (sest peame parssima HTML sisust URL-e ja võiks valesti kustutada).
 
--- 2. UPDATE policyle WITH CHECK
-DROP POLICY "Admins update career posters" ON storage.objects;
-CREATE POLICY "Admins update career posters"
-  ON storage.objects FOR UPDATE TO authenticated
-  USING (bucket_id = 'career-posters' AND has_role(auth.uid(), 'admin'::app_role))
-  WITH CHECK (bucket_id = 'career-posters' AND has_role(auth.uid(), 'admin'::app_role));
+Soovitus: jätame Cloud storage puhastuse järgmiseks sammuks ja teen siis hoolika auditi (eelvaade enne kustutamist). Sellesse PR-i seda ei kaasa.
 
--- (sama blog-images jaoks kontrollime; UPDATE'l on juba with_check, OK)
-```
+### Tegevuste järjekord
 
-```ts
-// src/components/CareerPostEditor.tsx
-await supabase.storage
-  .from("career-posters")
-  .upload(path, optimized);  // ilma { upsert: true }
-```
+1. Installin `sharp` build-time skripti jaoks ühekordseks konversiooniks.
+2. Käivitan `/tmp/optimize.mjs` mis konverteerib kõik #2 tabeli failid `.webp`-ks (favicon.png jääb PNG-na, ainult resize 64×64).
+3. Uuendan koodi viited PNG-lt WebP-le (`src/pages/AboutUs.tsx`, `Index.tsx`, jt).
+4. Kustutan kõik #1 nimekirja failid + originaalsed PNG-d, mille asendasin WebP-ga.
+5. Kontrollin lehe brauserist, et pildid kuvatakse korrektselt.
+
+Cloud storage puhastust ma siin ei tee — kinnitan järgmises iteratsioonis kui sa soovid.
