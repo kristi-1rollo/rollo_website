@@ -28,9 +28,7 @@ const Footer = () => {
                 Rollo Robotics OÜ
               </p>
               <p className="text-[13px] text-slate-400 leading-relaxed">
-                Raua tn 16<br />
-                71020 Viljandi<br />
-                Viljandi County<br />
+                Raua 16, Viljandi<br />
                 Estonia
               </p>
               <p className="text-xs text-slate-400">Registry code: 17320003</p>
@@ -53,30 +51,35 @@ const Footer = () => {
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/product"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Product
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 About Us
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Blog
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/career"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Career
               </Link>
               <Link
                 className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact"
+                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Contact
               </Link>
