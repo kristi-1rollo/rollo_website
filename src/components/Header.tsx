@@ -71,7 +71,7 @@ const Header = () => {
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
-        <div className="max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-[28px] sm:px-[36px] md:px-8 xl:px-10 2xl:px-12 h-16 md:h-20 flex items-center justify-between">
+        <div className="max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-[28px] sm:px-[36px] md:px-8 xl:px-10 2xl:px-12 h-16 lg:h-20 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
