@@ -44,9 +44,9 @@ export function SectionIntro({ children, centered = false, className = "" }: Sec
 }
 
 /** Uppercase accent tag label used above section headings */
-export function SectionTag({ children }: { children: ReactNode }) {
+export function SectionTag({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <p className="text-xs uppercase tracking-[0.2em] text-primary mb-2">
+    <p className={`text-xs uppercase tracking-[0.2em] text-primary mb-2 ${className}`}>
       {children}
     </p>
   );
