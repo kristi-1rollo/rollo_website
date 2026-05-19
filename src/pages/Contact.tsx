@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
-import { SectionIntro } from "@/components/ui/section";
+
 
 const Contact = () => {
   const {
