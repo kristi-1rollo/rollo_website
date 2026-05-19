@@ -100,8 +100,8 @@ const BlogPost = () => {
 
   const contentSections = useMemo(
     () =>
-      splitByH2(processedContent).map((s) =>
-        DOMPurify.sanitize(s, {
+      splitByH2(processedContent).map((s) => {
+        const sanitized = DOMPurify.sanitize(s, {
           ADD_TAGS: ["iframe"],
           ADD_ATTR: [
             "id",
@@ -118,10 +118,30 @@ const BlogPost = () => {
           ],
           ALLOWED_URI_REGEXP:
             /^(?:(?:https?|mailto|tel|ftp):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
-        })
-      ),
+        });
+        // Strip YouTube branding: hide title, related videos, watch-on-YouTube button
+        return sanitized.replace(
+          /<iframe([^>]*?)src="(https?:\/\/(?:www\.)?(?:youtube|youtube-nocookie)\.com\/embed\/[^"]+)"/gi,
+          (_m, attrs, src) => {
+            // Force youtube-nocookie host
+            let url = src.replace(
+              /https?:\/\/(?:www\.)?youtube\.com\/embed\//i,
+              "https://www.youtube-nocookie.com/embed/"
+            );
+            const [base, query = ""] = url.split("?");
+            const params = new URLSearchParams(query);
+            params.set("rel", "0");
+            params.set("modestbranding", "1");
+            params.set("iv_load_policy", "3");
+            params.set("playsinline", "1");
+            params.delete("autoplay");
+            return `<iframe${attrs}src="${base}?${params.toString()}"`;
+          }
+        );
+      }),
     [processedContent]
   );
+
 
   const readingTime = useMemo(
     () => (post?.content ? estimateReadingTime(post.content) : 0),
