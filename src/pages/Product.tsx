@@ -79,7 +79,7 @@ const Product = () => {
             <div className="flex items-center gap-3 sm:gap-4 max-w-md w-full">
               <span className="h-px flex-1 bg-white/25" />
               <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
-                ROLLO F6
+                1ROLLO
               </span>
               <span className="h-px flex-1 bg-white/25" />
             </div>
@@ -194,7 +194,7 @@ const Product = () => {
             </h2>
 
             <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-              ROLLO F6 is engineered for demanding outdoor conditions and large operational areas.
+              1ROLLO is engineered for demanding outdoor conditions and large operational areas.
               The robot patrols autonomously, navigates obstacles, collects operational data, and
               analyzes its surroundings in real time.
             </p>
@@ -287,7 +287,7 @@ const Product = () => {
             </h2>
 
             <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-              ROLLO F6 is part of a scalable autonomous security ecosystem.
+              1ROLLO is part of a scalable autonomous security ecosystem.
             </p>
           </div>
 
@@ -335,7 +335,7 @@ const Product = () => {
                     Open API Integration
                   </h3>
                   <p className="text-sm text-slate-300">
-                    Connect ROLLO F6 to existing security management systems, VMS, and third-party tools
+                    Connect 1ROLLO to existing security management systems, VMS, and third-party tools
                   </p>
                 </div>
               </div>

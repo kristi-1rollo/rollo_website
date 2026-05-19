@@ -355,7 +355,7 @@ const BlogPost = () => {
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
                     <img
                       src={rolloRenderP013WebP}
-                      alt="ROLLO F6 target unit"
+                      alt="1ROLLO target unit"
                       className="h-40 w-full object-cover"
                       loading="lazy"
                     />
@@ -367,7 +367,7 @@ const BlogPost = () => {
                     to="/product"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:text-white"
                   >
-                    View ROLLO F6
+                    View 1ROLLO
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Link>
                 </section>
