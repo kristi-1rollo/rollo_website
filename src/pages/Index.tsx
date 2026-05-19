@@ -171,6 +171,99 @@ const Index = () => {
         </PublicContentRail>
       </section>
 
+      {/* ═══ PROBLEMS ═══ */}
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+        {/* Background Image */}
+        <img
+          src="/images/security-guard.jpg"
+          alt="Security guard on patrol"
+          className="absolute inset-0 w-full h-full object-cover object-[50%_25%] sm:object-[50%_30%] md:object-[50%_35%]"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-black/42" />
+        {/* Mobile: gradient from bottom for text readability */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.85)_25%,rgba(2,6,13,0.65)_50%,rgba(2,6,13,0.35)_75%,rgba(2,6,13,0.15)_100%)] md:hidden" />
+        {/* Desktop: gradient from left matching site style */}
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_28%,rgba(2,6,13,0.52)_52%,rgba(2,6,13,0.24)_76%,rgba(2,6,13,0.08)_100%)]" />
+        <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(214,38,38,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
+
+        <PublicContentRail className="relative z-10 py-24">
+          <FadeInView>
+            <div className="space-y-8 md:space-y-10 px-3 md:px-0">
+              {/* Header */}
+              <div className="max-w-3xl">
+                <SectionTag className="mb-4">
+                  <span className="text-red-500">Problems</span>
+                </SectionTag>
+                <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
+                  Human Patrol is Expensive, Inefficient and Now Replaceable
+                </h2>
+              </div>
+
+              {/* Problem Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 max-w-5xl">
+                {/* Problem 1 */}
+                <FadeInView delay={100}>
+                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Escalating Security Labor Costs
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Security labor costs keep rising while efficiency stays flat.
+                    </p>
+                  </div>
+                </FadeInView>
+
+                {/* Problem 2 */}
+                <FadeInView delay={200}>
+                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Human Performance Bottlenecks
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Human-level perception and edge intelligence.
+                    </p>
+                  </div>
+                </FadeInView>
+
+                {/* Problem 3 */}
+                <FadeInView delay={300}>
+                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Cost–Reliability Imbalance
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Autonomous robots now deliver higher reliability at a fraction of the cost.
+                    </p>
+                  </div>
+                </FadeInView>
+              </div>
+            </div>
+          </FadeInView>
+        </PublicContentRail>
+      </section>
+
       {/* ═══ CAPABILITIES ═══ */}
       <section className="section-glow-top relative w-full overflow-hidden py-12 md:py-20 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
