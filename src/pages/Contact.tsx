@@ -36,7 +36,7 @@ const Contact = () => {
         <div className="absolute inset-0 bg-background" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="absolute inset-0 hidden md:block md:left-[30%] md:right-0 overflow-hidden">
+        <div className="absolute inset-0 hidden md:block md:left-[10%] md:right-0 overflow-hidden">
           <img
             src="/images/1rollo_deploy.webp"
             alt="1Rollo deployment"
