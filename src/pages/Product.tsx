@@ -1,4 +1,5 @@
-import { Navigation, Eye, Plug, Cloud, Shield, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale } from "lucide-react";
+import { Navigation, Eye, Plug, Cloud, Shield, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
@@ -196,6 +197,38 @@ const Product = () => {
             </div>
           </div>
         </div>
+      </Section>
+
+      {/* D) Availability */}
+      <Section className="mt-20 md:mt-[120px] mb-20 md:mb-44">
+        <FadeInView>
+          <div
+            className="relative rounded-[20px] md:rounded-[24px] px-6 py-12 md:px-20 md:py-20 border border-white/[0.06]"
+            style={{
+              background: 'rgba(8, 12, 20, 0.65)',
+              boxShadow: '0 0 80px rgba(153, 255, 0, 0.08)'
+            }}
+          >
+            <div className="max-w-4xl mx-auto text-center">
+              <SectionTag>Availability</SectionTag>
+
+              <h2
+                className="title-halo font-bold text-white mt-4 md:mt-6 uppercase tracking-tight"
+                style={{
+                  fontSize: 'clamp(42px, 8vw, 96px)',
+                  lineHeight: '1.1'
+                }}
+              >
+                Available{" "}
+                <span className="text-[#B4FF33] inline-block" style={{
+                  textShadow: "0 0 60px rgba(180, 255, 51, 0.6), 0 0 120px rgba(180, 255, 51, 0.3)"
+                }}>
+                  2027
+                </span>
+              </h2>
+            </div>
+          </div>
+        </FadeInView>
       </Section>
     </div>
   );
