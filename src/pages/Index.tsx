@@ -485,33 +485,31 @@ const Index = () => {
         />
 
         {/* Dark overlay for readability */}
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,13,0.65)_0%,rgba(2,6,13,0.75)_50%,rgba(2,6,13,0.85)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,13,0.85)_0%,rgba(2,6,13,0.90)_50%,rgba(2,6,13,0.95)_100%)] md:bg-[linear-gradient(180deg,rgba(2,6,13,0.65)_0%,rgba(2,6,13,0.75)_50%,rgba(2,6,13,0.85)_100%)]" />
 
         {/* Content */}
         <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
           <div className="space-y-12 md:space-y-16">
             {/* Section Header */}
             <FadeInView>
-              <div className="px-3 md:px-0">
-                <div className="max-w-2xl space-y-3 md:space-y-4">
-                  <p className="text-xs uppercase tracking-[0.2em] text-primary">
-                    Use Cases
-                  </p>
-                  <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                    Where to Deploy ROLLO
-                  </h2>
-                  <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl">
-                    High-value outdoor and perimeter-security environments where
-                    autonomy delivers the biggest efficiency gains.
-                  </p>
-                </div>
+              <div className="max-w-2xl space-y-3 md:space-y-4 px-4 md:px-0">
+                <p className="text-xs uppercase tracking-[0.2em] text-primary">
+                  Use Cases
+                </p>
+                <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                  Where to Deploy ROLLO
+                </h2>
+                <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl">
+                  High-value outdoor and perimeter-security environments where
+                  autonomy delivers the biggest efficiency gains.
+                </p>
               </div>
             </FadeInView>
 
           {/* ═══ DEPLOYMENT ECOSYSTEM ═══ */}
           <FadeInView delay={400}>
-            <div className="mt-16 md:mt-20 px-3 md:px-0">
-              <div className="mb-8">
+            <div className="mt-16 md:mt-20">
+              <div className="mb-8 px-4 md:px-0">
                 <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
                   Deployment Ecosystem
                 </h3>
@@ -729,50 +727,44 @@ const Index = () => {
 
               {/* Comparison: 9 Guards vs 3 Robots */}
               <FadeInView delay={200}>
-                <div className="px-3 md:px-0">
-                  {/* Comparison Row - Mobile First */}
-                  <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-start lg:gap-6 xl:gap-8">
+                {/* Comparison Row - Mobile First */}
+                <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-center lg:justify-start lg:gap-6 xl:gap-8">
 
-                    {/* GUARD Visual */}
-                    <div className="w-full max-w-full lg:w-[660px] xl:w-[730px]">
-                      <img
-                        src="/images/1rollo_guards.png"
-                        alt="9 Security guards"
-                        className="w-full h-auto object-contain"
-                        loading="lazy"
-                      />
-                    </div>
+                  {/* GUARD Visual */}
+                  <img
+                    src="/images/1rollo_guards.png"
+                    alt="9 Security guards"
+                    className="w-full max-w-none lg:max-w-[420px] xl:max-w-[520px] h-auto object-contain"
+                    loading="lazy"
+                  />
 
-                    {/* Center Message */}
-                    <div className="flex flex-col items-center text-center lg:flex-shrink-0 lg:px-2">
-                      <div className="space-y-3">
-                        <p className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium leading-tight">
-                          Shift-Based<br />Security
-                        </p>
+                  {/* Center Message */}
+                  <div className="flex flex-col items-center text-center lg:flex-shrink-0 lg:px-2">
+                    <div className="space-y-3">
+                      <p className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium leading-tight">
+                        Shift-Based<br />Security
+                      </p>
 
-                        <div className="flex items-center justify-center">
-                          <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                          </svg>
-                        </div>
-
-                        <p className="text-base lg:text-lg uppercase tracking-[0.15em] text-primary font-bold leading-tight">
-                          Autonomous<br />Patrol
-                        </p>
+                      <div className="flex items-center justify-center">
+                        <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
                       </div>
-                    </div>
 
-                    {/* ROLLO Visual */}
-                    <div className="w-full max-w-full lg:w-[680px] xl:w-[750px]">
-                      <img
-                        src="/images/1rollo_robots.png"
-                        alt="3 Rollo autonomous security robots"
-                        className="w-full h-auto object-contain"
-                        loading="lazy"
-                      />
+                      <p className="text-base lg:text-lg uppercase tracking-[0.15em] text-primary font-bold leading-tight">
+                        Autonomous<br />Patrol
+                      </p>
                     </div>
-
                   </div>
+
+                  {/* ROLLO Visual */}
+                  <img
+                    src="/images/1rollo_robots.png"
+                    alt="3 Rollo autonomous security robots"
+                    className="w-full max-w-none lg:max-w-[420px] xl:max-w-[520px] h-auto object-contain"
+                    loading="lazy"
+                  />
+
                 </div>
               </FadeInView>
             </div>
