@@ -31,7 +31,7 @@ const Contact = () => {
   return (
     <div className="pb-16">
       {/* Hero Section with responsive video composition */}
-      <section className="section-glow-top relative w-full min-h-[100svh] overflow-hidden">
+      <section className="section-glow-top relative w-full h-[100vh] overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 bg-background" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
@@ -49,7 +49,7 @@ const Contact = () => {
           <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] items-center px-4 py-24 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+        <div className="relative z-10 mx-auto flex h-[100vh] max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] items-center px-4 py-24 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
           <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
             <div className="px-3 md:px-0">
               <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">

@@ -51,7 +51,7 @@ const Product = () => {
   return (
     <div className="pb-28 md:pb-56">
       {/* A) Hero / Intro */}
-      <section className="section-glow-top relative w-full h-[100svh] flex items-center overflow-hidden">
+      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
         <picture>
           <img
             src="/robot/F6/1rollo_auto_sec.webp"

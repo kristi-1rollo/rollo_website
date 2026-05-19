@@ -128,7 +128,7 @@ const Index = () => {
   return (
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
-        <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+        <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
           <img
             src="/hero/1rollo_home_hero.png"
             alt="Rollo autonomous patrol robot at airport terminal"
@@ -168,7 +168,7 @@ const Index = () => {
       </section>
 
       {/* ═══ PROBLEMS ═══ */}
-      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
         {/* Background Image */}
         <img
           src="/images/security-guard.jpg"
@@ -261,7 +261,7 @@ const Index = () => {
       </section>
 
       {/* ═══ SOLUTION ═══ */}
-      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden py-16 md:py-20">
+      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden py-16 md:py-20">
         {/* Background Image - Robots (right side) with breathing room */}
         <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] flex items-center justify-end">
           <img

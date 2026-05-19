@@ -73,7 +73,7 @@ const AboutUs = () => {
       {/* A) Hero - Fixed on desktop, scrolls over on mobile */}
       <header
         ref={heroRef}
-        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
+        className="section-glow-top relative flex h-[100vh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         <picture>
