@@ -52,27 +52,12 @@ const Product = () => {
     <div className="pb-28 md:pb-56">
       {/* A) Hero / Intro */}
       <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
-        <picture>
-          <img
-            src="/robot/F6/1rollo_auto_sec.webp"
-            alt="Rollo autonomous security robot on patrol"
-            className="absolute inset-0 h-full w-full object-cover md:scale-100"
-            style={{
-              objectPosition: '75% 30%',
-              transform: 'scale(0.75)',
-              transformOrigin: 'top right'
-            }}
-            fetchPriority="high"
-          />
-          <style>{`
-            @media (min-width: 768px) {
-              picture img {
-                object-position: 65% center !important;
-                transform: scale(1) !important;
-              }
-            }
-          `}</style>
-        </picture>
+        <img
+          src="/robot/F6/1rollo_auto_sec.webp"
+          alt="Rollo autonomous security robot on patrol"
+          className="absolute inset-0 h-full w-full object-cover object-[65%_center]"
+          fetchPriority="high"
+        />
         <div className="absolute inset-0 bg-black/40" />
         {/* Mobile: stronger gradient for better text contrast */}
         <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.88)_28%,rgba(2,6,13,0.62)_58%,rgba(2,6,13,0.28)_88%)]" />
