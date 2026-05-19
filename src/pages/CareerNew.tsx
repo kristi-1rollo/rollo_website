@@ -99,17 +99,17 @@ const culturePanels = [
 ];
 
 const teamProfiles = [
-  { name: "Arno Kütt", image: "/robot/team/profile/arno_kutt.png" },
-  { name: "Sander Sebastian Agur", image: "/robot/team/profile/sander_sebastjan_agur.png" },
-  { name: "Kristi Vahter", image: "/robot/team/profile/kristi_vahter.png" },
-  { name: "Laido Valdvee", image: "/robot/team/profile/laido_valdvee.png" },
-  { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.png" },
-  { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.png" },
-  { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.png" },
-  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.png" },
-  { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.png" },
-  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.png" },
-  { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.png" },
+  { name: "Arno Kütt", image: "/robot/team/profile/arno_kutt.webp" },
+  { name: "Sander Sebastian Agur", image: "/robot/team/profile/sander_sebastjan_agur.webp" },
+  { name: "Kristi Vahter", image: "/robot/team/profile/kristi_vahter.webp" },
+  { name: "Laido Valdvee", image: "/robot/team/profile/laido_valdvee.webp" },
+  { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.webp" },
+  { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.webp" },
+  { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.webp" },
+  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.webp" },
+  { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.webp" },
+  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.webp" },
+  { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.webp" },
 ];
 
 const CareerNew = () => {
