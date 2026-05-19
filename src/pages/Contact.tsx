@@ -98,8 +98,8 @@ const Contact = () => {
                 <div className="flex-1 space-y-2">
                   <h3 className="text-lg font-semibold text-white">Address</h3>
                   <div className="space-y-1 text-sm text-white">
-                    <p>Viljandi maakond, Viljandi linn</p>
-                    <p>Raua tn 16, 71020</p>
+                    <p>Viljandi County, Viljandi</p>
+                    <p>Raua St 16, 71020</p>
                     <p>Estonia</p>
                   </div>
                 </div>
