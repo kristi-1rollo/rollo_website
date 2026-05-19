@@ -92,7 +92,7 @@ const Footer = () => {
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Follow Us
               </h3>
-              <div className="flex items-center gap-2.5 justify-start md:justify-end">
+              <div className="flex items-center gap-2.5 justify-center md:justify-end">
                 <a
                   href="https://www.linkedin.com/company/rollo-robotics"
                   target="_blank"
@@ -118,7 +118,7 @@ const Footer = () => {
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Supported by
               </h3>
-              <div className="space-y-3 flex flex-col items-end">
+              <div className="space-y-3 flex flex-col items-center md:items-end">
                 <Link to="/funding" className="block group">
                   <img
                     src="/logos/nextgeneration-eu-funded.jpg"
