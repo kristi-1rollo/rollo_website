@@ -135,8 +135,8 @@ const Product = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
               <div className="blue-card-glow rounded-2xl p-6 md:p-8 min-h-[140px] md:min-h-[220px]">
               <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-3 text-[#B4FF33] mt-1 shrink-0">
-                  <Disc3 className="h-7 w-7" strokeWidth={2} />
+                <div className="rounded-full bg-[#B4FF33]/10 p-2.5 md:p-3 text-[#B4FF33] mt-1 shrink-0">
+                  <Disc3 className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">
@@ -151,8 +151,8 @@ const Product = () => {
 
               <div className="blue-card-glow rounded-2xl p-6 md:p-8 min-h-[140px] md:min-h-[220px]">
               <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-3 text-[#B4FF33] mt-1 shrink-0">
-                  <Eye className="h-7 w-7" strokeWidth={2} />
+                <div className="rounded-full bg-[#B4FF33]/10 p-2.5 md:p-3 text-[#B4FF33] mt-1 shrink-0">
+                  <Eye className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">
@@ -167,8 +167,8 @@ const Product = () => {
 
               <div className="blue-card-glow rounded-2xl p-6 md:p-8 min-h-[140px] md:min-h-[220px]">
               <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-3 text-[#B4FF33] mt-1 shrink-0">
-                  <Cloud className="h-7 w-7" strokeWidth={2} />
+                <div className="rounded-full bg-[#B4FF33]/10 p-2.5 md:p-3 text-[#B4FF33] mt-1 shrink-0">
+                  <Cloud className="h-6 w-6 md:h-7 md:w-7" strokeWidth={2} />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">
