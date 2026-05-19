@@ -475,65 +475,189 @@ const Index = () => {
       */}
 
       {/* ═══ USE CASES ═══ */}
-      <Section className="section-glow-top py-20 md:py-28">
-        <div className="space-y-8">
-          <FadeInView>
-            <div className="px-3 md:px-0">
-              <SectionIntro className="space-y-2 md:max-w-2xl">
-                <SectionTag>Use Cases</SectionTag>
-                <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                  Where to Deploy ROLLO
-                </h2>
-                <p className="text-sm md:text-base text-white/60 max-w-2xl">
-                  High-value outdoor and perimeter-security environments where
-                  autonomy delivers the biggest efficiency gains.
+      <section className="section-glow-top relative overflow-hidden py-20 md:py-28">
+        {/* Background Image */}
+        <img
+          src="/images/1rollo_deploy.png"
+          alt="Airport terminal background"
+          className="absolute inset-0 w-full h-full object-cover opacity-60"
+          loading="lazy"
+        />
+
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,13,0.65)_0%,rgba(2,6,13,0.75)_50%,rgba(2,6,13,0.85)_100%)]" />
+
+        {/* Content */}
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+          <div className="space-y-12 md:space-y-16">
+            {/* Section Header */}
+            <FadeInView>
+              <div className="px-3 md:px-0">
+                <div className="max-w-2xl space-y-3 md:space-y-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-primary">
+                    Use Cases
+                  </p>
+                  <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                    Where to Deploy ROLLO
+                  </h2>
+                  <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl">
+                    High-value outdoor and perimeter-security environments where
+                    autonomy delivers the biggest efficiency gains.
+                  </p>
+                </div>
+              </div>
+            </FadeInView>
+
+          {/* ═══ DEPLOYMENT ECOSYSTEM ═══ */}
+          <FadeInView delay={400}>
+            <div className="mt-16 md:mt-20 px-3 md:px-0">
+              <div className="mb-8">
+                <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
+                  Deployment Ecosystem
+                </h3>
+                <p className="text-sm text-white/50 max-w-2xl">
+                  Additional environments and use cases where 1Rollo delivers autonomous security.
                 </p>
-              </SectionIntro>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+                {/* Public Safety */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🏙</div>
+                    <h4 className="text-sm font-semibold text-white">Public Safety</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Urban patrol in parks, transit hubs, and public spaces
+                  </p>
+                </div>
+
+                {/* Ports & Marine */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">⚓</div>
+                    <h4 className="text-sm font-semibold text-white">Ports & Marine</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Perimeter surveillance in high-traffic maritime zones
+                  </p>
+                </div>
+
+                {/* Critical Infrastructure */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🏛</div>
+                    <h4 className="text-sm font-semibold text-white">Critical Infrastructure</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Power plants, utilities, and essential facilities
+                  </p>
+                </div>
+
+                {/* Campuses */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🎓</div>
+                    <h4 className="text-sm font-semibold text-white">Campuses</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Corporate headquarters and university grounds
+                  </p>
+                </div>
+
+                {/* Hospitality */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🏨</div>
+                    <h4 className="text-sm font-semibold text-white">Hospitality</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Hotels, resorts, and luxury accommodation venues
+                  </p>
+                </div>
+
+                {/* Smart Estates */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🏠</div>
+                    <h4 className="text-sm font-semibold text-white">Smart Estates</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Private villas and high-end residential properties
+                  </p>
+                </div>
+
+                {/* Gated Communities */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🏘</div>
+                    <h4 className="text-sm font-semibold text-white">Gated Communities</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Residential communities, resorts, and golf clubs
+                  </p>
+                </div>
+
+                {/* Water Supply */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">💧</div>
+                    <h4 className="text-sm font-semibold text-white">Water Supply</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Reservoirs, treatment plants, and distribution facilities
+                  </p>
+                </div>
+
+                {/* Law Enforcement */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">🚔</div>
+                    <h4 className="text-sm font-semibold text-white">Law Enforcement</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Military bases, police stations, and secure facilities
+                  </p>
+                </div>
+
+                {/* Mining Equipment Yards */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">⛏</div>
+                    <h4 className="text-sm font-semibold text-white">Mining & Equipment</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Mining sites and heavy equipment storage yards
+                  </p>
+                </div>
+
+                {/* Refineries & Chemical */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">⚗️</div>
+                    <h4 className="text-sm font-semibold text-white">Refineries & Chemical</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Petrochemical facilities and hazardous material sites
+                  </p>
+                </div>
+
+                {/* Other */}
+                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                  <div className="flex items-start gap-3 mb-3">
+                    <div className="shrink-0 text-xl">➕</div>
+                    <h4 className="text-sm font-semibold text-white">Other Deployments</h4>
+                  </div>
+                  <p className="text-xs text-white/60 leading-relaxed">
+                    Custom applications and specialized environments
+                  </p>
+                </div>
+              </div>
             </div>
           </FadeInView>
-
-          <LazySection minHeight={800} className="bento-use-cases grid grid-cols-1 gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
-          {useCases.map((uc, i) => {
-            const Icon = uc.icon;
-            return (
-              <FadeInView key={uc.id} delay={i * 80}>
-                <div className="blue-card-glow use-case-card group relative flex min-h-[190px] cursor-default flex-col justify-between overflow-hidden rounded-[4px] p-4 md:min-h-[205px] md:p-5 h-full">
-                  <OptimizedImage
-                    src={uc.image}
-                    alt=""
-                    width={800}
-                    height={600}
-                    localVariants={[640, 960]}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                    style={{
-                      objectPosition: uc.objectPosition ?? "center",
-                      transform: uc.imageScale ? `scale(${uc.imageScale})` : undefined,
-                    }}
-                    className="absolute inset-0 h-full w-full object-cover opacity-40 pointer-events-none transition-all duration-500 group-hover:scale-[1.03] group-hover:opacity-60"
-                  />
-                  <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.15)_0%,rgba(3,8,18,0.45)_60%,rgba(3,8,18,0.7)_100%)] pointer-events-none transition-opacity duration-500 group-hover:opacity-80" />
-
-                  <div className="relative z-10">
-                    <div className="flex items-center justify-between mb-2.5">
-                      <span className="text-[10px] font-mono uppercase tracking-widest text-white/30">{uc.id}</span>
-                      <div className="rounded-full bg-primary/10 p-1.5 md:p-2 text-primary group-hover:text-primary group-hover:bg-primary/20 transition-colors duration-300">
-                        <Icon className="h-3.5 w-3.5 md:h-4 md:w-4" />
-                      </div>
-                    </div>
-                    <h3 className="text-[15px] md:text-base font-bold text-white mb-1">{uc.title}</h3>
-                    <p className="text-xs md:text-[13px] text-white/62 leading-relaxed max-w-[24ch]">{uc.description}</p>
-                  </div>
-
-                  <div className="relative z-10">
-                    <p className="telemetry-pulse text-[9px] md:text-[10px] font-mono uppercase tracking-[0.16em] text-primary/58">{uc.tech}</p>
-                  </div>
-                </div>
-              </FadeInView>
-            );
-          })}
-          </LazySection>
+          </div>
         </div>
-      </Section>
+      </section>
 
       <section className="section-glow-top relative overflow-hidden bg-background min-h-screen flex items-center py-16 md:py-24">
         {/* Subtle background effects */}
