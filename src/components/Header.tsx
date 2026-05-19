@@ -89,7 +89,7 @@ const Header = () => {
           </div>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             {nav.map((i) => {
               const isActive = location.pathname === i.to;
               return (
