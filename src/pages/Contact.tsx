@@ -30,54 +30,43 @@ const Contact = () => {
 
   return (
     <div className="pb-16">
-      {/* Hero Section with responsive video composition */}
+      {/* Hero Section */}
       <section className="section-glow-top relative w-full min-h-[100svh] overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 bg-background" />
-        <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
-
-        <div className="absolute inset-0 hidden md:block md:left-[10%] md:right-0 overflow-hidden">
+        {/* Background image — full bleed on mobile, offset on desktop */}
+        <div className="absolute inset-0 md:left-[10%] md:right-0 overflow-hidden">
           <img
             src="/images/1rollo_deploy.webp"
             alt="1Rollo deployment"
             className="h-full w-full object-cover"
             loading="eager"
           />
-          <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] items-center px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
-          <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
-            <div>
-              <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">
-              <p className="text-xs uppercase tracking-[0.2em] text-primary">
-                Contact
-              </p>
-              <h1 className="title-halo max-w-2xl text-3xl font-bold leading-[1.08] text-white sm:text-4xl md:text-5xl lg:text-6xl">
-                Let's Talk About Your Security Needs
-              </h1>
-              <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
-                Whether you're interested in partnerships, pilot programs, deployment planning,
-                or joining our team, we'd love to hear from you.
-              </p>
-              <div className="flex flex-wrap items-center justify-center gap-4 pt-1 md:justify-start">
-                <Link
-                  to="/career"
-                  className="text-sm font-medium text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/80"
-                >
-                  View Career Opportunities
-                </Link>
-              </div>
-            </SectionIntro>
-            </div>
+        {/* Overlays — match AboutUs hero treatment */}
+        <div className="absolute inset-0 bg-black/50 md:hidden" />
+        <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.85)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.4)_54%,rgba(0,0,0,0)_82%)]" />
+        <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.85)_0%,rgba(2,6,13,0.6)_35%,rgba(2,6,13,0.3)_70%,rgba(2,6,13,0.2)_100%)]" />
+        <div className="absolute inset-y-0 left-0 hidden md:block w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
 
-            <div className="surface-panel overflow-hidden rounded-[4px] md:hidden">
-              <img
-                src="/images/1rollo_deploy.webp"
-                alt="1Rollo deployment"
-                className="aspect-[4/5] w-full object-cover"
-                loading="eager"
-              />
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] items-center px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
+          <div className="mx-auto flex max-w-5xl flex-col items-center space-y-5 text-center md:mx-0 md:items-start md:text-left">
+            <p className="text-xs uppercase tracking-[0.2em] text-primary">
+              Contact
+            </p>
+            <h1 className="title-halo max-w-2xl text-3xl font-bold leading-[1.08] text-white sm:text-4xl md:text-5xl lg:text-6xl">
+              Let's Talk About Your Security Needs
+            </h1>
+            <p className="max-w-xl text-sm text-foreground/80 sm:text-base md:text-lg">
+              Whether you're interested in partnerships, pilot programs, deployment planning,
+              or joining our team, we'd love to hear from you.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-1 md:justify-start">
+              <Link
+                to="/career"
+                className="text-sm font-medium text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/80"
+              >
+                View Career Opportunities
+              </Link>
             </div>
           </div>
         </div>
