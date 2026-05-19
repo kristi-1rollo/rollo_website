@@ -101,7 +101,20 @@ const BlogPost = () => {
   const contentSections = useMemo(
     () =>
       splitByH2(processedContent).map((s) =>
-        DOMPurify.sanitize(s, { USE_PROFILES: { html: true }, ADD_ATTR: ["id"] })
+        DOMPurify.sanitize(s, {
+          ADD_TAGS: ["iframe"],
+          ADD_ATTR: [
+            "id",
+            "allow",
+            "allowfullscreen",
+            "frameborder",
+            "scrolling",
+            "referrerpolicy",
+            "loading",
+          ],
+          ALLOWED_URI_REGEXP:
+            /^(?:(?:https?|mailto|tel|ftp):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
+        })
       ),
     [processedContent]
   );
