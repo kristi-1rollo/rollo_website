@@ -159,56 +159,6 @@ const Career = () => {
       <main className="relative z-10 pt-0 md:pt-[100vh]">
       <div className="bg-background pb-16">
 
-      {/* Team Gallery Section */}
-      <section
-        className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
-        style={{
-          background:
-            "radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)",
-        }}
-      >
-        <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
-          <FadeInView>
-            <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
-              <SectionTag>Team</SectionTag>
-              <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
-                We&apos;re engineers, builders and problem-solvers
-              </h2>
-              <p className="text-sm text-white/70 sm:text-base md:text-lg">
-                Everyone here works hands-on with the product from idea to real-world testing.
-              </p>
-            </div>
-
-            <div className="team-marquee mx-auto max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]">
-              <div className="team-marquee__edge team-marquee__edge--left" />
-              <div className="team-marquee__edge team-marquee__edge--right" />
-              <div className="team-marquee__track">
-                {[...teamProfiles, ...teamProfiles].map((member, index) => (
-                  <button
-                    key={`${member.name}-${index}`}
-                    type="button"
-                    onClick={() => handleOpenTeamMember(index % teamProfiles.length)}
-                    className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5 text-left"
-                    aria-label={`Open ${member.name} profile photo`}
-                  >
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      loading="lazy"
-                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                    />
-                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.02)_0%,rgba(3,8,18,0.08)_42%,rgba(3,8,18,0.42)_100%)]" />
-                    <div className="absolute inset-x-3 bottom-3 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/72">
-                      <span>View</span>
-                      <ImagePlus className="h-3.5 w-3.5" />
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </FadeInView>
-        </div>
-      </section>
 
 
 
@@ -287,6 +237,58 @@ const Career = () => {
         </div>
       </Section>
       </section>
+
+      {/* Team Gallery Section */}
+      <section
+        className="section-glow-top relative w-full border-t border-white/10 py-12 sm:py-16 md:py-20 lg:py-32"
+        style={{
+          background:
+            "radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)",
+        }}
+      >
+        <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+          <FadeInView>
+            <div className="mx-auto mb-8 max-w-3xl text-center sm:mb-12">
+              <SectionTag>Team</SectionTag>
+              <h2 className="mb-4 text-2xl font-bold text-white sm:text-3xl md:mb-6 md:text-4xl lg:text-5xl">
+                We&apos;re engineers, builders and problem-solvers
+              </h2>
+              <p className="text-sm text-white/70 sm:text-base md:text-lg">
+                Everyone here works hands-on with the product from idea to real-world testing.
+              </p>
+            </div>
+
+            <div className="team-marquee mx-auto max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]">
+              <div className="team-marquee__edge team-marquee__edge--left" />
+              <div className="team-marquee__edge team-marquee__edge--right" />
+              <div className="team-marquee__track">
+                {[...teamProfiles, ...teamProfiles].map((member, index) => (
+                  <button
+                    key={`${member.name}-${index}`}
+                    type="button"
+                    onClick={() => handleOpenTeamMember(index % teamProfiles.length)}
+                    className="team-marquee__item group relative aspect-square overflow-hidden rounded-[4px] border border-white/10 bg-white/5 text-left"
+                    aria-label={`Open ${member.name} profile photo`}
+                  >
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      loading="lazy"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                    />
+                    <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(3,8,18,0.02)_0%,rgba(3,8,18,0.08)_42%,rgba(3,8,18,0.42)_100%)]" />
+                    <div className="absolute inset-x-3 bottom-3 flex items-center justify-between text-[10px] uppercase tracking-[0.18em] text-white/72">
+                      <span>View</span>
+                      <ImagePlus className="h-3.5 w-3.5" />
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </FadeInView>
+        </div>
+      </section>
+
 
       {/* Career Post Modal */}
       <Dialog open={!!selectedPost} onOpenChange={(open) => !open && setSelectedPost(null)}>
