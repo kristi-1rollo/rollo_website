@@ -71,7 +71,7 @@ const Header = () => {
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
-        <div className="max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-[28px] sm:px-[36px] md:px-8 xl:px-10 2xl:px-12 h-16 md:h-20 flex items-center justify-between">
+        <div className="max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-[28px] sm:px-[36px] md:px-8 xl:px-10 2xl:px-12 h-16 lg:h-20 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
@@ -83,13 +83,13 @@ const Header = () => {
               <img src={logo} alt="ROLLO" className="h-8 w-auto block" />
             </Link>
 
-            <span className="hidden sm:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
+            <span className="hidden xl:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
               Autonomous Security Robotics
             </span>
           </div>
 
           {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-6">
+          <nav className="hidden lg:flex items-center gap-6">
             {nav.map((i) => {
               const isActive = location.pathname === i.to;
               return (
@@ -115,7 +115,7 @@ const Header = () => {
           </nav>
 
           {/* Mobile actions */}
-          <div className="md:hidden flex items-center gap-2">
+          <div className="lg:hidden flex items-center gap-2">
             <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
               <SheetTrigger asChild>
                 <Button
