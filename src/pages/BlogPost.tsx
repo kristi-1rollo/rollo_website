@@ -111,6 +111,10 @@ const BlogPost = () => {
             "scrolling",
             "referrerpolicy",
             "loading",
+            "src",
+            "width",
+            "height",
+            "title",
           ],
           ALLOWED_URI_REGEXP:
             /^(?:(?:https?|mailto|tel|ftp):|[^a-z]|[a-z+.-]+(?:[^a-z+.\-:]|$))/i,
