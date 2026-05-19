@@ -173,7 +173,7 @@ const Index = () => {
         <img
           src="/images/security-guard.jpg"
           alt="Security guard on patrol"
-          className="absolute inset-0 w-full h-full object-cover object-[50%_25%] sm:object-[50%_30%] md:object-[50%_35%]"
+          className="absolute inset-0 md:inset-x-0 md:top-[12%] md:bottom-[12%] w-full h-full md:h-auto object-cover md:object-contain object-[50%_25%] sm:object-[50%_30%] md:object-center"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-black/42" />
@@ -263,7 +263,7 @@ const Index = () => {
       {/* ═══ SOLUTION ═══ */}
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden py-16 md:py-20">
         {/* Background Image - Robots (right side) with breathing room */}
-        <div className="absolute inset-x-0 top-[8%] bottom-[8%] flex items-center justify-end">
+        <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] flex items-center justify-end">
           <img
             src="/images/1rollo_solution_graph.png"
             alt="1Rollo autonomous security robots"
@@ -665,41 +665,34 @@ const Index = () => {
         <div className="absolute inset-0 geo-grid opacity-5 pointer-events-none" />
 
         {/* Container */}
-        <div className="relative z-10 max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 w-full">
           <div className="max-w-full">
             {/* Text Content */}
             <div className="space-y-20 md:space-y-24">
               {/* Header */}
               <FadeInView>
-                <div className="px-3 md:px-0 text-center md:text-left">
-                  <SectionTag>Comparison</SectionTag>
-                  <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 mt-4">
-                    A Massive Market Ready for Automation
-                  </h2>
-                </div>
-              </FadeInView>
-
-              {/* Comparison: 3 Robots vs 9 Guards */}
-              <FadeInView delay={100}>
-                <div className="rounded-lg overflow-hidden">
-                  <img
-                    src="/images/1rollo_3robots_9guards.png"
-                    alt="3 Robots vs 9 Guards cost comparison"
-                    className="w-full h-auto object-contain"
-                    loading="lazy"
-                  />
+                <div className="px-3 md:px-0">
+                  <div className="max-w-2xl space-y-3 md:space-y-4">
+                    <SectionTag>Comparison</SectionTag>
+                    <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                      A Massive Market Ready for Automation
+                    </h2>
+                    <p className="text-sm md:text-base text-white/70 leading-relaxed max-w-2xl">
+                      The physical security industry relies heavily on human labor. Autonomous robots offer a transformative opportunity to reduce costs while improving coverage and consistency.
+                    </p>
+                  </div>
                 </div>
               </FadeInView>
 
               {/* Market Statistics */}
-              <FadeInView delay={300}>
+              <FadeInView delay={100}>
                 <div className="relative">
                   {/* Subtle separator */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10 md:gap-8 max-w-full px-3 md:px-0 pt-12 md:pt-14">
-                    {/* Stat 1 - Left aligned */}
-                    <div className="space-y-2 md:flex-shrink-0">
+                  <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 max-w-full px-3 md:px-0 pt-12 md:pt-14 pb-8 md:pb-10">
+                    {/* Stat 1 */}
+                    <div className="space-y-2">
                       <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         28.5M
@@ -709,9 +702,9 @@ const Index = () => {
                       </p>
                     </div>
 
-                    {/* Stat 2 - Center */}
-                    <div className="space-y-2 md:flex-shrink-0 md:text-center">
-                      <div className="h-0.5 w-8 bg-primary/40 md:mx-auto" />
+                    {/* Stat 2 */}
+                    <div className="space-y-2">
+                      <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         $500B
                       </p>
@@ -720,9 +713,9 @@ const Index = () => {
                       </p>
                     </div>
 
-                    {/* Stat 3 - Right aligned */}
-                    <div className="space-y-2 md:flex-shrink-0 md:text-right">
-                      <div className="h-0.5 w-8 bg-primary/40 md:ml-auto" />
+                    {/* Stat 3 */}
+                    <div className="space-y-2">
+                      <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         80%+
                       </p>
@@ -730,6 +723,55 @@ const Index = () => {
                         Labor cost reduction
                       </p>
                     </div>
+                  </div>
+                </div>
+              </FadeInView>
+
+              {/* Comparison: 9 Guards vs 3 Robots */}
+              <FadeInView delay={200}>
+                <div className="px-3 md:px-0">
+                  {/* Comparison Row - Mobile First */}
+                  <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-center lg:justify-start lg:gap-6 xl:gap-8">
+
+                    {/* GUARD Visual */}
+                    <div className="w-full max-w-full lg:w-[660px] xl:w-[730px]">
+                      <img
+                        src="/images/1rollo_guards.png"
+                        alt="9 Security guards"
+                        className="w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+
+                    {/* Center Message */}
+                    <div className="flex flex-col items-center text-center lg:flex-shrink-0 lg:px-2">
+                      <div className="space-y-3">
+                        <p className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium leading-tight">
+                          Shift-Based<br />Security
+                        </p>
+
+                        <div className="flex items-center justify-center">
+                          <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                          </svg>
+                        </div>
+
+                        <p className="text-base lg:text-lg uppercase tracking-[0.15em] text-primary font-bold leading-tight">
+                          Autonomous<br />Patrol
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* ROLLO Visual */}
+                    <div className="w-full max-w-full lg:w-[680px] xl:w-[750px]">
+                      <img
+                        src="/images/1rollo_robots.png"
+                        alt="3 Rollo autonomous security robots"
+                        className="w-full h-auto object-contain"
+                        loading="lazy"
+                      />
+                    </div>
+
                   </div>
                 </div>
               </FadeInView>
