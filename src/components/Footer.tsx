@@ -114,11 +114,11 @@ const Footer = () => {
               </div>
             </div>
 
-            <div className="space-y-3 pt-2">
+            <div className="space-y-3 md:pt-2">
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Supported by
               </h3>
-              <div className="space-y-3 flex flex-col items-center md:items-end">
+              <div className="space-y-3 flex flex-col items-end">
                 <Link to="/funding" className="block group">
                   <img
                     src="/logos/nextgeneration-eu-funded.jpg"
