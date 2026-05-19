@@ -130,7 +130,7 @@ const Index = () => {
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
           <img
-            src="/hero/1rollo_home_hero.png"
+            src="/hero/1rollo_home_hero.webp"
             alt="Rollo autonomous patrol robot at airport terminal"
             className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
             loading="eager"
@@ -265,7 +265,7 @@ const Index = () => {
         {/* Background Image - Robots (right side) with breathing room */}
         <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] flex items-center justify-end">
           <img
-            src="/images/1rollo_solution_graph.png"
+            src="/images/1rollo_solution_graph.webp"
             alt="1Rollo autonomous security robots"
             className="h-full w-auto object-contain object-right"
             loading="lazy"
@@ -444,9 +444,9 @@ const Index = () => {
 
         <LazySection minHeight={520} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
-            { img: "/patent/pilt-1.png", ...productTiles[0] },
-            { img: "/patent/pilt-2.png", ...productTiles[1] },
-            { img: "/patent/pilt-3.png", ...productTiles[2] },
+            { img: "/patent/pilt-1.webp", ...productTiles[0] },
+            { img: "/patent/pilt-2.webp", ...productTiles[1] },
+            { img: "/patent/pilt-3.webp", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
               <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-3 md:p-6">
@@ -478,7 +478,7 @@ const Index = () => {
       <section className="section-glow-top relative overflow-hidden py-20 md:py-28">
         {/* Background Image */}
         <img
-          src="/images/1rollo_deploy.png"
+          src="/images/1rollo_deploy.webp"
           alt="Airport terminal background"
           className="absolute inset-0 w-full h-full object-cover opacity-60"
           loading="lazy"
@@ -732,7 +732,7 @@ const Index = () => {
 
                   {/* GUARD Visual */}
                   <img
-                    src="/images/1rollo_guards.png"
+                    src="/images/1rollo_guards.webp"
                     alt="9 Security guards"
                     className="w-full max-w-none lg:max-w-[420px] xl:max-w-[520px] h-auto object-contain"
                     loading="lazy"
@@ -759,7 +759,7 @@ const Index = () => {
 
                   {/* ROLLO Visual */}
                   <img
-                    src="/images/1rollo_robots.png"
+                    src="/images/1rollo_robots.webp"
                     alt="3 Rollo autonomous security robots"
                     className="w-full max-w-none lg:max-w-[420px] xl:max-w-[520px] h-auto object-contain"
                     loading="lazy"
