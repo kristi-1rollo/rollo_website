@@ -68,7 +68,7 @@ const Product = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto w-full px-4 py-24 sm:px-6 lg:px-8 xl:px-12">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-24 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
           <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
             <SectionTag>Product</SectionTag>
 
@@ -133,7 +133,7 @@ const Product = () => {
       <section className="section-glow-top relative w-full overflow-hidden px-4 py-16 sm:px-6 md:py-24 lg:px-8">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_24%_18%,rgba(20,58,148,0.16),transparent_52%),linear-gradient(180deg,rgba(5,14,32,0.34),rgba(0,0,0,0.1))]" />
         <div className="text-left">
-          <div className="relative mx-auto grid max-w-6xl lg:max-w-7xl xl:max-w-[1440px] grid-cols-1 gap-10 lg:min-h-[560px] lg:grid-cols-[58%_42%] lg:gap-6 xl:gap-10">
+          <div className="relative mx-auto grid max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] grid-cols-1 gap-10 lg:min-h-[560px] lg:grid-cols-[58%_42%] lg:gap-6 xl:gap-10">
           <div className="relative z-10 flex flex-col justify-center lg:pr-6 xl:pr-8">
             <FadeInView>
               <div className="px-3 md:px-0">

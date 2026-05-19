@@ -129,8 +129,23 @@
   }
   @media (min-width: 1024px) {
     .container-premium {
+      max-width: 82.5rem;
       padding-left: 32px;
       padding-right: 32px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .container-premium {
+      max-width: 90rem;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+  @media (min-width: 1536px) {
+    .container-premium {
+      max-width: 95rem;
+      padding-left: 48px;
+      padding-right: 48px;
     }
   }
 

@@ -5,7 +5,7 @@ const EuFunding = () => {
 
   return (
     <div className="pt-24 pb-16">
-      <section className="max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-16 md:py-24">
+      <section className="max-w-5xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-16 md:py-24">
         <button
           type="button"
           onClick={() => navigate(-1)}

@@ -66,12 +66,12 @@ const Header = () => {
           "supports-[backdrop-filter]:backdrop-blur-xl",
           "transition-colors duration-200",
           scrolled
-            ? "bg-[#050505]/90 border-b border-white/[0.10]"
+            ? "bg-[#050505]/80 border-b border-white/[0.10]"
             : "bg-transparent border-b border-transparent",
         ].join(" ")}
         style={{ paddingTop: "env(safe-area-inset-top)" }}
       >
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <div className="max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-[28px] sm:px-[36px] md:px-8 xl:px-10 2xl:px-12 h-16 md:h-20 flex items-center justify-between">
           {/* Brand */}
           <div className="flex items-center gap-3 min-w-0">
             <Link
@@ -80,7 +80,7 @@ const Header = () => {
               className="focus:outline-none transition-transform active:scale-95 flex items-center p-0 m-0"
               aria-label="Home"
             >
-              <img src={logo} alt="ROLLO" className="h-10 w-auto block" />
+              <img src={logo} alt="ROLLO" className="h-8 w-auto block" />
             </Link>
 
             <span className="hidden sm:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
@@ -99,7 +99,7 @@ const Header = () => {
                   onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
                   aria-current={isActive ? "page" : undefined}
                   className={[
-                    "text-sm transition relative",
+                    "text-base transition relative",
                     isActive
                       ? "text-white"
                       : "text-white hover:text-white/80",

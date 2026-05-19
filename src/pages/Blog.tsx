@@ -19,7 +19,7 @@ const Blog = () => {
   return (
     <div className="pt-24 pb-16">
       {/* Page header */}
-      <section className="section-glow-top relative max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-12 md:py-20">
+      <section className="section-glow-top relative max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-12 md:py-20">
         <div className="absolute inset-0 geo-grid opacity-30 pointer-events-none" />
         <div className="relative mx-auto max-w-3xl space-y-4 text-center px-3 md:px-0">
           <p className="mono-spec text-primary">INTELLIGENCE FEED</p>
@@ -34,7 +34,7 @@ const Blog = () => {
       </section>
 
       {/* Content */}
-      <section className="section-glow-top max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-8 md:py-12">
+      <section className="section-glow-top max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-8 md:py-12">
         {isLoading ? (
           <p className="text-muted-foreground text-center mono-spec">Loading dispatches…</p>
         ) : posts.length === 0 ? (

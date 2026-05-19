@@ -204,8 +204,8 @@ const CareerNew = () => {
         <div className="absolute left-[12%] top-[14%] h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(54,118,255,0.22)_0%,rgba(54,118,255,0.08)_36%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 flex min-h-[100svh] items-center">
-          <div className="w-full px-4 py-12 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-7xl">
+          <div className="w-full px-4 py-12 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+            <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]">
               <div className="grid grid-cols-1 items-center gap-8 lg:grid-cols-12 lg:gap-12">
                 <motion.div
                   initial="hidden"
@@ -256,7 +256,7 @@ const CareerNew = () => {
                 "radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
             }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -293,7 +293,7 @@ const CareerNew = () => {
               "radial-gradient(ellipse 1200px 800px at 50% 50%, rgba(6, 32, 96, 0.06), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.8) 0%, rgba(0, 0, 0, 1) 100%)",
           }}
         >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -367,7 +367,7 @@ const CareerNew = () => {
               "radial-gradient(ellipse 1000px 600px at 30% 50%, rgba(14, 65, 170, 0.05), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.6) 0%, rgba(0, 0, 0, 1) 100%)",
           }}
         >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -457,7 +457,7 @@ const CareerNew = () => {
                 "radial-gradient(ellipse 1200px 650px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 72%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
             }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -508,7 +508,7 @@ const CareerNew = () => {
                 "radial-gradient(ellipse 1200px 600px at 50% 0%, rgba(30, 84, 196, 0.08), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
             }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -585,7 +585,7 @@ const CareerNew = () => {
               "radial-gradient(ellipse 1100px 700px at 70% 50%, rgba(6, 32, 96, 0.08), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.7) 0%, rgba(0, 0, 0, 1) 100%)",
           }}
         >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -604,7 +604,7 @@ const CareerNew = () => {
                 </p>
               </div>
 
-              <div className="team-marquee mx-auto max-w-6xl">
+              <div className="team-marquee mx-auto max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]">
                 <div className="team-marquee__edge team-marquee__edge--left" />
                 <div className="team-marquee__edge team-marquee__edge--right" />
                 <div className="team-marquee__track">
@@ -641,7 +641,7 @@ const CareerNew = () => {
               "radial-gradient(ellipse 1000px 500px at 50% 50%, rgba(30, 84, 196, 0.06), transparent 70%), linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, transparent 100%)",
           }}
         >
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -673,7 +673,7 @@ const CareerNew = () => {
                 "radial-gradient(ellipse 1300px 800px at 50% 0%, rgba(30, 84, 196, 0.1), transparent 70%), linear-gradient(180deg, rgba(0, 11, 24, 0.9) 0%, rgba(0, 0, 0, 1) 100%)",
             }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"
@@ -775,7 +775,7 @@ const CareerNew = () => {
                 "radial-gradient(ellipse 1200px 700px at 50% 50%, rgba(54, 118, 255, 0.1), transparent 65%), radial-gradient(ellipse 900px 500px at 80% 20%, rgba(180, 255, 51, 0.08), transparent 60%), linear-gradient(180deg, rgba(5, 15, 39, 0.3) 0%, rgba(0, 0, 0, 0.9) 100%)",
             }}
           />
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
             <motion.div
               initial="hidden"
               whileInView="visible"

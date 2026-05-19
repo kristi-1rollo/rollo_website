@@ -28,8 +28,10 @@ const Footer = () => {
                 Rollo Robotics OÜ
               </p>
               <p className="text-[13px] text-slate-400 leading-relaxed">
-                Viljandi maakond, Viljandi linn,<br />
-                Raua tn 16, 71020
+                Raua tn 16<br />
+                71020 Viljandi<br />
+                Viljandi County<br />
+                Estonia
               </p>
               <p className="text-xs text-slate-400">Registry code: 17320003</p>
               <a

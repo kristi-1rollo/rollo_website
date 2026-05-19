@@ -17,8 +17,8 @@ interface SectionIntroProps {
   className?: string;
 }
 
-export const PUBLIC_SECTION_GUTTER = "px-4 sm:px-6 lg:px-8 xl:px-12";
-export const PUBLIC_CONTENT_RAIL = `max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto ${PUBLIC_SECTION_GUTTER} text-left`;
+export const PUBLIC_SECTION_GUTTER = "px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12";
+export const PUBLIC_CONTENT_RAIL = `max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto ${PUBLIC_SECTION_GUTTER} text-left`;
 
 /** Reusable page section container with consistent max-width and padding */
 export function Section({ children, className = "", id }: SectionProps) {
