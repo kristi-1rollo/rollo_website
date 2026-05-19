@@ -264,6 +264,125 @@ const Index = () => {
         </PublicContentRail>
       </section>
 
+      {/* ═══ SOLUTION ═══ */}
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
+        {/* Background Image - Robots (right side, less than half) */}
+        <img
+          src="/images/1rollo_solution_graph.png"
+          alt="1Rollo autonomous security robots"
+          className="absolute inset-0 w-full h-full object-cover object-[85%_center] md:object-[75%_center]"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-black/42" />
+        {/* Mobile: gradient from bottom */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.85)_25%,rgba(2,6,13,0.65)_50%,rgba(2,6,13,0.35)_75%,rgba(2,6,13,0.15)_100%)] md:hidden" />
+        {/* Desktop: strong gradient from left to keep text area clear */}
+        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.98)_0%,rgba(2,6,13,0.96)_20%,rgba(2,6,13,0.92)_35%,rgba(2,6,13,0.78)_48%,rgba(2,6,13,0.42)_62%,rgba(2,6,13,0.12)_78%,rgba(2,6,13,0)_100%)]" />
+        <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
+
+        <PublicContentRail className="relative z-10 py-24">
+          <div className="space-y-8 md:space-y-10 px-3 md:px-0 md:max-w-[52%]">
+              {/* Header */}
+              <FadeInView>
+                <div className="max-w-3xl">
+                  <SectionTag className="mb-4">
+                    <span className="text-primary">Solution</span>
+                  </SectionTag>
+                  <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                    A Fundamentally Better Way to Build Patrol Robots
+                  </h2>
+                </div>
+              </FadeInView>
+
+              {/* Solution Cards - Asymmetric Grid on Desktop */}
+              <div className="space-y-4 md:space-y-5">
+                {/* Row 1: Card 1 (wider) + Card 2 (square) */}
+                <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-4 md:gap-5">
+                  {/* Card 1: Extreme-environment advantage (WIDER) */}
+                  <FadeInView delay={100}>
+                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Extreme-Environment Advantage
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Most autonomous robots are validated in controlled, sunny conditions. 1Rollo is trained in Estonia's harsh winters, solving traction, battery performance, and sensor reliability in snow and sub-zero temperatures.
+                    </p>
+                  </div>
+                </FadeInView>
+
+                  {/* Card 2: Gyroscopic Innovation (SQUARE) */}
+                  <FadeInView delay={200}>
+                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Gyroscopic Innovation
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      First-in-the-world gyroscope-based stabilization enabling a truly autonomous one-wheeled robot (patent pending)
+                    </p>
+                  </div>
+                </FadeInView>
+                </div>
+
+                {/* Row 2: Card 3 (square) + Card 4 (wider) */}
+                <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-4 md:gap-5">
+                  {/* Card 3: Cost-efficient robots (SQUARE) */}
+                  <FadeInView delay={300}>
+                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <circle cx="12" cy="12" r="10" />
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4 2" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Cost-Efficient Robots
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Fewer hardware components make 1Rollo lighter, simpler, and cheaper than other robots or humanoids
+                    </p>
+                  </div>
+                </FadeInView>
+
+                  {/* Card 4: Ground advantages (WIDER) */}
+                  <FadeInView delay={400}>
+                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="flex items-start gap-4 mb-3">
+                      <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
+                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">
+                      Ground Advantages
+                    </h3>
+                    <p className="text-sm text-white/70 leading-relaxed flex-1">
+                      Ground-based autonomy delivers far longer operating time and weather independence compared to drones
+                    </p>
+                  </div>
+                </FadeInView>
+                </div>
+              </div>
+            </div>
+        </PublicContentRail>
+      </section>
+
       {/* ═══ CAPABILITIES ═══ */}
       <section className="section-glow-top relative w-full overflow-hidden py-12 md:py-20 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
@@ -279,7 +398,7 @@ const Index = () => {
 
           <Dialog open={isOrbitOpen} onOpenChange={setIsOrbitOpen}>
             <div className="mt-8 md:mt-10">
-              <div className="relative mx-auto max-w-5xl">
+              <div className="relative mx-auto max-w-5xl lg:max-w-6xl xl:max-w-7xl">
                 <DialogTrigger asChild>
                   <button
                     type="button"
@@ -451,8 +570,8 @@ const Index = () => {
 
         {/* Container with max-width matching other sections */}
         <div className="relative z-10 w-full h-full flex items-center">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16 md:py-24">
-            <div className="max-w-xl lg:max-w-2xl">
+          <div className="max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full py-16 md:py-24">
+            <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl">
             {/* Text Content */}
             <div className="space-y-8">
               <FadeInView>

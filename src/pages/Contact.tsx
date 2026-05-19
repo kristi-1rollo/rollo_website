@@ -49,7 +49,7 @@ const Contact = () => {
           <div className="absolute inset-y-0 left-0 w-32 bg-[linear-gradient(90deg,rgba(2,6,13,1)_0%,rgba(2,6,13,0)_100%)]" />
         </div>
 
-        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl items-center px-4 py-24 sm:px-6 lg:px-8">
+        <div className="relative z-10 mx-auto flex min-h-[100svh] max-w-6xl lg:max-w-7xl xl:max-w-[1440px] items-center px-4 py-24 sm:px-6 lg:px-8 xl:px-12">
           <div className="grid w-full grid-cols-1 items-center gap-8 md:grid-cols-[minmax(0,1fr)_minmax(280px,34vw)] md:gap-10">
             <div className="px-3 md:px-0">
               <SectionIntro centered className="mx-auto max-w-2xl space-y-5 md:mx-0 md:max-w-xl md:text-left">
@@ -90,7 +90,7 @@ const Contact = () => {
       </section>
 
       {/* Contact Information & Form */}
-      <section className="section-glow-top max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+      <section className="section-glow-top max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 py-16 md:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Company Information */}
           <div className="lg:col-span-1 space-y-6">

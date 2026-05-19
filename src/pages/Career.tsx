@@ -110,7 +110,7 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl mx-auto w-full px-4 py-24 sm:px-6 lg:px-8">
+        <div className="relative z-10 max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto w-full px-4 py-24 sm:px-6 lg:px-8 xl:px-12">
           <div className="px-3 md:px-0">
             <SectionIntro centered className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center md:mx-0 md:items-start md:text-left">
               <SectionTag>Career</SectionTag>
