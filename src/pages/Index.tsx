@@ -128,7 +128,7 @@ const Index = () => {
   return (
     <div className="pb-16">
       {/* ═══ HERO ═══ */}
-        <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
+        <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
           <img
             src="/hero/1rollo_home_hero.webp"
             alt="Rollo autonomous patrol robot at airport terminal"
@@ -168,7 +168,7 @@ const Index = () => {
       </section>
 
       {/* ═══ PROBLEMS ═══ */}
-      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
+      <section className="section-glow-top relative w-full flex items-center overflow-hidden">
         {/* Background Image */}
         <img
           src="/images/security-guard.jpg"
@@ -183,9 +183,9 @@ const Index = () => {
         <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_28%,rgba(2,6,13,0.52)_52%,rgba(2,6,13,0.24)_76%,rgba(2,6,13,0.08)_100%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(214,38,38,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <PublicContentRail className="relative z-10 py-24">
+        <PublicContentRail className="relative z-10 py-16 md:py-24 lg:py-32">
           <FadeInView>
-            <div className="space-y-8 md:space-y-10 px-3 md:px-0">
+            <div className="space-y-8 md:space-y-10">
               {/* Header */}
               <div className="max-w-3xl">
                 <SectionTag className="mb-4">
@@ -261,7 +261,7 @@ const Index = () => {
       </section>
 
       {/* ═══ SOLUTION ═══ */}
-      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden py-16 md:py-20">
+      <section className="section-glow-top relative w-full flex items-center overflow-hidden">
         {/* Background Image - Robots (right side) with breathing room */}
         <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] flex items-center justify-end">
           <img
@@ -278,8 +278,8 @@ const Index = () => {
         <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.98)_0%,rgba(2,6,13,0.96)_20%,rgba(2,6,13,0.92)_35%,rgba(2,6,13,0.78)_48%,rgba(2,6,13,0.42)_62%,rgba(2,6,13,0.12)_78%,rgba(2,6,13,0)_100%)]" />
         <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <PublicContentRail className="relative z-10 py-32 md:py-40">
-          <div className="space-y-8 md:space-y-10 px-3 md:px-0 md:max-w-[58%]">
+        <PublicContentRail className="relative z-10 py-16 md:py-24 lg:py-32">
+          <div className="space-y-8 md:space-y-10 md:max-w-[58%]">
               {/* Header */}
               <FadeInView>
                 <div className="max-w-3xl">
@@ -492,7 +492,7 @@ const Index = () => {
           <div className="space-y-12 md:space-y-16">
             {/* Section Header */}
             <FadeInView>
-              <div className="max-w-2xl space-y-3 md:space-y-4 px-4 md:px-0">
+              <div className="max-w-2xl space-y-3 md:space-y-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-primary">
                   Use Cases
                 </p>
@@ -509,7 +509,7 @@ const Index = () => {
           {/* ═══ DEPLOYMENT ECOSYSTEM ═══ */}
           <FadeInView delay={400}>
             <div className="mt-16 md:mt-20">
-              <div className="mb-8 px-4 md:px-0">
+              <div className="mb-8">
                 <h3 className="text-lg md:text-xl font-semibold text-white mb-2">
                   Deployment Ecosystem
                 </h3>
@@ -657,7 +657,7 @@ const Index = () => {
         </div>
       </section>
 
-      <section className="section-glow-top relative overflow-hidden bg-background min-h-screen flex items-center py-16 md:py-24">
+      <section className="section-glow-top relative overflow-hidden bg-background py-16 md:py-24 lg:py-32">
         {/* Subtle background effects */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-20%,rgba(22,74,173,0.08),transparent_50%)]" />
         <div className="absolute inset-0 geo-grid opacity-5 pointer-events-none" />
@@ -669,7 +669,7 @@ const Index = () => {
             <div className="space-y-16 md:space-y-[19px]">
               {/* Header */}
               <FadeInView>
-                <div className="px-3 md:px-0">
+                <div>
                   <div className="max-w-2xl space-y-2.5 md:space-y-3">
                     <SectionTag>Comparison</SectionTag>
                     <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
@@ -688,7 +688,7 @@ const Index = () => {
                   {/* Subtle separator */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                  <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 max-w-full px-3 md:px-0 pt-10 md:pt-11 pb-6 md:pb-8">
+                  <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 max-w-full pt-10 md:pt-11 pb-6 md:pb-8">
                     {/* Stat 1 */}
                     <div className="space-y-1.5">
                       <div className="h-0.5 w-8 bg-primary/40" />
