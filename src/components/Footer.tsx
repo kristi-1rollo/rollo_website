@@ -19,12 +19,12 @@ const Footer = () => {
               <img
                 src="/logos/rollo-logo-white.png"
                 alt="Rollo Robotics"
-                className="h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
+                className="h-9 md:h-6 w-auto object-contain opacity-80 hover:opacity-100 transition-opacity"
                 loading="lazy"
               />
             </Link>
             <div className="space-y-2.5 max-w-sm mx-auto md:mx-0">
-              <p className="text-[15px] text-slate-200 font-medium tracking-tight">
+              <p className="hidden md:block text-[15px] text-slate-200 font-medium tracking-tight">
                 Rollo Robotics OÜ
               </p>
               <p className="hidden md:block text-[13px] text-slate-400 leading-relaxed">
