@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { Section } from "@/components/ui/section";
+import { useEffect, useRef } from "react";
+import { Section, SectionTag } from "@/components/ui/section";
 
 const team = [
   {
@@ -29,10 +30,52 @@ const team = [
 ];
 
 const AboutUs = () => {
+  const heroRef = useRef<HTMLElement>(null);
+
+  // Dynamic hero overlay opacity based on scroll position
+  useEffect(() => {
+    let rafId: number;
+
+    const updateHeroOpacity = () => {
+      if (!heroRef.current) return;
+
+      const scrollY = window.scrollY;
+      const heroHeight = window.innerHeight;
+
+      // Calculate opacity: 0 at top, 1 when scrolled past hero
+      const fadeStart = heroHeight * 0.3;
+      const fadeEnd = heroHeight * 0.8;
+      const opacity = Math.min(1, Math.max(0, (scrollY - fadeStart) / (fadeEnd - fadeStart)));
+
+      heroRef.current.style.setProperty('--hero-overlay-opacity', opacity.toString());
+    };
+
+    const handleScroll = () => {
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+      rafId = requestAnimationFrame(updateHeroOpacity);
+    };
+
+    updateHeroOpacity();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+      }
+    };
+  }, []);
+
   return (
-    <div className="pb-16">
-      {/* A) Hero */}
-      <section className="section-glow-top relative w-full min-h-[70vh] overflow-hidden pt-24">
+    <>
+      {/* A) Hero - Fixed on desktop, scrolls over on mobile */}
+      <header
+        ref={heroRef}
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
+        style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
+      >
         <picture>
           <img
             src="/robot/F6/1rollo_close.webp"
@@ -43,17 +86,21 @@ const AboutUs = () => {
         </picture>
         <div className="absolute inset-0 bg-black/50" />
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.85)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.4)_54%,rgba(0,0,0,0)_82%)]" />
-        <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.3)_0%,rgba(0,0,0,0.1)_22%,rgba(0,0,0,0)_52%)]" />
+        <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.85)_0%,rgba(2,6,13,0.6)_35%,rgba(2,6,13,0.2)_70%,rgba(2,6,13,0)_100%)]" />
 
-        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 py-16 sm:px-6 md:py-24 lg:px-8 xl:px-10 2xl:px-12">
-          <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
-            <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-              About Us
-            </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight text-white">
+        {/* Dynamic overlay - fades in on scroll */}
+        <div
+          className="absolute inset-0 bg-background transition-opacity duration-200"
+          style={{ opacity: 'var(--hero-overlay-opacity)' }}
+        />
+
+        <div className="relative z-10 max-w-6xl lg:max-w-[1440px] mx-auto w-full px-6 py-24 sm:px-6 lg:px-20">
+          <div className="mx-auto flex max-w-5xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
+            <SectionTag>About Us</SectionTag>
+            <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-4xl">
               Redefining Autonomous Security
             </h1>
-            <p className="max-w-2xl text-base leading-relaxed text-white md:text-lg">
+            <p className="max-w-3xl text-sm sm:text-base md:text-lg text-slate-300">
               At Rollo Robotics, we're redefining what autonomous security robots
               mean in the physical world. Our mission is simple yet
               transformative: to bring human-level perception, communication, and
@@ -62,75 +109,13 @@ const AboutUs = () => {
             </p>
           </div>
         </div>
-      </section>
+      </header>
 
-      {/* B) About Overview — 3 Pillars */}
-      <Section className="section-glow-top relative py-16 md:py-24">
-        <div className="absolute inset-0 geo-grid opacity-20 pointer-events-none" />
-        <div className="relative grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {/* Mission */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-              Mission
-            </h3>
-            <div className="space-y-4 text-sm text-slate-300 leading-relaxed">
-              <p>
-                To create a future where intelligent machines seamlessly extend
-                human capabilities fully autonomously, 24/7, anywhere on Earth.
-              </p>
-              <p>
-                Our founding team has decades of experience building globally
-                recognized robotics, logistics, and AI systems, launching
-                category-defining innovations and setting new industry standards.
-              </p>
-              <p>
-                We are committed to proving that machines can bring presence,
-                performance, and precision to the physical world.
-              </p>
-            </div>
-          </div>
+      {/* Main content - scrolls over fixed hero on desktop */}
+      <main className="relative z-10 pt-0 md:pt-[100vh]">
+        <div className="bg-background pb-16">
 
-          {/* Technology */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-              Technology
-            </h3>
-            <div className="space-y-4 text-sm text-slate-300 leading-relaxed">
-              <p>
-                Built on deep engineering innovation, Rollo Robotics combines
-                proprietary gyroscope-based stabilization, edge intelligence, and
-                hardware–software integration to create the world's first truly
-                autonomous monowheel robot.
-              </p>
-              <p>
-                Compact, agile, and self-stabilizing, 1Rollo navigates
-                real-world conditions by seeing, hearing, speaking, and moving
-                with a level of awareness once reserved for humans.
-              </p>
-            </div>
-          </div>
-
-          {/* Scale */}
-          <div className="blue-card-glow rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6 space-y-4">
-            <h3 className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
-              Scale
-            </h3>
-            <div className="space-y-4 text-sm text-slate-300 leading-relaxed">
-              <p>
-                With rising labor costs and surging demand for continuous
-                security and monitoring, we believe cost-efficient form factor is
-                the key to scalability.
-              </p>
-              <p>
-                1Rollo replaces inefficiency with intelligence by delivering
-                massive operational savings across industries.
-              </p>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* C) Team */}
+      {/* B) Team */}
       <Section className="section-glow-top relative py-16 md:py-24">
         <div className="space-y-4 mb-10 px-3 md:px-0">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
@@ -194,7 +179,9 @@ const AboutUs = () => {
           </Link>
         </div>
       </Section>
-    </div>
+        </div>
+      </main>
+    </>
   );
 };
 
