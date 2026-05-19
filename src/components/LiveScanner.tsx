@@ -7,13 +7,17 @@ interface Detection {
 }
 
 const detections: Detection[] = [
-  { name: "Vehicles", telemetry: "SCAN_MATCH: 99.2%", delay: "0s" },
-  { name: "People", telemetry: "CONFIDENCE: 97.8%", delay: "1.2s" },
-  { name: "Animals", telemetry: "CLASSIFY: ACTIVE", delay: "2.4s" },
-  { name: "Fire Hazards", telemetry: "THERMAL_ALERT: STANDBY", delay: "3.6s" },
+  { name: "Thermal Cameras", telemetry: "LOW-LIGHT IMAGING READY", delay: "0s" },
+  { name: "PTZ Cameras", telemetry: "EXTENDED COVERAGE ACTIVE", delay: "1.2s" },
+  { name: "Night Vision Systems", telemetry: "DARKNESS PATROL ENABLED", delay: "2.4s" },
   {
-    name: "Unauthorized Activity",
-    telemetry: "THREAT_LEVEL: LOW",
+    name: "Custom Sensors & Payloads",
+    telemetry: "MODULAR ARCHITECTURE",
+    delay: "3.6s",
+  },
+  {
+    name: "RFID / Transponders",
+    telemetry: "ID TRACKING SUPPORT",
     delay: "4.8s",
   },
 ];

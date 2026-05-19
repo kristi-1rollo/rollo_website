@@ -98,6 +98,26 @@ const Product = () => {
         </FadeInView>
       </Section>
 
+      {/* E) Expandable Platform */}
+      <Section className="section-glow-top py-12 md:py-20">
+        <FadeInView>
+          <div className="space-y-6">
+            <div className="px-3 md:px-0">
+              <SectionTag>Platform</SectionTag>
+              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
+                Expandable Platform
+              </h2>
+
+              <p className="text-base md:text-lg text-slate-300 max-w-3xl">
+                Compatible with mission-specific systems and payload integrations.
+              </p>
+            </div>
+
+            <LiveScanner />
+          </div>
+        </FadeInView>
+      </Section>
+
       {/* C) Built for Real-World Environments */}
       <Section className="section-glow-top py-12 md:py-20">
         <div className="space-y-6">
@@ -164,31 +184,6 @@ const Product = () => {
             </div>
           </div>
         </div>
-      </Section>
-
-      {/* E) Intelligent Situational Awareness */}
-      <Section className="section-glow-top py-12 md:py-20">
-        <FadeInView>
-          <div className="space-y-6">
-            <div className="px-3 md:px-0">
-              <SectionTag>Awareness</SectionTag>
-              <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-                Intelligent Situational Awareness
-              </h2>
-
-              <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-                Powered by advanced artificial intelligence, the robot continuously monitors its environment and detects:
-              </p>
-            </div>
-
-            <LiveScanner />
-
-            <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-              All events are available through a real-time remote monitoring interface, enabling
-              faster and more accurate response by security teams.
-            </p>
-          </div>
-        </FadeInView>
       </Section>
 
       {/* F) More Than a Robot: A Security Platform */}
