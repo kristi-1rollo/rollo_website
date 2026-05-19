@@ -174,7 +174,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
 
     setUploading(true);
     try {
-      const optimized = await optimizeImage(file, 1200, 1700, 0.85);
+      const optimized = await optimizeImage(file, 1920, 1920, 0.85);
       const ext = optimized.name.split(".").pop() || "webp";
       const path = `${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
@@ -287,14 +287,14 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
       {/* Poster Image */}
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">
-          Poster Image (794×1123px recommended)
+          Poster Image (16:9 soovitatud, nt 1920×1080px)
         </label>
         {posterUrl ? (
           <div className="relative inline-block">
             <img
               src={posterUrl}
               alt="Poster preview"
-              className="w-40 h-auto rounded-lg border border-border"
+              className="w-80 aspect-video object-cover rounded-lg border border-border"
             />
             <button
               type="button"
