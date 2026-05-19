@@ -680,79 +680,16 @@ const Index = () => {
               </FadeInView>
 
               {/* Comparison: 3 Robots vs 9 Guards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-full">
-                {/* 3 Robots */}
-                <FadeInView delay={100}>
-                  <div className="relative h-full rounded-lg overflow-hidden bg-gradient-to-br from-blue-950/30 via-black/40 to-black/30 backdrop-blur-sm border border-primary/25 shadow-lg shadow-primary/5">
-                    {/* Subtle blue glow overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(22,74,173,0.1),transparent_70%)]" />
-
-                    <div className="relative z-10 h-full flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-8 md:p-10">
-                      {/* Left: Text content */}
-                      <div className="flex-1 space-y-6 min-w-0">
-                        {/* Badge */}
-                        <div className="inline-block px-4 py-2 rounded-md bg-primary text-black font-bold text-sm">
-                          3 Robots
-                        </div>
-
-                        {/* Costs */}
-                        <div className="space-y-2">
-                          <p className="text-xs uppercase tracking-wider text-white/50">Annual cost</p>
-                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight">
-                            $72,000 -<br />$108,000
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Right: Robot Image */}
-                      <div className="flex justify-center md:justify-end flex-shrink-0">
-                        <img
-                          src="/images/1rollo_market_3robots.png"
-                          alt="3 Rollo robots"
-                          className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[240px] object-contain"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </FadeInView>
-
-                {/* 9 Guards */}
-                <FadeInView delay={200}>
-                  <div className="relative h-full rounded-lg overflow-hidden bg-gradient-to-br from-slate-900/35 via-black/40 to-black/30 backdrop-blur-sm border border-white/25 shadow-lg">
-                    {/* Subtle glow overlay */}
-                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(100,116,139,0.1),transparent_70%)]" />
-
-                    <div className="relative z-10 h-full flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-8 md:p-10">
-                      {/* Left: Text content */}
-                      <div className="flex-1 space-y-6 min-w-0">
-                        {/* Badge */}
-                        <div className="inline-block px-4 py-2 rounded-md bg-white/10 text-white font-bold text-sm border border-white/20">
-                          9 Guards
-                        </div>
-
-                        {/* Costs */}
-                        <div className="space-y-2">
-                          <p className="text-xs uppercase tracking-wider text-white/50">Annual cost</p>
-                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
-                            $450,000 -<br />$630,000
-                          </p>
-                        </div>
-                      </div>
-
-                      {/* Right: Guard Image */}
-                      <div className="flex justify-center md:justify-end flex-shrink-0">
-                        <img
-                          src="/images/1rollo_security_guard.png"
-                          alt="Security guard"
-                          className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[240px] object-contain"
-                          loading="lazy"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </FadeInView>
-              </div>
+              <FadeInView delay={100}>
+                <div className="rounded-lg overflow-hidden">
+                  <img
+                    src="/images/1rollo_3robots_9guards.png"
+                    alt="3 Robots vs 9 Guards cost comparison"
+                    className="w-full h-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+              </FadeInView>
 
               {/* Market Statistics */}
               <FadeInView delay={300}>
