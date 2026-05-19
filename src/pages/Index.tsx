@@ -666,11 +666,11 @@ const Index = () => {
         <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 w-full">
           <div className="max-w-full">
             {/* Text Content */}
-            <div className="space-y-20 md:space-y-24">
+            <div className="space-y-16 md:space-y-[19px]">
               {/* Header */}
               <FadeInView>
                 <div className="px-3 md:px-0">
-                  <div className="max-w-2xl space-y-3 md:space-y-4">
+                  <div className="max-w-2xl space-y-2.5 md:space-y-3">
                     <SectionTag>Comparison</SectionTag>
                     <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
                       A Massive Market Ready for Automation
@@ -688,9 +688,9 @@ const Index = () => {
                   {/* Subtle separator */}
                   <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
-                  <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 max-w-full px-3 md:px-0 pt-12 md:pt-14 pb-8 md:pb-10">
+                  <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-16 max-w-full px-3 md:px-0 pt-10 md:pt-11 pb-6 md:pb-8">
                     {/* Stat 1 */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         28.5M
@@ -701,7 +701,7 @@ const Index = () => {
                     </div>
 
                     {/* Stat 2 */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         $500B
@@ -712,7 +712,7 @@ const Index = () => {
                     </div>
 
                     {/* Stat 3 */}
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <div className="h-0.5 w-8 bg-primary/40" />
                       <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
                         80%+
@@ -728,7 +728,7 @@ const Index = () => {
               {/* Comparison: 9 Guards vs 3 Robots */}
               <FadeInView delay={200}>
                 {/* Comparison Row - Mobile First */}
-                <div className="flex flex-col items-center gap-3 lg:flex-row lg:items-center lg:justify-start lg:gap-6 xl:gap-8">
+                <div className="flex flex-col items-center gap-1 lg:flex-row lg:items-center lg:justify-start lg:gap-1.5 xl:gap-2">
 
                   {/* GUARD Visual */}
                   <img
@@ -739,8 +739,8 @@ const Index = () => {
                   />
 
                   {/* Center Message */}
-                  <div className="flex flex-col items-center text-center lg:flex-shrink-0 lg:px-2">
-                    <div className="space-y-3">
+                  <div className="flex flex-col items-center text-center lg:flex-shrink-0">
+                    <div className="space-y-1">
                       <p className="text-xs uppercase tracking-[0.15em] text-white/50 font-medium leading-tight">
                         Shift-Based<br />Security
                       </p>

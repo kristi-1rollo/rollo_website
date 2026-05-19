@@ -33,7 +33,12 @@ const App = () => (
         <div className="film-grain" />
 
         <div className="relative">
-          <BrowserRouter>
+          <BrowserRouter
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
             <Suspense fallback={<div className="min-h-screen bg-[#050505]" />}>
               <Routes>
                 <Route element={<Layout />}>
