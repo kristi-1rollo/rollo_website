@@ -285,18 +285,6 @@ export function SpecsBlueprint() {
         )}
       </div>
 
-      {/* Info row - mobile: vertical stack, desktop: horizontal */}
-      <div className="mono-spec text-white/40 text-center tracking-[0.45em] text-sm mt-16 md:mt-24">
-        <div className="flex flex-col md:hidden gap-3">
-          <p>24/7 AUTONOMOUS</p>
-          <p>SELF-CHARGING</p>
-          <p>CONNECTED</p>
-          <p>ALL-TERRAIN</p>
-        </div>
-        <p className="hidden md:block" style={{ wordSpacing: '0.8em' }}>
-          24/7 AUTONOMOUS  •  SELF-CHARGING  •  CONNECTED  •  ALL-TERRAIN
-        </p>
-      </div>
     </div>
   );
 }
