@@ -37,7 +37,7 @@ const Contact = () => {
           <img
             src="/images/1rollo_deploy.webp"
             alt="1Rollo deployment"
-            className="h-full w-full object-cover"
+            className="h-full w-full object-cover object-[0%_center] md:object-center"
             loading="eager"
           />
         </div>
