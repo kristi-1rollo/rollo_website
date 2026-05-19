@@ -138,14 +138,14 @@ const Product = () => {
               <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
-                  <Navigation className="h-5 w-5" />
+                  <Disc3 className="h-5 w-5" />
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">
-                    Autonomous Navigation
+                    Patent Pending Innovations
                   </h3>
                   <p className="text-sm text-slate-300">
-                    Patrols autonomously and navigates obstacles in complex outdoor environments
+                    Proprietary hardware and software method enables stable autonomous motion on a single wheel
                   </p>
                 </div>
               </div>
@@ -158,49 +158,15 @@ const Product = () => {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold text-white mb-2">
-                    Real-Time Data Collection
+                    Intelligent Situational Awareness
                   </h3>
                   <p className="text-sm text-slate-300">
-                    Collects and analyzes actionable security data in real time during patrols
+                    Powered by advanced artificial intelligence, the robot continuously monitors its surroundings, detects anomalies, and sends real-time alerts when unusual events occur.
                   </p>
                 </div>
               </div>
             </div>
 
-              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
-                  <Plug className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Autonomous Docking
-                  </h3>
-                  <p className="text-sm text-slate-300">
-                    Autonomous docking and charging enable continuous operation with minimal human intervention
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* F) More Than a Robot: A Security Platform */}
-      <Section className="section-glow-top py-12 md:py-20">
-        <div className="space-y-6">
-          <div className="px-3 md:px-0">
-            <SectionTag>Platform</SectionTag>
-            <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white">
-              More Than a Robot: A Security Platform
-            </h2>
-
-            <p className="text-base md:text-lg text-slate-300 max-w-3xl">
-              1ROLLO is part of a scalable autonomous security ecosystem.
-            </p>
-          </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               <div className="blue-card-glow rounded-2xl p-3 md:p-6">
               <div className="flex items-start gap-3">
                 <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
@@ -211,50 +177,12 @@ const Product = () => {
                     Fleet Management
                   </h3>
                   <p className="text-sm text-slate-300">
-                    Centralized cloud platform for managing multiple robots, defining patrol
-                    routes, and monitoring performance
-                  </p>
-                </div>
-              </div>
-            </div>
-
-              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
-                  <Eye className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Remote Supervision
-                  </h3>
-                  <p className="text-sm text-slate-300">
-                    Real-time access to robot status, live feeds, and event logs from anywhere
-                  </p>
-                </div>
-              </div>
-            </div>
-
-              <div className="blue-card-glow rounded-2xl p-3 md:p-6">
-              <div className="flex items-start gap-3">
-                <div className="rounded-full bg-[#B4FF33]/10 p-2 text-[#B4FF33] mt-1">
-                  <Shield className="h-5 w-5" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white mb-2">
-                    Open API Integration
-                  </h3>
-                  <p className="text-sm text-slate-300">
-                    Connect 1ROLLO to existing security management systems, VMS, and third-party tools
+                    Centralized cloud platform for managing multiple robots, defining patrol routes, and monitoring performance
                   </p>
                 </div>
               </div>
             </div>
           </div>
-
-          <p className="text-base md:text-lg text-slate-300 max-w-3xl mt-6">
-            The platform integrates seamlessly into existing security environments — from private
-            enterprises to national infrastructure operators.
-          </p>
         </div>
       </Section>
     </div>
