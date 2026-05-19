@@ -260,7 +260,7 @@ const Contact = () => {
                   <label className="block text-sm font-medium text-white mb-3">
                     Intended Area of Deployment
                   </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-60 overflow-y-auto pr-2">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                     {DEPLOYMENT_AREA_OPTIONS.map((area) => (
                       <div key={area} className="flex items-start gap-2">
                         <Checkbox
