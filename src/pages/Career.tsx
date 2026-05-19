@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
-import { Briefcase } from "lucide-react";
+import { Briefcase, ImagePlus, ArrowRight } from "lucide-react";
 import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
 import {
   Dialog,
@@ -9,14 +10,39 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Section, SectionIntro, SectionTag } from "@/components/ui/section";
+import FadeInView from "@/components/FadeInView";
 import DOMPurify from "dompurify";
+
+const teamProfiles = [
+  { name: "Arno Kütt", image: "/robot/team/profile/arno_kutt.webp" },
+  { name: "Sander Sebastian Agur", image: "/robot/team/profile/sander_sebastjan_agur.webp" },
+  { name: "Kristi Vahter", image: "/robot/team/profile/kristi_vahter.webp" },
+  { name: "Laido Valdvee", image: "/robot/team/profile/laido_valdvee.webp" },
+  { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.webp" },
+  { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.webp" },
+  { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.webp" },
+  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.webp" },
+  { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.webp" },
+  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.webp" },
+  { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.webp" },
+];
 
 const Career = () => {
   const { data: careerPosts } = usePublishedCareerPosts();
   const [selectedPost, setSelectedPost] = useState<CareerPost | null>(null);
+  const [selectedTeamIndex, setSelectedTeamIndex] = useState<number | null>(null);
   const [emailCopied, setEmailCopied] = useState(false);
   const { toast } = useToast();
   const heroRef = useRef<HTMLElement>(null);
+
+  const handleOpenTeamMember = (index: number) => setSelectedTeamIndex(index);
+  const handleCloseTeamMember = () => setSelectedTeamIndex(null);
+  const handleTeamNavigate = (direction: 1 | -1) => {
+    if (selectedTeamIndex === null) return;
+    setSelectedTeamIndex((selectedTeamIndex + direction + teamProfiles.length) % teamProfiles.length);
+  };
+  const selectedTeamMember = selectedTeamIndex !== null ? teamProfiles[selectedTeamIndex] : null;
+
 
   // Scroll to top when component mounts
   useEffect(() => {
