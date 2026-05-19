@@ -83,7 +83,7 @@ const Career = () => {
       {/* Fixed Hero Section - stays in place while scrolling on desktop */}
       <header
         ref={heroRef}
-        className="section-glow-top relative flex h-[100vh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         {/* Hero background image */}
@@ -110,8 +110,8 @@ const Career = () => {
         />
 
         {/* Hero content */}
-        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-24 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
-          <div className="px-3 md:px-0">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
+          <div>
             <SectionIntro centered className="mx-auto flex max-w-3xl flex-col items-center space-y-5 text-center md:mx-0 md:items-start md:text-left">
               <SectionTag>Career</SectionTag>
 
@@ -135,7 +135,7 @@ const Career = () => {
 
       {/* Why Join Rollo & Open Positions Section */}
       <section>
-        <Section className="section-glow-top py-16 md:py-24">
+        <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Why Join Us */}
           <div className="blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">

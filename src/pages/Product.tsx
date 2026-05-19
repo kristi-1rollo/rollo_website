@@ -49,9 +49,9 @@ const solutions = [
 
 const Product = () => {
   return (
-    <div className="pb-28 md:pb-56">
+    <div className="pb-16 md:pb-24">
       {/* A) Hero / Intro */}
-      <section className="section-glow-top relative w-full h-[100vh] flex items-center overflow-hidden">
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <img
           src="/robot/F6/1rollo_auto_sec.webp"
           alt="Rollo autonomous security robot on patrol"
@@ -66,7 +66,7 @@ const Product = () => {
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-6 py-24 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
           <div className="mx-auto flex max-w-3xl flex-col items-center space-y-6 md:space-y-6 text-center md:mx-0 md:items-start md:text-left">
             <SectionTag>Product</SectionTag>
 
@@ -90,17 +90,17 @@ const Product = () => {
       </section>
 
       {/* B) Technical Specifications */}
-      <Section className="section-glow-top pt-20 md:pt-36 pb-20 md:pb-44">
+      <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <FadeInView>
           <SpecsBlueprint />
         </FadeInView>
       </Section>
 
       {/* E) Expandable Platform */}
-      <Section className="section-glow-top pt-20 md:pt-36 pb-20 md:pb-44">
+      <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <FadeInView>
           <div>
-            <div className="px-6 md:px-0 mb-16 md:mb-20">
+            <div className="mb-12 md:mb-16">
               <SectionTag>Platform</SectionTag>
               <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 mb-5 md:mb-6">
                 Expandable Platform
@@ -117,9 +117,9 @@ const Product = () => {
       </Section>
 
       {/* C) Built for Real-World Environments */}
-      <Section className="section-glow-top pt-20 md:pt-36 pb-28 md:pb-44">
+      <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <div>
-          <div className="px-6 md:px-0 mb-16 md:mb-20">
+          <div className="mb-12 md:mb-16">
             <SectionTag>Capabilities</SectionTag>
             <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl font-bold text-white mt-3 mb-5 md:mb-6">
               Built for Real-World Environments
@@ -185,7 +185,7 @@ const Product = () => {
       </Section>
 
       {/* D) Availability */}
-      <Section className="mt-20 md:mt-[120px] mb-20 md:mb-44">
+      <Section className="py-16 md:py-24 lg:py-32">
         <FadeInView>
           <div
             className="relative rounded-[20px] md:rounded-[24px] px-6 py-12 md:px-20 md:py-20 border border-white/[0.06]"

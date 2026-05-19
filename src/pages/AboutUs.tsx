@@ -73,7 +73,7 @@ const AboutUs = () => {
       {/* A) Hero - Fixed on desktop, scrolls over on mobile */}
       <header
         ref={heroRef}
-        className="section-glow-top relative flex h-[100vh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         <picture>
@@ -94,7 +94,7 @@ const AboutUs = () => {
           style={{ opacity: 'var(--hero-overlay-opacity)' }}
         />
 
-        <div className="relative z-10 max-w-6xl lg:max-w-[1440px] mx-auto w-full px-6 py-24 sm:px-6 lg:px-20">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
           <div className="mx-auto flex max-w-5xl flex-col items-center space-y-6 text-center md:mx-0 md:items-start md:text-left">
             <SectionTag>About Us</SectionTag>
             <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-4xl">
@@ -116,8 +116,8 @@ const AboutUs = () => {
         <div className="bg-background pb-16">
 
       {/* B) Team */}
-      <Section className="section-glow-top relative py-16 md:py-24">
-        <div className="space-y-4 mb-10 px-3 md:px-0">
+      <Section className="section-glow-top relative py-16 md:py-24 lg:py-32">
+        <div className="space-y-4 mb-10">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             The Team
           </p>
@@ -159,8 +159,8 @@ const AboutUs = () => {
       </Section>
 
       {/* D) Join Us - Mini Career CTA */}
-      <Section className="section-glow-top py-16 md:py-20">
-        <div className="text-center max-w-2xl mx-auto space-y-6 px-3 md:px-0">
+      <Section className="section-glow-top py-16 md:py-24 lg:py-32">
+        <div className="text-center max-w-2xl mx-auto space-y-6">
           <p className="text-xs uppercase tracking-[0.2em] text-[#B4FF33]">
             Join Us
           </p>
