@@ -27,11 +27,11 @@ const Footer = () => {
               <p className="text-[15px] text-slate-200 font-medium tracking-tight">
                 Rollo Robotics OÜ
               </p>
-              <p className="text-[13px] text-slate-400 leading-relaxed">
+              <p className="hidden md:block text-[13px] text-slate-400 leading-relaxed">
                 Raua 16, Viljandi<br />
                 Estonia
               </p>
-              <p className="text-xs text-slate-400">Registry code: 17320003</p>
+              <p className="hidden md:block text-xs text-slate-400">Registry code: 17320003</p>
               <a
                 href="mailto:info@1rollo.com"
                 className="inline-flex min-h-[44px] md:min-h-0 items-center md:justify-start gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
