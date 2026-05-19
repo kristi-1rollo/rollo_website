@@ -42,7 +42,7 @@ export function LiveScanner() {
       />
 
       {/* Detection labels */}
-      <div className="relative z-20 grid grid-cols-2 md:grid-cols-5 gap-4">
+      <div className="relative z-20 grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-7 px-6 md:px-0">
         {detections.map((det) => (
           <motion.div
             key={det.name}
@@ -50,7 +50,7 @@ export function LiveScanner() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.5 }}
-            className="border border-[#B4FF33]/30 bg-black/40 backdrop-blur-sm px-4 py-4"
+            className="border border-[#B4FF33]/30 bg-black/40 backdrop-blur-sm px-6 py-6 min-h-[100px] md:min-h-[150px] md:px-8 md:py-8"
             style={{
               animation: `scanner-glow 6s linear infinite`,
               animationDelay: det.delay,

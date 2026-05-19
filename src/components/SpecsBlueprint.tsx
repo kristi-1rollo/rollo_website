@@ -151,7 +151,7 @@ function SpecLabel({
 function SpecCard({ spec }: { spec: Spec }) {
   const Icon = spec.icon;
   return (
-    <div className="glass border-[#B4FF33]/20 p-6 flex flex-col items-center justify-center gap-3 text-center min-h-[240px] h-full">
+    <div className="glass border-[#B4FF33]/20 p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[280px] h-full">
       <div className="rounded-full bg-[#B4FF33]/10 p-3 text-[#B4FF33]">
         <Icon className="h-6 w-6" />
       </div>
@@ -188,9 +188,9 @@ export function SpecsBlueprint() {
   }, [api, onSelect]);
 
   return (
-    <div className="space-y-8">
+    <div>
       {/* Section header */}
-      <div className="text-center">
+      <div className="text-center px-6 md:px-0 mb-16 md:mb-24">
         <p className="mono-spec text-[#B4FF33] mb-3">SYSTEM ARCHITECTURE</p>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           Technical Specifications
@@ -198,19 +198,19 @@ export function SpecsBlueprint() {
       </div>
 
       {/* ── Desktop blueprint ── */}
-      <div className="hidden md:block relative min-h-[950px]">
+      <div className="hidden md:block relative min-h-[1000px]">
         {/* Pulsing glow behind robot */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full bg-[#B4FF33]/15 blur-[80px] animate-pulse color-dodge-glow" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#B4FF33]/15 blur-[80px] animate-pulse color-dodge-glow" />
 
         {/* Additional blue ambient glow */}
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-blue-500/8 blur-[100px]" />
+        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-blue-500/8 blur-[100px]" />
 
         {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
             src="/robot/F6/f6_tech_spec.webp"
             alt="1ROLLO technical specifications"
-            className="max-w-[400px] w-full h-auto opacity-95"
+            className="max-w-[480px] w-full h-auto opacity-95"
             style={{ mixBlendMode: "lighten" }}
             loading="lazy"
           />
@@ -259,9 +259,9 @@ export function SpecsBlueprint() {
           setApi={setApi}
           className="w-full"
         >
-          <CarouselContent className="-ml-3">
+          <CarouselContent className="-ml-4">
             {allSpecs.map((spec) => (
-              <CarouselItem key={spec.label} className="pl-3 basis-[280px] min-w-[280px]">
+              <CarouselItem key={spec.label} className="pl-4 basis-[87vw]">
                 <SpecCard spec={spec} />
               </CarouselItem>
             ))}
@@ -285,10 +285,18 @@ export function SpecsBlueprint() {
         )}
       </div>
 
-      {/* Info row - military HUD style */}
-      <p className="mono-spec text-white/40 text-center tracking-[0.45em] text-sm" style={{ wordSpacing: '0.8em' }}>
-        24/7 AUTONOMOUS  •  SELF-CHARGING  •  CONNECTED  •  ALL-TERRAIN
-      </p>
+      {/* Info row - mobile: vertical stack, desktop: horizontal */}
+      <div className="mono-spec text-white/40 text-center tracking-[0.45em] text-sm mt-16 md:mt-24">
+        <div className="flex flex-col md:hidden gap-3">
+          <p>24/7 AUTONOMOUS</p>
+          <p>SELF-CHARGING</p>
+          <p>CONNECTED</p>
+          <p>ALL-TERRAIN</p>
+        </div>
+        <p className="hidden md:block" style={{ wordSpacing: '0.8em' }}>
+          24/7 AUTONOMOUS  •  SELF-CHARGING  •  CONNECTED  •  ALL-TERRAIN
+        </p>
+      </div>
     </div>
   );
 }
