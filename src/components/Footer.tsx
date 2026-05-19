@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="flex flex-col md:flex-row md:justify-between gap-8 md:gap-0 text-center md:text-left items-center md:items-start">
 
           {/* Contact */}
-          <div className="space-y-4 md:max-w-[280px]">
+          <div className="space-y-2 md:space-y-4 md:max-w-[280px]">
             <Link
               to="/"
               aria-label="Go to homepage"
