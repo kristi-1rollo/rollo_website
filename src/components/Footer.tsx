@@ -34,7 +34,7 @@ const Footer = () => {
               <p className="text-xs text-slate-400">Registry code: 17320003</p>
               <a
                 href="mailto:info@1rollo.com"
-                className="inline-flex min-h-[44px] md:min-h-0 items-center justify-center md:justify-start gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
+                className="inline-flex min-h-[44px] md:min-h-0 items-center md:justify-start gap-2 text-[15px] font-medium text-[hsl(82,100%,60%)] hover:text-[hsl(82,100%,70%)] transition-colors mt-1"
               >
                 <Mail className="w-4 h-4" />
                 info@1rollo.com
@@ -47,37 +47,37 @@ const Footer = () => {
             <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
               Quick Links
             </h3>
-            <nav className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:grid-cols-1 md:gap-y-2.5 text-[15px]">
+            <nav className="grid grid-cols-2 gap-x-8 gap-y-1.5 md:grid-cols-1 md:gap-y-2.5 text-[15px] [&>a:nth-child(odd)]:justify-end [&>a:nth-child(even)]:justify-start md:[&>a]:justify-start">
               <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/product"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Product
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/about"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 About Us
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/blog"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Blog
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/career"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
                 Career
               </Link>
               <Link
-                className="flex py-1.5 md:py-0 items-center justify-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
+                className="flex py-1.5 md:py-0 items-center md:justify-start text-slate-300 hover:text-white hover:translate-x-0.5 transition-all"
                 to="/contact"
                 onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
               >
