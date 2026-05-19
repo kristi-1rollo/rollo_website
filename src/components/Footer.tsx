@@ -87,12 +87,12 @@ const Footer = () => {
           </div>
 
           {/* Social & Trust signals */}
-          <div className="space-y-6 md:text-right">
+          <div className="grid grid-cols-2 gap-6 w-full md:w-auto md:flex md:flex-col md:space-y-6 md:text-right">
             <div className="space-y-3">
               <h3 className="text-[10px] uppercase tracking-[0.25em] text-slate-400 font-semibold">
                 Follow Us
               </h3>
-              <div className="flex items-center gap-2.5 justify-center md:justify-end">
+              <div className="flex items-center gap-2.5 justify-start md:justify-end">
                 <a
                   href="https://www.linkedin.com/company/rollo-robotics"
                   target="_blank"
