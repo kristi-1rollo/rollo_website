@@ -261,14 +261,16 @@ const Index = () => {
       </section>
 
       {/* ═══ SOLUTION ═══ */}
-      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
-        {/* Background Image - Robots (right side, less than half) */}
-        <img
-          src="/images/1rollo_solution_graph.png"
-          alt="1Rollo autonomous security robots"
-          className="absolute inset-0 w-full h-full object-cover object-[85%_center] md:object-[75%_center]"
-          loading="lazy"
-        />
+      <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden py-16 md:py-20">
+        {/* Background Image - Robots (right side) with breathing room */}
+        <div className="absolute inset-x-0 top-[8%] bottom-[8%] flex items-center justify-end">
+          <img
+            src="/images/1rollo_solution_graph.png"
+            alt="1Rollo autonomous security robots"
+            className="h-full w-auto object-contain object-right"
+            loading="lazy"
+          />
+        </div>
         <div className="absolute inset-0 bg-black/42" />
         {/* Mobile: gradient from bottom */}
         <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.85)_25%,rgba(2,6,13,0.65)_50%,rgba(2,6,13,0.35)_75%,rgba(2,6,13,0.15)_100%)] md:hidden" />
@@ -276,8 +278,8 @@ const Index = () => {
         <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.98)_0%,rgba(2,6,13,0.96)_20%,rgba(2,6,13,0.92)_35%,rgba(2,6,13,0.78)_48%,rgba(2,6,13,0.42)_62%,rgba(2,6,13,0.12)_78%,rgba(2,6,13,0)_100%)]" />
         <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-        <PublicContentRail className="relative z-10 py-24">
-          <div className="space-y-8 md:space-y-10 px-3 md:px-0 md:max-w-[52%]">
+        <PublicContentRail className="relative z-10 py-32 md:py-40">
+          <div className="space-y-8 md:space-y-10 px-3 md:px-0 md:max-w-[58%]">
               {/* Header */}
               <FadeInView>
                 <div className="max-w-3xl">
@@ -380,6 +382,7 @@ const Index = () => {
       </section>
 
       {/* ═══ CAPABILITIES ═══ */}
+      {/* HIDDEN: Rollo Can Observe, Drive, Decide, Report, and Intervene section
       <section className="section-glow-top relative w-full overflow-hidden py-12 md:py-20 lg:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.14),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.1),rgba(0,0,0,0.05))]" />
         <PublicContentRail className="relative z-10">
@@ -422,8 +425,10 @@ const Index = () => {
           </Dialog>
         </PublicContentRail>
       </section>
+      */}
 
       {/* ═══ PRODUCT TEASER ═══ */}
+      {/* HIDDEN: Product section
       <Section className="section-glow-top py-12 md:py-40">
         <FadeInView>
           <div className="px-3 md:px-0">
@@ -467,6 +472,7 @@ const Index = () => {
           ))}
         </LazySection>
       </Section>
+      */}
 
       {/* ═══ USE CASES ═══ */}
       <Section className="section-glow-top py-20 md:py-28">
@@ -529,87 +535,145 @@ const Index = () => {
         </div>
       </Section>
 
-      <section className="section-glow-top relative flex items-center justify-center overflow-hidden border-b border-t border-white/8 bg-background">
-        {/* Inner padding wrapper to create space from borders - perfectly symmetric */}
-        <div className="absolute inset-0 my-12 mx-0 overflow-hidden md:my-16 lg:mx-8 lg:my-20">
-          {/* Background image inside padded area */}
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage: 'url(/robot/F6/1rollo_market_scale.webp)',
-              backgroundSize: 'cover',
-              backgroundPosition: '75% center',
-              backgroundRepeat: 'no-repeat'
-            }}
-          />
+      <section className="section-glow-top relative overflow-hidden bg-background min-h-screen flex items-center py-16 md:py-24">
+        {/* Subtle background effects */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_-20%,rgba(22,74,173,0.08),transparent_50%)]" />
+        <div className="absolute inset-0 geo-grid opacity-5 pointer-events-none" />
 
-          {/* Desktop gradient overlay - left to right fade */}
-          <div
-            className="absolute inset-0 hidden lg:block"
-            style={{
-              background: 'linear-gradient(to right, rgba(2,6,17,1) 0%, rgba(2,6,17,0.95) 20%, rgba(2,6,17,0.8) 40%, rgba(2,6,17,0.3) 70%, rgba(2,6,17,0) 100%)'
-            }}
-          />
-
-          {/* Mobile gradient overlay - bottom to top fade */}
-          <div
-            className="absolute inset-0 lg:hidden"
-            style={{
-              background: 'linear-gradient(to top, rgba(2,6,17,1) 0%, rgba(2,6,17,0.95) 30%, rgba(2,6,17,0.7) 60%, rgba(2,6,17,0.3) 100%)'
-            }}
-          />
-
-          {/* Background effects */}
-          <div className="absolute inset-0 geo-grid opacity-8 pointer-events-none" />
-          <div className="absolute left-[18%] top-24 h-48 w-48 rounded-full bg-[radial-gradient(circle,rgba(42,102,225,0.12)_0%,rgba(7,20,49,0.04)_42%,rgba(0,0,0,0)_76%)] blur-3xl pointer-events-none" />
-        </div>
-
-        {/* Container with max-width matching other sections */}
-        <div className="relative z-10 w-full h-full flex items-center">
-          <div className="max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full py-16 md:py-24">
-            <div className="max-w-xl lg:max-w-2xl xl:max-w-3xl">
+        {/* Container */}
+        <div className="relative z-10 max-w-6xl lg:max-w-7xl xl:max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 w-full">
+          <div className="max-w-full">
             {/* Text Content */}
-            <div className="space-y-8">
+            <div className="space-y-20 md:space-y-24">
+              {/* Header */}
               <FadeInView>
-                <div className="px-3 md:px-0">
-                  <SectionTag>Business Case</SectionTag>
+                <div className="px-3 md:px-0 text-center md:text-left">
+                  <SectionTag>Comparison</SectionTag>
                   <h2 className="title-halo text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4 mt-4">
-                    Market Scale Meets Immediate ROI.
+                    A Massive Market Ready for Automation
                   </h2>
-                  <p className="text-sm md:text-base lg:text-lg text-white/70 max-w-xl">
-                    The market is already there. The operating savings are measurable.
-                  </p>
                 </div>
               </FadeInView>
 
-              <FadeInView delay={120}>
-                <div className="pt-6 lg:pt-8">
-                  <p className="text-xs uppercase tracking-[0.18em] text-white/50 mb-6">
-                    Market Opportunity
-                  </p>
-                  <div className="grid grid-cols-1 gap-5 max-w-2xl sm:grid-cols-2 lg:grid-cols-1">
-                    {[
-                      { num: "28.5M", desc: "Frontline security workers globally" },
-                      { num: "$500B", desc: "Security equipment market by 2030" },
-                      { num: "80%+", desc: "Potential customer cost savings" },
-                    ].map((stat, i) => (
-                      <FadeInView key={stat.num} delay={i * 100 + 200}>
-                        <div className="border-l-2 border-white/15 pl-5">
-                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
-                            {stat.num}
-                          </p>
-                          <p className="text-sm md:text-base text-white/70 mt-2.5 max-w-[28ch]">
-                            {stat.desc}
+              {/* Comparison: 3 Robots vs 9 Guards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-10 max-w-full">
+                {/* 3 Robots */}
+                <FadeInView delay={100}>
+                  <div className="relative h-full rounded-lg overflow-hidden bg-gradient-to-br from-blue-950/30 via-black/40 to-black/30 backdrop-blur-sm border border-primary/25 shadow-lg shadow-primary/5">
+                    {/* Subtle blue glow overlay */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(22,74,173,0.1),transparent_70%)]" />
+
+                    <div className="relative z-10 h-full flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-8 md:p-10">
+                      {/* Left: Text content */}
+                      <div className="flex-1 space-y-6 min-w-0">
+                        {/* Badge */}
+                        <div className="inline-block px-4 py-2 rounded-md bg-primary text-black font-bold text-sm">
+                          3 Robots
+                        </div>
+
+                        {/* Costs */}
+                        <div className="space-y-2">
+                          <p className="text-xs uppercase tracking-wider text-white/50">Annual cost</p>
+                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-primary leading-tight">
+                            $72,000 -<br />$108,000
                           </p>
                         </div>
-                      </FadeInView>
-                    ))}
+                      </div>
+
+                      {/* Right: Robot Image */}
+                      <div className="flex justify-center md:justify-end flex-shrink-0">
+                        <img
+                          src="/images/1rollo_market_3robots.png"
+                          alt="3 Rollo robots"
+                          className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[240px] object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </FadeInView>
+
+                {/* 9 Guards */}
+                <FadeInView delay={200}>
+                  <div className="relative h-full rounded-lg overflow-hidden bg-gradient-to-br from-slate-900/35 via-black/40 to-black/30 backdrop-blur-sm border border-white/25 shadow-lg">
+                    {/* Subtle glow overlay */}
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(100,116,139,0.1),transparent_70%)]" />
+
+                    <div className="relative z-10 h-full flex flex-col md:flex-row md:items-center gap-6 md:gap-8 p-8 md:p-10">
+                      {/* Left: Text content */}
+                      <div className="flex-1 space-y-6 min-w-0">
+                        {/* Badge */}
+                        <div className="inline-block px-4 py-2 rounded-md bg-white/10 text-white font-bold text-sm border border-white/20">
+                          9 Guards
+                        </div>
+
+                        {/* Costs */}
+                        <div className="space-y-2">
+                          <p className="text-xs uppercase tracking-wider text-white/50">Annual cost</p>
+                          <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-tight">
+                            $450,000 -<br />$630,000
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Right: Guard Image */}
+                      <div className="flex justify-center md:justify-end flex-shrink-0">
+                        <img
+                          src="/images/1rollo_security_guard.png"
+                          alt="Security guard"
+                          className="w-full max-w-[200px] md:max-w-[220px] lg:max-w-[240px] object-contain"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </FadeInView>
+              </div>
+
+              {/* Market Statistics */}
+              <FadeInView delay={300}>
+                <div className="relative">
+                  {/* Subtle separator */}
+                  <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+
+                  <div className="flex flex-col md:flex-row md:justify-between md:items-start gap-10 md:gap-8 max-w-full px-3 md:px-0 pt-12 md:pt-14">
+                    {/* Stat 1 - Left aligned */}
+                    <div className="space-y-2 md:flex-shrink-0">
+                      <div className="h-0.5 w-8 bg-primary/40" />
+                      <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
+                        28.5M
+                      </p>
+                      <p className="text-sm font-semibold text-white/70">
+                        Frontline security workers
+                      </p>
+                    </div>
+
+                    {/* Stat 2 - Center */}
+                    <div className="space-y-2 md:flex-shrink-0 md:text-center">
+                      <div className="h-0.5 w-8 bg-primary/40 md:mx-auto" />
+                      <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
+                        $500B
+                      </p>
+                      <p className="text-sm font-semibold text-white/70">
+                        Physical security market by 2026
+                      </p>
+                    </div>
+
+                    {/* Stat 3 - Right aligned */}
+                    <div className="space-y-2 md:flex-shrink-0 md:text-right">
+                      <div className="h-0.5 w-8 bg-primary/40 md:ml-auto" />
+                      <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none">
+                        80%+
+                      </p>
+                      <p className="text-sm font-semibold text-white/70">
+                        Labor cost reduction
+                      </p>
+                    </div>
                   </div>
                 </div>
               </FadeInView>
             </div>
           </div>
-        </div>
         </div>
       </section>
     </div>
