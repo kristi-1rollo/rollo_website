@@ -72,15 +72,12 @@ const Contact = () => {
             </div>
 
             <div className="surface-panel overflow-hidden rounded-[4px] md:hidden">
-              <video
-                autoPlay
-                loop
-                muted
-                playsInline
+              <img
+                src="/images/1rollo_deploy.webp"
+                alt="1Rollo deployment"
                 className="aspect-[4/5] w-full object-cover"
-              >
-                <source src="/robot/vid/1Rollo_hallway.mp4" type="video/mp4" />
-              </video>
+                loading="eager"
+              />
             </div>
           </div>
         </div>
