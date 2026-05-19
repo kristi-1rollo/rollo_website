@@ -83,7 +83,7 @@ const Header = () => {
               <img src={logo} alt="ROLLO" className="h-8 w-auto block" />
             </Link>
 
-            <span className="hidden sm:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
+            <span className="hidden xl:block text-slate-500 text-[10px] tracking-[0.2em] uppercase select-none border-l border-white/[0.08] pl-3">
               Autonomous Security Robotics
             </span>
           </div>
