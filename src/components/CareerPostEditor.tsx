@@ -179,7 +179,7 @@ const CareerPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) =
       const path = `${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
         .from("career-posters")
-        .upload(path, optimized, { upsert: true });
+        .upload(path, optimized);
       if (error) throw error;
 
       const { data } = supabase.storage.from("career-posters").getPublicUrl(path);
