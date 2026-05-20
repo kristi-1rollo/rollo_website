@@ -145,8 +145,9 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="surface-panel rounded-[4px] p-5 md:p-6">
+            <div ref={formCardRef} className="surface-panel rounded-[4px] p-5 md:p-6 scroll-mt-24">
               <div className="mb-6">
+
                 <h3 className="title-halo text-2xl font-bold text-white mb-2">
                   Get in Touch
                 </h3>
