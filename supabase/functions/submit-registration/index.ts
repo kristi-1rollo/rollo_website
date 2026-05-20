@@ -88,17 +88,16 @@ serve(async (req) => {
 
     // Fire-and-forget emails: notify the team + confirm receipt to the client.
     // Failures are logged but do not block the form response.
-    const invoke = (templateName: string, body: Record<string, unknown>) =>
-      fetch(`${SUPABASE_URL}/functions/v1/send-transactional-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
-        },
-        body: JSON.stringify({ templateName, ...body }),
-      })
-        .then(async (r) => {
-          if (!r.ok) console.error(`email ${templateName} failed`, r.status, await r.text());
+    // Uses supabase.functions.invoke so the SDK handles auth headers correctly
+    // (new sb_secret_... service role keys are not JWTs and would fail the
+    // gateway's verify_jwt check if sent as a raw Bearer token).
+    const invoke = (templateName: string, payload: Record<string, unknown>) =>
+      supabase.functions
+        .invoke("send-transactional-email", {
+          body: { templateName, ...payload },
+        })
+        .then((res) => {
+          if (res.error) console.error(`email ${templateName} failed`, res.error);
         })
         .catch((e) => console.error(`email ${templateName} error`, e));
 
