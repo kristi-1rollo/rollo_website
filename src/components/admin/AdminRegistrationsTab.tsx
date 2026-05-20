@@ -187,7 +187,7 @@ export function AdminRegistrationsTab() {
             className="gap-2"
           >
             <Download className="h-4 w-4" />
-            Ekspordi CSV ({filtered.length})
+            Ekspordi Excel ({filtered.length})
           </Button>
         </div>
       </div>
@@ -307,7 +307,7 @@ export function AdminRegistrationsTab() {
                   </p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  ✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia.<br />
+                  ✓ Enne kustutamist laetakse automaatselt alla Exceli varukoopia.<br />
                   ✓ Tegevus salvestatakse auditi logisse (kes, millal, mis kirje).<br />
                   ✗ Seda tegevust ei saa tagasi võtta.
                 </p>
@@ -351,7 +351,7 @@ export function AdminRegistrationsTab() {
                   registreeringut. Seda ei saa tagasi võtta.
                 </p>
                 <div className="text-xs text-muted-foreground rounded-[4px] border border-border bg-muted/30 p-3 space-y-1">
-                  <p>✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia kõigi valitud kirjetega.</p>
+                  <p>✓ Enne kustutamist laetakse automaatselt alla Exceli varukoopia kõigi valitud kirjetega.</p>
                   <p>✓ Iga kustutamine logitakse serveris auditi logisse.</p>
                   <p>✗ Andmebaasist eemaldatakse kirjed jäädavalt.</p>
                 </div>
