@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -62,8 +63,6 @@ interface RegistrationModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
-
 const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
@@ -105,21 +104,19 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
     setIsSubmitting(true);
 
     try {
-      const res = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+      const { data, error } = await supabase.functions.invoke("submit-registration", {
+        body: formData,
       });
 
-      const data = (await res.json().catch(() => ({}))) as unknown as {
+      const responseData = (data ?? {}) as unknown as {
         error?: string;
         details?: string[];
       };
 
-      if (!res.ok || data?.error) {
-        const msg = Array.isArray(data?.details)
-          ? data.details.join(", ")
-          : data?.error;
+      if (error || responseData?.error) {
+        const msg = Array.isArray(responseData?.details)
+          ? responseData.details.join(", ")
+          : responseData?.error || error?.message;
 
         toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
