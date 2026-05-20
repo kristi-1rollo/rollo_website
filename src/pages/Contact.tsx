@@ -332,12 +332,14 @@ const Contact = () => {
                     type="text"
                     id="estimatedDemand"
                     name="estimatedDemand"
+                    maxLength={200}
                     value={formData.estimatedDemand}
                     onChange={handleInputChange}
                      className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 20-50 units"
                   />
                 </div>
+
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-3">
