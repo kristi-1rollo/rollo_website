@@ -86,6 +86,33 @@ serve(async (req) => {
       return json({ error: "Internal server error" }, 500, corsHeaders);
     }
 
+    // Fire-and-forget emails: notify the team + confirm receipt to the client.
+    // Failures are logged but do not block the form response.
+    const invoke = (templateName: string, body: Record<string, unknown>) =>
+      fetch(`${SUPABASE_URL}/functions/v1/send-transactional-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${SERVICE_ROLE_KEY}`,
+        },
+        body: JSON.stringify({ templateName, ...body }),
+      })
+        .then(async (r) => {
+          if (!r.ok) console.error(`email ${templateName} failed`, r.status, await r.text());
+        })
+        .catch((e) => console.error(`email ${templateName} error`, e));
+
+    await Promise.all([
+      invoke("contact_notification", {
+        replyTo: email,
+        templateData: { name, email, region, topics, message },
+      }),
+      invoke("contact_confirmation", {
+        recipientEmail: email,
+        templateData: { name },
+      }),
+    ]);
+
     return json({ ok: true }, 200, corsHeaders);
   } catch {
     return json({ error: "Bad request" }, 400, corsHeaders);
