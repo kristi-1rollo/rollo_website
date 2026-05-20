@@ -105,7 +105,7 @@ const RegistrationModal = ({ open, onOpenChange }: RegistrationModalProps) => {
 
     try {
       const { data, error } = await supabase.functions.invoke("submit-registration", {
-        body: JSON.stringify(formData),
+        body: formData,
       });
 
       const responseData = (data ?? {}) as unknown as {
