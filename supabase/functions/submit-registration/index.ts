@@ -109,7 +109,7 @@ serve(async (req) => {
       }),
       invoke("contact_confirmation", {
         recipientEmail: email,
-        templateData: { name },
+        templateData: {},
       }),
     ]);
 
