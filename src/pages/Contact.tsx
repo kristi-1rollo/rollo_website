@@ -210,11 +210,18 @@ const Contact = () => {
                       id="name"
                       name="name"
                       required
+                      maxLength={100}
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "name-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your name"
                     />
+                    {errors.name && (
+                      <p id="name-error" className="mt-1.5 text-xs text-destructive">{errors.name}</p>
+                    )}
                   </div>
 
                   <div>
@@ -226,11 +233,18 @@ const Contact = () => {
                       id="email"
                       name="email"
                       required
+                      maxLength={255}
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="your.email@company.com"
                     />
+                    {errors.email && (
+                      <p id="email-error" className="mt-1.5 text-xs text-destructive">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -244,11 +258,18 @@ const Contact = () => {
                       id="company"
                       name="company"
                       required
+                      maxLength={150}
+                      autoComplete="organization"
                       value={formData.company}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.company}
+                      aria-describedby={errors.company ? "company-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your company"
                     />
+                    {errors.company && (
+                      <p id="company-error" className="mt-1.5 text-xs text-destructive">{errors.company}</p>
+                    )}
                   </div>
 
                   <div>
@@ -260,11 +281,18 @@ const Contact = () => {
                       id="country"
                       name="country"
                       required
+                      maxLength={80}
+                      autoComplete="country-name"
                       value={formData.country}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.country}
+                      aria-describedby={errors.country ? "country-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your country"
                     />
+                    {errors.country && (
+                      <p id="country-error" className="mt-1.5 text-xs text-destructive">{errors.country}</p>
+                    )}
                   </div>
                 </div>
 
@@ -276,13 +304,25 @@ const Contact = () => {
                     type="number"
                     id="numberOfRobots"
                     name="numberOfRobots"
-                    min="1"
+                    min={1}
+                    max={100000}
+                    step={1}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    onKeyDown={blockNonNumericKeys}
                     value={formData.numberOfRobots}
                     onChange={handleInputChange}
+                    aria-invalid={!!errors.numberOfRobots}
+                    aria-describedby={errors.numberOfRobots ? "robots-error" : undefined}
                      className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 5"
                   />
+                  {errors.numberOfRobots && (
+                    <p id="robots-error" className="mt-1.5 text-xs text-destructive">{errors.numberOfRobots}</p>
+                  )}
                 </div>
+
 
                 <div>
                   <label htmlFor="estimatedDemand" className="block text-sm font-medium text-white mb-2">
