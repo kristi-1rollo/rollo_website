@@ -1,28 +1,31 @@
-## Plaan: vahepeal saadetud kirjade taastamine
+## Probleem
 
-Kontrolli järgi on saatjadomeen korras ja taustatöö olemas, aga nähtavas e-kirjade logis ega järjekorras ei ole kirju alles. Seega ei tasu taastamist teha e-kirja järjekorrast, vaid kindlamalt vormi salvestatud päringutest: kui vorm näitas rohelist kinnitust, salvestati päring enne e-kirja saatmise katset.
+Kui klient saadab kontaktivormi, läheb `contact_notification` meil `info@1rollo.com`-i — aga Gmailis "Reply" vajutades läheb vastus `noreply@notify.1rollo.com` peale, mitte kliendi e-posti aadressile.
 
-### 1. Taastan lähteandmed registreeringutest
-- Võtan kõik viimase perioodi kontaktivormi päringud `Registrations` andmetest.
-- Kontrollin, millistel päringutel puudub vastav e-kirja saatmise logi.
-- Väldin duplikaate, et sama päring ei läheks kogemata mitu korda välja.
+## Põhjus
 
-### 2. Teen turvalise uuestisaatmise
-- Lisan ajutise/haldusliku taastamismehhanismi, mis saadab iga salvestatud päringu põhjal uuesti:
-  - tiimile teavituse `info@1rollo.com`
-  - kliendile kinnituskirja tema e-posti aadressile
-- Iga taastatud kiri saab stabiilse unikaalse võtme, et korduv käivitamine ei tekitaks duplikaatsaateid.
+`submit-registration` annab `replyTo: email` õigesti edasi `send-transactional-email`-ile, mis lisab selle ka queue payloadi (`reply_to`). **Aga `process-email-queue/index.ts` ei edasta `reply_to` välja `sendLovableEmail()` kutsele** — seal puudub rida `reply_to: payload.reply_to`. Seega Reply-To header ei jõua kunagi meilini.
 
-### 3. Käivitan taastamise ja kontrollin tulemuse
-- Käivitan taastamise ainult nende päringute jaoks, mis jäid probleemse perioodi sisse.
-- Kontrollin pärast käivitamist e-kirjade logi:
-  - `pending` tähendab järjekorras
-  - `sent` tähendab edukalt välja saadetud
-  - `failed/dlq/suppressed` tähendab, et tuleb konkreetne viga lahendada
+## Lahendus
 
-### 4. Teen süsteemi edaspidi kindlamaks
-- Muudan vormi e-kirjade saatmise jälgitavamaks, et roheline kinnitusteade ei jätaks muljet, nagu e-kiri oleks kindlasti kohale jõudnud, kui tegelikult jäi saatmine kinni.
-- Vajadusel lisan admin-vaatesse lihtsa “resend” võimaluse konkreetse päringu jaoks.
+Üks väike muudatus `supabase/functions/process-email-queue/index.ts` real ~252-266: lisa `reply_to: payload.reply_to` `sendLovableEmail` argumentide objekti.
 
-### Tehniline märkus
-Praegu nähtavas backendis on e-kirjade järjekord tühi ja e-kirjade logi tühi; taastamise usaldusväärne allikas on `registrations` tabel, mitte aegunud e-kirja järjekord. Kui Live keskkonna salvestatud päringud on eraldi, tuleb taastamine käivitada pärast Live publish’i samas Live andmestikus.
+Seejärel deploy `process-email-queue` funktsioon.
+
+## Tehnilised detailid
+
+```ts
+await sendLovableEmail(
+  {
+    run_id: payload.run_id,
+    to: payload.to,
+    from: payload.from,
+    reply_to: payload.reply_to,   // ← lisa see rida
+    sender_domain: payload.sender_domain,
+    ...
+  },
+  { apiKey, sendUrl: ... }
+)
+```
+
+Pärast seda: uus testesitus → notification meil saabub `info@1rollo.com`-i ja Gmailis Reply läheb kliendi aadressile.
