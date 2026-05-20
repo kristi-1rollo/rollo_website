@@ -103,6 +103,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setIsSuccess(false);
 
     try {
       const topics =
