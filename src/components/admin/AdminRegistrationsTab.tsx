@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useRegistrations } from "@/hooks/useRegistrations";
+import { useState, useMemo } from "react";
+import { useRegistrations, type Registration } from "@/hooks/useRegistrations";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table, TableHeader, TableBody, TableHead, TableRow, TableCell,
 } from "@/components/ui/table";
@@ -12,9 +13,38 @@ import {
   AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent,
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Search, ChevronDown, ChevronUp, Trash2, Download } from "lucide-react";
+import { Search, ChevronDown, ChevronUp, Trash2, Download, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+
+const csvEscape = (v: unknown) => {
+  const s = v == null ? "" : String(v);
+  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+};
+
+const buildCSV = (rows: Registration[]) => {
+  const headers = ["Date", "Name", "Email", "Region", "Topics", "Message", "ID"];
+  const body = rows.map((r) => [
+    format(new Date(r.created_at), "yyyy-MM-dd HH:mm:ss"),
+    r.name, r.email, r.region,
+    (r.topics || []).join("; "),
+    r.message ?? "",
+    r.id,
+  ].map(csvEscape).join(","));
+  return "\uFEFF" + [headers.join(","), ...body].join("\n");
+};
+
+const downloadCSV = (csv: string, filename: string) => {
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+};
 
 export function AdminRegistrationsTab() {
   const { data: registrations = [], isLoading } = useRegistrations();
@@ -22,55 +52,92 @@ export function AdminRegistrationsTab() {
   const { toast } = useToast();
   const [search, setSearch] = useState("");
   const [expandedId, setExpandedId] = useState<string | null>(null);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [deleteSingleId, setDeleteSingleId] = useState<string | null>(null);
+  const [bulkDeleteOpen, setBulkDeleteOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const filtered = registrations.filter(
-    (r) =>
-      r.name.toLowerCase().includes(search.toLowerCase()) ||
-      r.email.toLowerCase().includes(search.toLowerCase())
+  const filtered = useMemo(
+    () =>
+      registrations.filter(
+        (r) =>
+          r.name.toLowerCase().includes(search.toLowerCase()) ||
+          r.email.toLowerCase().includes(search.toLowerCase())
+      ),
+    [registrations, search]
   );
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
-    setIsDeleting(true);
-    const { error } = await supabase.from("registrations").delete().eq("id", deleteId);
-    setIsDeleting(false);
+  const toggleOne = (id: string) => {
+    setSelectedIds((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  };
+
+  const toggleAll = () => {
+    const allSelected = filtered.length > 0 && filtered.every((r) => selectedIds.has(r.id));
+    setSelectedIds(allSelected ? new Set() : new Set(filtered.map((r) => r.id)));
+  };
+
+  const deleteRecords = async (ids: string[]) => {
+    const targets = registrations.filter((r) => ids.includes(r.id));
+    if (targets.length === 0) return false;
+
+    // 1. Auto-download CSV backup BEFORE deletion
+    const csv = buildCSV(targets);
+    const stamp = format(new Date(), "yyyy-MM-dd_HHmm");
+    downloadCSV(csv, `registrations_backup_BEFORE-DELETE_${stamp}.csv`);
+
+    // 2. Delete (audit log trigger captures each row server-side too)
+    const { error } = await supabase.from("registrations").delete().in("id", ids);
     if (error) {
       toast({ title: "Kustutamine ebaõnnestus", description: error.message, variant: "destructive" });
-      return;
+      return false;
     }
-    toast({ title: "Kirje kustutatud", description: "Tegevus salvestati auditi logisse." });
-    setDeleteId(null);
+
+    toast({
+      title: `Kustutatud: ${targets.length} ${targets.length === 1 ? "kirje" : "kirjet"}`,
+      description: "Varukoopia laeti alla ja tegevus salvestati auditi logisse.",
+    });
     queryClient.invalidateQueries({ queryKey: ["registrations"] });
+    return true;
+  };
+
+  const handleSingleDelete = async () => {
+    if (!deleteSingleId) return;
+    setIsDeleting(true);
+    const ok = await deleteRecords([deleteSingleId]);
+    setIsDeleting(false);
+    if (ok) setDeleteSingleId(null);
+  };
+
+  const handleBulkDelete = async () => {
+    setIsDeleting(true);
+    const ok = await deleteRecords(Array.from(selectedIds));
+    setIsDeleting(false);
+    if (ok) {
+      setBulkDeleteOpen(false);
+      setConfirmText("");
+      setSelectedIds(new Set());
+    }
   };
 
   const handleExportCSV = () => {
     if (filtered.length === 0) return;
-    const escape = (v: unknown) => {
-      const s = v == null ? "" : String(v);
-      return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
-    };
-    const headers = ["Date", "Name", "Email", "Region", "Topics", "Message"];
-    const rows = filtered.map((r) => [
-      format(new Date(r.created_at), "yyyy-MM-dd HH:mm:ss"),
-      r.name, r.email, r.region,
-      (r.topics || []).join("; "),
-      r.message ?? "",
-    ].map(escape).join(","));
-    const csv = "\uFEFF" + [headers.join(","), ...rows].join("\n");
-    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadCSV(
+      buildCSV(filtered),
+      `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.csv`
+    );
   };
 
-  const deleteTarget = registrations.find((r) => r.id === deleteId);
+  const deleteTarget = registrations.find((r) => r.id === deleteSingleId);
+  const allFilteredSelected = filtered.length > 0 && filtered.every((r) => selectedIds.has(r.id));
+  const someFilteredSelected = filtered.some((r) => selectedIds.has(r.id));
+  const selectedCount = selectedIds.size;
+  const bulkConfirmRequired = selectedCount >= 3;
+  const bulkCanDelete = !bulkConfirmRequired || confirmText === "KUSTUTA";
 
   return (
     <div>
@@ -84,15 +151,27 @@ export function AdminRegistrationsTab() {
             className="pl-9 bg-muted/50 border-border text-foreground placeholder:text-muted-foreground"
           />
         </div>
-        <Button
-          variant="outline"
-          onClick={handleExportCSV}
-          disabled={filtered.length === 0}
-          className="gap-2"
-        >
-          <Download className="h-4 w-4" />
-          Ekspordi CSV ({filtered.length})
-        </Button>
+        <div className="flex gap-2">
+          {selectedCount > 0 && (
+            <Button
+              variant="outline"
+              onClick={() => setBulkDeleteOpen(true)}
+              className="gap-2 border-destructive/40 text-destructive hover:bg-destructive/10 hover:text-destructive"
+            >
+              <Trash2 className="h-4 w-4" />
+              Kustuta valitud ({selectedCount})
+            </Button>
+          )}
+          <Button
+            variant="outline"
+            onClick={handleExportCSV}
+            disabled={filtered.length === 0}
+            className="gap-2"
+          >
+            <Download className="h-4 w-4" />
+            Ekspordi CSV ({filtered.length})
+          </Button>
+        </div>
       </div>
 
       {isLoading ? (
@@ -106,6 +185,13 @@ export function AdminRegistrationsTab() {
           <Table>
             <TableHeader>
               <TableRow className="border-border hover:bg-transparent">
+                <TableHead className="w-10">
+                  <Checkbox
+                    checked={allFilteredSelected ? true : someFilteredSelected ? "indeterminate" : false}
+                    onCheckedChange={toggleAll}
+                    aria-label="Vali kõik"
+                  />
+                </TableHead>
                 <TableHead className="text-muted-foreground">Nimi</TableHead>
                 <TableHead className="text-muted-foreground">E-mail</TableHead>
                 <TableHead className="text-muted-foreground">Regioon</TableHead>
@@ -117,7 +203,17 @@ export function AdminRegistrationsTab() {
             </TableHeader>
             <TableBody>
               {filtered.map((r) => (
-                <TableRow key={r.id} className="border-border hover:bg-muted/30">
+                <TableRow
+                  key={r.id}
+                  className={`border-border hover:bg-muted/30 ${selectedIds.has(r.id) ? "bg-muted/20" : ""}`}
+                >
+                  <TableCell>
+                    <Checkbox
+                      checked={selectedIds.has(r.id)}
+                      onCheckedChange={() => toggleOne(r.id)}
+                      aria-label={`Vali ${r.name}`}
+                    />
+                  </TableCell>
                   <TableCell className="text-foreground font-medium">{r.name}</TableCell>
                   <TableCell className="text-muted-foreground">{r.email}</TableCell>
                   <TableCell className="text-muted-foreground">{r.region}</TableCell>
@@ -162,7 +258,7 @@ export function AdminRegistrationsTab() {
                     <Button
                       variant="ghost"
                       size="icon"
-                      onClick={() => setDeleteId(r.id)}
+                      onClick={() => setDeleteSingleId(r.id)}
                       className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                       aria-label="Kustuta kirje"
                     >
@@ -176,27 +272,100 @@ export function AdminRegistrationsTab() {
         </div>
       )}
 
-      <AlertDialog open={!!deleteId} onOpenChange={(open) => !open && setDeleteId(null)}>
+      {/* Single delete dialog */}
+      <AlertDialog
+        open={!!deleteSingleId}
+        onOpenChange={(open) => !open && !isDeleting && setDeleteSingleId(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Kustuta registreering?</AlertDialogTitle>
-            <AlertDialogDescription>
-              {deleteTarget ? (
-                <>
-                  Kas oled kindel, et soovid kustutada kirje <strong>{deleteTarget.name}</strong> ({deleteTarget.email})?
-                  Seda tegevust ei saa tagasi võtta. Tegevus salvestatakse auditi logisse.
-                </>
-              ) : "Kas oled kindel?"}
+            <AlertDialogDescription asChild>
+              <div className="space-y-2">
+                {deleteTarget && (
+                  <p>
+                    Kas oled kindel, et soovid kustutada kirje{" "}
+                    <strong className="text-foreground">{deleteTarget.name}</strong> ({deleteTarget.email})?
+                  </p>
+                )}
+                <p className="text-xs text-muted-foreground">
+                  ✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia.<br />
+                  ✓ Tegevus salvestatakse auditi logisse (kes, millal, mis kirje).<br />
+                  ✗ Seda tegevust ei saa tagasi võtta.
+                </p>
+              </div>
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={isDeleting}>Tühista</AlertDialogCancel>
             <AlertDialogAction
-              onClick={(e) => { e.preventDefault(); handleDelete(); }}
+              onClick={(e) => { e.preventDefault(); handleSingleDelete(); }}
               disabled={isDeleting}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {isDeleting ? "Kustutan…" : "Kustuta"}
+              {isDeleting ? "Kustutan…" : "Laadi varukoopia ja kustuta"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Bulk delete dialog */}
+      <AlertDialog
+        open={bulkDeleteOpen}
+        onOpenChange={(open) => {
+          if (!open && !isDeleting) {
+            setBulkDeleteOpen(false);
+            setConfirmText("");
+          }
+        }}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <ShieldAlert className="h-5 w-5 text-destructive" />
+              Kustuta {selectedCount} {selectedCount === 1 ? "kirje" : "kirjet"}?
+            </AlertDialogTitle>
+            <AlertDialogDescription asChild>
+              <div className="space-y-3">
+                <p>
+                  Sa kustutad korraga{" "}
+                  <strong className="text-foreground">{selectedCount}</strong>{" "}
+                  registreeringut. Seda ei saa tagasi võtta.
+                </p>
+                <div className="text-xs text-muted-foreground rounded-[4px] border border-border bg-muted/30 p-3 space-y-1">
+                  <p>✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia kõigi valitud kirjetega.</p>
+                  <p>✓ Iga kustutamine logitakse serveris auditi logisse.</p>
+                  <p>✗ Andmebaasist eemaldatakse kirjed jäädavalt.</p>
+                </div>
+                {bulkConfirmRequired && (
+                  <div className="space-y-2">
+                    <p className="text-sm">
+                      Kinnituseks trüki{" "}
+                      <code className="px-1.5 py-0.5 rounded bg-muted text-foreground font-mono text-xs">
+                        KUSTUTA
+                      </code>
+                      :
+                    </p>
+                    <Input
+                      value={confirmText}
+                      onChange={(e) => setConfirmText(e.target.value)}
+                      placeholder="KUSTUTA"
+                      autoFocus
+                      className="bg-muted/50 border-border"
+                    />
+                  </div>
+                )}
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Tühista</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => { e.preventDefault(); handleBulkDelete(); }}
+              disabled={isDeleting || !bulkCanDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90 disabled:opacity-50"
+            >
+              {isDeleting ? "Kustutan…" : `Laadi varukoopia ja kustuta ${selectedCount}`}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
