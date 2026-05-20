@@ -16,27 +16,48 @@ import {
 import { Search, ChevronDown, ChevronUp, Trash2, Download, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import * as XLSX from "xlsx";
 
-const csvEscape = (v: unknown) => {
-  const s = v == null ? "" : String(v);
-  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+const normalizeExcelCell = (v: unknown) => {
+  if (v == null) return "";
+  return String(v).replace(/\r?\n+/g, " | ").replace(/\s{2,}/g, " ").trim();
 };
 
-const buildCSV = (rows: Registration[]) => {
-  const delimiter = ";";
+const buildExcelWorkbook = (rows: Registration[]) => {
   const headers = ["Date", "Name", "Email", "Region", "Topics", "Message", "ID"];
-  const body = rows.map((r) => [
-    format(new Date(r.created_at), "yyyy-MM-dd HH:mm:ss"),
-    r.name, r.email, r.region,
-    (r.topics || []).join("; "),
-    r.message ?? "",
-    r.id,
-  ].map(csvEscape).join(delimiter));
-  return "\uFEFFsep=;\n" + [headers.join(delimiter), ...body].join("\n");
+  const data = rows.map((r) => [
+    format(new Date(r.created_at), "dd.MM.yyyy HH:mm"),
+    normalizeExcelCell(r.name),
+    normalizeExcelCell(r.email),
+    normalizeExcelCell(r.region),
+    normalizeExcelCell((r.topics || []).join(", ")),
+    normalizeExcelCell(r.message),
+    normalizeExcelCell(r.id),
+  ]);
+
+  const sheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
+  sheet["!cols"] = [
+    { wch: 18 },
+    { wch: 24 },
+    { wch: 32 },
+    { wch: 18 },
+    { wch: 24 },
+    { wch: 80 },
+    { wch: 38 },
+  ];
+  sheet["!rows"] = Array.from({ length: data.length + 1 }, (_, index) => ({ hpt: index === 0 ? 18 : 15 }));
+
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, sheet, "Registrations");
+  return workbook;
 };
 
-const downloadCSV = (csv: string, filename: string) => {
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+const downloadExcel = (rows: Registration[], filename: string) => {
+  const workbook = buildExcelWorkbook(rows);
+  const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+  const blob = new Blob([buffer], {
+    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
