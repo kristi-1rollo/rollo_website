@@ -69,10 +69,25 @@ serve(async (req) => {
     const topics = Array.isArray(body?.topics) ? body.topics.map(String) : [];
     const message = String(body?.message ?? "").trim();
 
-    if (name.length < 2) return json({ error: "Invalid name" }, 400, corsHeaders);
-    if (!email.includes("@")) return json({ error: "Invalid email" }, 400, corsHeaders);
-    if (!region) return json({ error: "Region is required" }, 400, corsHeaders);
-    if (topics.length < 1) return json({ error: "Select at least one topic" }, 400, corsHeaders);
+    // Server-side validation — defense in depth against direct API calls.
+    if (name.length < 2 || name.length > 100) {
+      return json({ error: "Invalid name (2-100 characters)" }, 400, corsHeaders);
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || email.length > 255) {
+      return json({ error: "Invalid email address" }, 400, corsHeaders);
+    }
+    if (!region || region.length > 80) {
+      return json({ error: "Region is required (max 80 characters)" }, 400, corsHeaders);
+    }
+    if (topics.length < 1 || topics.length > 30) {
+      return json({ error: "Select at least one topic" }, 400, corsHeaders);
+    }
+    if (topics.some((t) => typeof t !== "string" || t.length > 200)) {
+      return json({ error: "Invalid topic value" }, 400, corsHeaders);
+    }
+    if (message.length > 3000) {
+      return json({ error: "Message is too long (max 3000 characters)" }, 400, corsHeaders);
+    }
 
     const { error } = await supabase.from("registrations").insert({
       name,
@@ -86,6 +101,7 @@ serve(async (req) => {
       console.error("submit-registration insert failed", error);
       return json({ error: "Internal server error" }, 500, corsHeaders);
     }
+
 
     // Fire-and-forget emails: notify the team + confirm receipt to the client.
     // Failures are logged but do not block the form response.
