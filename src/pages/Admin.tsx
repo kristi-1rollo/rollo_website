@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { AdminBlogTab } from "@/components/admin/AdminBlogTab";
 import { AdminCareersTab } from "@/components/admin/AdminCareersTab";
@@ -8,8 +8,14 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { LogOut } from "lucide-react";
 
+const VALID_TABS = ["blog", "careers", "registrations", "users", "audit"] as const;
+
 const Admin = () => {
   const { user, loading, isAdmin, signOut } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabParam = searchParams.get("tab");
+  const activeTab = VALID_TABS.includes(tabParam as any) ? (tabParam as string) : "blog";
+
 
   if (loading) {
     return <div className="pt-24 pb-16 text-center text-muted-foreground">Loading…</div>;
@@ -36,7 +42,7 @@ const Admin = () => {
         </Button>
       </div>
 
-      <Tabs defaultValue="blog">
+      <Tabs value={activeTab} onValueChange={(v) => setSearchParams({ tab: v }, { replace: true })}>
         <TabsList className="bg-muted/50 border border-border mb-6">
           <TabsTrigger
             value="blog"
