@@ -42,7 +42,7 @@ const Admin = () => {
         </Button>
       </div>
 
-      <Tabs defaultValue="blog">
+      <Tabs value={activeTab} onValueChange={(v) => setSearchParams({ tab: v }, { replace: true })}>
         <TabsList className="bg-muted/50 border border-border mb-6">
           <TabsTrigger
             value="blog"
