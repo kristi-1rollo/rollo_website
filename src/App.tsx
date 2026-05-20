@@ -18,6 +18,7 @@ const Login = lazy(() => import("./pages/Login"));
 const Admin = lazy(() => import("./pages/Admin"));
 const EuFunding = lazy(() => import("./pages/EuFunding"));
 const SetPassword = lazy(() => import("./pages/SetPassword"));
+const Unsubscribe = lazy(() => import("./pages/Unsubscribe"));
 
 const queryClient = new QueryClient();
 
