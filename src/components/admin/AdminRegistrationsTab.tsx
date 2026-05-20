@@ -145,7 +145,7 @@ export function AdminRegistrationsTab() {
     }
   };
 
-  const handleExportCSV = () => {
+  const handleExportExcel = () => {
     if (filtered.length === 0) return;
     downloadExcel(filtered, `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.xlsx`);
   };
@@ -182,7 +182,7 @@ export function AdminRegistrationsTab() {
           )}
           <Button
             variant="outline"
-            onClick={handleExportCSV}
+            onClick={handleExportExcel}
             disabled={filtered.length === 0}
             className="gap-2"
           >
