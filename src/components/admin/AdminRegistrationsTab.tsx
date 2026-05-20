@@ -17,26 +17,59 @@ import { Search, ChevronDown, ChevronUp, Trash2, Download, ShieldAlert } from "l
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
 
-const csvEscape = (v: unknown) => {
-  const s = v == null ? "" : String(v);
-  return /[",\n;]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+const normalizeExcelCell = (v: unknown) => {
+  if (v == null) return "";
+  return String(v).replace(/\r?\n+/g, " | ").replace(/\s{2,}/g, " ").trim();
 };
 
-const buildCSV = (rows: Registration[]) => {
-  const delimiter = ";";
+const escapeExcelXml = (v: unknown) =>
+  normalizeExcelCell(v)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+const buildExcelXml = (rows: Registration[]) => {
   const headers = ["Date", "Name", "Email", "Region", "Topics", "Message", "ID"];
-  const body = rows.map((r) => [
-    format(new Date(r.created_at), "yyyy-MM-dd HH:mm:ss"),
-    r.name, r.email, r.region,
-    (r.topics || []).join("; "),
-    r.message ?? "",
-    r.id,
-  ].map(csvEscape).join(delimiter));
-  return "\uFEFFsep=;\n" + [headers.join(delimiter), ...body].join("\n");
+  const data = rows.map((r) => [
+    format(new Date(r.created_at), "dd.MM.yyyy HH:mm"),
+    normalizeExcelCell(r.name),
+    normalizeExcelCell(r.email),
+    normalizeExcelCell(r.region),
+    normalizeExcelCell((r.topics || []).join(", ")),
+    normalizeExcelCell(r.message),
+    normalizeExcelCell(r.id),
+  ]);
+
+  const cell = (value: unknown, style = "Text") =>
+    `<Cell ss:StyleID="${style}"><Data ss:Type="String">${escapeExcelXml(value)}</Data></Cell>`;
+  const row = (values: unknown[], style = "Text", height = 15) =>
+    `<Row ss:AutoFitHeight="0" ss:Height="${height}">${values.map((value) => cell(value, style)).join("")}</Row>`;
+
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Styles>
+  <Style ss:ID="Header"><Alignment ss:Vertical="Bottom" ss:WrapText="0"/><Font ss:Bold="1"/></Style>
+  <Style ss:ID="Text"><Alignment ss:Vertical="Bottom" ss:WrapText="0"/></Style>
+ </Styles>
+ <Worksheet ss:Name="Registrations">
+  <Table ss:DefaultRowHeight="15">
+   <Column ss:Width="120"/><Column ss:Width="150"/><Column ss:Width="210"/><Column ss:Width="110"/>
+   <Column ss:Width="160"/><Column ss:Width="520"/><Column ss:Width="260"/>
+   ${row(headers, "Header", 18)}
+   ${data.map((values) => row(values)).join("\n   ")}
+  </Table>
+ </Worksheet>
+</Workbook>`;
 };
 
-const downloadCSV = (csv: string, filename: string) => {
-  const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+const downloadExcel = (rows: Registration[], filename: string) => {
+  const blob = new Blob(["\uFEFF", buildExcelXml(rows)], { type: "application/vnd.ms-excel;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -86,10 +119,9 @@ export function AdminRegistrationsTab() {
     const targets = registrations.filter((r) => ids.includes(r.id));
     if (targets.length === 0) return false;
 
-    // 1. Auto-download CSV backup BEFORE deletion
-    const csv = buildCSV(targets);
+    // 1. Auto-download Excel backup BEFORE deletion
     const stamp = format(new Date(), "yyyy-MM-dd_HHmm");
-    downloadCSV(csv, `registrations_backup_BEFORE-DELETE_${stamp}.csv`);
+    downloadExcel(targets, `registrations_backup_BEFORE-DELETE_${stamp}.xls`);
 
     // 2. Delete (audit log trigger captures each row server-side too)
     const { error } = await supabase.from("registrations").delete().in("id", ids);
@@ -100,7 +132,7 @@ export function AdminRegistrationsTab() {
 
     toast({
       title: `Kustutatud: ${targets.length} ${targets.length === 1 ? "kirje" : "kirjet"}`,
-      description: "Varukoopia laeti alla ja tegevus salvestati auditi logisse.",
+      description: "Exceli varukoopia laeti alla ja tegevus salvestati auditi logisse.",
     });
     queryClient.invalidateQueries({ queryKey: ["registrations"] });
     return true;
@@ -125,12 +157,9 @@ export function AdminRegistrationsTab() {
     }
   };
 
-  const handleExportCSV = () => {
+  const handleExportExcel = () => {
     if (filtered.length === 0) return;
-    downloadCSV(
-      buildCSV(filtered),
-      `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.csv`
-    );
+    downloadExcel(filtered, `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.xls`);
   };
 
   const deleteTarget = registrations.find((r) => r.id === deleteSingleId);
@@ -165,12 +194,12 @@ export function AdminRegistrationsTab() {
           )}
           <Button
             variant="outline"
-            onClick={handleExportCSV}
+            onClick={handleExportExcel}
             disabled={filtered.length === 0}
             className="gap-2"
           >
             <Download className="h-4 w-4" />
-            Ekspordi CSV ({filtered.length})
+            Ekspordi Excel ({filtered.length})
           </Button>
         </div>
       </div>
@@ -290,7 +319,7 @@ export function AdminRegistrationsTab() {
                   </p>
                 )}
                 <p className="text-xs text-muted-foreground">
-                  ✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia.<br />
+                  ✓ Enne kustutamist laetakse automaatselt alla Exceli varukoopia.<br />
                   ✓ Tegevus salvestatakse auditi logisse (kes, millal, mis kirje).<br />
                   ✗ Seda tegevust ei saa tagasi võtta.
                 </p>
@@ -334,7 +363,7 @@ export function AdminRegistrationsTab() {
                   registreeringut. Seda ei saa tagasi võtta.
                 </p>
                 <div className="text-xs text-muted-foreground rounded-[4px] border border-border bg-muted/30 p-3 space-y-1">
-                  <p>✓ Enne kustutamist laetakse automaatselt alla CSV-varukoopia kõigi valitud kirjetega.</p>
+                  <p>✓ Enne kustutamist laetakse automaatselt alla Exceli varukoopia kõigi valitud kirjetega.</p>
                   <p>✓ Iga kustutamine logitakse serveris auditi logisse.</p>
                   <p>✗ Andmebaasist eemaldatakse kirjed jäädavalt.</p>
                 </div>
