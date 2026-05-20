@@ -65,6 +65,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
