@@ -53,13 +53,14 @@ serve(async (req) => {
   try {
     const body = await req.json();
 
-    // ── Honeypot check ──
-    // Real users never see this field; bots typically fill every input.
-    // Silently accept (return ok) so bots don't learn that we filter them out.
+    // ── Honeypot signal ──
+    // Do not block solely on this field: some browsers/password managers can
+    // autofill hidden "website" fields, which would silently drop real leads.
     const honeypot = String(body?.website ?? "").trim();
     if (honeypot.length > 0) {
-      console.log("submit-registration honeypot triggered, dropping silently");
-      return json({ ok: true }, 200, corsHeaders);
+      console.warn("submit-registration honeypot filled; processing submission", {
+        honeypotLength: honeypot.length,
+      });
     }
 
     const name = String(body?.name ?? "").trim();
