@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,6 +9,7 @@ import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm"
 const Contact = () => {
   const {
     formData,
+    errors,
     isSubmitting,
     isSuccess,
     handleInputChange,
@@ -19,6 +20,8 @@ const Contact = () => {
     defaultTopicFallback: true,
   });
 
+  const formCardRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
@@ -28,6 +31,23 @@ const Contact = () => {
       }, 100);
     }
   }, []);
+
+  // After a successful submission, scroll the Thank-you message into view.
+  useEffect(() => {
+    if (!isSuccess) return;
+    const el = formCardRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 96; // header offset
+    window.scrollTo({ top, behavior: "smooth" });
+  }, [isSuccess]);
+
+  // Block invalid keys in numeric inputs (e, +, -, ., comma).
+  const blockNonNumericKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (["e", "E", "+", "-", ".", ","].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
 
   return (
     <div className="pb-16">
