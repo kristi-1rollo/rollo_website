@@ -135,6 +135,27 @@ const Contact = () => {
                 </p>
               </div>
 
+              {isSuccess && (
+                <FadeInView className="mb-6">
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
+                  >
+                    <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-primary mt-0.5" aria-hidden="true" />
+                    <div className="space-y-1.5">
+                      <p className="text-base md:text-lg font-semibold text-white">
+                        Thank you for contacting Rollo Robotics.
+                      </p>
+                      <p className="text-sm md:text-base text-white/80">
+                        Your message has been received. We'll get back to you as soon as possible.
+                      </p>
+                    </div>
+                  </div>
+                </FadeInView>
+              )}
+
+
                 <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                 {/* Honeypot — hidden from real users, often filled by bots */}
                 <div
