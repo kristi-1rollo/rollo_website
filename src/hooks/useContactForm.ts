@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-
-const FUNCTION_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/submit-registration`;
+import { supabase } from "@/integrations/supabase/client";
 
 export const DEPLOYMENT_AREA_OPTIONS = [
   "Public safety in urban environments",
@@ -130,19 +129,19 @@ export function useContactForm(options: UseContactFormOptions = {}) {
           .join("\n"),
       };
 
-      const res = await fetch(FUNCTION_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      const { data, error } = await supabase.functions.invoke("submit-registration", {
+        body: payload,
       });
 
-      const data = (await res.json().catch(() => ({}))) as {
+      const responseData = (data ?? {}) as {
         error?: string;
         details?: string[];
       };
 
-      if (!res.ok || data?.error) {
-        const msg = Array.isArray(data?.details) ? data.details.join(", ") : data?.error;
+      if (error || responseData?.error) {
+        const msg = Array.isArray(responseData?.details)
+          ? responseData.details.join(", ")
+          : responseData?.error || error?.message;
         toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
         return;
       }
