@@ -23,6 +23,7 @@ const csvEscape = (v: unknown) => {
 };
 
 const buildCSV = (rows: Registration[]) => {
+  const delimiter = ";";
   const headers = ["Date", "Name", "Email", "Region", "Topics", "Message", "ID"];
   const body = rows.map((r) => [
     format(new Date(r.created_at), "yyyy-MM-dd HH:mm:ss"),
@@ -30,8 +31,8 @@ const buildCSV = (rows: Registration[]) => {
     (r.topics || []).join("; "),
     r.message ?? "",
     r.id,
-  ].map(csvEscape).join(","));
-  return "\uFEFF" + [headers.join(","), ...body].join("\n");
+  ].map(csvEscape).join(delimiter));
+  return "\uFEFFsep=;\n" + [headers.join(delimiter), ...body].join("\n");
 };
 
 const downloadCSV = (csv: string, filename: string) => {
