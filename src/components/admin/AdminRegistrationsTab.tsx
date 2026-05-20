@@ -121,7 +121,7 @@ export function AdminRegistrationsTab() {
 
     // 1. Auto-download Excel backup BEFORE deletion
     const stamp = format(new Date(), "yyyy-MM-dd_HHmm");
-    downloadExcel(targets, `registrations_backup_BEFORE-DELETE_${stamp}.xlsx`);
+    downloadExcel(targets, `registrations_backup_BEFORE-DELETE_${stamp}.xls`);
 
     // 2. Delete (audit log trigger captures each row server-side too)
     const { error } = await supabase.from("registrations").delete().in("id", ids);
@@ -159,7 +159,7 @@ export function AdminRegistrationsTab() {
 
   const handleExportExcel = () => {
     if (filtered.length === 0) return;
-    downloadExcel(filtered, `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.xlsx`);
+    downloadExcel(filtered, `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.xls`);
   };
 
   const deleteTarget = registrations.find((r) => r.id === deleteSingleId);
