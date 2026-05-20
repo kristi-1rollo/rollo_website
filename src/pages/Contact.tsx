@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Building2 } from "lucide-react";
+import { Mail, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import FadeInView from "@/components/FadeInView";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
 
 
@@ -9,12 +10,12 @@ const Contact = () => {
   const {
     formData,
     isSubmitting,
+    isSuccess,
     handleInputChange,
     handleDeploymentAreaToggle,
     handleSubmit,
   } = useContactForm({
     requiredFields: ["company", "country"],
-    successMessage: "Thank you for your message! We'll be in touch soon.",
     defaultTopicFallback: true,
   });
 
