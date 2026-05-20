@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -9,6 +9,7 @@ import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm"
 const Contact = () => {
   const {
     formData,
+    errors,
     isSubmitting,
     isSuccess,
     handleInputChange,
@@ -19,6 +20,8 @@ const Contact = () => {
     defaultTopicFallback: true,
   });
 
+  const formCardRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
@@ -28,6 +31,23 @@ const Contact = () => {
       }, 100);
     }
   }, []);
+
+  // After a successful submission, scroll the Thank-you message into view.
+  useEffect(() => {
+    if (!isSuccess) return;
+    const el = formCardRef.current;
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - 96; // header offset
+    window.scrollTo({ top, behavior: "smooth" });
+  }, [isSuccess]);
+
+  // Block invalid keys in numeric inputs (e, +, -, ., comma).
+  const blockNonNumericKeys = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (["e", "E", "+", "-", ".", ","].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
 
   return (
     <div className="pb-16">
@@ -125,8 +145,9 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div className="surface-panel rounded-[4px] p-5 md:p-6">
+            <div ref={formCardRef} className="surface-panel rounded-[4px] p-5 md:p-6 scroll-mt-24">
               <div className="mb-6">
+
                 <h3 className="title-halo text-2xl font-bold text-white mb-2">
                   Get in Touch
                 </h3>
@@ -189,11 +210,18 @@ const Contact = () => {
                       id="name"
                       name="name"
                       required
+                      maxLength={100}
+                      autoComplete="name"
                       value={formData.name}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.name}
+                      aria-describedby={errors.name ? "name-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your name"
                     />
+                    {errors.name && (
+                      <p id="name-error" className="mt-1.5 text-xs text-destructive">{errors.name}</p>
+                    )}
                   </div>
 
                   <div>
@@ -205,11 +233,18 @@ const Contact = () => {
                       id="email"
                       name="email"
                       required
+                      maxLength={255}
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.email}
+                      aria-describedby={errors.email ? "email-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="your.email@company.com"
                     />
+                    {errors.email && (
+                      <p id="email-error" className="mt-1.5 text-xs text-destructive">{errors.email}</p>
+                    )}
                   </div>
                 </div>
 
@@ -223,11 +258,18 @@ const Contact = () => {
                       id="company"
                       name="company"
                       required
+                      maxLength={150}
+                      autoComplete="organization"
                       value={formData.company}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.company}
+                      aria-describedby={errors.company ? "company-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your company"
                     />
+                    {errors.company && (
+                      <p id="company-error" className="mt-1.5 text-xs text-destructive">{errors.company}</p>
+                    )}
                   </div>
 
                   <div>
@@ -239,11 +281,18 @@ const Contact = () => {
                       id="country"
                       name="country"
                       required
+                      maxLength={80}
+                      autoComplete="country-name"
                       value={formData.country}
                       onChange={handleInputChange}
+                      aria-invalid={!!errors.country}
+                      aria-describedby={errors.country ? "country-error" : undefined}
                        className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                       placeholder="Your country"
                     />
+                    {errors.country && (
+                      <p id="country-error" className="mt-1.5 text-xs text-destructive">{errors.country}</p>
+                    )}
                   </div>
                 </div>
 
@@ -255,13 +304,25 @@ const Contact = () => {
                     type="number"
                     id="numberOfRobots"
                     name="numberOfRobots"
-                    min="1"
+                    min={1}
+                    max={100000}
+                    step={1}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    onKeyDown={blockNonNumericKeys}
                     value={formData.numberOfRobots}
                     onChange={handleInputChange}
+                    aria-invalid={!!errors.numberOfRobots}
+                    aria-describedby={errors.numberOfRobots ? "robots-error" : undefined}
                      className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 5"
                   />
+                  {errors.numberOfRobots && (
+                    <p id="robots-error" className="mt-1.5 text-xs text-destructive">{errors.numberOfRobots}</p>
+                  )}
                 </div>
+
 
                 <div>
                   <label htmlFor="estimatedDemand" className="block text-sm font-medium text-white mb-2">
@@ -271,12 +332,14 @@ const Contact = () => {
                     type="text"
                     id="estimatedDemand"
                     name="estimatedDemand"
+                    maxLength={200}
                     value={formData.estimatedDemand}
                     onChange={handleInputChange}
                      className="form-field-deep min-h-11 w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none"
                     placeholder="e.g., 20-50 units"
                   />
                 </div>
+
 
                 <div>
                   <label className="block text-sm font-medium text-white mb-3">
@@ -310,12 +373,18 @@ const Contact = () => {
                     id="additionalInfo"
                     name="additionalInfo"
                     rows={4}
+                    maxLength={2000}
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
+                    aria-invalid={!!errors.additionalInfo}
                      className="form-field-deep w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none resize-none"
                     placeholder="Any additional details about your inquiry or requirements..."
                   />
+                  <p className="mt-1.5 text-xs text-white/40 text-right">
+                    {formData.additionalInfo.length}/2000
+                  </p>
                 </div>
+
 
                 <div className="pt-4">
                   <button

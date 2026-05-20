@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -45,6 +46,26 @@ const INITIAL_FORM_DATA: ContactFormData = {
   website: "",
 };
 
+const BACKUP_KEY = "rollo_contact_form_backup_v1";
+
+// Client-side validation schema — mirrors server schema for early feedback.
+const contactSchema = z.object({
+  name: z.string().trim().min(2, "Name is required (min 2 characters)").max(100, "Name is too long"),
+  email: z.string().trim().email("Please enter a valid email address").max(255, "Email is too long"),
+  company: z.string().trim().max(150, "Company name is too long").optional(),
+  country: z.string().trim().max(80, "Country name is too long").optional(),
+  numberOfRobots: z
+    .string()
+    .trim()
+    .regex(/^\d*$/, "Only digits are allowed")
+    .max(6, "Number is too large")
+    .optional(),
+  estimatedDemand: z.string().trim().max(200, "Estimated demand is too long").optional(),
+  additionalInfo: z.string().trim().max(2000, "Additional information is too long").optional(),
+});
+
+export type ContactFieldErrors = Partial<Record<keyof ContactFormData, string>>;
+
 interface UseContactFormOptions {
   /** Fields that are required beyond name + email */
   requiredFields?: (keyof ContactFormData)[];
@@ -57,12 +78,12 @@ interface UseContactFormOptions {
 export function useContactForm(options: UseContactFormOptions = {}) {
   const {
     requiredFields = [],
-    successMessage = "Thank you! We'll be in touch soon.",
     defaultTopicFallback = false,
   } = options;
 
   const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
+  const [errors, setErrors] = useState<ContactFieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -71,6 +92,13 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name as keyof ContactFormData]) {
+      setErrors((prev) => {
+        const next = { ...prev };
+        delete next[name as keyof ContactFormData];
+        return next;
+      });
+    }
   };
 
   const handleDeploymentAreaToggle = (area: string) => {
@@ -83,16 +111,31 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   };
 
   const validate = (): boolean => {
-    if (!formData.name || !formData.email) {
-      toast({ title: "Please fill in all required fields", variant: "destructive" });
-      return false;
+    const newErrors: ContactFieldErrors = {};
+
+    // Schema validation (formats + length limits)
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      result.error.errors.forEach((err) => {
+        const key = err.path[0] as keyof ContactFormData;
+        if (key && !newErrors[key]) newErrors[key] = err.message;
+      });
     }
+
+    // Additional required fields (not part of base schema)
     for (const field of requiredFields) {
       const value = formData[field];
-      if (Array.isArray(value) ? value.length === 0 : !value) {
-        toast({ title: "Please fill in all required fields", variant: "destructive" });
-        return false;
+      const empty = Array.isArray(value) ? value.length === 0 : !String(value ?? "").trim();
+      if (empty && !newErrors[field]) {
+        newErrors[field] = "This field is required";
       }
+    }
+
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length > 0) {
+      toast({ title: "Please correct the highlighted fields", variant: "destructive" });
+      return false;
     }
     return true;
   };
@@ -104,6 +147,16 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     setIsSubmitting(true);
     setIsSuccess(false);
 
+    // Backup snapshot — survives crashes/network failures so the user can retry.
+    try {
+      localStorage.setItem(
+        BACKUP_KEY,
+        JSON.stringify({ data: formData, savedAt: new Date().toISOString() }),
+      );
+    } catch {
+      // Storage may be unavailable (private mode, quota); ignore.
+    }
+
     try {
       const topics =
         formData.deploymentAreas.length > 0
@@ -113,11 +166,10 @@ export function useContactForm(options: UseContactFormOptions = {}) {
             : formData.deploymentAreas;
 
       const payload = {
-        name: formData.name,
-        email: formData.email,
-        region: formData.country,
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        region: formData.country.trim(),
         topics,
-        // Honeypot — bots tend to fill every field; humans never see this
         website: formData.website,
         message: [
           formData.company && `Company: ${formData.company}`,
@@ -142,14 +194,27 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         const msg = Array.isArray(responseData?.details)
           ? responseData.details.join(", ")
           : responseData?.error || error?.message;
-        toast({ title: msg ?? "Something went wrong. Please try again.", variant: "destructive" });
+        toast({
+          title: msg ?? "Something went wrong. Your message is saved locally — please try again.",
+          variant: "destructive",
+        });
         return;
       }
 
+      // Success — clear backup and reset form.
+      try {
+        localStorage.removeItem(BACKUP_KEY);
+      } catch {
+        /* ignore */
+      }
       setIsSuccess(true);
       setFormData(INITIAL_FORM_DATA);
+      setErrors({});
     } catch {
-      toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
+      toast({
+        title: "Network error. Your message is saved locally — please try again in a moment.",
+        variant: "destructive",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -157,6 +222,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
 
   return {
     formData,
+    errors,
     isSubmitting,
     isSuccess,
     handleInputChange,
