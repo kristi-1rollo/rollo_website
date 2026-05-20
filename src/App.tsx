@@ -57,6 +57,7 @@ const App = () => (
                   <Route path="/set-password" element={<SetPassword />} />
                   <Route path="/admin" element={<Admin />} />
                   <Route path="/admin/blog" element={<Admin />} />
+                  <Route path="/unsubscribe" element={<Unsubscribe />} />
                 </Route>
                 {/* Catch-all 404 outside layout */}
                 <Route path="*" element={<NotFound />} />
