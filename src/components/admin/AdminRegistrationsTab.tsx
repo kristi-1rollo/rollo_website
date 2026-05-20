@@ -16,14 +16,21 @@ import {
 import { Search, ChevronDown, ChevronUp, Trash2, Download, ShieldAlert } from "lucide-react";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
-import * as XLSX from "xlsx";
 
 const normalizeExcelCell = (v: unknown) => {
   if (v == null) return "";
   return String(v).replace(/\r?\n+/g, " | ").replace(/\s{2,}/g, " ").trim();
 };
 
-const buildExcelWorkbook = (rows: Registration[]) => {
+const escapeExcelXml = (v: unknown) =>
+  normalizeExcelCell(v)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
+const buildExcelXml = (rows: Registration[]) => {
   const headers = ["Date", "Name", "Email", "Region", "Topics", "Message", "ID"];
   const data = rows.map((r) => [
     format(new Date(r.created_at), "dd.MM.yyyy HH:mm"),
@@ -35,29 +42,34 @@ const buildExcelWorkbook = (rows: Registration[]) => {
     normalizeExcelCell(r.id),
   ]);
 
-  const sheet = XLSX.utils.aoa_to_sheet([headers, ...data]);
-  sheet["!cols"] = [
-    { wch: 18 },
-    { wch: 24 },
-    { wch: 32 },
-    { wch: 18 },
-    { wch: 24 },
-    { wch: 80 },
-    { wch: 38 },
-  ];
-  sheet["!rows"] = Array.from({ length: data.length + 1 }, (_, index) => ({ hpt: index === 0 ? 18 : 15 }));
+  const cell = (value: unknown, style = "Text") =>
+    `<Cell ss:StyleID="${style}"><Data ss:Type="String">${escapeExcelXml(value)}</Data></Cell>`;
+  const row = (values: unknown[], style = "Text", height = 15) =>
+    `<Row ss:AutoFitHeight="0" ss:Height="${height}">${values.map((value) => cell(value, style)).join("")}</Row>`;
 
-  const workbook = XLSX.utils.book_new();
-  XLSX.utils.book_append_sheet(workbook, sheet, "Registrations");
-  return workbook;
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet">
+ <Styles>
+  <Style ss:ID="Header"><Alignment ss:Vertical="Bottom" ss:WrapText="0"/><Font ss:Bold="1"/></Style>
+  <Style ss:ID="Text"><Alignment ss:Vertical="Bottom" ss:WrapText="0"/></Style>
+ </Styles>
+ <Worksheet ss:Name="Registrations">
+  <Table ss:DefaultRowHeight="15">
+   <Column ss:Width="120"/><Column ss:Width="150"/><Column ss:Width="210"/><Column ss:Width="110"/>
+   <Column ss:Width="160"/><Column ss:Width="520"/><Column ss:Width="260"/>
+   ${row(headers, "Header", 18)}
+   ${data.map((values) => row(values)).join("\n   ")}
+  </Table>
+ </Worksheet>
+</Workbook>`;
 };
 
 const downloadExcel = (rows: Registration[], filename: string) => {
-  const workbook = buildExcelWorkbook(rows);
-  const buffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
-  const blob = new Blob([buffer], {
-    type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-  });
+  const blob = new Blob(["\uFEFF", buildExcelXml(rows)], { type: "application/vnd.ms-excel;charset=utf-8" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
