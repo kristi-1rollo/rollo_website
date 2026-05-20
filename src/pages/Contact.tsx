@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Mail, MapPin, Building2 } from "lucide-react";
+import { Mail, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import FadeInView from "@/components/FadeInView";
 import { useContactForm, DEPLOYMENT_AREA_OPTIONS } from "@/hooks/useContactForm";
 
 
@@ -9,12 +10,12 @@ const Contact = () => {
   const {
     formData,
     isSubmitting,
+    isSuccess,
     handleInputChange,
     handleDeploymentAreaToggle,
     handleSubmit,
   } = useContactForm({
     requiredFields: ["company", "country"],
-    successMessage: "Thank you for your message! We'll be in touch soon.",
     defaultTopicFallback: true,
   });
 
@@ -133,6 +134,27 @@ const Contact = () => {
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
               </div>
+
+              {isSuccess && (
+                <FadeInView className="mb-6">
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
+                  >
+                    <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-primary mt-0.5" aria-hidden="true" />
+                    <div className="space-y-1.5">
+                      <p className="text-base md:text-lg font-semibold text-white">
+                        Thank you for contacting Rollo Robotics.
+                      </p>
+                      <p className="text-sm md:text-base text-white/80">
+                        Your message has been received. We'll get back to you as soon as possible.
+                      </p>
+                    </div>
+                  </div>
+                </FadeInView>
+              )}
+
 
                 <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                 {/* Honeypot — hidden from real users, often filled by bots */}

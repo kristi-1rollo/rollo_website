@@ -65,6 +65,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   const { toast } = useToast();
   const [formData, setFormData] = useState<ContactFormData>(INITIAL_FORM_DATA);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
@@ -102,6 +103,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
     if (!validate()) return;
 
     setIsSubmitting(true);
+    setIsSuccess(false);
 
     try {
       const topics =
@@ -145,7 +147,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         return;
       }
 
-      toast({ title: successMessage });
+      setIsSuccess(true);
       setFormData(INITIAL_FORM_DATA);
     } catch {
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
@@ -157,6 +159,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   return {
     formData,
     isSubmitting,
+    isSuccess,
     handleInputChange,
     handleDeploymentAreaToggle,
     handleSubmit,

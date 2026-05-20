@@ -1,20 +1,35 @@
-## Probleem
+## Summary
+Replace the toast-based success feedback on the Contact page with an inline confirmation message shown directly inside the form card. The message fades in smoothly after a successful submission, matching the existing deep-tech visual style.
 
-Tahvli vaates (≈768–1023px) on Header.tsx-s liiga palju sisu ühel real:
-- Logo + "Autonomous Security Robotics" silt (kuvatud alates `sm:` = 640px)
-- 6-pealkirjaline desktopi navigatsioon (kuvatud alates `md:` = 768px)
+## What will change
 
-Tulemus: logo on kokku surutud ja menüü venitatud / paigast ära.
+### 1. `src/hooks/useContactForm.ts`
+- Add `isSuccess` boolean state to the hook.
+- Set `isSuccess = true` after a successful API response.
+- Remove the success toast call (error toasts remain unchanged).
+- Export `isSuccess` from the hook return object.
 
-## Lahendus
+### 2. `src/pages/Contact.tsx`
+- Destructure `isSuccess` from the hook.
+- Conditionally render a styled confirmation block at the top of the form card when `isSuccess === true`.
+- Use existing design tokens (`surface-panel`, `text-white`, `text-primary`) and the project's `FadeInView` component for the fade-in effect.
+- Keep the form visible underneath (already reset by the hook) so users can submit another inquiry if needed.
 
-`src/components/Header.tsx` — tõsta lülituspunktid kõrgemaks, et tahvli vaade kasutaks hamburgeri-menüüd ja silt ilmuks alles siis, kui ruumi piisab:
+## Confirmation copy (exact)
+```
+Thank you for contacting Rollo Robotics.
 
-1. **Desktopi navigatsioon** (rida 92): `hidden md:flex` → `hidden lg:flex`
-2. **Mobiili hamburger** (rida 118): `md:hidden` → `lg:hidden`
-3. **Tagline "Autonomous Security Robotics"** (rida 86): `hidden sm:block` → `hidden xl:block` (et ka väiksematel desktopidel jääks navigatsioonile õhku)
-4. **Konteineri kõrgus** (rida 74): `h-16 md:h-20` → `h-16 lg:h-20` (sünkroonis uue lülituspunktiga)
+Your message has been received. We'll get back to you as soon as possible.
+```
 
-Tulemus: kuni 1023px (sh kogu tahvli vahemik) kuvatakse kompaktne logo + hamburger; 1024px+ täisnavigatsioon; tagline ilmub 1280px+ juures.
+## Visual treatment
+- Rendered inside the same `surface-panel` card, above the form fields.
+- Subtle lime accent: left border or icon in `text-primary`.
+- Smooth opacity/transform fade-in via `FadeInView`.
+- No layout shift: the confirmation block takes the same width as the form content.
 
-Ühtegi muud faili ei muudeta.
+## What stays the same
+- All form fields, validation, and submission logic.
+- Error handling and error toasts.
+- Honeypot, required fields, and payload shape.
+- The form resets to empty after submission as it does today.
