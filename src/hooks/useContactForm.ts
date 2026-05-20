@@ -147,7 +147,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
         return;
       }
 
-      toast({ title: successMessage });
+      setIsSuccess(true);
       setFormData(INITIAL_FORM_DATA);
     } catch {
       toast({ title: "Something went wrong. Please try again.", variant: "destructive" });
@@ -159,6 +159,7 @@ export function useContactForm(options: UseContactFormOptions = {}) {
   return {
     formData,
     isSubmitting,
+    isSuccess,
     handleInputChange,
     handleDeploymentAreaToggle,
     handleSubmit,
