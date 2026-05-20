@@ -1,4 +1,4 @@
-import { Navigate } from "react-router-dom";
+import { Navigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { AdminBlogTab } from "@/components/admin/AdminBlogTab";
 import { AdminCareersTab } from "@/components/admin/AdminCareersTab";
@@ -7,6 +7,8 @@ import { AdminUsersTab, AdminAuditTab } from "@/components/AdminUsersTab";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { LogOut } from "lucide-react";
+
+const VALID_TABS = ["blog", "careers", "registrations", "users", "audit"] as const;
 
 const Admin = () => {
   const { user, loading, isAdmin, signOut } = useAuth();
