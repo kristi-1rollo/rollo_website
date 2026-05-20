@@ -107,10 +107,9 @@ export function AdminRegistrationsTab() {
     const targets = registrations.filter((r) => ids.includes(r.id));
     if (targets.length === 0) return false;
 
-    // 1. Auto-download CSV backup BEFORE deletion
-    const csv = buildCSV(targets);
+    // 1. Auto-download Excel backup BEFORE deletion
     const stamp = format(new Date(), "yyyy-MM-dd_HHmm");
-    downloadCSV(csv, `registrations_backup_BEFORE-DELETE_${stamp}.csv`);
+    downloadExcel(targets, `registrations_backup_BEFORE-DELETE_${stamp}.xlsx`);
 
     // 2. Delete (audit log trigger captures each row server-side too)
     const { error } = await supabase.from("registrations").delete().in("id", ids);
@@ -121,7 +120,7 @@ export function AdminRegistrationsTab() {
 
     toast({
       title: `Kustutatud: ${targets.length} ${targets.length === 1 ? "kirje" : "kirjet"}`,
-      description: "Varukoopia laeti alla ja tegevus salvestati auditi logisse.",
+      description: "Exceli varukoopia laeti alla ja tegevus salvestati auditi logisse.",
     });
     queryClient.invalidateQueries({ queryKey: ["registrations"] });
     return true;
@@ -148,10 +147,7 @@ export function AdminRegistrationsTab() {
 
   const handleExportCSV = () => {
     if (filtered.length === 0) return;
-    downloadCSV(
-      buildCSV(filtered),
-      `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.csv`
-    );
+    downloadExcel(filtered, `registrations_${format(new Date(), "yyyy-MM-dd_HHmm")}.xlsx`);
   };
 
   const deleteTarget = registrations.find((r) => r.id === deleteSingleId);
