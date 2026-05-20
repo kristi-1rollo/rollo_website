@@ -373,12 +373,18 @@ const Contact = () => {
                     id="additionalInfo"
                     name="additionalInfo"
                     rows={4}
+                    maxLength={2000}
                     value={formData.additionalInfo}
                     onChange={handleInputChange}
+                    aria-invalid={!!errors.additionalInfo}
                      className="form-field-deep w-full rounded-[4px] px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none resize-none"
                     placeholder="Any additional details about your inquiry or requirements..."
                   />
+                  <p className="mt-1.5 text-xs text-white/40 text-right">
+                    {formData.additionalInfo.length}/2000
+                  </p>
                 </div>
+
 
                 <div className="pt-4">
                   <button
