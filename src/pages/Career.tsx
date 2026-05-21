@@ -21,9 +21,9 @@ const teamProfiles = [
   { name: "Lauri Hirvesaar", image: "/robot/team/profile/lauri_hirvesaar.webp" },
   { name: "Lauri Laanmets", image: "/robot/team/profile/lauri_laanmets.webp" },
   { name: "Lauri Vaher", image: "/robot/team/profile/lauri_vaher.webp" },
-  { name: "Raivo Sulla", image: "/robot/team/profile/raivo_sulla.webp" },
+  { name: "Raivo Sülla", image: "/robot/team/profile/raivo_sulla.webp" },
   { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.webp" },
-  { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.webp" },
+  { name: "Remi Lõssov", image: "/robot/team/profile/remi_lossov.webp" },
   { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.webp" },
   { name: "Sten Kase", image: "/robot/team/profile/sten_kase.webp" },
 ];
