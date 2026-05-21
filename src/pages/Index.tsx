@@ -132,7 +132,7 @@ const Index = () => {
           <img
             src="/hero/1rollo_home_hero.webp"
             alt="Rollo autonomous patrol robot at airport terminal"
-            className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
+            className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-[center_35%]"
             loading="eager"
           />
           <div className="absolute inset-0 bg-black/42" />
