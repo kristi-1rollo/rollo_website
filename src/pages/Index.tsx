@@ -498,7 +498,7 @@ const Index = () => {
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,13,0.85)_0%,rgba(2,6,13,0.90)_50%,rgba(2,6,13,0.95)_100%)] md:bg-[linear-gradient(180deg,rgba(2,6,13,0.65)_0%,rgba(2,6,13,0.75)_50%,rgba(2,6,13,0.85)_100%)]" />
 
         {/* Content */}
-        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-9 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
           <div className="space-y-12 md:space-y-16">
             {/* Section Header */}
             <FadeInView>
@@ -530,7 +530,7 @@ const Index = () => {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                 {/* Public Safety */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🏙</div>
                     <h4 className="text-sm font-semibold text-white">Public Safety</h4>
@@ -541,7 +541,7 @@ const Index = () => {
                 </div>
 
                 {/* Ports & Marine */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">⚓</div>
                     <h4 className="text-sm font-semibold text-white">Ports & Marine</h4>
@@ -552,7 +552,7 @@ const Index = () => {
                 </div>
 
                 {/* Critical Infrastructure */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🏛</div>
                     <h4 className="text-sm font-semibold text-white">Critical Infrastructure</h4>
@@ -563,7 +563,7 @@ const Index = () => {
                 </div>
 
                 {/* Campuses */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🎓</div>
                     <h4 className="text-sm font-semibold text-white">Campuses</h4>
@@ -574,7 +574,7 @@ const Index = () => {
                 </div>
 
                 {/* Hospitality */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🏨</div>
                     <h4 className="text-sm font-semibold text-white">Hospitality</h4>
@@ -585,7 +585,7 @@ const Index = () => {
                 </div>
 
                 {/* Smart Estates */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🏠</div>
                     <h4 className="text-sm font-semibold text-white">Smart Estates</h4>
@@ -596,7 +596,7 @@ const Index = () => {
                 </div>
 
                 {/* Gated Communities */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🏘</div>
                     <h4 className="text-sm font-semibold text-white">Gated Communities</h4>
@@ -607,7 +607,7 @@ const Index = () => {
                 </div>
 
                 {/* Water Supply */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">💧</div>
                     <h4 className="text-sm font-semibold text-white">Water Supply</h4>
@@ -618,7 +618,7 @@ const Index = () => {
                 </div>
 
                 {/* Law Enforcement */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">🚔</div>
                     <h4 className="text-sm font-semibold text-white">Law Enforcement</h4>
@@ -629,7 +629,7 @@ const Index = () => {
                 </div>
 
                 {/* Mining Equipment Yards */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">⛏</div>
                     <h4 className="text-sm font-semibold text-white">Mining & Equipment</h4>
@@ -640,7 +640,7 @@ const Index = () => {
                 </div>
 
                 {/* Refineries & Chemical */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">⚗️</div>
                     <h4 className="text-sm font-semibold text-white">Refineries & Chemical</h4>
@@ -651,7 +651,7 @@ const Index = () => {
                 </div>
 
                 {/* Other */}
-                <div className="group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
+                <div className="-mx-5 md:mx-0 group relative rounded-lg bg-black/30 border border-white/5 p-4 hover:border-primary/30 transition-all duration-300 hover:bg-black/40">
                   <div className="flex items-start gap-3 mb-3">
                     <div className="shrink-0 text-xl">➕</div>
                     <h4 className="text-sm font-semibold text-white">Other Deployments</h4>
@@ -673,7 +673,7 @@ const Index = () => {
         <div className="absolute inset-0 geo-grid opacity-5 pointer-events-none" />
 
         {/* Container */}
-        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 w-full">
+        <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-9 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 w-full">
           <div className="max-w-full">
             {/* Text Content */}
             <div className="space-y-16 md:space-y-[19px]">
