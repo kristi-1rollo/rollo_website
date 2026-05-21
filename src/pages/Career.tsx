@@ -110,7 +110,7 @@ const Career = () => {
       {/* Fixed Hero Section - stays in place while scrolling on desktop */}
       <header
         ref={heroRef}
-        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0"
+        className="section-glow-top relative flex min-h-[100svh] items-center overflow-hidden md:fixed md:left-0 md:top-0 md:h-screen md:w-full z-0 bg-[#03060d]"
         style={{ '--hero-overlay-opacity': '0' } as React.CSSProperties}
       >
         {/* Hero background image */}
@@ -118,7 +118,7 @@ const Career = () => {
           <img
             src="/team/team-hero.webp"
             alt="1Rollo robotics team"
-            className="absolute inset-0 h-full w-full object-cover"
+            className="absolute left-0 right-0 bottom-0 top-24 md:top-28 w-full h-[calc(100%-6rem)] md:h-[calc(100%-7rem)] object-cover"
             style={{ objectPosition: '50% top' }}
             fetchPriority="high"
           />
