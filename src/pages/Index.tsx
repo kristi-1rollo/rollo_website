@@ -291,14 +291,16 @@ const Index = () => {
               </FadeInView>
 
               {/* Mobile-only inline robot image */}
-              <FadeInView delay={50}>
-                <img
-                  src="/images/1rollo_solution_graph.webp"
-                  alt="1Rollo autonomous security robots"
-                  className="md:hidden w-full h-auto object-contain"
-                  loading="lazy"
-                />
-              </FadeInView>
+              <div className="md:hidden -mt-4 -mx-[25%]">
+                <FadeInView delay={50}>
+                  <img
+                    src="/images/1rollo_solution_graph.webp"
+                    alt="1Rollo autonomous security robots"
+                    className="w-full h-auto object-contain"
+                    loading="lazy"
+                  />
+                </FadeInView>
+              </div>
 
               {/* Solution Cards - Asymmetric Grid on Desktop */}
               <div className="space-y-4 md:space-y-5">
