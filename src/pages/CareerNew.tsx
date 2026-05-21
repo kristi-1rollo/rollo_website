@@ -196,7 +196,7 @@ const CareerNew = () => {
         />
         <img
           src="/team/team-hero.webp"
-          alt="Rollo team and robotics workspace"
+          alt="1Rollo team and robotics workspace"
           className="absolute inset-0 h-full w-full object-cover object-center opacity-62"
         />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(2,6,17,0.8)_0%,rgba(2,6,17,0.7)_26%,rgba(2,6,17,0.42)_54%,rgba(2,6,17,0.18)_78%,rgba(2,6,17,0.38)_100%)]" />
@@ -310,7 +310,7 @@ const CareerNew = () => {
 
                 <div className="max-w-2xl space-y-4 text-left text-sm sm:space-y-6 sm:text-base">
                   <p className="text-base text-white/80 sm:text-lg">
-                    Rollo is developing autonomous ground robots designed for real-world patrol and monitoring.
+                    1Rollo is developing autonomous ground robots designed for real-world patrol and monitoring.
                   </p>
 
                   <p className="text-white/70">

@@ -116,7 +116,7 @@ const Career = () => {
         <picture>
           <img
             src="/team/team-hero.webp"
-            alt="Rollo robotics team"
+            alt="1Rollo robotics team"
             className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '50% center' }}
             fetchPriority="high"
@@ -162,7 +162,7 @@ const Career = () => {
 
 
 
-      {/* Why Join Rollo & Open Positions Section */}
+      {/* Why Join 1Rollo & Open Positions Section */}
       <section>
         <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
@@ -172,7 +172,7 @@ const Career = () => {
               <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
                 <Briefcase className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-white">Why Join Rollo?</h3>
+              <h3 className="text-xl font-semibold text-white">Why Join 1Rollo?</h3>
             </div>
             <ul className="space-y-3 text-sm text-white">
               {[
