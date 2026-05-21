@@ -25,7 +25,7 @@ const teamProfiles = [
   { name: "Rein Saetalu", image: "/robot/team/profile/rein_saetalu.webp" },
   { name: "Remi Lossov", image: "/robot/team/profile/remi_lossov.webp" },
   { name: "Taavi Varjund", image: "/robot/team/profile/taavi_varjund.webp" },
-  { name: "Sten Käse", image: "/robot/team/profile/sten_kase.webp" },
+  { name: "Sten Kase", image: "/robot/team/profile/sten_kase.webp" },
 ];
 
 const Career = () => {
