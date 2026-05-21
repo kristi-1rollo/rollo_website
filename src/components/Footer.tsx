@@ -119,7 +119,11 @@ const Footer = () => {
                 Supported by
               </h3>
               <div className="flex flex-col items-center md:items-end gap-5 md:gap-3">
-                <Link to="/funding" className="block group">
+                <Link
+                  to="/funding"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                  className="block group"
+                >
                   <img
                     src="/logos/nextgeneration-eu-funded.jpg"
                     alt="Funded by the European Union - NextGenerationEU"
