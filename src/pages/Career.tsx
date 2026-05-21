@@ -235,6 +235,17 @@ const Career = () => {
             )}
           </div>
         </div>
+        <div className="mt-8 md:mt-10 flex flex-col items-center justify-center text-center">
+          <p className="text-sm text-white/70">
+            Don't see your role? Reach out anytime.
+          </p>
+          <a
+            href="mailto:join@1rollo.com"
+            className="mt-2 inline-flex text-base font-semibold text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/90"
+          >
+            join@1rollo.com
+          </a>
+        </div>
       </Section>
       </section>
 
