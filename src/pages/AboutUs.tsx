@@ -79,7 +79,7 @@ const AboutUs = () => {
         <picture>
           <img
             src="/robot/F6/1rollo_close.webp"
-            alt="Rollo autonomous security robot"
+            alt="1Rollo autonomous security robot"
             className="absolute inset-0 w-full h-full object-cover object-center"
             loading="eager"
           />
@@ -134,7 +134,7 @@ const AboutUs = () => {
         <div className="mb-12">
           <img
             src="/robot/team/1rollo_team_3.webp"
-            alt="Rollo robotics team"
+            alt="1Rollo robotics team"
             className="w-full h-auto object-cover rounded-xl"
             loading="lazy"
           />

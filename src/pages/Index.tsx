@@ -131,7 +131,7 @@ const Index = () => {
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
           <img
             src="/hero/1rollo_home_hero.webp"
-            alt="Rollo autonomous patrol robot at airport terminal"
+            alt="1Rollo autonomous patrol robot at airport terminal"
             className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
             loading="eager"
           />
@@ -770,7 +770,7 @@ const Index = () => {
                   {/* ROLLO Visual */}
                   <img
                     src="/images/1rollo_robots.webp"
-                    alt="3 Rollo autonomous security robots"
+                    alt="3 1Rollo autonomous security robots"
                     className="w-full max-w-none lg:max-w-[420px] xl:max-w-[520px] h-auto object-contain"
                     loading="lazy"
                   />
