@@ -17,7 +17,7 @@ interface SectionIntroProps {
   className?: string;
 }
 
-export const PUBLIC_SECTION_GUTTER = "px-5 sm:px-6 lg:px-8 xl:px-10 2xl:px-12";
+export const PUBLIC_SECTION_GUTTER = "px-9 sm:px-6 lg:px-8 xl:px-10 2xl:px-12";
 export const PUBLIC_SECTION_MAX_WIDTH = "max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px]";
 export const PUBLIC_CONTENT_RAIL = `${PUBLIC_SECTION_MAX_WIDTH} mx-auto ${PUBLIC_SECTION_GUTTER} text-left`;
 
