@@ -291,7 +291,7 @@ const Index = () => {
               </FadeInView>
 
               {/* Mobile-only inline robot image */}
-              <div className="md:hidden -mt-10 -mb-4 ml-[-65%] mr-[-15%]">
+              <div className="md:hidden -mt-10 -mb-4 ml-[-95%] mr-[15%]">
                 <FadeInView delay={50}>
                   <img
                     src="/images/1rollo_solution_graph.webp"
