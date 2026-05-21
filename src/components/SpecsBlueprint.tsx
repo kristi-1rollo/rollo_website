@@ -27,7 +27,7 @@ const leftCategory: SpecCategory = {
     { label: "WHEEL DIAMETER", value: "60 cm / 24 in", icon: Zap },
     { label: "HEIGHT", value: "110 cm / 43 in", icon: Zap },
     { label: "WEIGHT", value: "45 kg / 100 lb", icon: Zap },
-    { label: "MAX SPEED", value: "10 km/h / 6 mph", icon: Zap },
+    { label: "SPEED", value: "Up to 30 km/h / 19 mph", icon: Zap },
     { label: "BATTERY LIFE", value: "Up to 8 hours", icon: Battery },
     { label: "OPERATING TEMPERATURE", value: "−20°C to +55°C", subValue: "−4°F to +131°F", icon: Zap },
   ],
