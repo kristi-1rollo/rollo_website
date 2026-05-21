@@ -13,8 +13,8 @@ const EuFunding = () => {
         >
           Back
         </button>
-        <div className="rounded-2xl border border-white/10 bg-white/5 p-6 md:p-10 space-y-8">
-          <div className="rounded-xl border border-white/10 bg-black/20 p-5 md:p-7">
+        <div className="-mx-5 md:mx-0 rounded-2xl border border-white/10 bg-white/5 p-6 md:p-10 space-y-8">
+          <div className="-mx-5 md:mx-0 rounded-xl border border-white/10 bg-black/20 p-5 md:p-7">
             <div className="grid grid-cols-1 md:grid-cols-[1fr_auto] gap-6 md:gap-8 items-center">
               <div className="space-y-3">
                 <p className="text-xs uppercase tracking-[0.2em] text-slate-300">

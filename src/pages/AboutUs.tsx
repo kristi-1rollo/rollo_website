@@ -145,7 +145,7 @@ const AboutUs = () => {
           {team.map((t) => (
             <div
               key={t.name}
-              className="relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6"
+              className="-mx-5 md:mx-0 relative blue-card-glow h-full flex flex-col rounded-2xl border border-white/10 bg-white/5 p-5 md:p-6"
             >
               <h3 className="text-lg font-semibold text-white mb-3">
                 {t.name}

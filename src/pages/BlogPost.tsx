@@ -241,7 +241,7 @@ const BlogPost = () => {
             </FadeInView>
 
             <FadeInView delay={100}>
-              <div className="surface-panel mb-8 flex flex-wrap items-center gap-3 rounded-[4px] px-4 py-3">
+              <div className="-mx-5 md:mx-0 surface-panel mb-8 flex flex-wrap items-center gap-3 rounded-[4px] px-4 py-3">
                 <span className="text-sm font-medium text-white/85">{publishedDate}</span>
                 {readingTime > 0 && (
                   <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
@@ -268,7 +268,7 @@ const BlogPost = () => {
             ))}
 
             <FadeInView delay={450}>
-              <div className="surface-panel mb-12 rounded-[4px] p-5">
+              <div className="-mx-5 md:mx-0 surface-panel mb-12 rounded-[4px] p-5">
                 <p className="mb-4 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground">
                   <span className="inline-block h-[2px] w-4 bg-primary" />
                   Share this article
@@ -282,7 +282,7 @@ const BlogPost = () => {
                           href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on LinkedIn"
                         >
                           <Linkedin className="h-4 w-4" />
@@ -291,14 +291,14 @@ const BlogPost = () => {
                           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on Facebook"
                         >
                           <Facebook className="h-4 w-4" />
                         </a>
                         <button
                           onClick={handleInstagramShare}
-                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link and open Instagram"
                         >
                           <Instagram className="h-4 w-4" />
@@ -309,7 +309,7 @@ const BlogPost = () => {
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
                           }}
-                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link"
                         >
                           {copied ? (
@@ -371,7 +371,7 @@ const BlogPost = () => {
           <aside className="hidden lg:block">
             <div className="sticky top-24 space-y-6">
               <FadeInView delay={120}>
-                <section className="surface-panel rounded-[4px] p-5">
+                <section className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-4 text-primary">Metadata</p>
                   <dl className="space-y-4">
                     <div>
@@ -387,7 +387,7 @@ const BlogPost = () => {
               </FadeInView>
 
               <FadeInView delay={200}>
-                <section className="surface-panel rounded-[4px] p-5">
+                <section className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
                   <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
                     <img

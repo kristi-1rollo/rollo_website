@@ -98,7 +98,7 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Company Information */}
           <div className="lg:col-span-1 space-y-6">
-            <div className="surface-panel rounded-[4px] p-5 md:p-6 space-y-6">
+            <div className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5 md:p-6 space-y-6">
               <div className="flex items-start gap-4">
                 <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-3">
                   <Building2 className="w-6 h-6 text-primary" />
@@ -145,7 +145,7 @@ const Contact = () => {
 
           {/* Contact Form */}
           <div className="lg:col-span-2">
-            <div ref={formCardRef} className="surface-panel rounded-[4px] p-5 md:p-6 scroll-mt-24">
+            <div ref={formCardRef} className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5 md:p-6 scroll-mt-24">
               <div className="mb-6">
 
                 <h3 className="title-halo text-2xl font-bold text-white mb-2">
@@ -161,7 +161,7 @@ const Contact = () => {
                   <div
                     role="status"
                     aria-live="polite"
-                    className="rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
+                    className="-mx-5 md:mx-0 rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
                   >
                     <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-primary mt-0.5" aria-hidden="true" />
                     <div className="space-y-1.5">
