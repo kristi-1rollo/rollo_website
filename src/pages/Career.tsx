@@ -167,7 +167,7 @@ const Career = () => {
         <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {/* Why Join Us */}
-          <div className="blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
+          <div className="-mx-5 md:mx-0 blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
                 <Briefcase className="w-5 h-5 text-primary" />
@@ -191,7 +191,7 @@ const Career = () => {
           </div>
 
           {/* Open Positions */}
-          <div className="blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
+          <div className="-mx-5 md:mx-0 blue-card-glow rounded-[4px] p-4 md:p-6 space-y-4">
             <div className="flex items-center gap-3">
               <div className="rounded-[4px] border border-primary/20 bg-primary/10 p-2.5">
                 <Briefcase className="w-5 h-5 text-primary" />
@@ -205,7 +205,7 @@ const Career = () => {
                   <li key={post.id}>
                     <button
                       onClick={() => setSelectedPost(post)}
-                      className="surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
+                      className="-mx-5 md:mx-0 surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
                     >
                         <span className="text-sm font-medium text-primary group-hover:underline">
                         {post.title}

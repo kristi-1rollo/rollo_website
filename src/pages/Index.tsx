@@ -200,7 +200,7 @@ const Index = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 max-w-5xl">
                 {/* Problem 1 */}
                 <FadeInView delay={100}>
-                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                  <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -219,7 +219,7 @@ const Index = () => {
 
                 {/* Problem 2 */}
                 <FadeInView delay={200}>
-                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                  <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -238,7 +238,7 @@ const Index = () => {
 
                 {/* Problem 3 */}
                 <FadeInView delay={300}>
-                  <div className="blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
+                  <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -308,7 +308,7 @@ const Index = () => {
                 <div className="grid grid-cols-1 md:grid-cols-[1.4fr_1fr] gap-4 md:gap-5">
                   {/* Card 1: Extreme-environment advantage (WIDER) */}
                   <FadeInView delay={100}>
-                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -327,7 +327,7 @@ const Index = () => {
 
                   {/* Card 2: Gyroscopic Innovation (SQUARE) */}
                   <FadeInView delay={200}>
-                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -349,7 +349,7 @@ const Index = () => {
                 <div className="grid grid-cols-1 md:grid-cols-[1fr_1.4fr] gap-4 md:gap-5">
                   {/* Card 3: Cost-efficient robots (SQUARE) */}
                   <FadeInView delay={300}>
-                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -369,7 +369,7 @@ const Index = () => {
 
                   {/* Card 4: Ground advantages (WIDER) */}
                   <FadeInView delay={400}>
-                    <div className="blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
+                    <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/30 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[200px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-primary/15 p-2 text-primary">
                         <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -459,7 +459,7 @@ const Index = () => {
             { img: "/patent/pilt-3.webp", ...productTiles[2] },
           ].map((t, i) => (
             <FadeInView key={t.title} delay={i * 120}>
-              <div className="blue-card-glow h-full flex flex-col rounded-[4px] p-3 md:p-6">
+              <div className="-mx-5 md:mx-0 blue-card-glow h-full flex flex-col rounded-[4px] p-3 md:p-6">
                 <div className="mb-5 flex w-full aspect-[4/3] items-center justify-center overflow-hidden rounded-[4px]">
                   <img
                     src={t.img}

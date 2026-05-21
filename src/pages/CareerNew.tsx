@@ -481,7 +481,7 @@ const CareerNew = () => {
                     <motion.div
                       key={principle.title}
                       variants={fadeInUp}
-                      className="blue-card-glow rounded-[4px] p-5 sm:p-6 md:p-7"
+                      className="-mx-5 md:mx-0 blue-card-glow rounded-[4px] p-5 sm:p-6 md:p-7"
                     >
                       <div className="mb-5 inline-flex rounded-[4px] border border-primary/20 bg-primary/10 p-3 text-primary">
                         <Icon className="h-5 w-5" />
@@ -525,7 +525,7 @@ const CareerNew = () => {
               <div className="mx-auto grid max-w-5xl grid-cols-1 gap-4 md:grid-cols-2 sm:gap-6 lg:gap-8">
                 <motion.div
                   variants={fadeInUp}
-                  className="blue-card-glow rounded-[4px] border-2 border-primary/40 p-5 sm:p-6 md:p-8"
+                  className="-mx-5 md:mx-0 blue-card-glow rounded-[4px] border-2 border-primary/40 p-5 sm:p-6 md:p-8"
                 >
                   <div className="mb-4 flex items-center gap-2 sm:mb-6 sm:gap-3">
                     <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-primary sm:h-6 sm:w-6" />
@@ -718,7 +718,7 @@ const CareerNew = () => {
                       key={post.id}
                       variants={fadeInUp}
                       onClick={() => handleApply(post)}
-                      className="blue-card-glow group relative flex min-h-[210px] flex-col overflow-hidden rounded-[4px] border border-white/10 p-5 text-left transition hover:border-primary/35 hover:-translate-y-1 sm:p-6"
+                      className="-mx-5 md:mx-0 blue-card-glow group relative flex min-h-[210px] flex-col overflow-hidden rounded-[4px] border border-white/10 p-5 text-left transition hover:border-primary/35 hover:-translate-y-1 sm:p-6"
                     >
                       <div className="absolute inset-x-0 top-0 h-px bg-[linear-gradient(90deg,transparent,rgba(128,176,255,0.65),rgba(180,255,51,0.45),transparent)]" />
                       <div className="mb-5 flex items-start justify-between gap-4">
@@ -782,7 +782,7 @@ const CareerNew = () => {
               viewport={{ once: true, margin: "-50px" }}
               variants={fadeInUp}
             >
-              <div className="blue-card-glow mx-auto max-w-3xl rounded-[4px] border-2 border-primary/40 p-6 text-center sm:p-8 md:p-12">
+              <div className="-mx-5 md:mx-0 blue-card-glow mx-auto max-w-3xl rounded-[4px] border-2 border-primary/40 p-6 text-center sm:p-8 md:p-12">
                 <SectionTag>Don&apos;t See Your Role?</SectionTag>
 
                 <h2 className="mb-6 text-xl font-bold text-white sm:text-2xl md:mb-8 md:text-3xl lg:text-4xl">
