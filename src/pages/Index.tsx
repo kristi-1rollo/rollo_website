@@ -173,7 +173,7 @@ const Index = () => {
         <img
           src="/images/security-guard.jpg"
           alt="Security guard on patrol"
-          className="absolute inset-0 md:inset-x-0 md:top-[12%] md:bottom-[12%] w-full h-full md:h-auto object-cover md:object-contain object-[50%_25%] sm:object-[50%_30%] md:object-[center_15%]"
+          className="absolute inset-0 md:inset-x-0 md:top-[12%] md:bottom-[12%] w-full h-full md:h-auto object-cover md:object-contain object-[75%_50%] sm:object-[70%_45%] md:object-[center_15%]"
           loading="lazy"
         />
         <div className="absolute inset-0 bg-black/42" />
