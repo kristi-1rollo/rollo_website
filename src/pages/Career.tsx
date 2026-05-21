@@ -118,7 +118,7 @@ const Career = () => {
           <img
             src="/team/team-hero.webp"
             alt="1Rollo robotics team"
-            className="absolute left-0 right-0 bottom-0 top-24 md:top-28 w-full h-[calc(100%-6rem)] md:h-[calc(100%-7rem)] object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
             style={{ objectPosition: '50% top' }}
             fetchPriority="high"
           />
