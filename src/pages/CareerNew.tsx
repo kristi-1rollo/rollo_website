@@ -431,7 +431,7 @@ const CareerNew = () => {
                     }}
                     data-index={index}
                     onMouseEnter={() => setActiveCulturePanel(index)}
-                    className={`rounded-[4px] p-5 sm:p-6 transition-all duration-300 ${
+                    className={`-mx-5 md:mx-0 rounded-[4px] p-5 sm:p-6 transition-all duration-300 ${
                       activeCulturePanel === index
                         ? "blue-card-glow border-primary/30"
                         : "border border-white/10 bg-white/5"
@@ -551,7 +551,7 @@ const CareerNew = () => {
 
                 <motion.div
                   variants={fadeInUp}
-                  className="rounded-[4px] border border-white/20 bg-white/5 p-5 sm:p-6 md:p-8"
+                  className="-mx-5 md:mx-0 rounded-[4px] border border-white/20 bg-white/5 p-5 sm:p-6 md:p-8"
                 >
                   <div className="mb-4 flex items-center gap-2 sm:mb-6 sm:gap-3">
                     <XCircle className="h-5 w-5 flex-shrink-0 text-red-400/80 sm:h-6 sm:w-6" />
@@ -692,7 +692,7 @@ const CareerNew = () => {
                 </div>
 
                 <div className="lg:col-span-6">
-                  <div className="rounded-[4px] border border-white/10 bg-white/5 p-5 sm:p-6">
+                  <div className="-mx-5 md:mx-0 rounded-[4px] border border-white/10 bg-white/5 p-5 sm:p-6">
                     <p className="mb-4 text-xs uppercase tracking-[0.18em] text-primary">How We Hire</p>
                     <div className="space-y-4">
                       {hiringSteps.map((step, index) => (

@@ -161,7 +161,7 @@ const Contact = () => {
                   <div
                     role="status"
                     aria-live="polite"
-                    className="rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
+                    className="-mx-5 md:mx-0 rounded-[4px] border border-primary/30 bg-primary/5 p-5 md:p-6 flex items-start gap-4"
                   >
                     <CheckCircle2 className="h-6 w-6 flex-shrink-0 text-primary mt-0.5" aria-hidden="true" />
                     <div className="space-y-1.5">
