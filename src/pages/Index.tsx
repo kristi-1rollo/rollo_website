@@ -263,7 +263,7 @@ const Index = () => {
       {/* ═══ SOLUTION ═══ */}
       <section className="section-glow-top relative w-full flex items-center overflow-hidden">
         {/* Background Image - Robots (right side) with breathing room */}
-        <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] flex items-center justify-end">
+        <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] hidden md:flex items-center justify-end">
           <img
             src="/images/1rollo_solution_graph.webp"
             alt="1Rollo autonomous security robots"
@@ -271,9 +271,7 @@ const Index = () => {
             loading="lazy"
           />
         </div>
-        <div className="absolute inset-0 bg-black/42" />
-        {/* Mobile: gradient from bottom */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_top,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.85)_25%,rgba(2,6,13,0.65)_50%,rgba(2,6,13,0.35)_75%,rgba(2,6,13,0.15)_100%)] md:hidden" />
+        <div className="absolute inset-0 hidden md:block bg-black/42" />
         {/* Desktop: strong gradient from left to keep text area clear */}
         <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.98)_0%,rgba(2,6,13,0.96)_20%,rgba(2,6,13,0.92)_35%,rgba(2,6,13,0.78)_48%,rgba(2,6,13,0.42)_62%,rgba(2,6,13,0.12)_78%,rgba(2,6,13,0)_100%)]" />
         <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
@@ -290,6 +288,16 @@ const Index = () => {
                     A Fundamentally Better Way to Build Patrol Robots
                   </h2>
                 </div>
+              </FadeInView>
+
+              {/* Mobile-only inline robot image */}
+              <FadeInView delay={50}>
+                <img
+                  src="/images/1rollo_solution_graph.webp"
+                  alt="1Rollo autonomous security robots"
+                  className="md:hidden w-full h-auto object-contain"
+                  loading="lazy"
+                />
               </FadeInView>
 
               {/* Solution Cards - Asymmetric Grid on Desktop */}
