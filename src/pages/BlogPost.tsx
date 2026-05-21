@@ -282,7 +282,7 @@ const BlogPost = () => {
                           href={`https://www.linkedin.com/sharing/share-offsite/?url=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on LinkedIn"
                         >
                           <Linkedin className="h-4 w-4" />
@@ -291,14 +291,14 @@ const BlogPost = () => {
                           href={`https://www.facebook.com/sharer/sharer.php?u=${url}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Share on Facebook"
                         >
                           <Facebook className="h-4 w-4" />
                         </a>
                         <button
                           onClick={handleInstagramShare}
-                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link and open Instagram"
                         >
                           <Instagram className="h-4 w-4" />
@@ -309,7 +309,7 @@ const BlogPost = () => {
                             setCopied(true);
                             setTimeout(() => setCopied(false), 2000);
                           }}
-                          className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
+                          className="surface-panel rounded-[4px] p-2.5 text-muted-foreground transition hover:text-primary"
                           title="Copy link"
                         >
                           {copied ? (

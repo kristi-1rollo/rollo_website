@@ -205,7 +205,7 @@ const Career = () => {
                   <li key={post.id}>
                     <button
                       onClick={() => setSelectedPost(post)}
-                      className="-mx-5 md:mx-0 surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
+                      className="surface-panel group w-full rounded-[4px] px-4 py-3 text-left transition hover:border-primary/30"
                     >
                         <span className="text-sm font-medium text-primary group-hover:underline">
                         {post.title}
