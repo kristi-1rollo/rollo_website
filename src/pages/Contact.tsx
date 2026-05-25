@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Building2, CheckCircle2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -51,6 +52,11 @@ const Contact = () => {
 
   return (
     <div className="pb-16">
+      <SEO
+        title="Contact 1ROLLO — Get a Quote for Autonomous Security"
+        description="Request a quote or partner with 1ROLLO. Deploy autonomous one-wheeled security robots at your facility — talk to our team today."
+        path="/contact"
+      />
       {/* Hero Section */}
       <section className="section-glow-top relative w-full min-h-[100svh] overflow-hidden">
         {/* Background image — full bleed on mobile, offset on desktop */}

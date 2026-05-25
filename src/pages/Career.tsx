@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { Briefcase, ImagePlus, ArrowRight } from "lucide-react";
@@ -107,6 +108,11 @@ const Career = () => {
 
   return (
     <>
+      <SEO
+        title="Careers at 1ROLLO — Join the Robotics Frontier"
+        description="Join 1ROLLO and help build the world's first autonomous one-wheeled security robot. Open roles in robotics, AI, software, and hardware engineering."
+        path="/career"
+      />
       {/* Fixed Hero Section - stays in place while scrolling on desktop */}
       <header
         ref={heroRef}

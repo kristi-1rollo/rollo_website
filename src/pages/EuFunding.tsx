@@ -1,10 +1,17 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+import SEO from "@/components/SEO";
 
 const EuFunding = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div className="pt-24 pb-16">
+      <SEO
+        title="EU Co-Financing — 1ROLLO"
+        description="Information about 1ROLLO's EU NextGenerationEU co-financing and research grants supporting autonomous security robotics development."
+        path={location.pathname}
+      />
       <section className="max-w-5xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-16 md:py-24">
         <button
           type="button"

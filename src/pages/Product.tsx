@@ -1,4 +1,5 @@
 import { Navigation, Eye, Plug, Cloud, Shield, Snowflake, Disc3, PiggyBank, TrendingUp, Users, Scale, ArrowRight } from "lucide-react";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import { SpecsBlueprint } from "@/components/SpecsBlueprint";
 import { LiveScanner } from "@/components/LiveScanner";
@@ -50,6 +51,11 @@ const solutions = [
 const Product = () => {
   return (
     <div className="pb-16 md:pb-24">
+      <SEO
+        title="1ROLLO Robot — Autonomous Security Specs & Capabilities"
+        description="Discover 1ROLLO's autonomous one-wheeled security robot: 360° vision, edge AI, all-weather operation, and cloud integration for next-generation patrol."
+        path="/product"
+      />
       {/* A) Hero / Intro */}
       <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
         <img

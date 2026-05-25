@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import SEO from "@/components/SEO";
 import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 import { usePublishedCareerPosts, type CareerPost } from "@/hooks/useCareerPosts";
@@ -186,6 +187,7 @@ const CareerNew = () => {
 
   return (
     <>
+      <SEO title="Careers — 1ROLLO" description="Internal careers preview." path="/career-new" noindex />
       <header className="section-glow-top relative min-h-[100svh] overflow-hidden">
         <div
           className="absolute inset-0"

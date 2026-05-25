@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import SEO from "@/components/SEO";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -108,6 +109,7 @@ const SetPassword = () => {
 
   return (
     <div className="pt-24 pb-16 flex items-center justify-center min-h-[80vh]">
+      <SEO title="Loo parool — 1ROLLO" description="Set password." path="/set-password" noindex />
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm space-y-6 p-8 border border-white/10 bg-white/5 rounded-[4px]"

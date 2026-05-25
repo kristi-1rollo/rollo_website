@@ -18,6 +18,7 @@ import DOMPurify from "dompurify";
 import type { BlogPost as BlogPostType, MediaGalleryItem } from "@/hooks/useBlogPosts";
 import FadeInView from "@/components/FadeInView";
 import BlogMediaGallery from "@/components/BlogMediaGallery";
+import { Helmet } from "react-helmet-async";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
@@ -215,12 +216,26 @@ const BlogPost = () => {
     }
   };
 
+  const canonicalUrl = `https://1rollo.com/blog/${post.id}`;
+  const ogImage = post.thumbnail_url || "https://1rollo.com/og-image.jpg?v=1rollo-20260525";
+
   return (
     <div className="min-h-screen pb-16 dossier-interactive">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
+      <Helmet>
+        <title>{`${post.title} — 1ROLLO Blog`}</title>
+        <meta name="description" content={post.excerpt || post.title} />
+        <link rel="canonical" href={canonicalUrl} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt || post.title} />
+        <meta property="og:url" content={canonicalUrl} />
+        <meta property="og:image" content={ogImage} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={post.title} />
+        <meta name="twitter:description" content={post.excerpt || post.title} />
+        <meta name="twitter:image" content={ogImage} />
+        <script type="application/ld+json">{JSON.stringify(schemaData)}</script>
+      </Helmet>
       <BlogPostHeader
         title={post.title}
         category={post.tag}

@@ -1,4 +1,5 @@
 import { Navigate, useSearchParams } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { useAuth } from "@/hooks/useAuth";
 import { AdminBlogTab } from "@/components/admin/AdminBlogTab";
 import { AdminCareersTab } from "@/components/admin/AdminCareersTab";
@@ -31,6 +32,7 @@ const Admin = () => {
 
   return (
     <div className="pt-24 pb-16 max-w-5xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12">
+      <SEO title="Admin — 1ROLLO" description="Admin panel." path="/admin" noindex />
       <div className="flex items-center justify-between mb-8">
         <h1 className="text-2xl font-bold text-foreground">Admin</h1>
         <Button

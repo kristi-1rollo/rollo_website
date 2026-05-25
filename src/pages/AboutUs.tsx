@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { useEffect, useRef } from "react";
 import { Section, SectionTag } from "@/components/ui/section";
 
@@ -70,6 +71,11 @@ const AboutUs = () => {
 
   return (
     <>
+      <SEO
+        title="About 1ROLLO — A Decade of Shared Robotics Experience"
+        description="Meet the team behind 1ROLLO: mechanical, electronics, software, and AI experts building the world's first autonomous one-wheeled security robot."
+        path="/about"
+      />
       {/* A) Hero - Fixed on desktop, scrolls over on mobile */}
       <header
         ref={heroRef}
