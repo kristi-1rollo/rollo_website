@@ -44,11 +44,12 @@ Deno.serve(async (req) => {
   let authorized = false
 
   console.log('send-email auth', {
-    hasInternalSecret: !!INTERNAL_SECRET,
     internalSecretLen: INTERNAL_SECRET?.length ?? 0,
-    hasProvidedSecret: !!providedSecret,
     providedSecretLen: providedSecret?.length ?? 0,
-    match: !!INTERNAL_SECRET && providedSecret === INTERNAL_SECRET,
+    iHead: INTERNAL_SECRET?.slice(0, 3),
+    iTail: INTERNAL_SECRET?.slice(-3),
+    pHead: providedSecret?.slice(0, 3),
+    pTail: providedSecret?.slice(-3),
   })
 
   if (INTERNAL_SECRET && providedSecret && providedSecret === INTERNAL_SECRET) {
