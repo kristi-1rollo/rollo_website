@@ -25,15 +25,65 @@ function generateToken(): string {
     .join('')
 }
 
-// Auth note: this function uses verify_jwt = true in config.toml, so Supabase's
-// gateway validates the caller's JWT (anon or service_role) before the request
-// reaches this code. No in-function auth check is needed.
+// Auth: this function has verify_jwt = false at the gateway, but enforces
+// authorization in-code. Callers must either:
+//   1. Send `x-internal-secret` header matching INTERNAL_FUNCTION_SECRET
+//      (used by server-to-server callers like submit-registration), OR
+//   2. Send a valid Authorization Bearer JWT for a user with the admin role.
+// Anonymous/anon-key-only requests are rejected to prevent email abuse.
 
 Deno.serve(async (req) => {
   // Handle CORS preflight
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders })
   }
+
+  // === Authorization check ===
+  const INTERNAL_SECRET = Deno.env.get('INTERNAL_FUNCTION_SECRET')
+  const providedSecret = req.headers.get('x-internal-secret')
+  let authorized = false
+
+  if (INTERNAL_SECRET && providedSecret && providedSecret === INTERNAL_SECRET) {
+    authorized = true
+  } else {
+    // Fall back to JWT + admin role check
+    const authHeader = req.headers.get('Authorization')
+    if (authHeader?.startsWith('Bearer ')) {
+      try {
+        const jwt = authHeader.replace('Bearer ', '')
+        const supabaseUrlEnv = Deno.env.get('SUPABASE_URL')
+        const anonKey = Deno.env.get('SUPABASE_ANON_KEY')
+        if (supabaseUrlEnv && anonKey) {
+          const authClient = createClient(supabaseUrlEnv, anonKey)
+          const { data: claimsData } = await authClient.auth.getClaims(jwt)
+          const userId = claimsData?.claims?.sub
+          if (userId) {
+            const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+            if (serviceKey) {
+              const adminClient = createClient(supabaseUrlEnv, serviceKey)
+              const { data: roleRow } = await adminClient
+                .from('user_roles')
+                .select('role')
+                .eq('user_id', userId)
+                .eq('role', 'admin')
+                .maybeSingle()
+              if (roleRow) authorized = true
+            }
+          }
+        }
+      } catch (e) {
+        console.error('send-transactional-email auth check failed', e)
+      }
+    }
+  }
+
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    })
+  }
+  // === End authorization check ===
 
   const supabaseUrl = Deno.env.get('SUPABASE_URL')
   const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')

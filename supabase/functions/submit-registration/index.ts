@@ -105,16 +105,30 @@ serve(async (req) => {
 
     // Fire-and-forget emails: notify the team + confirm receipt to the client.
     // Failures are logged but do not block the form response.
-    // Uses supabase.functions.invoke so the SDK handles auth headers correctly
-    // (new sb_secret_... service role keys are not JWTs and would fail the
-    // gateway's verify_jwt check if sent as a raw Bearer token).
+    // Call send-transactional-email directly via fetch with a shared internal
+    // secret header — the function enforces auth in-code (verify_jwt = false
+    // at the gateway, since new sb_secret_* keys are not JWTs and would fail
+    // the gateway's verify_jwt check).
+    const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
+    const INTERNAL_SECRET = Deno.env.get("INTERNAL_FUNCTION_SECRET") ?? "";
+    const sendEmailUrl = `${SUPABASE_URL}/functions/v1/send-transactional-email`;
+
     const invoke = (templateName: string, payload: Record<string, unknown>) =>
-      supabase.functions
-        .invoke("send-transactional-email", {
-          body: { templateName, ...payload },
-        })
-        .then((res) => {
-          if (res.error) console.error(`email ${templateName} failed`, res.error);
+      fetch(sendEmailUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${ANON_KEY}`,
+          "apikey": ANON_KEY,
+          "x-internal-secret": INTERNAL_SECRET,
+        },
+        body: JSON.stringify({ templateName, ...payload }),
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            const text = await res.text().catch(() => "");
+            console.error(`email ${templateName} failed`, res.status, text);
+          }
         })
         .catch((e) => console.error(`email ${templateName} error`, e));
 
