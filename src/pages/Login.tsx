@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "@/components/SEO";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,7 @@ const Login = () => {
 
   return (
     <div className="pt-24 pb-16 flex items-center justify-center min-h-[80vh]">
+      <SEO title="Admin Login — 1ROLLO" description="Admin login." path="/login" noindex />
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-sm space-y-6 p-8 border border-white/10 bg-white/5 rounded-[4px]"

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SEO from "@/components/SEO";
 import { Link } from "react-router-dom";
 import {
   Plane,
@@ -127,6 +128,11 @@ const Index = () => {
 
   return (
     <div className="pb-16">
+      <SEO
+        title="1ROLLO — Autonomous Robot Security Guard"
+        description="1ROLLO is the world's first commercial autonomous one-wheeled security robot. Making security services 10x cheaper, smarter, and more energy-efficient."
+        path="/"
+      />
       {/* ═══ HERO ═══ */}
         <section className="section-glow-top relative w-full min-h-[100svh] flex items-center overflow-hidden">
           <img

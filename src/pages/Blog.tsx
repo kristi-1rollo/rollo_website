@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import SEO from "@/components/SEO";
 import { usePublishedPosts } from "@/hooks/useBlogPosts";
 import { format } from "date-fns";
 import { ArrowRight } from "lucide-react";
@@ -18,6 +19,11 @@ const Blog = () => {
 
   return (
     <div className="pt-24 pb-16">
+      <SEO
+        title="1ROLLO Blog — Insights on Autonomous Security"
+        description="Latest thinking on autonomous security, field test results, and the future of robotic patrol technology from the 1ROLLO intelligence desk."
+        path="/blog"
+      />
       {/* Page header */}
       <section className="section-glow-top relative max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-12 py-12 md:py-20">
         <div className="absolute inset-0 geo-grid opacity-30 pointer-events-none" />

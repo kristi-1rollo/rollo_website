@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import SEO from "@/components/SEO";
 import { useSearchParams, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
@@ -49,6 +50,7 @@ const Unsubscribe = () => {
 
   return (
     <main className="min-h-[100dvh] flex items-center justify-center bg-[#050505] text-white px-6 py-24">
+      <SEO title="Unsubscribe — 1ROLLO" description="Unsubscribe from emails." path="/unsubscribe" noindex />
       <div className="max-w-md w-full text-center space-y-6">
         <h1 className="text-3xl font-bold tracking-tight">Unsubscribe</h1>
 
