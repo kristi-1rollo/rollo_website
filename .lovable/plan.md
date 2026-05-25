@@ -1,32 +1,72 @@
-## Probleem
-Mobiilis algab sektsiooni pealkirja/teksti rida ekraani servast 16 px kaugusel (rail `px-4`), aga kaartide sisene tekst on 16 + 20 = 36 px kaugusel (kaardil endal `p-5`). Seega välis- ja sisekonteineri tekst ei ole samal joonel.
+## Eesmärk
+Google'i otsingus näeks 1Rollo.com välja professionaalselt: õige favicon, korrektne pealkiri ja kirjeldus, ilus sotsiaalmeedia eelvaade ning Google leiab ja indekseerib uue versiooni võimalikult kiiresti.
 
-Soov: kogu lehel (mitte ainult Solution sektsioonis) algagu mobiilis igasugune tekst — kaardis või väljaspool kaarti — täpselt samalt vasakult joonelt; sama parempoolne joon.
+## Miks praegu vale vaade?
+- Google'i indeks on vana (cache'itud vana favicon ja vana title/description).
+- `index.html`-s on title/description juba head, aga puudu on **canonical**, **og:url**, **og:image** ja **sitemap.xml** — need aitavad Google'il "rikkaliku" tulemuse luua ja õigele URL-ile lukustada.
+- Praegune `/favicon.png` on 1.5 KB — liiga väike, tihti Google ei aktsepteeri seda otsingutulemuste ikoonina (nõuab vähemalt 48×48, soovituslikult 512×512).
 
-## Lahendus
-Ühtlustame paddingu nii, et **tekstijoon mobiilis on alati 20 px ekraani servadest**, hoolimata sellest, kas tekst on rail-konteineris või kaardis. Selleks:
+## Mida teeme
 
-1. **Tõstame globaalse mobiilipaddingu** `px-4` → `px-5` failis `src/components/ui/section.tsx` (`PUBLIC_SECTION_GUTTER`). See mõjutab kõiki avalikke sektsioone (Index, Product, About, Contact, Blog, EU Funding jne) ühe muudatusega. Tahvel- ja desktop-paddingud (`sm:px-6 lg:px-8 …`) jäävad samaks.
+### 1. Favicon (kui oled uue pildi üles laadinud)
+- Kopeerin uue üleslaaditud pildi `public/favicon.png`-ks (üle kirjutan vana).
+- Värskendan `index.html`-s favicon cache-busteri (`?v=...`) uuele ajatemplile, et brauserid ja Google võtaksid uue versiooni.
+- Lisan ka `apple-touch-icon` ja `<link rel="icon" sizes="any">` viited.
 
-2. **Kaardid lähevad mobiilis full-bleed**, et nende serv puudutaks rail-paddingu välimist joont, ja kaardi sisene `p-5` annab teksti täpselt samasse 20 px joonele.
-   - Lisame kaartidele klassi `-mx-5 md:mx-0`, et tühistada raili padding ainult mobiilis.
-   - Mõjutatud kohad (~8 kaarti, peamiselt `src/pages/Index.tsx`): Solution kaardid (Extreme-Env, Gyroscopic Innovation, jne), Capabilities kaardid ja muud `blue-card-glow` / `glass` plokid, mis kasutavad `p-5`/`p-6`.
-   - Kui kaart on grid'is (`grid grid-cols-1 md:grid-cols-…`), tuleb `-mx-5` panna kaardi enda diivile, mitte grid-konteinerile.
+### 2. OG / jagamispilt
+- Kopeerin sinu üleslaaditud OG-pildi `public/og-image.jpg`-ks (eelistatult 1200×630).
+- Lisan `index.html`-s:
+  - `<meta property="og:image" content="https://1rollo.com/og-image.jpg">`
+  - `<meta property="og:image:width" content="1200">` / `height` 630
+  - `<meta name="twitter:image" content="...">` (sama URL)
 
-3. **Kaartide sisene padding** jääb `p-5` (20 px) — see hoiab kaardi sees teksti samal 20 px joonel kui väline rail-tekst.
+### 3. Head meta täiendused (`index.html`)
+Lisan/parandan järgmised read:
+- `<link rel="canonical" href="https://1rollo.com/">`
+- `<meta property="og:url" content="https://1rollo.com/">`
+- `<meta property="og:site_name" content="1ROLLO">`
+- `<meta property="og:locale" content="en_US">`
+- Täiendan JSON-LD'd nii, et `Organization` skeem oleks olemas (logo URL koos), mis aitab Google'il õige "site name" ja "logo" otsingutulemustes näidata:
+  ```json
+  {
+    "@type": "Organization",
+    "name": "1ROLLO",
+    "url": "https://1rollo.com",
+    "logo": "https://1rollo.com/favicon.png"
+  }
+  ```
 
-## Tulemus
-- Mobiil: kõik pealkirjad, lõigud ja kaartide tekstid algavad vasakult 20 px ja lõpevad paremalt 20 px joonelt.
-- Tahvel/desktop: muutmata (`md:mx-0` taastab kaartide normaalse paigutuse, rail-padding samuti).
-- Elementide järjekord, vasak/center joondus ja sisuline struktuur jäävad puutumata — muutub ainult padding.
+### 4. Title ja description optimeerimine
+Praegune:
+- Title: *"ROLLO - Autonomous Robot Security Guard"* (40 tähemärki — OK)
+- Description: ~150 tähemärki — OK
 
-## Tehnilised detailid
-- Fail 1: `src/components/ui/section.tsx`
-  - `PUBLIC_SECTION_GUTTER = "px-5 sm:px-6 lg:px-8 xl:px-10 2xl:px-12"`
-- Fail 2: `src/pages/Index.tsx` (ja vajadusel `Product.tsx`, `AboutUs.tsx`, `Contact.tsx`, `Blog.tsx`, `EuFunding.tsx`)
-  - Kõikidele `p-5`/`p-6` kaartidele lisada `-mx-5 md:mx-0`.
-- Audit: jooksen pärast muudatust `rg` üle, et leida kaarte, mis võisid kahe silma vahele jääda, ja kontrollin mobiilivaates brauseris (390×844), et tekstijoon klapib igal sektsioonil.
+Soovitus (vajadusel võime hoida praeguse, aga ettepanek):
+- Title: **"1ROLLO — Autonomous Robot Security Guard"** (kasutab brändinime nii, nagu kodulehel)
+- Description samaks, aga lisame lõppu CTA-na: *"Learn more about the future of autonomous security."*
 
-## Mida ma ei tee
-- Ei muuda värve, fonte, ikoonide paigutust, kaartide siseseid joondusi ega gridi struktuuri.
-- Desktop-paddingule (md ja suuremad) ei puutu.
+Kui sulle praegune sõnastus sobib, jätame muutmata — anna teada.
+
+### 5. sitemap.xml ja robots.txt
+- Lisan `public/sitemap.xml`-i põhilehtede URL-idega (`/`, `/product`, `/about`, `/contact`, `/blog`, `/funding`).
+- Täiendan `public/robots.txt`-i reaga `Sitemap: https://1rollo.com/sitemap.xml`.
+
+### 6. Google Search Console — kuidas reindekseerimist kiirendada
+Kirjutan vastuses sammud:
+1. Mine [search.google.com/search-console](https://search.google.com/search-console).
+2. Vali property `https://1rollo.com` (kui pole, lisa "URL prefix" tüüpi property — võin domeeni omandi tõestamise meta-tagi automaatselt koodi lisada, kui annad rohelise tule).
+3. Klõpsa vasakul **Sitemaps** → lisa `https://1rollo.com/sitemap.xml`.
+4. Ülal otsingukastis sisesta `https://1rollo.com/` → **Request Indexing**. Korda iga olulise alalehe kohta.
+5. Favicon võtab Google'is uuendamiseks tüüpiliselt 1–4 nädalat — Search Console ei paku selleks otseteed, aga sitemap + Request Indexing kiirendab tervet protsessi.
+
+## Mida ma EI tee
+- Ei muuda kodulehe disaini ega sisu.
+- Ei lisa per-route Helmet'i — see ei ole praeguse soovi jaoks vajalik (sotsiaaljagamine töötab staatilise `index.html`-iga niikuinii paremini, sest LinkedIn/FB ei käivita JS-i).
+- Ei seadista Google Search Console'i omandi tõestust automaatselt — küsin enne, kui seda vaja on.
+
+## Mida ma sinult vajan enne ehitamist
+1. **Lae chati üles uus favicon-pilt** (eelistatult 512×512 või suurem PNG, ruutformaadis).
+2. **Lae üles OG-pilt** (1200×630, JPG või PNG).
+3. Kinnita kas Title jääb praeguseks või muudame "1ROLLO — Autonomous Robot Security Guard" peale.
+
+Kui need on olemas, läheme build-mode'i ja teen kõik korraga ära.
