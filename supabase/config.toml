@@ -1,7 +1,7 @@
 project_id = "igdxbtuaajrhvuqtwhmm"
 
 [functions.generate-excerpt]
-verify_jwt = false
+verify_jwt = true
 
 [functions.manage-admin]
 verify_jwt = false
@@ -10,7 +10,7 @@ verify_jwt = false
 verify_jwt = true
 
 [functions.send-transactional-email]
-verify_jwt = false
+verify_jwt = true
 
 [functions.preview-transactional-email]
 verify_jwt = false
