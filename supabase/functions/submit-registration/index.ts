@@ -110,7 +110,9 @@ serve(async (req) => {
     // at the gateway, since new sb_secret_* keys are not JWTs and would fail
     // the gateway's verify_jwt check).
     const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY") ?? Deno.env.get("SUPABASE_PUBLISHABLE_KEY") ?? "";
-    const INTERNAL_SECRET = Deno.env.get("INTERNAL_FUNCTION_SECRET") ?? "";
+    // Use SERVICE_ROLE_KEY as the shared secret — both functions read it from
+    // the same env so there's no risk of value drift between deployments.
+    const INTERNAL_SECRET = SERVICE_ROLE_KEY;
     const sendEmailUrl = `${SUPABASE_URL}/functions/v1/send-transactional-email`;
 
     const invoke = (templateName: string, payload: Record<string, unknown>) =>
