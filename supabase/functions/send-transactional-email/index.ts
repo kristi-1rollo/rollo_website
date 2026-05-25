@@ -39,13 +39,20 @@ Deno.serve(async (req) => {
   }
 
   // === Authorization check ===
-  // Trim whitespace from both sides to handle accidental newlines/spaces
-  // in the secret value or header transmission encoding differences.
+  // Accept either:
+  //  1. x-internal-secret matching INTERNAL_FUNCTION_SECRET or SUPABASE_SERVICE_ROLE_KEY
+  //     (used by server-to-server callers).
+  //  2. Valid admin JWT (fallback below).
   const INTERNAL_SECRET = Deno.env.get('INTERNAL_FUNCTION_SECRET')?.trim()
+  const SERVICE_ROLE = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')?.trim()
   const providedSecret = req.headers.get('x-internal-secret')?.trim()
   let authorized = false
 
-  if (INTERNAL_SECRET && providedSecret && providedSecret === INTERNAL_SECRET) {
+  if (
+    providedSecret &&
+    ((INTERNAL_SECRET && providedSecret === INTERNAL_SECRET) ||
+      (SERVICE_ROLE && providedSecret === SERVICE_ROLE))
+  ) {
     authorized = true
   } else {
     // Fall back to JWT + admin role check
