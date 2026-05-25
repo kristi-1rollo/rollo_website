@@ -39,18 +39,11 @@ Deno.serve(async (req) => {
   }
 
   // === Authorization check ===
-  const INTERNAL_SECRET = Deno.env.get('INTERNAL_FUNCTION_SECRET')
-  const providedSecret = req.headers.get('x-internal-secret')
+  // Trim whitespace from both sides to handle accidental newlines/spaces
+  // in the secret value or header transmission encoding differences.
+  const INTERNAL_SECRET = Deno.env.get('INTERNAL_FUNCTION_SECRET')?.trim()
+  const providedSecret = req.headers.get('x-internal-secret')?.trim()
   let authorized = false
-
-  console.log('send-email auth', {
-    internalSecretLen: INTERNAL_SECRET?.length ?? 0,
-    providedSecretLen: providedSecret?.length ?? 0,
-    iHead: INTERNAL_SECRET?.slice(0, 3),
-    iTail: INTERNAL_SECRET?.slice(-3),
-    pHead: providedSecret?.slice(0, 3),
-    pTail: providedSecret?.slice(-3),
-  })
 
   if (INTERNAL_SECRET && providedSecret && providedSecret === INTERNAL_SECRET) {
     authorized = true
