@@ -1,32 +1,41 @@
-## Lehepõhine SEO (react-helmet-async)
+## Probleem
 
-Lisan igale avalikule lehele unikaalse title, description, canonical ja og:* tag'id, et Google mõistaks iga lehe sisu eraldi.
+`send-transactional-email` viidi `verify_jwt = true` peale, mis blokeerib `submit-registration` kõned (uus `sb_secret_*` teenuserolli võti ei ole JWT). Tulemus: kontaktivorm salvestab andmed DB-sse, aga teavitus- ja kinnituskirju ei lähe välja (401 logides).
 
-### Sammud
+## Lahendus
 
-1. **Paigaldan `react-helmet-async**` paketi.
-2. **Wrapan App'i `<HelmetProvider>`'sse** (`src/main.tsx`).
-3. **Eemaldan `<link rel="canonical">` `index.html`-st** — iga leht haldab oma canonical'i ise (vältimaks duplikaate). Sitewide og:* jääb fallback'iks alles.
-4. **Lisan `<Helmet>` bloki igale avalikule lehele**:
-  - `/` (Index) — "1ROLLO — Autonomous robots that see, hear, speak, and move."
-  - `/product` — "1ROLLO Robot — Specs & Capabilities"
-  - `/about` — "About 1ROLLO — **Decade of Shared Robotics Experience**"
-  - `/blog` — "1ROLLO Blog — Latest thinking on autonomous security, field test results, and the future of robotic patrol technology."
-  - `/blog/:id` (BlogPost) — postituse pealkiri + excerpt + og:type=article
-  - `/contact` — "Contact 1ROLLO — Get a Quote"
-  - `/funding` + `/eu-kaasrahastus` — "EU Co-Financing — 1ROLLO"
-   Iga `<Helmet>` sisaldab: `<title>`, `<meta name="description">`, `<link rel="canonical">`, `og:title`, `og:description`, `og:url`, `og:type`.
-5. **Mitte-indekseeritavad lehed** (`/login`, `/admin*`, `/set-password`, `/unsubscribe`, `/career-new`) saavad `<meta name="robots" content="noindex,nofollow">`.
+Asendada gateway-tasandi JWT-kontroll funktsiooni-sisese jagatud saladusega serveri-serveri kõnedele. See on tugevam kaitse kui `verify_jwt=true` (anon-võti on avalik), ja samas töötab usaldusväärselt edge function vahel.
 
-### Tehniline märkus
+### Muudatused
 
-- Helmet töötab kliendi pool (Googlebot käivitab JS-i, näeb õigeid tag'e).
-- LinkedIn / Slack / Facebook preview crawler'id ei käivita JS-i — nemad näevad ainult `index.html` fallback'i. See on aktsepteeritav, kuna sitewide og:* on juba korralik.
-- Canonical URL'id kasutavad `https://1rollo.com` baasi.
+1. **Lisa uus saladus** `INTERNAL_FUNCTION_SECRET` (juhuslik string) Lovable Cloud secret store'i.
 
-### Failid mida muuta
+2. **`supabase/config.toml`** — tagasi `verify_jwt = false` funktsioonile `send-transactional-email`. `generate-excerpt` jääb `verify_jwt = true` (kutsutakse autenditud admin brauserist, kus JWT on olemas).
 
-- `package.json` (uus dep)
-- `src/main.tsx` (HelmetProvider wrapper)
-- `index.html` (eemaldan canonical)
-- `src/pages/*.tsx` (8 lehte saavad Helmet bloki)
+3. **`supabase/functions/send-transactional-email/index.ts`** — lisa funktsiooni alguses (peale CORS preflight'i) kontroll:
+   - Loe header `x-internal-secret`.
+   - Kui see vastab `INTERNAL_FUNCTION_SECRET`-le → luba läbi.
+   - Muidu kontrolli `Authorization: Bearer <jwt>` ja vali sealt admin roll (nagu `manage-admin`).
+   - Kui kumbki ei sobi → tagasta 401.
+
+4. **`supabase/functions/submit-registration/index.ts`** — kutsu `send-transactional-email` otse `fetch`-iga (mitte `supabase.functions.invoke`), lisades:
+   - `Authorization: Bearer <SUPABASE_ANON_KEY>` (gateway nõuab apikey't)
+   - `x-internal-secret: <INTERNAL_FUNCTION_SECRET>`
+   - `Content-Type: application/json`
+
+   Säilita "fire-and-forget" muster ja vealogimine.
+
+5. **Verify deploy** — `deploy_edge_functions` mõlemale funktsioonile, siis testi kontaktivormi ning kontrolli `email_send_log` tabelit.
+
+## Turvamõju
+
+- Anonüümsed (gateway-läbised) ja autenditud anon-võtmega kõned hakkavad saama 401 funktsiooni enda sees → spämmi/phishing risk lahendatud.
+- Serveri-serveri kõned (`submit-registration` → `send-transactional-email`) töötavad jälle jagatud saladusega.
+- Admin brauserist tulnud kõned (kui kunagi vaja) saaks läbi JWT + admin role kontrolli.
+
+## Failid mida muudame
+
+- `supabase/config.toml`
+- `supabase/functions/send-transactional-email/index.ts`
+- `supabase/functions/submit-registration/index.ts`
+- Uus saladus: `INTERNAL_FUNCTION_SECRET`
