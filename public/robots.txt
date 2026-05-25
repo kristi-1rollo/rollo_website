@@ -4,6 +4,10 @@
 # Content & brand: 1ROLLO
 # ─────────────────────────────────────────────
 
+Sitemap: https://1rollo.com/sitemap.xml
+
+
+
 User-agent: Googlebot
 Allow: /
 
