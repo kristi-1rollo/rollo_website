@@ -1,25 +1,56 @@
-## Plaan: Mobiili spec sektsioon — sticky robot taustal, kastid kerivad ette
+# Mobile Hero — Sticky Image with Scroll-Reveal
 
-### Muudatus
-`src/components/SpecsBlueprint.tsx` mobiili plokis (`md:hidden`):
+Sama lähenemine, mis töötab Product-lehe spec-sektsioonis: hero pilt jääb taustal "sticky" asendisse, sisu (logo, pealkiri, kirjeldus) ja tume filter kerivad eest ära, nii et lehe alumises osas paistab puhas, filtrita pilt välja enne, kui järgmine sektsioon (Problems) tuleb peale.
 
-1. **Robot jääb sticky** ekraani keskel/ülaosas, **fikseeritud suurusega** (nt 260px laius).
-2. **Eemalda** `useScroll` + `useTransform` (suuruse animatsioon kaob).
-3. **z-index loogika ümber pööratud:**
-   - Robotipildi konteiner: `z-0` (taga)
-   - Specs grid konteiner: `z-10` (ees, kerib roboti peale)
-4. **Glow jääb roboti taha**, mitte kastide ette.
-5. Kastid `glass` jääb sama (poolläbipaistev, et robot oleks läbi näha) — annab kena "blueprint pinnal" tunde.
+**Ainult mobiilis** (`md:` breakpoint allpool). Desktop hero jääb täpselt samaks nagu praegu.
 
-### Tehnilised üksikasjad
-- `mobileRef` ja kogu Framer Motion scroll-progress eemalda.
-- `motion.img` → tavaline `<img>` fikseeritud `width: 260px` ja `className="..."`.
-- `<div className="sticky top-20 ... z-0">` robotipildi ümber.
-- `<div className="relative z-10 ...">` specs gridi ümber, et see kindlasti roboti peal renderdatakse.
-- Eemalda `import { useRef }` ja `useScroll, useTransform`.
-- `framer-motion` import jääb (desktopis veel kasutusel).
+## Mida muudame
 
-### Tulemus
-- Robot virvendamist enam ei toimu (suurus stabiilne).
-- Kasutaja kerides liiguvad spec-kastid roboti silueti peale → tugev "tehniline blueprint" tunne.
-- Roboti kontuur jääb pehmelt nähtavaks ka kastide all tänu `glass` taustale.
+Fail: `src/pages/Index.tsx`, HERO-sektsioon (read ~140–177).
+
+1. **Mobiilis** muudame hero-sektsiooni kõrgemaks (nt `min-h-[160svh]`), et tekiks scrolliruum sticky efekti jaoks. Desktopil jääb `min-h-[100svh]`.
+
+2. **Pildi konteiner** (img + glow) saab mobiilis `sticky top-0 h-[100svh]` — pilt püsib ekraanil terve hero-sektsiooni ulatuses.
+
+3. **Tume overlay + radiaalsed gradient'id** lähevad samasse sticky konteinerisse, AGA saavad mobiilis scroll-linked opacity-animatsiooni (Framer Motion `useScroll` + `useTransform`), nii et kui kasutaja kerib alla, overlay tuhmub nullini → puhas pilt paistab läbi.
+
+4. **Tekstiblokk** (`PublicContentRail`) jääb tavalisse voogu (mitte sticky), nii et kerides liigub see pildi pealt ära ülespoole. Tekst saab oma `relative z-20`, et olla esialgu ülal pildi peal.
+
+5. **Järgmine sektsioon (Problems)** jääb täpselt nagu praegu — ta tuleb hero alt välja ja katab sticky pildi kinni.
+
+## Tehnilised detailid
+
+- Lisame `framer-motion`-i `useScroll` + `useTransform` HERO-sektsiooni omaks (target: hero `ref`).
+- `overlayOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.4, 0])` — overlay fade.
+- Tekstil võiks olla väike `opacity` ja `y` transform, et kerides sujuvalt välja kaduda (`[0, 0.5] → opacity [1, 0]`, `y [0, -40]`).
+- Kõik animatsioonid wrappitakse `md:` media-check'iga: kasutame `useMediaQuery`-laadset lähenemist või lihtsalt rakendame transformid alati, kuna desktop hero kõrgus on `100svh` ja sticky ei oma scroll-rangega efekti — aga turvalisem on Framer transformid renderdada conditionally läbi `hidden md:block` / `md:hidden` duplikaatide.
+
+## ASCII
+
+```text
+[hero section, 160svh on mobile]
+┌─────────────────────────┐ ◄── scroll 0%
+│  IMG (sticky)           │
+│  + dark overlay (1.0)   │
+│  ─ logo                 │
+│  ─ HEADLINE             │
+│  ─ subtitle             │
+└─────────────────────────┘
+        ↓ scroll
+┌─────────────────────────┐ ◄── scroll 60%
+│  IMG (still sticky)     │
+│  + overlay (0.4)        │
+│  (text scrolled away)   │
+└─────────────────────────┘
+        ↓ scroll
+┌─────────────────────────┐ ◄── scroll 100%
+│  IMG (clean, no filter) │
+└─────────────────────────┘
+[Problems section starts]
+```
+
+## Mida EI muuda
+
+- Desktop hero-välimus
+- Problems / Solution / muud sektsioonid
+- SpecsBlueprint (Product-leht)
