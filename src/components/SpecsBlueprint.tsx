@@ -227,7 +227,11 @@ export function SpecsBlueprint() {
             </div>
           ))}
         </div>
+
+        {/* Tail spacer — keeps robot sticky alone after grid ends, so it reappears full size */}
+        <div className="h-[60vh]" aria-hidden="true" />
       </div>
+
     </div>
   );
 }
