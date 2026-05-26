@@ -301,7 +301,7 @@ const Index = () => {
         <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <PublicContentRail className="relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="md:grid md:grid-cols-[58%_42%] md:gap-10 md:items-stretch">
+          <div className="lg:grid lg:grid-cols-[58%_42%] lg:gap-10 lg:items-stretch">
             <div className="space-y-8 md:space-y-10">
               {/* Header */}
               <FadeInView>
@@ -315,17 +315,39 @@ const Index = () => {
                 </div>
               </FadeInView>
 
-              {/* Mobile-only inline robot image */}
-              <div className="md:hidden -mt-10 -mb-4 ml-[-70%] mr-[-10%]">
+              {/* Mobile + tablet inline robot image — fits screen, click to zoom */}
+              <div className="lg:hidden">
                 <FadeInView delay={50}>
-                  <img
-                    src="/images/1rollo_solution_graph_v2.webp"
-                    alt="1Rollo autonomous security robots"
-                    className="w-full h-auto object-contain"
-                    loading="lazy"
-                  />
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button
+                        type="button"
+                        aria-label="Zoom robot image"
+                        className="group relative block w-full max-w-md mx-auto cursor-zoom-in"
+                      >
+                        <img
+                          src="/images/1rollo_solution_graph_v2.webp"
+                          alt="1Rollo autonomous security robots"
+                          className="w-full h-auto object-contain max-h-[55vh]"
+                          loading="lazy"
+                        />
+                        <span className="absolute bottom-2 right-2 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-2.5 py-1 text-[10px] uppercase tracking-widest text-white/80 opacity-90 group-hover:opacity-100">
+                          Tap to zoom
+                        </span>
+                      </button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-[95vw] sm:max-w-3xl bg-black/95 border-white/10 p-2 sm:p-4">
+                      <img
+                        src="/images/1rollo_solution_graph_v2.webp"
+                        alt="1Rollo autonomous security robots — zoomed"
+                        className="w-full h-auto max-h-[85vh] object-contain"
+                      />
+                    </DialogContent>
+                  </Dialog>
                 </FadeInView>
               </div>
+
+
 
               {/* Solution Cards - Asymmetric Grid on Desktop */}
               <div className="space-y-4 md:space-y-5">
