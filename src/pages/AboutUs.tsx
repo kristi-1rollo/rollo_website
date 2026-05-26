@@ -90,7 +90,7 @@ const AboutUs = () => {
             loading="eager"
           />
         </picture>
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 bg-black/30 md:bg-black/50" />
         <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.85)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.4)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.85)_0%,rgba(2,6,13,0.6)_35%,rgba(2,6,13,0.2)_70%,rgba(2,6,13,0)_100%)]" />
 
