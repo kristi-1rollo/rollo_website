@@ -1,56 +1,46 @@
-# Mobile Hero — Sticky Image with Scroll-Reveal
+# Solution sektsiooni uuendus
 
-Sama lähenemine, mis töötab Product-lehe spec-sektsioonis: hero pilt jääb taustal "sticky" asendisse, sisu (logo, pealkiri, kirjeldus) ja tume filter kerivad eest ära, nii et lehe alumises osas paistab puhas, filtrita pilt välja enne, kui järgmine sektsioon (Problems) tuleb peale.
+Fail: `src/pages/Index.tsx`, read ~297–426.
 
-**Ainult mobiilis** (`md:` breakpoint allpool). Desktop hero jääb täpselt samaks nagu praegu.
+## Muudatused
 
-## Mida muudame
+1. **Eemalda taustapilt desktopist**
+   - Kustuta `<div>` (rida 300–307), mis renderdab `1rollo_solution_graph.webp` taustal.
+   - Kustuta dark overlay (rida 308) ja `linear-gradient` overlay (rida 310) — neid pole enam vaja, kuna pilt ei ole enam taustal.
+   - Säilita `section-glow-top` ja lime glow blob (rida 311) atmosfääri jaoks.
 
-Fail: `src/pages/Index.tsx`, HERO-sektsioon (read ~140–177).
+2. **Tausta gradient stiil (sama mis muudel sektsioonidel)**
+   - Lisa sektsioonile pehme dark gradient overlay, sarnaselt Capabilities sektsiooni mustriga: 
+     `bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.10),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.10),rgba(0,0,0,0.05))]`.
+   - Tulemus: tavaline lehe taust, mitte täisekraani robotipilt.
 
-1. **Mobiilis** muudame hero-sektsiooni kõrgemaks (nt `min-h-[160svh]`), et tekiks scrolliruum sticky efekti jaoks. Desktopil jääb `min-h-[100svh]`.
+3. **Desktop layout: pilt tekstikastide kõrval**
+   - Muuda `PublicContentRail` sisemine konteiner `md:`-l 2-veeruliseks grid-iks: vasakul tekst + kaardid (~58%), paremal pilt (~42%).
+   - Pilt renderdatakse paremas veerus suurelt: `w-full h-auto object-contain`, ilma maski/overlay-ta. Pildi vertikaalne suurus joondub nii, et pildi **ülemine serv** algab pealkirja kõrguselt ja **alumine serv** lõpeb viimase kaardirea allservaga (st pilt skaaleeritakse veeru kõrguse järgi: `self-stretch` + `max-h-full`, vajadusel `aspect-ratio` fallback, kasuta `items-stretch` grid-il, et pildi konteiner saaks täiskõrguse).
+   - Pildi konteiner: `flex items-center justify-center` — pilt täidab veeru kõrguse ja jääb keskele horisontaalselt.
 
-2. **Pildi konteiner** (img + glow) saab mobiilis `sticky top-0 h-[100svh]` — pilt püsib ekraanil terve hero-sektsiooni ulatuses.
+4. **Mobile**
+   - Mobile inline pilt (read 327–337) jääb nagu praegu — eraldi sektsioon pealkirja all.
 
-3. **Tume overlay + radiaalsed gradient'id** lähevad samasse sticky konteinerisse, AGA saavad mobiilis scroll-linked opacity-animatsiooni (Framer Motion `useScroll` + `useTransform`), nii et kui kasutaja kerib alla, overlay tuhmub nullini → puhas pilt paistab läbi.
-
-4. **Tekstiblokk** (`PublicContentRail`) jääb tavalisse voogu (mitte sticky), nii et kerides liigub see pildi pealt ära ülespoole. Tekst saab oma `relative z-20`, et olla esialgu ülal pildi peal.
-
-5. **Järgmine sektsioon (Problems)** jääb täpselt nagu praegu — ta tuleb hero alt välja ja katab sticky pildi kinni.
-
-## Tehnilised detailid
-
-- Lisame `framer-motion`-i `useScroll` + `useTransform` HERO-sektsiooni omaks (target: hero `ref`).
-- `overlayOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.4, 0])` — overlay fade.
-- Tekstil võiks olla väike `opacity` ja `y` transform, et kerides sujuvalt välja kaduda (`[0, 0.5] → opacity [1, 0]`, `y [0, -40]`).
-- Kõik animatsioonid wrappitakse `md:` media-check'iga: kasutame `useMediaQuery`-laadset lähenemist või lihtsalt rakendame transformid alati, kuna desktop hero kõrgus on `100svh` ja sticky ei oma scroll-rangega efekti — aga turvalisem on Framer transformid renderdada conditionally läbi `hidden md:block` / `md:hidden` duplikaatide.
-
-## ASCII
+## Tehniline struktuur (desktop)
 
 ```text
-[hero section, 160svh on mobile]
-┌─────────────────────────┐ ◄── scroll 0%
-│  IMG (sticky)           │
-│  + dark overlay (1.0)   │
-│  ─ logo                 │
-│  ─ HEADLINE             │
-│  ─ subtitle             │
-└─────────────────────────┘
-        ↓ scroll
-┌─────────────────────────┐ ◄── scroll 60%
-│  IMG (still sticky)     │
-│  + overlay (0.4)        │
-│  (text scrolled away)   │
-└─────────────────────────┘
-        ↓ scroll
-┌─────────────────────────┐ ◄── scroll 100%
-│  IMG (clean, no filter) │
-└─────────────────────────┘
-[Problems section starts]
+<section> (gradient bg, glow blob)
+  <PublicContentRail>
+    <div class="md:grid md:grid-cols-[58%_42%] md:gap-10 md:items-stretch">
+      <div> (vasak: header + 4 kaarti) </div>
+      <div class="hidden md:flex items-center justify-center">
+        <img class="w-full h-auto max-h-full object-contain" />
+      </div>
+    </div>
+  </PublicContentRail>
+</section>
 ```
 
-## Mida EI muuda
+Et pildi top/bottom täpselt joonduks tekstiplokiga, kasuta `items-stretch` (juba grid default) + pildikonteineris `h-full` ning `<img>` `h-full w-auto object-contain` — see tagab, et pilt täidab vertikaalselt sama kõrguse kui tekstiveerg, kuid säilitab proportsiooni.
 
-- Desktop hero-välimus
-- Problems / Solution / muud sektsioonid
-- SpecsBlueprint (Product-leht)
+## Mida EI muudeta
+
+- Mobile layout (inline pilt + kaardid stack)
+- Kaartide sisu, ikoonid, tekstid
+- Teised sektsioonid
