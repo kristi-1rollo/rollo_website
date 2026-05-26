@@ -121,7 +121,7 @@ function SpecLabel({
 function SpecGridCard({ spec }: { spec: Spec }) {
   const Icon = spec.icon;
   return (
-    <div className="glass border-[#B4FF33]/15 rounded-[4px] p-3 flex flex-col gap-1.5 min-h-[96px]">
+    <div className="border border-[#B4FF33]/15 rounded-[4px] p-3 flex flex-col gap-1.5 min-h-[96px] bg-[rgba(6,10,18,0.85)] backdrop-blur-sm">
       <div className="flex items-center gap-1.5 text-[#B4FF33]">
         <Icon className="h-3.5 w-3.5 shrink-0" />
         <p className="mono-spec text-[9px] leading-none truncate">{spec.label}</p>
