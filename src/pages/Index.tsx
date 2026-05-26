@@ -413,8 +413,20 @@ const Index = () => {
                 </div>
               </div>
             </div>
+
+            {/* Desktop: image column beside text cards */}
+            <div className="hidden md:flex items-center justify-center h-full">
+              <img
+                src="/images/1rollo_solution_graph.webp"
+                alt="1Rollo autonomous security robots"
+                className="h-full w-auto max-h-full object-contain"
+                loading="lazy"
+              />
+            </div>
+          </div>
         </PublicContentRail>
       </section>
+
 
       {/* ═══ CAPABILITIES ═══ */}
       {/* HIDDEN: Rollo Can Observe, Drive, Decide, Report, and Intervene section
