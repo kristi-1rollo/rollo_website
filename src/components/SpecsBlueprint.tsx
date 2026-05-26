@@ -192,15 +192,15 @@ export function SpecsBlueprint() {
 
       {/* ── Mobile: sticky robot in background, cards scroll over ── */}
       <div className="md:hidden relative">
-        {/* Sticky robot — fixed size, sits behind cards */}
-        <div className="sticky top-20 z-0 flex justify-center pointer-events-none h-0">
-          <div className="relative flex items-center justify-center -translate-y-4">
+        {/* Robot — sits in flow after title, then becomes sticky as user scrolls */}
+        <div className="sticky top-20 z-0 flex justify-center pointer-events-none mb-6">
+          <div className="relative flex items-center justify-center">
             {/* Ambient glow behind robot */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#B4FF33]/12 blur-[70px]" />
             <img
               src="/robot/F6/f6_tech_spec.webp"
               alt="1ROLLO technical specifications"
-              style={{ mixBlendMode: "lighten", width: 260 }}
+              style={{ mixBlendMode: "lighten", width: 240 }}
               className="h-auto relative opacity-90"
               loading="lazy"
             />
@@ -208,7 +208,8 @@ export function SpecsBlueprint() {
         </div>
 
         {/* Specs grid — scrolls over the robot */}
-        <div className="relative z-10 px-4 pt-[280px] space-y-8">
+        <div className="relative z-10 px-4 space-y-8">
+
           {[leftCategory, rightCategory].map((cat) => (
             <div key={cat.category}>
               <div className="flex items-center gap-3 mb-4">
