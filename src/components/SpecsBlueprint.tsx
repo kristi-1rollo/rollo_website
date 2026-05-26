@@ -136,17 +136,6 @@ function SpecGridCard({ spec }: { spec: Spec }) {
 
 /* ── Main export ── */
 export function SpecsBlueprint() {
-  const mobileRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: mobileRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Shrink robot 280px → 90px between 0 and 30% of scroll progress
-  const imageWidth = useTransform(scrollYProgress, [0, 0.3], [280, 90]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.25, 0.4], [1, 0.95, 0.7]);
-
   return (
     <div>
       {/* Section header */}
