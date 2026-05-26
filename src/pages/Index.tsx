@@ -414,12 +414,12 @@ const Index = () => {
               </div>
             </div>
 
-            {/* Desktop: image column beside text cards */}
-            <div className="hidden md:flex items-center justify-center h-full">
+            {/* Desktop: image column beside text cards — scales to fill row top to bottom */}
+            <div className="hidden md:block relative">
               <img
-                src="/images/1rollo_solution_graph.webp"
+                src="/images/1rollo_solution_graph_v2.webp"
                 alt="1Rollo autonomous security robots"
-                className="h-full w-auto max-h-full object-contain"
+                className="absolute inset-y-0 left-1/2 -translate-x-1/2 h-full w-auto max-w-none object-contain"
                 loading="lazy"
               />
             </div>
