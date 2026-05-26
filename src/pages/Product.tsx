@@ -64,12 +64,12 @@ const Product = () => {
           className="absolute inset-0 h-full w-full object-cover object-[65%_center]"
           fetchPriority="high"
         />
-        <div className="absolute inset-0 bg-black/40" />
-        {/* Mobile: stronger gradient for better text contrast */}
-        <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.95)_0%,rgba(2,6,13,0.88)_28%,rgba(2,6,13,0.62)_58%,rgba(2,6,13,0.28)_88%)]" />
+        <div className="absolute inset-0 bg-black/20 md:bg-black/40" />
+        {/* Mobile: lighter gradient so robot stays visible */}
+        <div className="absolute inset-y-0 left-0 md:hidden w-full bg-[linear-gradient(90deg,rgba(2,6,13,0.75)_0%,rgba(2,6,13,0.45)_40%,rgba(2,6,13,0.15)_75%,rgba(2,6,13,0)_100%)]" />
         {/* Desktop gradients - blur effect on left for text */}
         <div className="absolute inset-y-0 left-0 hidden md:block w-[55%] bg-[linear-gradient(90deg,rgba(2,6,13,0.92)_0%,rgba(2,6,13,0.78)_34%,rgba(2,6,13,0.26)_74%,rgba(2,6,13,0.06)_100%)]" />
-        <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
+        <div className="absolute inset-y-0 left-0 hidden md:block w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.84)_0%,rgba(3,8,18,0.72)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
         <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <div className="relative z-10 max-w-6xl lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1520px] mx-auto w-full px-4 py-20 sm:px-6 md:py-32 lg:px-8 lg:py-40 xl:px-10 2xl:px-12">
