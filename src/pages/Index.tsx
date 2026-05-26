@@ -157,35 +157,89 @@ const Index = () => {
           />
           <div className="absolute inset-0 bg-black/42" />
           <div className="absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
-          <div className="absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
-          <div className="absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
-
-        <PublicContentRail className="relative z-10 py-24">
-          <SectionIntro centered className="flex flex-col items-center space-y-5 md:mx-0 md:items-start md:text-left">
+      {/* ═══ HERO ═══ */}
+        <section
+          ref={heroRef}
+          className="section-glow-top relative w-full min-h-[160svh] md:min-h-[100svh] overflow-hidden md:flex md:items-center"
+        >
+          {/* Sticky image + overlays — full-bleed background, sticky on mobile */}
+          <div className="sticky top-0 md:absolute md:inset-0 h-[100svh] md:h-full w-full">
             <img
-              src="/logos/rollo-logo-white.png"
-              alt="1ROLLO"
-              className="h-6 sm:h-8 md:h-10 w-auto"
+              src="/hero/1rollo_home_hero.webp"
+              alt="1Rollo autonomous patrol robot at airport terminal"
+              className="absolute inset-0 w-full h-full object-cover object-[75%_center] sm:object-center"
+              loading="eager"
             />
 
-            <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
-              Brings human-level presence to the physical world
-            </h1>
+            {/* Desktop overlays (static) */}
+            <div className="hidden md:block absolute inset-0 bg-black/42" />
+            <div className="hidden md:block absolute inset-y-0 left-0 w-full sm:w-[72%] bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]" />
+            <div className="hidden md:block absolute inset-y-0 left-0 w-full bg-[linear-gradient(90deg,rgba(0,0,0,0.2)_0%,rgba(0,0,0,0.08)_22%,rgba(0,0,0,0)_52%)]" />
+            <div className="hidden md:block absolute -top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(38,93,214,0.22)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
-            <div className="flex items-center gap-3 sm:gap-4 max-w-sm w-full">
-              <span className="h-px flex-1 bg-white/25" />
-              <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
-                Without Humans
-              </span>
-              <span className="h-px flex-1 bg-white/25" />
-            </div>
+            {/* Mobile overlay (scroll-fade) */}
+            <motion.div
+              className="md:hidden absolute inset-0 bg-black/42"
+              style={{ opacity: mobileOverlayOpacity }}
+            />
+            <motion.div
+              className="md:hidden absolute inset-0 bg-[radial-gradient(circle_at_24%_42%,rgba(2,6,14,0.8)_0%,rgba(3,8,18,0.68)_28%,rgba(4,10,24,0.34)_54%,rgba(0,0,0,0)_82%)]"
+              style={{ opacity: mobileOverlayOpacity }}
+            />
+          </div>
 
-            <p className="max-w-2xl text-sm text-foreground/80 sm:text-base md:text-lg">
-              Autonomous robots that see, hear, speak, and move.
-            </p>
-          </SectionIntro>
-        </PublicContentRail>
-      </section>
+          {/* Text — absolute on desktop (original layout), overlaid on mobile via negative margin */}
+          <motion.div
+            className="md:hidden relative z-20 -mt-[100svh] flex min-h-[100svh] items-center"
+            style={{ opacity: mobileTextOpacity, y: mobileTextY }}
+          >
+            <PublicContentRail className="py-24">
+              <SectionIntro centered className="flex flex-col items-center space-y-5">
+                <img src="/logos/rollo-logo-white.png" alt="1ROLLO" className="h-6 sm:h-8 w-auto" />
+                <h1 className="title-halo text-3xl sm:text-4xl font-bold leading-[1.08] text-white max-w-2xl">
+                  Brings human-level presence to the physical world
+                </h1>
+                <div className="flex items-center gap-3 sm:gap-4 max-w-sm w-full">
+                  <span className="h-px flex-1 bg-white/25" />
+                  <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
+                    Without Humans
+                  </span>
+                  <span className="h-px flex-1 bg-white/25" />
+                </div>
+                <p className="max-w-2xl text-sm text-foreground/80 sm:text-base">
+                  Autonomous robots that see, hear, speak, and move.
+                </p>
+              </SectionIntro>
+            </PublicContentRail>
+          </motion.div>
+
+          {/* Desktop text — unchanged layout */}
+          <PublicContentRail className="hidden md:block relative z-10 py-24">
+            <SectionIntro centered className="flex flex-col items-center space-y-5 md:mx-0 md:items-start md:text-left">
+              <img
+                src="/logos/rollo-logo-white.png"
+                alt="1ROLLO"
+                className="h-6 sm:h-8 md:h-10 w-auto"
+              />
+
+              <h1 className="title-halo text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] text-white max-w-2xl">
+                Brings human-level presence to the physical world
+              </h1>
+
+              <div className="flex items-center gap-3 sm:gap-4 max-w-sm w-full">
+                <span className="h-px flex-1 bg-white/25" />
+                <span className="text-xs sm:text-sm font-semibold uppercase tracking-[0.25em] text-primary whitespace-nowrap">
+                  Without Humans
+                </span>
+                <span className="h-px flex-1 bg-white/25" />
+              </div>
+
+              <p className="max-w-2xl text-sm text-foreground/80 sm:text-base md:text-lg">
+                Autonomous robots that see, hear, speak, and move.
+              </p>
+            </SectionIntro>
+          </PublicContentRail>
+        </section>
 
       {/* ═══ PROBLEMS ═══ */}
       <section className="section-glow-top relative w-full flex items-center overflow-hidden">
