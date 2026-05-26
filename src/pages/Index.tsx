@@ -118,6 +118,16 @@ const Index = () => {
   const [hours, setHours] = useState(16);
   const [isOrbitOpen, setIsOrbitOpen] = useState(false);
 
+  // Mobile hero scroll-linked overlay/text fade
+  const heroRef = useRef<HTMLElement>(null);
+  const { scrollYProgress: heroProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end end"],
+  });
+  const mobileOverlayOpacity = useTransform(heroProgress, [0, 0.55, 0.9], [1, 0.45, 0]);
+  const mobileTextOpacity = useTransform(heroProgress, [0, 0.35, 0.55], [1, 0.6, 0]);
+  const mobileTextY = useTransform(heroProgress, [0, 0.55], [0, -60]);
+
   const guardHourlyRate = 15;
   const robotMonthlyCost = 2500;
   const monthlyGuardCost = sectors * hours * 30 * guardHourlyRate;
