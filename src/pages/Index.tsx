@@ -319,7 +319,7 @@ const Index = () => {
               <div className="md:hidden -mt-10 -mb-4 ml-[-70%] mr-[-10%]">
                 <FadeInView delay={50}>
                   <img
-                    src="/images/1rollo_solution_graph.webp"
+                    src="/images/1rollo_solution_graph_v2.webp"
                     alt="1Rollo autonomous security robots"
                     className="w-full h-auto object-contain"
                     loading="lazy"
