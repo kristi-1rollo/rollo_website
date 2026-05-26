@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Zap, Battery, Eye, Navigation, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
