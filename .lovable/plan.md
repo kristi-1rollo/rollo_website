@@ -1,41 +1,33 @@
-## Probleem
+## Plaan: Avalehe probleemikaartide ikoonide uuendamine (uuendatud)
 
-`send-transactional-email` viidi `verify_jwt = true` peale, mis blokeerib `submit-registration` kõned (uus `sb_secret_*` teenuserolli võti ei ole JWT). Tulemus: kontaktivorm salvestab andmed DB-sse, aga teavitus- ja kinnituskirju ei lähe välja (401 logides).
+### Olukord
+Avalehe "Human Patrol is Expensive, Inefficient and Now Replaceable" sektsiooni kolmel probleemikaardil on praegu punased X-ristikesed, mis kasutajate tagasiside järgi meenutavad rikki laaditud piltide placeholder'eid.
 
-## Lahendus
+### Lahendus
+Asenda 3 punast X-i **semantiliste lucide-react ikoonidega**, kuid **säilita punane toon** — sest need on probleemikaardid, mitte lahendused. Roheline jäetakse lahenduste sektsioonile.
 
-Asendada gateway-tasandi JWT-kontroll funktsiooni-sisese jagatud saladusega serveri-serveri kõnedele. See on tugevam kaitse kui `verify_jwt=true` (anon-võti on avalik), ja samas töötab usaldusväärselt edge function vahel.
+### Täpsemad muudatused (1 fail)
 
-### Muudatused
+**`src/pages/Index.tsx`**
 
-1. **Lisa uus saladus** `INTERNAL_FUNCTION_SECRET` (juhuslik string) Lovable Cloud secret store'i.
+1. **Lisa importid:**
+   ```tsx
+   import { TrendingUp, Brain, Scale } from "lucide-react";
+   ```
 
-2. **`supabase/config.toml`** — tagasi `verify_jwt = false` funktsioonile `send-transactional-email`. `generate-excerpt` jääb `verify_jwt = true` (kutsutakse autenditud admin brauserist, kus JWT on olemas).
+2. **Kaart 1 — "Escalating Security Labor Costs"**
+   - Asenda X SVG → `<TrendingUp className="h-5 w-5" />` (kasvavad kulud)
+   - Konteiner jääb: `bg-red-500/15` + `text-red-500`
 
-3. **`supabase/functions/send-transactional-email/index.ts`** — lisa funktsiooni alguses (peale CORS preflight'i) kontroll:
-   - Loe header `x-internal-secret`.
-   - Kui see vastab `INTERNAL_FUNCTION_SECRET`-le → luba läbi.
-   - Muidu kontrolli `Authorization: Bearer <jwt>` ja vali sealt admin roll (nagu `manage-admin`).
-   - Kui kumbki ei sobi → tagasta 401.
+3. **Kaart 2 — "Human Performance Bottlenecks"**
+   - Asenda X SVG → `<Brain className="h-5 w-5" />` (inimlikkuse/aju piirang)
+   - Konteiner jääb: `bg-red-500/15` + `text-red-500`
 
-4. **`supabase/functions/submit-registration/index.ts`** — kutsu `send-transactional-email` otse `fetch`-iga (mitte `supabase.functions.invoke`), lisades:
-   - `Authorization: Bearer <SUPABASE_ANON_KEY>` (gateway nõuab apikey't)
-   - `x-internal-secret: <INTERNAL_FUNCTION_SECRET>`
-   - `Content-Type: application/json`
+4. **Kaart 3 — "Cost–Reliability Imbalance"**
+   - Asenda X SVG → `<Scale className="h-5 w-5" />` (tasakaalustamatust)
+   - Konteiner jääb: `bg-red-500/15` + `text-red-500`
 
-   Säilita "fire-and-forget" muster ja vealogimine.
-
-5. **Verify deploy** — `deploy_edge_functions` mõlemale funktsioonile, siis testi kontaktivormi ning kontrolli `email_send_log` tabelit.
-
-## Turvamõju
-
-- Anonüümsed (gateway-läbised) ja autenditud anon-võtmega kõned hakkavad saama 401 funktsiooni enda sees → spämmi/phishing risk lahendatud.
-- Serveri-serveri kõned (`submit-registration` → `send-transactional-email`) töötavad jälle jagatud saladusega.
-- Admin brauserist tulnud kõned (kui kunagi vaja) saaks läbi JWT + admin role kontrolli.
-
-## Failid mida muudame
-
-- `supabase/config.toml`
-- `supabase/functions/send-transactional-email/index.ts`
-- `supabase/functions/submit-registration/index.ts`
-- Uus saladus: `INTERNAL_FUNCTION_SECRET`
+### Miks see töötab
+- **Punane toon säilib** → kaardid viitavad endiselt probleemile, ei sega lahenduste (lime) visuaalset keelt.
+- **Semantiline kuju** → TrendingUp, Brain, Scale on arusaadavad ja ei meenuta "broken image" placeholder'it.
+- **Kõik muu jääb samaks** → kaardi suurus, animatsioon, paigutus ei muutu.

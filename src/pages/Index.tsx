@@ -11,6 +11,9 @@ import {
   Home,
   Droplets,
   ChevronRight,
+  TrendingUp,
+  Brain,
+  Scale,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import FadeInView from "@/components/FadeInView";
