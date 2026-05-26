@@ -138,7 +138,7 @@ const Index = () => {
       />
       {/* ═══ HERO ═══ */}
       {/* Mobile: tall section with sticky image. Text+overlay scroll up, revealing clean image at bottom. */}
-      <section className="md:hidden section-glow-top relative w-full min-h-[170svh]">
+      <section className="md:hidden section-glow-top relative w-full min-h-[200svh]">
         {/* Sticky image — bottom layer, pinned for the whole section */}
         <div className="sticky top-0 h-[100svh] w-full -mb-[100svh] z-0">
           <img
