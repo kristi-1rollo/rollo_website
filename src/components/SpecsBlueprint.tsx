@@ -1,13 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Zap, Battery, Eye, Navigation, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  type CarouselApi,
-} from "@/components/ui/carousel";
 
 interface Spec {
   label: string;
@@ -45,8 +39,6 @@ const rightCategory: SpecCategory = {
   ],
 };
 
-const allSpecs = [...leftCategory.specs, ...rightCategory.specs];
-
 /* ── Desktop: single spec label with leader line ── */
 function SpecLabel({
   spec,
@@ -57,24 +49,13 @@ function SpecLabel({
   side: "left" | "right";
   index: number;
 }) {
-  // Arc-based anchor positioning - follows robot silhouette
-  // Closer at top/bottom, further at middle
-  // Normalize index to 0-5 range for both sides
   const normalizedIndex = index % 6;
 
   const getAnchorOffset = (idx: number) => {
-    const offsets = {
-      0: 0,      // top - closest
-      1: 30,     // slightly further
-      2: 85,     // middle - furthest (stronger curvature)
-      3: 85,     // middle - furthest (stronger curvature)
-      4: 30,     // slightly further
-      5: 0,      // bottom - closest
-    };
+    const offsets = { 0: 0, 1: 30, 2: 85, 3: 85, 4: 30, 5: 0 };
     return offsets[idx as keyof typeof offsets] || 0;
   };
 
-  // Fixed base connector line length
   const baseLineLength = 100;
   const anchorOffset = getAnchorOffset(normalizedIndex);
   const totalLineLength = baseLineLength + anchorOffset;
@@ -94,7 +75,6 @@ function SpecLabel({
     >
       {side === "left" ? (
         <>
-          {/* Text block - expands outward */}
           <div className="text-right mr-3 max-w-[240px]">
             <p className="mono-spec text-[#B4FF33] text-base">{spec.label}</p>
             <p className="text-[22px] font-bold text-white leading-tight">{spec.value}</p>
@@ -103,37 +83,28 @@ function SpecLabel({
             )}
           </div>
 
-          {/* Arc-based connector - length varies by position */}
           <div className="relative flex items-center" style={{ width: `${totalLineLength}px` }}>
-            {/* Base line */}
             <div className="absolute inset-y-0 left-0 right-0 h-[1px] top-1/2 -translate-y-1/2 bg-white/10" />
-            {/* Accent line (last 30%) */}
             <div
               className="absolute right-0 h-[1px] top-1/2 -translate-y-1/2 bg-[#B4FF33] color-dodge-glow"
               style={{ width: "30%" }}
             />
           </div>
 
-          {/* Anchor dot - follows arc */}
           <div className="w-1.5 h-1.5 rounded-full bg-[#B4FF33] shrink-0" />
         </>
       ) : (
         <>
-          {/* Anchor dot - follows arc */}
           <div className="w-1.5 h-1.5 rounded-full bg-[#B4FF33] shrink-0" />
 
-          {/* Arc-based connector - length varies by position */}
           <div className="relative flex items-center" style={{ width: `${totalLineLength}px` }}>
-            {/* Base line */}
             <div className="absolute inset-y-0 left-0 right-0 h-[1px] top-1/2 -translate-y-1/2 bg-white/10" />
-            {/* Accent line (first 30%) */}
             <div
               className="absolute left-0 h-[1px] top-1/2 -translate-y-1/2 bg-[#B4FF33] color-dodge-glow"
               style={{ width: "30%" }}
             />
           </div>
 
-          {/* Text block - expands outward */}
           <div className="text-left ml-3 max-w-[240px]">
             <p className="mono-spec text-[#B4FF33] text-base">{spec.label}</p>
             <p className="text-[22px] font-bold text-white leading-tight">{spec.value}</p>
@@ -147,18 +118,18 @@ function SpecLabel({
   );
 }
 
-/* ── Mobile: carousel card ── */
-function SpecCard({ spec }: { spec: Spec }) {
+/* ── Mobile: compact grid card ── */
+function SpecGridCard({ spec }: { spec: Spec }) {
   const Icon = spec.icon;
   return (
-    <div className="glass border-[#B4FF33]/20 p-8 flex flex-col items-center justify-center gap-3 text-center min-h-[280px] h-full">
-      <div className="rounded-full bg-[#B4FF33]/10 p-3 text-[#B4FF33]">
-        <Icon className="h-6 w-6" />
+    <div className="glass border-[#B4FF33]/15 rounded-[4px] p-3 flex flex-col gap-1.5 min-h-[96px]">
+      <div className="flex items-center gap-1.5 text-[#B4FF33]">
+        <Icon className="h-3.5 w-3.5 shrink-0" />
+        <p className="mono-spec text-[9px] leading-none truncate">{spec.label}</p>
       </div>
-      <p className="mono-spec text-[#B4FF33] text-xs">{spec.label}</p>
-      <p className="text-xl font-bold text-white leading-tight">{spec.value}</p>
+      <p className="text-sm font-bold text-white leading-tight">{spec.value}</p>
       {spec.subValue && (
-        <p className="text-sm text-white/60">{spec.subValue}</p>
+        <p className="text-[10px] text-white/55 leading-tight">{spec.subValue}</p>
       )}
     </div>
   );
@@ -166,31 +137,21 @@ function SpecCard({ spec }: { spec: Spec }) {
 
 /* ── Main export ── */
 export function SpecsBlueprint() {
-  const [api, setApi] = useState<CarouselApi>();
-  const [current, setCurrent] = useState(0);
-  const [count, setCount] = useState(0);
+  const mobileRef = useRef<HTMLDivElement>(null);
 
-  const onSelect = useCallback(() => {
-    if (!api) return;
-    setCurrent(api.selectedScrollSnap());
-    setCount(api.scrollSnapList().length);
-  }, [api]);
+  const { scrollYProgress } = useScroll({
+    target: mobileRef,
+    offset: ["start start", "end start"],
+  });
 
-  useEffect(() => {
-    if (!api) return;
-    onSelect();
-    api.on("select", onSelect);
-    api.on("reInit", onSelect);
-    return () => {
-      api.off("select", onSelect);
-      api.off("reInit", onSelect);
-    };
-  }, [api, onSelect]);
+  // Shrink robot 280px → 90px between 0 and 30% of scroll progress
+  const imageWidth = useTransform(scrollYProgress, [0, 0.3], [280, 90]);
+  const imageOpacity = useTransform(scrollYProgress, [0, 0.25, 0.4], [1, 0.95, 0.7]);
 
   return (
     <div>
       {/* Section header */}
-      <div className="text-center px-6 md:px-0 mb-16 md:mb-24">
+      <div className="text-center px-6 md:px-0 mb-12 md:mb-24">
         <p className="mono-spec text-[#B4FF33] mb-3">SYSTEM ARCHITECTURE</p>
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white">
           Technical Specifications
@@ -199,13 +160,9 @@ export function SpecsBlueprint() {
 
       {/* ── Desktop blueprint ── */}
       <div className="hidden md:block relative min-h-[1000px]">
-        {/* Pulsing glow behind robot */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[#B4FF33]/15 blur-[80px] animate-pulse color-dodge-glow" />
-
-        {/* Additional blue ambient glow */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full bg-blue-500/8 blur-[100px]" />
 
-        {/* Robot image */}
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
           <img
             src="/robot/F6/f6_tech_spec.webp"
@@ -216,7 +173,6 @@ export function SpecsBlueprint() {
           />
         </div>
 
-        {/* Left specs - arc-based anchors wrap around robot */}
         <div className="absolute left-0 top-1/2 -translate-y-1/2 flex flex-col gap-12 right-[50%] mr-[280px] pr-2">
           <motion.p
             initial={{ opacity: 0 }}
@@ -231,7 +187,6 @@ export function SpecsBlueprint() {
           ))}
         </div>
 
-        {/* Right specs - arc-based anchors wrap around robot */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 flex flex-col gap-12 left-[50%] ml-[330px] pl-2">
           <motion.p
             initial={{ opacity: 0 }}
@@ -242,49 +197,50 @@ export function SpecsBlueprint() {
             {rightCategory.category}
           </motion.p>
           {rightCategory.specs.map((spec, i) => (
-            <SpecLabel
-              key={spec.label}
-              spec={spec}
-              side="right"
-              index={i + 6}
-            />
+            <SpecLabel key={spec.label} spec={spec} side="right" index={i + 6} />
           ))}
         </div>
       </div>
 
-      {/* ── Mobile carousel ── */}
-      <div className="md:hidden">
-        <Carousel
-          opts={{ align: "center", loop: true }}
-          setApi={setApi}
-          className="w-full"
-        >
-          <CarouselContent className="-ml-4">
-            {allSpecs.map((spec) => (
-              <CarouselItem key={spec.label} className="pl-4 basis-[87vw]">
-                <SpecCard spec={spec} />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-        </Carousel>
+      {/* ── Mobile: sticky shrinking robot + 2x6 grid ── */}
+      <div ref={mobileRef} className="md:hidden relative">
+        {/* Sticky shrinking robot */}
+        <div className="sticky top-16 z-10 flex justify-center pointer-events-none -mb-4">
+          {/* Ambient glow */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full bg-[#B4FF33]/10 blur-[60px]" />
+          <motion.img
+            src="/robot/F6/f6_tech_spec.webp"
+            alt="1ROLLO technical specifications"
+            style={{
+              width: imageWidth,
+              opacity: imageOpacity,
+              mixBlendMode: "lighten",
+            }}
+            className="h-auto relative"
+            loading="lazy"
+          />
+        </div>
 
-        {/* Dot indicators */}
-        {count > 0 && (
-          <div className="flex justify-center gap-2 mt-4">
-            {Array.from({ length: count }).map((_, i) => (
-              <button
-                key={i}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  i === current ? "bg-[#B4FF33]" : "bg-white/20"
-                }`}
-                onClick={() => api?.scrollTo(i)}
-                aria-label={`Go to slide ${i + 1}`}
-              />
-            ))}
-          </div>
-        )}
+        {/* Specs grid */}
+        <div className="relative px-4 pt-6 space-y-8">
+          {[leftCategory, rightCategory].map((cat) => (
+            <div key={cat.category}>
+              <div className="flex items-center gap-3 mb-4">
+                <span className="h-px flex-1 bg-white/10" />
+                <p className="mono-spec text-[#B4FF33] text-[10px] tracking-widest">
+                  {cat.category}
+                </p>
+                <span className="h-px flex-1 bg-white/10" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {cat.specs.map((spec) => (
+                  <SpecGridCard key={spec.label} spec={spec} />
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-
     </div>
   );
 }
