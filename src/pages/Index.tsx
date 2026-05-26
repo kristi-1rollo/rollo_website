@@ -323,7 +323,6 @@ const Index = () => {
                     src="/images/1rollo_solution_graph_v2.webp"
                     alt="1Rollo autonomous security robots"
                     className="w-full max-w-md mx-auto max-h-[55vh]"
-                    zoom={2.5}
                   />
                 </FadeInView>
               </div>
