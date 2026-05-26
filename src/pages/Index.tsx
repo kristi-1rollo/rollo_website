@@ -296,22 +296,13 @@ const Index = () => {
 
       {/* ═══ SOLUTION ═══ */}
       <section className="section-glow-top relative w-full flex items-center overflow-hidden">
-        {/* Background Image - Robots (right side) with breathing room */}
-        <div className="absolute inset-0 md:inset-x-0 md:top-[10%] md:bottom-[10%] hidden md:flex items-center justify-end">
-          <img
-            src="/images/1rollo_solution_graph.webp"
-            alt="1Rollo autonomous security robots"
-            className="h-full w-auto object-contain object-right"
-            loading="lazy"
-          />
-        </div>
-        <div className="absolute inset-0 hidden md:block bg-black/42" />
-        {/* Desktop: strong gradient from left to keep text area clear */}
-        <div className="absolute inset-0 hidden md:block bg-[linear-gradient(90deg,rgba(2,6,13,0.98)_0%,rgba(2,6,13,0.96)_20%,rgba(2,6,13,0.92)_35%,rgba(2,6,13,0.78)_48%,rgba(2,6,13,0.42)_62%,rgba(2,6,13,0.12)_78%,rgba(2,6,13,0)_100%)]" />
+        {/* Standard page gradient background */}
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_14%,rgba(22,74,173,0.10),transparent_44%),linear-gradient(180deg,rgba(4,10,24,0.10),rgba(0,0,0,0.05))]" />
         <div className="absolute top-24 left-[12%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(180,255,51,0.12)_0%,rgba(0,0,0,0)_72%)] blur-3xl" />
 
         <PublicContentRail className="relative z-10 py-16 md:py-24 lg:py-32">
-          <div className="space-y-8 md:space-y-10 md:max-w-[58%]">
+          <div className="md:grid md:grid-cols-[58%_42%] md:gap-10 md:items-stretch">
+            <div className="space-y-8 md:space-y-10">
               {/* Header */}
               <FadeInView>
                 <div className="max-w-3xl">
