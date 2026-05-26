@@ -20,6 +20,7 @@ import FadeInView from "@/components/FadeInView";
 import LazySection from "@/components/LazySection";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import ZoomableImage from "@/components/ZoomableImage";
 import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
 
 const orbitalCompositeImage = "/robot/F6/1rollo_orbital_2.webp";
@@ -315,35 +316,15 @@ const Index = () => {
                 </div>
               </FadeInView>
 
-              {/* Mobile + tablet inline robot image — fits screen, click to zoom */}
+              {/* Mobile + tablet inline robot image — fits screen, click point to zoom into it */}
               <div className="lg:hidden">
                 <FadeInView delay={50}>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <button
-                        type="button"
-                        aria-label="Zoom robot image"
-                        className="group relative block w-full max-w-md mx-auto cursor-zoom-in"
-                      >
-                        <img
-                          src="/images/1rollo_solution_graph_v2.webp"
-                          alt="1Rollo autonomous security robots"
-                          className="w-full h-auto object-contain max-h-[55vh]"
-                          loading="lazy"
-                        />
-                        <span className="absolute bottom-2 right-2 rounded-full bg-black/60 backdrop-blur-sm border border-white/10 px-2.5 py-1 text-[10px] uppercase tracking-widest text-white/80 opacity-90 group-hover:opacity-100">
-                          Tap to zoom
-                        </span>
-                      </button>
-                    </DialogTrigger>
-                    <DialogContent className="max-w-[95vw] sm:max-w-3xl bg-black/95 border-white/10 p-2 sm:p-4">
-                      <img
-                        src="/images/1rollo_solution_graph_v2.webp"
-                        alt="1Rollo autonomous security robots — zoomed"
-                        className="w-full h-auto max-h-[85vh] object-contain"
-                      />
-                    </DialogContent>
-                  </Dialog>
+                  <ZoomableImage
+                    src="/images/1rollo_solution_graph_v2.webp"
+                    alt="1Rollo autonomous security robots"
+                    className="w-full max-w-md mx-auto max-h-[55vh]"
+                    zoom={2.5}
+                  />
                 </FadeInView>
               </div>
 
