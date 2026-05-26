@@ -229,9 +229,7 @@ const Index = () => {
                   <div className="-mx-5 md:mx-0 blue-card-glow backdrop-blur-sm bg-black/40 rounded-lg p-5 md:p-6 border border-white/5 flex flex-col h-full min-h-[180px]">
                     <div className="flex items-start gap-4 mb-3">
                       <div className="shrink-0 rounded-full bg-red-500/15 p-2 text-red-500">
-                        <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                        </svg>
+                        <Brain className="h-5 w-5" />
                       </div>
                     </div>
                     <h3 className="text-base md:text-lg font-bold text-white mb-2">
