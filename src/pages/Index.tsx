@@ -178,12 +178,12 @@ const Index = () => {
             />
           </div>
 
-          {/* Text — absolute on desktop (original layout), overlaid on mobile via negative margin */}
+          {/* Mobile text — absolutely positioned over first viewport, scrolls away with page */}
           <motion.div
-            className="md:hidden relative z-20 -mt-[100svh] flex min-h-[100svh] items-center"
+            className="md:hidden absolute inset-x-0 top-0 z-20 h-[100svh] flex items-center pointer-events-none"
             style={{ opacity: mobileTextOpacity, y: mobileTextY }}
           >
-            <PublicContentRail className="py-24">
+            <PublicContentRail className="py-24 pointer-events-auto">
               <SectionIntro centered className="flex flex-col items-center space-y-5">
                 <img src="/logos/rollo-logo-white.png" alt="1ROLLO" className="h-6 sm:h-8 w-auto" />
                 <h1 className="title-halo text-3xl sm:text-4xl font-bold leading-[1.08] text-white max-w-2xl">
