@@ -437,7 +437,7 @@ const Index = () => {
             </div>
 
             {/* Desktop: image column beside text cards — scales to fill row top to bottom */}
-            <div className="hidden md:block relative">
+            <div className="hidden lg:block relative">
               <img
                 src="/images/1rollo_solution_graph_v2.webp"
                 alt="1Rollo autonomous security robots"
