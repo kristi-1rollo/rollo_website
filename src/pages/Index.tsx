@@ -20,6 +20,7 @@ import FadeInView from "@/components/FadeInView";
 import LazySection from "@/components/LazySection";
 import OptimizedImage from "@/components/OptimizedImage";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import ZoomableImage from "@/components/ZoomableImage";
 import { PublicContentRail, Section, SectionIntro, SectionTag } from "@/components/ui/section";
 
 const orbitalCompositeImage = "/robot/F6/1rollo_orbital_2.webp";
