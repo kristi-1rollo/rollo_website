@@ -1,5 +1,4 @@
-import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { Zap, Battery, Eye, Navigation, Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
@@ -137,17 +136,6 @@ function SpecGridCard({ spec }: { spec: Spec }) {
 
 /* ── Main export ── */
 export function SpecsBlueprint() {
-  const mobileRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: mobileRef,
-    offset: ["start start", "end start"],
-  });
-
-  // Shrink robot 280px → 90px between 0 and 30% of scroll progress
-  const imageWidth = useTransform(scrollYProgress, [0, 0.3], [280, 90]);
-  const imageOpacity = useTransform(scrollYProgress, [0, 0.25, 0.4], [1, 0.95, 0.7]);
-
   return (
     <div>
       {/* Section header */}
@@ -202,27 +190,25 @@ export function SpecsBlueprint() {
         </div>
       </div>
 
-      {/* ── Mobile: sticky shrinking robot + 2x6 grid ── */}
-      <div ref={mobileRef} className="md:hidden relative">
-        {/* Sticky shrinking robot */}
-        <div className="sticky top-16 z-10 flex justify-center pointer-events-none -mb-4">
-          {/* Ambient glow */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full bg-[#B4FF33]/10 blur-[60px]" />
-          <motion.img
-            src="/robot/F6/f6_tech_spec.webp"
-            alt="1ROLLO technical specifications"
-            style={{
-              width: imageWidth,
-              opacity: imageOpacity,
-              mixBlendMode: "lighten",
-            }}
-            className="h-auto relative"
-            loading="lazy"
-          />
+      {/* ── Mobile: sticky robot in background, cards scroll over ── */}
+      <div className="md:hidden relative">
+        {/* Sticky robot — fixed size, sits behind cards */}
+        <div className="sticky top-20 z-0 flex justify-center pointer-events-none h-0">
+          <div className="relative flex items-center justify-center -translate-y-4">
+            {/* Ambient glow behind robot */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full bg-[#B4FF33]/12 blur-[70px]" />
+            <img
+              src="/robot/F6/f6_tech_spec.webp"
+              alt="1ROLLO technical specifications"
+              style={{ mixBlendMode: "lighten", width: 260 }}
+              className="h-auto relative opacity-90"
+              loading="lazy"
+            />
+          </div>
         </div>
 
-        {/* Specs grid */}
-        <div className="relative px-4 pt-6 space-y-8">
+        {/* Specs grid — scrolls over the robot */}
+        <div className="relative z-10 px-4 pt-[280px] space-y-8">
           {[leftCategory, rightCategory].map((cat) => (
             <div key={cat.category}>
               <div className="flex items-center gap-3 mb-4">
