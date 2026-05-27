@@ -3,13 +3,13 @@ import { motion, AnimatePresence, PanInfo } from "framer-motion";
 
 // Robot images in logical rotation order
 const ROBOT_IMAGES = [
-  "/robot/product/F6 Rollo White front view 001.webp",
-  "/robot/product/F6 Rollo White front right view 001.webp",
-  "/robot/product/F6 Rollo White left side view 001.webp",
-  "/robot/product/F6 Rollo White back view 001.webp",
-  "/robot/product/F6 Rollo White back left corner view 001.webp",
-  "/robot/product/F6 Rollo White front left view 001.webp",
-  "/robot/product/F6 Rollo White left side view 002.webp",
+  "/robot/product/f6-front.webp",
+  "/robot/product/f6-front-right.webp",
+  "/robot/product/f6-side-left-1.webp",
+  "/robot/product/f6-back.webp",
+  "/robot/product/f6-back-left.webp",
+  "/robot/product/f6-front-left.webp",
+  "/robot/product/f6-side-left-2.webp",
 ];
 
 const AUTO_ROTATION_INTERVAL = 3500; // 3.5 seconds
