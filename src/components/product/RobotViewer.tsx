@@ -86,19 +86,19 @@ export const RobotViewer = () => {
   }, [isHovering, goToNext]);
 
   // Mobile swipe handler
-  const handlePan = (_: any, info: PanInfo) => {
-    if (isMobile) {
-      const threshold = 50;
-      const velocity = Math.abs(info.velocity.x);
+  const handleMobileSwipe = (_: any, info: PanInfo) => {
+    if (!isMobile) return;
 
-      if (Math.abs(info.offset.x) > threshold && velocity > 100) {
-        if (info.offset.x > 0) {
-          goToPrev();
-        } else {
-          goToNext();
-        }
-        pauseAutoRotation();
+    const threshold = 50;
+    const velocity = Math.abs(info.velocity.x);
+
+    if (Math.abs(info.offset.x) > threshold || velocity > 300) {
+      if (info.offset.x > 0) {
+        goToPrev();
+      } else {
+        goToNext();
       }
+      pauseAutoRotation();
     }
   };
 
@@ -196,7 +196,10 @@ export const RobotViewer = () => {
           onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
-          onPan={isMobile ? handlePan : undefined}
+          drag={isMobile ? "x" : false}
+          dragConstraints={{ left: 0, right: 0 }}
+          dragElastic={0.2}
+          onDragEnd={isMobile ? handleMobileSwipe : undefined}
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.img
