@@ -6,6 +6,7 @@ import { LiveScanner } from "@/components/LiveScanner";
 import FadeInView from "@/components/FadeInView";
 import { ScrollControlledVideo } from "@/components/ScrollControlledVideo";
 import { Section, SectionTag } from "@/components/ui/section";
+import { RobotViewer } from "@/components/product/RobotViewer";
 
 const problems = [
   {
@@ -95,14 +96,21 @@ const Product = () => {
         </div>
       </section>
 
-      {/* B) Technical Specifications */}
+      {/* B) Product Viewer */}
+      <Section className="section-glow-top py-16 md:py-24 lg:py-32">
+        <FadeInView>
+          <RobotViewer />
+        </FadeInView>
+      </Section>
+
+      {/* C) Technical Specifications */}
       <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <FadeInView>
           <SpecsBlueprint />
         </FadeInView>
       </Section>
 
-      {/* E) Expandable Platform */}
+      {/* D) Expandable Platform */}
       <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <FadeInView>
           <div>
@@ -122,7 +130,7 @@ const Product = () => {
         </FadeInView>
       </Section>
 
-      {/* C) Built for Real-World Environments */}
+      {/* E) Built for Real-World Environments */}
       <Section className="section-glow-top py-16 md:py-24 lg:py-32">
         <div>
           <div className="mb-12 md:mb-16">
@@ -190,7 +198,7 @@ const Product = () => {
         </div>
       </Section>
 
-      {/* D) Availability */}
+      {/* F) Availability */}
       <Section className="py-16 md:py-24 lg:py-32">
         <FadeInView>
           <div
