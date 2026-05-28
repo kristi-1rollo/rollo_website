@@ -1,15 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence, PanInfo } from "framer-motion";
 
-// Robot images in logical rotation order
+// Robot images in logical rotation order (front-right → front → front-left → side → back)
 const ROBOT_IMAGES = [
-  "/robot/product/f6-front.webp",
   "/robot/product/f6-front-right.webp",
-  "/robot/product/f6-side-left-1.webp",
-  "/robot/product/f6-back.webp",
-  "/robot/product/f6-back-left.webp",
+  "/robot/product/f6-front.webp",
   "/robot/product/f6-front-left.webp",
+  "/robot/product/f6-side-left-1.webp",
   "/robot/product/f6-side-left-2.webp",
+  "/robot/product/f6-back-left.webp",
+  "/robot/product/f6-back.webp",
 ];
 
 const AUTO_ROTATION_INTERVAL = 3500; // 3.5 seconds
@@ -22,6 +22,8 @@ export const RobotViewer = () => {
   const [isHovering, setIsHovering] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
   const autoRotationPausedUntil = useRef<number>(0);
+  const lastScrollTime = useRef<number>(0);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // Detect mobile
   useEffect(() => {
@@ -63,17 +65,64 @@ export const RobotViewer = () => {
     autoRotationPausedUntil.current = Date.now() + PAUSE_AFTER_INTERACTION;
   }, []);
 
+  // Desktop scroll-to-rotate handler
+  const handleWheel = useCallback((e: WheelEvent) => {
+    if (isMobile) return;
+
+    const now = Date.now();
+    const timeSinceLastScroll = now - lastScrollTime.current;
+
+    // Throttle: min 150ms between scroll actions
+    if (timeSinceLastScroll < 150) return;
+
+    const scrollingDown = e.deltaY > 0;
+    const scrollingUp = e.deltaY < 0;
+
+    // At boundaries: allow normal page scroll
+    if ((currentIndex === 0 && scrollingUp) || (currentIndex === ROBOT_IMAGES.length - 1 && scrollingDown)) {
+      return; // Let page scroll normally
+    }
+
+    // Prevent page scroll while rotating images
+    e.preventDefault();
+
+    lastScrollTime.current = now;
+    setIsScrolling(true);
+    pauseAutoRotation();
+
+    if (scrollingDown) {
+      goToNext();
+    } else if (scrollingUp) {
+      goToPrev();
+    }
+
+    // Clear scrolling state after animation
+    setTimeout(() => setIsScrolling(false), 300);
+  }, [isMobile, currentIndex, goToNext, goToPrev, pauseAutoRotation]);
+
   // Auto-rotation effect
   useEffect(() => {
     const interval = setInterval(() => {
-      // Don't rotate if hovering (desktop) or recently interacted
-      if (!isHovering && Date.now() > autoRotationPausedUntil.current) {
+      // Don't rotate if hovering, scrolling, or recently interacted
+      if (!isHovering && !isScrolling && Date.now() > autoRotationPausedUntil.current) {
         goToNext();
       }
     }, AUTO_ROTATION_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [isHovering, goToNext]);
+  }, [isHovering, isScrolling, goToNext]);
+
+  // Attach wheel event listener for scroll-to-rotate (desktop only)
+  useEffect(() => {
+    const container = imageContainerRef.current;
+    if (!container || isMobile) return;
+
+    container.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      container.removeEventListener('wheel', handleWheel);
+    };
+  }, [handleWheel, isMobile]);
 
   // Mobile swipe handler
   const handleMobileSwipe = (_: any, info: PanInfo) => {
@@ -178,7 +227,10 @@ export const RobotViewer = () => {
               <span className="inline-block ml-2">&rarr;</span>
             </>
           ) : (
-            "Auto-rotating • Hover to pause"
+            <>
+              <span className="inline-block mr-2">↕</span>
+              Scroll to rotate
+            </>
           )}
         </p>
       </div>
