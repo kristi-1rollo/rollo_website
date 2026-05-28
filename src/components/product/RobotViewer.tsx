@@ -20,17 +20,7 @@ export const RobotViewer = () => {
   const [isMobile, setIsMobile] = useState(false);
   const [imagesLoaded, setImagesLoaded] = useState<Set<number>>(new Set([0]));
   const [isHovering, setIsHovering] = useState(false);
-  const [mousePos, setMousePos] = useState({
-    containerX: 0,
-    containerY: 0,
-    relX: 0,
-    relY: 0,
-    imgWidth: 0,
-    imgHeight: 0
-  });
-  const [showMagnifier, setShowMagnifier] = useState(false);
   const imageContainerRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   const autoRotationPausedUntil = useRef<number>(0);
 
   // Detect mobile
@@ -108,43 +98,6 @@ export const RobotViewer = () => {
     pauseAutoRotation();
   }, [pauseAutoRotation]);
 
-  // Magnifier mouse move handler
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (isMobile || !imageRef.current || !imageContainerRef.current) return;
-
-    const imgRect = imageRef.current.getBoundingClientRect();
-    const containerRect = imageContainerRef.current.getBoundingClientRect();
-
-    // Check if mouse is inside the actual rendered image
-    if (
-      e.clientX < imgRect.left ||
-      e.clientX > imgRect.right ||
-      e.clientY < imgRect.top ||
-      e.clientY > imgRect.bottom
-    ) {
-      setShowMagnifier(false);
-      return;
-    }
-
-    // Mouse position relative to actual image
-    const relX = e.clientX - imgRect.left;
-    const relY = e.clientY - imgRect.top;
-
-    // Mouse position relative to container (for lens positioning)
-    const containerX = e.clientX - containerRect.left;
-    const containerY = e.clientY - containerRect.top;
-
-    setMousePos({
-      containerX,
-      containerY,
-      relX,
-      relY,
-      imgWidth: imgRect.width,
-      imgHeight: imgRect.height
-    });
-    setShowMagnifier(true);
-  };
-
   const handleMouseEnter = () => {
     if (!isMobile) {
       setIsHovering(true);
@@ -153,7 +106,6 @@ export const RobotViewer = () => {
 
   const handleMouseLeave = () => {
     setIsHovering(false);
-    setShowMagnifier(false);
   };
 
   return (
@@ -193,7 +145,6 @@ export const RobotViewer = () => {
         <motion.div
           ref={imageContainerRef}
           className="relative w-full h-full flex items-center justify-center"
-          onMouseMove={handleMouseMove}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
           drag={isMobile ? "x" : false}
@@ -203,7 +154,6 @@ export const RobotViewer = () => {
         >
           <AnimatePresence mode="wait" initial={false}>
             <motion.img
-              ref={imageRef}
               key={currentIndex}
               src={ROBOT_IMAGES[currentIndex]}
               alt={`1ROLLO robot view ${currentIndex + 1}`}
@@ -215,38 +165,6 @@ export const RobotViewer = () => {
               draggable={false}
             />
           </AnimatePresence>
-
-          {/* Magnifier lens - desktop only */}
-          {!isMobile && showMagnifier && isHovering && (
-            (() => {
-              const zoom = 2;
-              const lensSize = 180;
-              const currentImageUrl = encodeURI(ROBOT_IMAGES[currentIndex]);
-
-              console.log("magnifier bg", currentImageUrl);
-
-              return (
-                <div
-                  style={{
-                    position: "absolute",
-                    left: mousePos.containerX - lensSize / 2,
-                    top: mousePos.containerY - lensSize / 2,
-                    width: `${lensSize}px`,
-                    height: `${lensSize}px`,
-                    borderRadius: "50%",
-                    border: "3px solid rgba(153, 255, 0, 0.8)",
-                    boxShadow: "0 0 20px rgba(153, 255, 0, 0.5)",
-                    backgroundImage: `url("${currentImageUrl}")`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundSize: `${mousePos.imgWidth * zoom}px ${mousePos.imgHeight * zoom}px`,
-                    backgroundPosition: `${lensSize / 2 - mousePos.relX * zoom}px ${lensSize / 2 - mousePos.relY * zoom}px`,
-                    pointerEvents: "none",
-                    zIndex: 10,
-                  }}
-                />
-              );
-            })()
-          )}
         </motion.div>
       </div>
 
@@ -260,7 +178,7 @@ export const RobotViewer = () => {
               <span className="inline-block ml-2">&rarr;</span>
             </>
           ) : (
-            "Hover to inspect • Auto-rotating"
+            "Auto-rotating • Hover to pause"
           )}
         </p>
       </div>
