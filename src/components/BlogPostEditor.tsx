@@ -66,6 +66,7 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
   const [thumbWidth, setThumbWidth] = useState<number | "">(post?.thumbnail_width ?? "");
   const [thumbHeight, setThumbHeight] = useState<number | "">(post?.thumbnail_height ?? "");
   const [isPublished, setIsPublished] = useState(post?.is_published ?? false);
+  const [headerVideoUrl, setHeaderVideoUrl] = useState(post?.header_video_url ?? "");
   const [uploading, setUploading] = useState(false);
   const [thumbFocalX, setThumbFocalX] = useState<number>(post?.thumbnail_focal_x ?? 50);
   const [thumbFocalY, setThumbFocalY] = useState<number>(post?.thumbnail_focal_y ?? 50);
@@ -405,6 +406,7 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
         thumbnail_focal_y: thumbFocalY,
         thumbnail_zoom: thumbZoom,
         media_gallery: gallery,
+        header_video_url: headerVideoUrl.trim() || null,
         is_published: isPublished,
         published_at: isPublished ? (post?.published_at ?? new Date().toISOString()) : null,
       });
@@ -518,6 +520,21 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
           </button>
         )}
         <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleImage} />
+      </div>
+
+      {/* Header Video (optional) */}
+      <div>
+        <label className="text-sm text-muted-foreground mb-2 block">Päise video URL (valikuline)</label>
+        <Input
+          value={headerVideoUrl}
+          onChange={(e) => setHeaderVideoUrl(e.target.value)}
+          placeholder="https://… .mp4  /  YouTube  /  Vimeo"
+          className="bg-muted/50 border-border text-foreground"
+        />
+        <p className="text-[10px] text-muted-foreground/60 mt-1">
+          Kui lisatud, näidatakse artikli päises videot pildi asemel. Toetatud: .mp4 / .webm otselink, YouTube või Vimeo URL.
+          Heli on automaatselt vaigistatud — lugeja saab nupust sisse lülitada. Thumbnail jääb posteriks ja jagamiseks.
+        </p>
       </div>
 
       {/* Title */}
