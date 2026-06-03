@@ -434,6 +434,7 @@ const BlogPost = () => {
                   </p>
                   <Link
                     to="/product"
+                    onClick={() => window.scrollTo({ top: 0, behavior: "auto" })}
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:text-white"
                   >
                     View Product
