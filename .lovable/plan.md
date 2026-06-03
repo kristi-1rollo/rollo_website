@@ -1,24 +1,21 @@
-YouTube embed näitab praegu ikka YouTube logo, pealkirja ja "Watch later"/"Share" nuppe — neid ei saa 100% ära peita (YouTube ei luba), aga saame need maksimaalselt minimeerida ja meie enda mute-nupu jätta.
+Selge — laius jääb samaks (sama mis praegune päise pilt, `container-premium` sees), aga kõrgus ei tohi lõigata.
 
-## Mida muudame
+## Probleem praegu
 
-**`src/components/BlogPostHeader.tsx` → `toYouTubeEmbed`:**
-- Lisame `showinfo=0` (vana, aga kahjutu)
-- Lisame `disablekb=1` (klahvid välja)
-- Lisame `fs=0` (fullscreen nupp välja)
-- `controls=0`, `modestbranding=1`, `rel=0`, `iv_load_policy=3` on juba olemas
+`BlogPostHeader.tsx` kasutab `aspect-video md:aspect-[21/9]`. Desktopil (md+) on konteiner **21:9**, aga video on tavaliselt **16:9** → `object-cover` lõikab kaadri üle/alt servad ära.
 
-**CSS overlay trikk pealkirja peitmiseks:**
-YouTube näitab video alguses ja lõpus pealkirja/seotud videoid üleval. Lisame iframe'i peale kaks õhukest läbipaistmatut riba (`pointer-events: none`):
-- Üleval ~60px must riba pealkirja katmiseks
-- All ei ole vaja, sest `controls=0` peidab juba
+## Lahendus
 
-Riba värv `bg-[#050505]` (sama mis taust), `pointer-events-none`, et mute-nupp jääks klikitavaks.
+**`src/components/BlogPostHeader.tsx`:**
+- Muudame konteineri klassi: `aspect-video md:aspect-[21/9]` → **`aspect-video`** (16:9 kõigil ekraanidel)
+- Video/iframe jääb `object-cover` / `inset-0` — kuna konteiner ja video on mõlemad 16:9, lõikamist ei toimu
+- Fallback `<img>` saab samuti `object-contain` asemel jätta `object-cover` (pildid on niikuinii 16:9 thumbnail'id)
 
-**Vimeo:** juba `background=1` peidab kõik — seal pole midagi muuta.
-
-**Tulemus:** puhas video, ainult meie mute-nupp paremas alanurgas. YouTube vesimärk vasakus alanurgas jääb (seda ei saa eemaldada ilma YouTube'i tingimusi rikkumata), aga muu kaob.
+**Tulemus:**
+- Laius = sama mis praegu (container-premium, ~1200px max)
+- Kõrgus = laius × 9/16 (näiteks 1200px laiuselt → 675px kõrgus)
+- 16:9 YouTube/MP4 videod täidavad täpselt — null lõikamist, null musta riba
 
 ## Tähelepanu
 
-YouTube Terms of Service keelab brändingu täielikult ära peita. Vesimärk vasakus alanurgas peab jääma. Kui soovid täiesti puhast pleierit, peab kasutama `.mp4` faili (otselink) — siis pole ühtegi YouTube'i märki.
+Kui keegi laadib üles muu aspektisuhtega video (näiteks 4:3 või vertikaalne 9:16), tekib siiski letterboxing või cropping. 16:9 on standard ja kõige levinum — soovitame admin'is sellele jääda. Kui tahad ka neid toetada, võime hiljem lisada admin'is "video aspect ratio" valiku (16:9 / 4:3 / 1:1 / 9:16).
