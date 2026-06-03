@@ -94,7 +94,7 @@ const BlogPostHeader = ({ title, imageUrl, category, videoUrl }: BlogPostHeaderP
           {title}
         </h1>
 
-        <div className="relative aspect-video md:aspect-[21/9] w-full overflow-hidden border border-white/10">
+        <div className="relative aspect-video w-full overflow-hidden border border-white/10">
           {kind === "file" && videoUrl ? (
             <>
               <video
