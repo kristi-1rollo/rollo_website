@@ -51,7 +51,7 @@ const Blog = () => {
             {heroPost && (
               <FadeInView>
                 <Link
-                  to={`/blog/${heroPost.id}`}
+                  to={`/blog/${heroPost.slug ?? heroPost.id}`}
                   className="surface-panel block overflow-hidden transition group no-underline blog-card-glow mb-12"
                 >
                   <div className="dispatch-hero">
@@ -104,7 +104,7 @@ const Blog = () => {
                   {gridPosts.map((a, i) => (
                     <FadeInView key={a.id} delay={Math.min(i * 80, 400)}>
                       <Link
-                        to={`/blog/${a.id}`}
+                        to={`/blog/${a.slug ?? a.id}`}
                         className="surface-panel h-full flex flex-col overflow-hidden transition group no-underline blog-card-glow"
                       >
                         {/* Thumbnail */}

@@ -59,6 +59,7 @@ interface DraftData {
 }
 const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => {
   const [title, setTitle] = useState(post?.title ?? "");
+  const [slug, setSlug] = useState(post?.slug ?? "");
   const [excerpt, setExcerpt] = useState(post?.excerpt ?? "");
   const [content, setContent] = useState(post?.content ?? "");
   const [tag, setTag] = useState(post?.tag ?? "General");
@@ -396,6 +397,7 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
       await upsert.mutateAsync({
         ...(post?.id ? { id: post.id } : {}),
         title,
+        slug: slug.trim() || undefined,
         excerpt,
         content,
         tag,
@@ -541,6 +543,20 @@ const BlogPostEditor = ({ post, onDone, onDirtyChange, formDataRef }: Props) => 
       <div>
         <label className="text-sm text-muted-foreground mb-2 block">Title</label>
         <Input value={title} onChange={(e) => setTitle(e.target.value)} className="bg-muted/50 border-border text-foreground" />
+      </div>
+
+      {/* Slug */}
+      <div>
+        <label className="text-sm text-muted-foreground mb-2 block">URL slug (valikuline)</label>
+        <Input
+          value={slug}
+          onChange={(e) => setSlug(e.target.value)}
+          placeholder="genereeritakse-pealkirjast"
+          className="bg-muted/50 border-border text-foreground font-mono text-sm"
+        />
+        <p className="text-[10px] text-muted-foreground/60 mt-1">
+          Jäta tühjaks, et genereerida automaatselt pealkirjast. Lubatud: a–z, 0–9, sidekriipsud.
+        </p>
       </div>
 
       {/* Excerpt */}

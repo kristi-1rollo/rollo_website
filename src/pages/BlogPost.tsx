@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
@@ -22,7 +22,9 @@ import { Helmet } from "react-helmet-async";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
-import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
+import rolloTargetUnit from "@/assets/robot/rollo-target-unit.png.asset.json";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const estimateReadingTime = (html: string) => {
   const text = html.replace(/<[^>]+>/g, "").trim();
@@ -54,35 +56,46 @@ const proseClasses =
 
 const BlogPost = () => {
   const [copied, setCopied] = useState(false);
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const { data: post, isLoading } = useQuery({
-    queryKey: ["blog-posts", "single", id],
+    queryKey: ["blog-posts", "single", slug],
     queryFn: async () => {
-      if (!supabase || !id) return null;
-      const { data, error } = await supabase
+      if (!supabase || !slug) return null;
+      const isUuid = UUID_RE.test(slug);
+      const query = supabase
         .from("blog_posts")
         .select("*")
-        .eq("id", id)
-        .eq("is_published", true)
-        .single();
+        .eq("is_published", true);
+      const { data, error } = await (isUuid
+        ? query.eq("id", slug).maybeSingle()
+        : query.eq("slug", slug).maybeSingle());
       if (error) throw error;
+      if (!data) return null;
       return {
         ...data,
         media_gallery: (data.media_gallery as MediaGalleryItem[]) ?? [],
       } as BlogPostType;
     },
-    enabled: !!id,
+    enabled: !!slug,
   });
 
+  // Redirect UUID URLs to clean slug URLs
+  useEffect(() => {
+    if (post && slug && UUID_RE.test(slug) && post.slug && post.slug !== slug) {
+      navigate(`/blog/${post.slug}`, { replace: true });
+    }
+  }, [post, slug, navigate]);
+
   const { data: allPosts = [] } = useQuery({
-    queryKey: ["blog-posts", "all"],
+    queryKey: ["blog-posts", "all-nav"],
     queryFn: async () => {
       if (!supabase) return [];
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("id, title, published_at")
+        .select("id, slug, title, published_at")
         .eq("is_published", true)
         .order("published_at", { ascending: false });
       if (error) throw error;
@@ -90,9 +103,12 @@ const BlogPost = () => {
     },
   });
 
-  const currentIndex = allPosts.findIndex((p) => p.id === id);
+  const currentIndex = allPosts.findIndex((p) => p.id === post?.id);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost =
+    currentIndex >= 0 && currentIndex < allPosts.length - 1
+      ? allPosts[currentIndex + 1]
+      : null;
 
   const processedContent = useMemo(
     () => (post?.content ? injectHeadingIds(post.content) : ""),
@@ -216,7 +232,7 @@ const BlogPost = () => {
     }
   };
 
-  const canonicalUrl = `https://1rollo.com/blog/${post.id}`;
+  const canonicalUrl = `https://1rollo.com/blog/${post.slug ?? post.id}`;
   const ogImage = post.thumbnail_url || "https://1rollo.com/og-image.jpg?v=1rollo-20260525";
 
   return (
@@ -354,7 +370,7 @@ const BlogPost = () => {
               <nav className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 text-left">
                 {prevPost ? (
                   <Link
-                    to={`/blog/${prevPost.id}`}
+                    to={`/blog/${prevPost.slug ?? prevPost.id}`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
                   >
                     <ArrowLeft className="h-4 w-4" />
@@ -368,7 +384,7 @@ const BlogPost = () => {
                 )}
                 {nextPost ? (
                   <Link
-                    to={`/blog/${nextPost.id}`}
+                    to={`/blog/${nextPost.slug ?? nextPost.id}`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
                   >
                     <span>Next</span>
@@ -405,11 +421,11 @@ const BlogPost = () => {
               <FadeInView delay={200}>
                 <section className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
-                  <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
+                  <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10 bg-black/40">
                     <img
-                      src={rolloRenderP013WebP}
+                      src={rolloTargetUnit.url}
                       alt="1ROLLO target unit"
-                      className="h-40 w-full object-cover"
+                      className="h-40 w-full object-contain"
                       loading="lazy"
                     />
                   </div>
@@ -420,7 +436,7 @@ const BlogPost = () => {
                     to="/product"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:text-white"
                   >
-                    View 1ROLLO
+                    View Product
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Link>
                 </section>

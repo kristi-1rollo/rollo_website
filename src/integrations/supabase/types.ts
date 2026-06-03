@@ -52,6 +52,7 @@ export type Database = {
           is_published: boolean
           media_gallery: Json | null
           published_at: string | null
+          slug: string
           tag: string
           thumbnail_focal_x: number | null
           thumbnail_focal_y: number | null
@@ -71,6 +72,7 @@ export type Database = {
           is_published?: boolean
           media_gallery?: Json | null
           published_at?: string | null
+          slug: string
           tag?: string
           thumbnail_focal_x?: number | null
           thumbnail_focal_y?: number | null
@@ -90,6 +92,7 @@ export type Database = {
           is_published?: boolean
           media_gallery?: Json | null
           published_at?: string | null
+          slug?: string
           tag?: string
           thumbnail_focal_x?: number | null
           thumbnail_focal_y?: number | null
@@ -360,6 +363,7 @@ export type Database = {
           read_ct: number
         }[]
       }
+      slugify: { Args: { _input: string }; Returns: string }
     }
     Enums: {
       app_role: "admin" | "user"
