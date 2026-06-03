@@ -30,6 +30,7 @@ export interface BlogPost {
   published_at: string | null;
   created_at: string;
   author_id: string | null;
+  header_video_url: string | null;
 }
 
 /** Fetch published posts (public) */
