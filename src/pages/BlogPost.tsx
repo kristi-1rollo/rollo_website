@@ -240,6 +240,7 @@ const BlogPost = () => {
         title={post.title}
         category={post.tag}
         imageUrl={post.thumbnail_url}
+        videoUrl={post.header_video_url}
       />
 
       <div className="container-premium section-glow-top">
