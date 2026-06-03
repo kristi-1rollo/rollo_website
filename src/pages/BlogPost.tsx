@@ -425,7 +425,7 @@ const BlogPost = () => {
                     <img
                       src={rolloTargetUnit.url}
                       alt="1ROLLO target unit"
-                      className="h-40 w-full object-contain"
+                      className="h-64 w-full object-contain scale-125"
                       loading="lazy"
                     />
                   </div>
