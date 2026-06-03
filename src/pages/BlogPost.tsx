@@ -232,7 +232,7 @@ const BlogPost = () => {
     }
   };
 
-  const canonicalUrl = `https://1rollo.com/blog/${post.id}`;
+  const canonicalUrl = `https://1rollo.com/blog/${post.slug ?? post.id}`;
   const ogImage = post.thumbnail_url || "https://1rollo.com/og-image.jpg?v=1rollo-20260525";
 
   return (
@@ -370,7 +370,7 @@ const BlogPost = () => {
               <nav className="mt-12 flex flex-wrap items-center justify-between gap-4 border-t border-border pt-8 text-left">
                 {prevPost ? (
                   <Link
-                    to={`/blog/${prevPost.id}`}
+                    to={`/blog/${prevPost.slug ?? prevPost.id}`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
                   >
                     <ArrowLeft className="h-4 w-4" />
@@ -384,7 +384,7 @@ const BlogPost = () => {
                 )}
                 {nextPost ? (
                   <Link
-                    to={`/blog/${nextPost.id}`}
+                    to={`/blog/${nextPost.slug ?? nextPost.id}`}
                     className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
                   >
                     <span>Next</span>
@@ -421,11 +421,11 @@ const BlogPost = () => {
               <FadeInView delay={200}>
                 <section className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5">
                   <p className="mono-spec mb-3 text-primary">Target Unit</p>
-                  <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10">
+                  <div className="mb-4 overflow-hidden rounded-[4px] border border-white/10 bg-black/40">
                     <img
-                      src={rolloRenderP013WebP}
+                      src={rolloTargetUnit.url}
                       alt="1ROLLO target unit"
-                      className="h-40 w-full object-cover"
+                      className="h-40 w-full object-contain"
                       loading="lazy"
                     />
                   </div>
@@ -436,7 +436,7 @@ const BlogPost = () => {
                     to="/product"
                     className="inline-flex items-center gap-1.5 text-sm font-medium text-primary transition hover:text-white"
                   >
-                    View 1ROLLO
+                    View Product
                     <ExternalLink className="h-3.5 w-3.5" />
                   </Link>
                 </section>
