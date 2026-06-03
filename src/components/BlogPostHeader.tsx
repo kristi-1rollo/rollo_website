@@ -36,6 +36,9 @@ const toYouTubeEmbed = (url: string, muted: boolean): string => {
     rel: "0",
     iv_load_policy: "3",
     playsinline: "1",
+    showinfo: "0",
+    disablekb: "1",
+    fs: "0",
   });
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
 };
