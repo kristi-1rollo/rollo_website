@@ -1,49 +1,24 @@
-# Solution-pildi zoom → PhotoSwipe stiilis lightbox
-
-Viidatud sait (riidedjailu.ee) kasutab WooCommerce'i PhotoSwipe galeriid. Käitumine:
-- Klõps pildil → avaneb fullscreen tume lightbox
-- Mobiilis: **pinch-to-zoom** kahe sõrmega, drag pildil ringi liikumiseks
-- Desktopil: hiire scroll või topelt-klõps zoomimiseks, drag panimiseks
-- ESC või X-nupp sulgemiseks
-
-## Lahendus
-
-Asendame praeguse oma-tehtud `ZoomableImage` lightbox-osa hästi testitud teegiga, mis kaetaks kõiki neid žeste karbist välja.
-
-**Soovitatav teek:** [`yet-another-react-lightbox`](https://yet-another-react-lightbox.com/) + `Zoom` plugin.
-- ~30 KB, React 18, TS tugi
-- Sisseehitatud pinch-zoom, scroll-zoom, double-click zoom, drag-pan
-- Dark fullscreen UI, mille stiili saame ülemääratleda meie tumeda paletiga
-- ESC + tausta-klõps sulgemiseks
-
-Alternatiivina `react-medium-image-zoom` on kergem (10 KB), aga ei toeta natiivselt pinch-zoomi mobiilis – ainult smooth expand. Seega valime `yet-another-react-lightbox`.
+YouTube embed näitab praegu ikka YouTube logo, pealkirja ja "Watch later"/"Share" nuppe — neid ei saa 100% ära peita (YouTube ei luba), aga saame need maksimaalselt minimeerida ja meie enda mute-nupu jätta.
 
 ## Mida muudame
 
-**Fail 1:** install
-- `bun add yet-another-react-lightbox`
+**`src/components/BlogPostHeader.tsx` → `toYouTubeEmbed`:**
+- Lisame `showinfo=0` (vana, aga kahjutu)
+- Lisame `disablekb=1` (klahvid välja)
+- Lisame `fs=0` (fullscreen nupp välja)
+- `controls=0`, `modestbranding=1`, `rel=0`, `iv_load_policy=3` on juba olemas
 
-**Fail 2:** `src/components/ZoomableImage.tsx`
-- Eemalda praegune oma-kirjutatud drag-pan loogika ja Dialog
-- Asenda Lightbox + Zoom plugin
-- Säilita thumbnail render (klikitav pilt + "Zoom" badge)
-- Open state juhitakse sama nagu praegu: klõps → open
+**CSS overlay trikk pealkirja peitmiseks:**
+YouTube näitab video alguses ja lõpus pealkirja/seotud videoid üleval. Lisame iframe'i peale kaks õhukest läbipaistmatut riba (`pointer-events: none`):
+- Üleval ~60px must riba pealkirja katmiseks
+- All ei ole vaja, sest `controls=0` peidab juba
 
-```tsx
-import Lightbox from "yet-another-react-lightbox";
-import Zoom from "yet-another-react-lightbox/plugins/zoom";
-import "yet-another-react-lightbox/styles.css";
-// thumbnail: <button onClick={() => setOpen(true)}>...</button>
-// <Lightbox open={open} close={() => setOpen(false)} slides={[{ src }]} plugins={[Zoom]} ... />
-```
+Riba värv `bg-[#050505]` (sama mis taust), `pointer-events-none`, et mute-nupp jääks klikitavaks.
 
-**Fail 3:** vajadusel global CSS overrides (`src/index.css`)
-- Lightboxi tausta tume (juba default), close-nupp lime accent
+**Vimeo:** juba `background=1` peidab kõik — seal pole midagi muuta.
 
-## Kus seda kasutame
-Sama komponent jääb kasutusele `src/pages/Index.tsx` Solution sektsioonis (mobile + tablet variant, `lg:hidden`). Desktop column jääb staatiline (võime soovi korral ka sinna lisada – kinnitan eraldi).
+**Tulemus:** puhas video, ainult meie mute-nupp paremas alanurgas. YouTube vesimärk vasakus alanurgas jääb (seda ei saa eemaldada ilma YouTube'i tingimusi rikkumata), aga muu kaob.
 
-## Mida EI muuda
-- Tausta gradient ja layout
-- Pildi fail (`/images/1rollo_solution_graph_v2.webp`)
-- Desktop layout
+## Tähelepanu
+
+YouTube Terms of Service keelab brändingu täielikult ära peita. Vesimärk vasakus alanurgas peab jääma. Kui soovid täiesti puhast pleierit, peab kasutama `.mp4` faili (otselink) — siis pole ühtegi YouTube'i märki.

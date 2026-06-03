@@ -36,6 +36,9 @@ const toYouTubeEmbed = (url: string, muted: boolean): string => {
     rel: "0",
     iv_load_policy: "3",
     playsinline: "1",
+    showinfo: "0",
+    disablekb: "1",
+    fs: "0",
   });
   return `https://www.youtube-nocookie.com/embed/${id}?${params.toString()}`;
 };
@@ -126,6 +129,10 @@ const BlogPostHeader = ({ title, imageUrl, category, videoUrl }: BlogPostHeaderP
                 className="absolute inset-0 h-full w-full"
                 frameBorder={0}
               />
+              {/* Top bar to mask YouTube title/share UI */}
+              <div className="pointer-events-none absolute inset-x-0 top-0 h-16 bg-[#050505]" />
+              {/* Bottom-left bar to mask YouTube logo watermark */}
+              <div className="pointer-events-none absolute bottom-0 left-0 h-10 w-40 bg-[#050505]" />
               <button
                 type="button"
                 onClick={toggleMute}
