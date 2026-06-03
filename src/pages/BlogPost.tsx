@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { format } from "date-fns";
 import {
@@ -22,7 +22,9 @@ import { Helmet } from "react-helmet-async";
 import TableOfContents, { injectHeadingIds } from "@/components/TableOfContents";
 import BlogPostHeader from "@/components/BlogPostHeader";
 import { useToast } from "@/hooks/use-toast";
-import rolloRenderP013WebP from "@/assets/robot/rollo-render-p013.webp";
+import rolloTargetUnit from "@/assets/robot/rollo-target-unit.png.asset.json";
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 const estimateReadingTime = (html: string) => {
   const text = html.replace(/<[^>]+>/g, "").trim();
@@ -54,35 +56,46 @@ const proseClasses =
 
 const BlogPost = () => {
   const [copied, setCopied] = useState(false);
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const { toast } = useToast();
 
   const { data: post, isLoading } = useQuery({
-    queryKey: ["blog-posts", "single", id],
+    queryKey: ["blog-posts", "single", slug],
     queryFn: async () => {
-      if (!supabase || !id) return null;
-      const { data, error } = await supabase
+      if (!supabase || !slug) return null;
+      const isUuid = UUID_RE.test(slug);
+      const query = supabase
         .from("blog_posts")
         .select("*")
-        .eq("id", id)
-        .eq("is_published", true)
-        .single();
+        .eq("is_published", true);
+      const { data, error } = await (isUuid
+        ? query.eq("id", slug).maybeSingle()
+        : query.eq("slug", slug).maybeSingle());
       if (error) throw error;
+      if (!data) return null;
       return {
         ...data,
         media_gallery: (data.media_gallery as MediaGalleryItem[]) ?? [],
       } as BlogPostType;
     },
-    enabled: !!id,
+    enabled: !!slug,
   });
 
+  // Redirect UUID URLs to clean slug URLs
+  useEffect(() => {
+    if (post && slug && UUID_RE.test(slug) && post.slug && post.slug !== slug) {
+      navigate(`/blog/${post.slug}`, { replace: true });
+    }
+  }, [post, slug, navigate]);
+
   const { data: allPosts = [] } = useQuery({
-    queryKey: ["blog-posts", "all"],
+    queryKey: ["blog-posts", "all-nav"],
     queryFn: async () => {
       if (!supabase) return [];
       const { data, error } = await supabase
         .from("blog_posts")
-        .select("id, title, published_at")
+        .select("id, slug, title, published_at")
         .eq("is_published", true)
         .order("published_at", { ascending: false });
       if (error) throw error;
@@ -90,9 +103,12 @@ const BlogPost = () => {
     },
   });
 
-  const currentIndex = allPosts.findIndex((p) => p.id === id);
+  const currentIndex = allPosts.findIndex((p) => p.id === post?.id);
   const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
-  const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+  const nextPost =
+    currentIndex >= 0 && currentIndex < allPosts.length - 1
+      ? allPosts[currentIndex + 1]
+      : null;
 
   const processedContent = useMemo(
     () => (post?.content ? injectHeadingIds(post.content) : ""),
