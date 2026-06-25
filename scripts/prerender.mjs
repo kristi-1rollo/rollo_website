@@ -173,6 +173,34 @@ function buildHead(head, route) {
     h = /<\/head>/i.test(h) ? h.replace(/<\/head>/i, `    ${tag}\n  </head>`) : `${h}\n    ${tag}`;
   }
 
+  // JSON-LD Product for /product
+  if (route.path === "/product") {
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      name: "1ROLLO",
+      description,
+      image: ogImage,
+      url,
+      brand: { "@type": "Brand", name: "1ROLLO" },
+      manufacturer: {
+        "@type": "Organization",
+        name: "Rollo Robotics OÜ",
+        url: BASE_URL,
+        email: "info@1rollo.com",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: "Raua St 16",
+          addressLocality: "Viljandi",
+          postalCode: "71020",
+          addressCountry: "EE",
+        },
+      },
+    };
+    const tag = `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
+    h = /<\/head>/i.test(h) ? h.replace(/<\/head>/i, `    ${tag}\n  </head>`) : `${h}\n    ${tag}`;
+  }
+
   return h;
 }
 
