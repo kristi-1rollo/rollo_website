@@ -171,6 +171,7 @@ function buildHead(head, route) {
     };
     const tag = `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
     h = /<\/head>/i.test(h) ? h.replace(/<\/head>/i, `    ${tag}\n  </head>`) : `${h}\n    ${tag}`;
+  }
 
   return h;
 }
