@@ -59,13 +59,16 @@ Deno.serve(async (req) => {
     const authHeader = req.headers.get('Authorization')
     if (authHeader?.startsWith('Bearer ')) {
       try {
-        const jwt = authHeader.replace('Bearer ', '')
         const supabaseUrlEnv = Deno.env.get('SUPABASE_URL')
         const anonKey = Deno.env.get('SUPABASE_ANON_KEY')
         if (supabaseUrlEnv && anonKey) {
-          const authClient = createClient(supabaseUrlEnv, anonKey)
-          const { data: claimsData } = await authClient.auth.getClaims(jwt)
-          const userId = claimsData?.claims?.sub
+          // Use getUser() which verifies the JWT signature server-side
+          // (not getClaims() which only decodes locally without verification).
+          const authClient = createClient(supabaseUrlEnv, anonKey, {
+            global: { headers: { Authorization: authHeader } },
+          })
+          const { data: userData, error: userError } = await authClient.auth.getUser()
+          const userId = !userError && userData?.user ? userData.user.id : null
           if (userId) {
             const serviceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
             if (serviceKey) {
