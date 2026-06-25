@@ -111,7 +111,8 @@
   },
   "overrides": {
     "@tiptap/core": "3.27.1",
-    "@tiptap/pm": "3.27.1"
+    "@tiptap/pm": "3.27.1",
+    "markdown-it": "^14.2.0"
   },
   "resolutions": {
     "@tiptap/core": "3.27.1",
