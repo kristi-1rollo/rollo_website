@@ -1,25 +1,31 @@
-## Probleem
 
-Google näitab otsingutulemustes Lovable'i vaikeikooni, sest `index.html` viitab failile `/favicon.png`, mida tegelikult ei eksisteeri. `public/` kaustas on hoopis `1rollo_favicon.png`. Brauserid ja Google crawler saavad 404 ning kukuvad tagasi Lovable'i ikoonile.
+# Fix dependency vulnerabilities
 
-## Lahendus
+Update the flagged packages to versions that resolve the High and Medium advisories, then verify the app builds and key flows still work.
 
-Ühtlustada failinimi nii, et HTML viit ja päris fail kattuvad. Lihtsaim ja turvalisem variant on nimetada olemasolev fail ümber kanoonilisele teele `/favicon.png` (sama nimi, mida juba viitavad `index.html`, `humans.txt`, structured data ja `og:image` jne — nii ei pea üheski teises kohas midagi muutma).
+## Packages to update
 
-### Muudatused
+- `@supabase/supabase-js` → latest 2.x (pulls in patched `ws`)
+- `react-router-dom` + `react-router` → latest 6.x patch (fixes XSS / open redirect)
+- `recharts` → latest 2.x (pulls in patched `lodash`)
+- `dompurify` → latest 3.x (fixes all listed DOMPurify advisories)
+- `@types/dompurify` → align with new `dompurify`
+- `@tiptap/starter-kit` → latest 3.x (pulls in patched `markdown-it`)
 
-1. **Nimeta ümber** `public/1rollo_favicon.png` → `public/favicon.png`.
-2. **Lisa `public/favicon.ico`** (sama PNG koopia .ico nimega või eraldi ico) — Google ja paljud sotsiaalplatvormid pärivad vaikimisi `/favicon.ico` juurteelt enne kui HTML-i loevad. Kasutame PNG sisuga, sest brauserid aktsepteerivad seda.
-3. **Cache-bust**: tõsta `?v=` query stringi `index.html`-is uue väärtuseni (nt `v=1rollo-20260615`), et Google ja brauserid laadiks ikooni uuesti.
-4. **Kontroll**: veendu, et `index.html`-is kõik kolm `<link rel="icon|shortcut icon|apple-touch-icon">` viiteid uuele URL-ile, ning JSON-LD `"logo"` viit on samuti `https://1rollo.com/favicon.png`.
+All updates stay within the current major versions, so no API breakage is expected.
 
-### Mida ma EI tee
+## Steps
 
-- Ei muuda ikooni kujundust — kasutame sama `1rollo_favicon.png` pildifaili.
-- Ei lisa uusi favicon variante (16/32/192/512) — kui soovid hiljem täielikku PWA ikoonide komplekti, saame seda eraldi teha.
+1. Run `bun add` for each package above at its latest compatible version (single batched install).
+2. Run `bun audit` (or equivalent) to confirm the High advisories are gone and only acceptable noise remains.
+3. Let the harness typecheck/build; smoke-check that:
+   - Blog rendering (DOMPurify in `RichTextEditor` / blog post view) still works
+   - Routing still works (`react-router-dom`)
+   - Supabase client still connects
+   - Recharts is currently only pulled by shadcn `chart.tsx` (not actively used) — no UI check needed
+4. Mark both findings (`vulnerable_dependencies_high`, `vulnerable_dependencies_medium`) as fixed via `manage_security_finding`.
 
-### Pärast deploy'd
+## Notes / risks
 
-Google ei uuenda favicon'i otsingutulemustes kohe — see võib võtta päevi kuni nädalaid, kuni Googlebot uuesti `/favicon.ico` ja lehe re-crawl'ib. Brauserites näed muudatust kohe pärast hard refresh'i (cache-bust hoolitseb selle eest automaatselt). Kui soovid, võime ka Google Search Console'is URL-i inspektsiooni teha kiirema indekseerimise jaoks.
-
-Kas alustan?
+- If any package's latest version inside the same major introduces a breaking change, fall back to the closest patched minor.
+- Residual transitive advisories that have no upstream fix yet will be left and noted; nothing in this list currently falls in that bucket.
