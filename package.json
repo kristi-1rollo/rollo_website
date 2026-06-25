@@ -46,16 +46,14 @@
     "@radix-ui/react-tooltip": "^1.2.7",
     "@supabase/supabase-js": "^2.108.2",
     "@tanstack/react-query": "^5.83.0",
-    "@tiptap/core": "^3.27.1",
-    "@tiptap/extension-bubble-menu": "^3.27.1",
-    "@tiptap/extension-image": "^3.27.1",
-    "@tiptap/extension-link": "^3.27.1",
-    "@tiptap/extension-text-align": "^3.27.1",
-    "@tiptap/extension-underline": "^3.27.1",
-    "@tiptap/extension-youtube": "^3.27.1",
-    "@tiptap/pm": "^3.27.1",
-    "@tiptap/react": "^3.27.1",
-    "@tiptap/starter-kit": "^3.27.1",
+    "@tiptap/extension-bubble-menu": "^3.20.1",
+    "@tiptap/extension-image": "^3.20.1",
+    "@tiptap/extension-link": "^3.20.1",
+    "@tiptap/extension-text-align": "^3.20.1",
+    "@tiptap/extension-underline": "^3.20.1",
+    "@tiptap/extension-youtube": "^3.20.1",
+    "@tiptap/react": "^3.20.1",
+    "@tiptap/starter-kit": "^3.20.1",
     "@types/three": "^0.183.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -66,7 +64,6 @@
     "framer-motion": "^12.34.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
-    "markdown-it": "^14.2.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -111,12 +108,6 @@
     "vitest": "^3.2.4"
   },
   "overrides": {
-    "@tiptap/core": "3.27.1",
-    "@tiptap/pm": "3.27.1",
-    "markdown-it": "^14.2.0"
-  },
-  "resolutions": {
-    "@tiptap/core": "3.27.1",
-    "@tiptap/pm": "3.27.1"
+    "markdown-it": "14.2.0"
   }
 }
