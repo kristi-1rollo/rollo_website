@@ -110,7 +110,7 @@ const Contact = () => {
                   <Building2 className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-lg font-semibold text-white">Company Details</h3>
+                  <h2 className="text-lg font-semibold text-white">Company Details</h2>
                   <div className="space-y-1 text-sm text-white">
                     <p className="font-medium">Rollo Robotics OÜ</p>
                     <p>Registry code: 17320003</p>
@@ -123,7 +123,7 @@ const Contact = () => {
                   <MapPin className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-lg font-semibold text-white">Address</h3>
+                  <h2 className="text-lg font-semibold text-white">Address</h2>
                   <div className="space-y-1 text-sm text-white">
                     <p>Viljandi County, Viljandi</p>
                     <p>Raua St 16, 71020</p>
@@ -137,7 +137,7 @@ const Contact = () => {
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 space-y-2">
-                  <h3 className="text-lg font-semibold text-white">Email</h3>
+                  <h2 className="text-lg font-semibold text-white">Email</h2>
                   <a
                     href="mailto:info@1rollo.com"
                     className="inline-flex text-sm text-primary underline decoration-primary/60 underline-offset-4 transition hover:text-primary/90"
@@ -154,9 +154,9 @@ const Contact = () => {
             <div ref={formCardRef} className="-mx-5 md:mx-0 surface-panel rounded-[4px] p-5 md:p-6 scroll-mt-24">
               <div className="mb-6">
 
-                <h3 className="title-halo text-2xl font-bold text-white mb-2">
+                <h2 className="title-halo text-2xl font-bold text-white mb-2">
                   Get in Touch
-                </h3>
+                </h2>
                 <p className="text-base text-white">
                   Fill out the form below and we'll get back to you as soon as possible.
                 </p>
