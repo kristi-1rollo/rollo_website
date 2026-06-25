@@ -66,6 +66,7 @@
     "framer-motion": "^12.34.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.462.0",
+    "markdown-it": "^14.2.0",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-day-picker": "^8.10.1",
@@ -111,7 +112,8 @@
   },
   "overrides": {
     "@tiptap/core": "3.27.1",
-    "@tiptap/pm": "3.27.1"
+    "@tiptap/pm": "3.27.1",
+    "markdown-it": "^14.2.0"
   },
   "resolutions": {
     "@tiptap/core": "3.27.1",
