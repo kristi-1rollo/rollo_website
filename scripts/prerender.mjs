@@ -58,10 +58,15 @@ function stripTags(html) {
     .trim();
 }
 
-// Replace or insert a meta tag matching `match` (regex) with given full tag.
+// Replace or append a meta tag matching `match` (regex) with given full tag.
+// When no `</head>` is present (because we're editing just the head's inner
+// contents), simply append.
 function upsertHead(head, match, replacement) {
   if (match.test(head)) return head.replace(match, replacement);
-  return head.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
+  if (/<\/head>/i.test(head)) {
+    return head.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
+  }
+  return `${head}\n    ${replacement}`;
 }
 
 function buildHead(head, route) {
