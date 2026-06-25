@@ -98,7 +98,7 @@ Deno.serve(async (req) => {
 
       if (!targetUser) {
         // User doesn't exist — invite them (creates account + sends invite email)
-        const siteUrl = Deno.env.get("SITE_URL") || req.headers.get("origin") || "https://rollo.lovable.app";
+        const siteUrl = Deno.env.get("SITE_URL") ?? "https://1rollo.com";
         const { data: inviteData, error: inviteError } = await adminClient.auth.admin.inviteUserByEmail(email, {
           redirectTo: `${siteUrl}/set-password`,
         });
