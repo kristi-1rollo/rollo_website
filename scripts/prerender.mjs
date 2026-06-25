@@ -169,11 +169,8 @@ function buildHead(head, route) {
         logo: { "@type": "ImageObject", url: `${BASE_URL}/favicon.png` },
       },
     };
-    h = h.replace(
-      /<\/head>/i,
-      `    <script type="application/ld+json">${JSON.stringify(ld)}</script>\n  </head>`,
-    );
-  }
+    const tag = `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
+    h = /<\/head>/i.test(h) ? h.replace(/<\/head>/i, `    ${tag}\n  </head>`) : `${h}\n    ${tag}`;
 
   return h;
 }
