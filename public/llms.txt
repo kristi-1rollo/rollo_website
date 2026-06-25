@@ -1,0 +1,24 @@
+# 1ROLLO
+
+> 1ROLLO is the world's first commercial autonomous one-wheeled security robot — making security services 10x cheaper, smarter, and more energy-efficient.
+
+1ROLLO (Rollo Robotics) builds autonomous patrol robots for industrial sites, logistics hubs, and large outdoor properties. The site presents the product, company, careers, blog, and EU co-funding information.
+
+## Pages
+
+- [Home](/): Overview of the 1ROLLO autonomous security robot.
+- [Product](/product): Technical specifications, capabilities, and the patented one-wheeled platform.
+- [About](/about): Company, mission, and team behind Rollo Robotics.
+- [Careers](/career): Open roles at Rollo Robotics.
+- [Contact](/contact): Request a quote, demo, or partnership.
+- [Blog](/blog): News, product updates, and field reports.
+- [EU Funding](/funding): NextGenerationEU co-financing details (English).
+- [EU kaasrahastus](/eu-kaasrahastus): NextGenerationEU co-financing details (Estonian).
+
+## Blog
+
+- [Rollo Robotics at Latitude59](/blog/rollo-robotics-at-latitude59)
+- [Video: ROLLO test drives on site](/blog/video-rollo-test-drives-on-site)
+- [Rollo Robotics wins ITL Breakthrough of the Year 2025](/blog/rollo-robotics-wins-itl-breakthrough-of-the-year-2025)
+- [Rollo Robotics joins NVIDIA Inception](/blog/rollo-robotics-joins-nvidia-inception-as-it-expands-its-physical-ai-architecture)
+- [Rollo Robotics secures €3.7M pre-seed round](/blog/rollo-robotics-secures-3-7m-pre-seed-round)
