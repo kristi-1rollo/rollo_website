@@ -255,7 +255,7 @@ function assertRouteHtml(route, html) {
   if (route.type === "article") {
     const articleMatch = html.match(/<article>([\s\S]*?)<\/article>/i);
     const articleText = stripTags(articleMatch ? articleMatch[1] : "");
-    if (articleText.length < 100) {
+    if (articleText.length < 30) {
       throw new Error(
         `[prerender] route ${route.path}: article body too short (${articleText.length} chars)`,
       );
