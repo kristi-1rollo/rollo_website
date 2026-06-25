@@ -244,7 +244,7 @@ function assertRouteHtml(route, html) {
     }
   }
   // Body text length check
-  const rootMatch = html.match(/<div id="root">([\s\S]*?)<\/div>\s*<script/i);
+  const rootMatch = html.match(/<div id="root">([\s\S]*)<\/div>\s*(?=<script|<\/body)/i);
   const bodyText = stripTags(rootMatch ? rootMatch[1] : "");
   if (bodyText.length < 40) {
     throw new Error(
