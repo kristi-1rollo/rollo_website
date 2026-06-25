@@ -42,9 +42,9 @@ function assertAll(routePath, html, { expectArticle = false, articleNeedle } = {
         "i",
       ),
     ],
-    ["meta description", /<meta\s+name=["']description["'][^>]*content=["'][^"']{20,}/i],
-    ["og:title", /<meta\s+property=["']og:title["'][^>]+content=["'][^"']{5,}/i],
-    ["og:description", /<meta\s+property=["']og:description["'][^>]+content=["'][^"']{10,}/i],
+    ["meta description", /<meta\s+name=["']description["'][^>]*content="[^"]{20,}/i],
+    ["og:title", /<meta\s+property=["']og:title["'][^>]+content="[^"]{5,}/i],
+    ["og:description", /<meta\s+property=["']og:description["'][^>]+content="[^"]{10,}/i],
     [
       "og:url matches route",
       new RegExp(

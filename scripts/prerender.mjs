@@ -232,7 +232,7 @@ function assertRouteHtml(route, html) {
   const required = [
     ["<title>", new RegExp(`<title>${htmlEscape(route.title).replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}</title>`)],
     ["canonical", new RegExp(`<link[^>]+rel=["']canonical["'][^>]+href=["']${BASE_URL.replace(/\./g, "\\.")}${route.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`)],
-    ["meta description", /<meta\s+name=["']description["'][^>]*content=["'][^"']{10,}/i],
+    ["meta description", /<meta\s+name=["']description["'][^>]*content="[^"]{10,}/i],
     ["og:title", /<meta\s+property=["']og:title["'][^>]+content=/i],
     ["og:description", /<meta\s+property=["']og:description["'][^>]+content=/i],
     ["og:url", new RegExp(`<meta[^>]+property=["']og:url["'][^>]+content=["']${BASE_URL.replace(/\./g, "\\.")}${route.path.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}["']`)],
