@@ -100,9 +100,9 @@ export const staticRoutes = [
   },
   {
     path: "/eu-kaasrahastus",
-    title: "EU Co-Financing — 1ROLLO",
+    title: "EL kaasrahastus — 1ROLLO",
     description:
-      "Information about 1ROLLO's EU NextGenerationEU co-financing and research grants supporting autonomous security robotics development.",
+      "Info 1ROLLO Euroopa Liidu NextGenerationEU kaasrahastuse ja teadusgrantide kohta, mis toetavad autonoomse turvarobootika arendust.",
     h1: "EL kaasrahastus — NextGenerationEU.",
     lead:
       "1ROLLO arendustegevust toetab Euroopa Liidu NextGenerationEU kaasrahastus ja Eesti innovatsioonitoetused.",
