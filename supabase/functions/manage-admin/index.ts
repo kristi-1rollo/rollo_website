@@ -214,7 +214,7 @@ Deno.serve(async (req) => {
       }
 
       // Send password reset email
-      const siteUrl = Deno.env.get("SITE_URL") || req.headers.get("origin") || "https://rollo.lovable.app";
+      const siteUrl = Deno.env.get("SITE_URL") ?? "https://1rollo.com";
       const { error: resetError } = await adminClient.auth.resetPasswordForEmail(
         targetData.user.email,
         { redirectTo: `${siteUrl}/set-password` }
