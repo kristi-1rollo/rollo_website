@@ -179,10 +179,12 @@ function buildHead(head, route) {
       "@context": "https://schema.org",
       "@type": "Product",
       name: "1ROLLO",
-      description,
+      description:
+        "Autonomous one-wheeled robot security guard for outdoor patrol and surveillance.",
+      category: "Autonomous security robot",
       image: ogImage,
       url,
-      brand: { "@type": "Brand", name: "1ROLLO" },
+      brand: { "@type": "Brand", name: "Rollo Robotics" },
       manufacturer: {
         "@type": "Organization",
         name: "Rollo Robotics OÜ",
@@ -196,10 +198,20 @@ function buildHead(head, route) {
           addressCountry: "EE",
         },
       },
+      additionalProperty: [
+        { "@type": "PropertyValue", name: "Wheel diameter", value: 60, unitCode: "CMT", unitText: "cm" },
+        { "@type": "PropertyValue", name: "Height", value: 110, unitCode: "CMT", unitText: "cm" },
+        { "@type": "PropertyValue", name: "Weight", value: 45, unitCode: "KGM", unitText: "kg" },
+        { "@type": "PropertyValue", name: "Maximum speed", value: 30, unitCode: "KMH", unitText: "km/h" },
+        { "@type": "PropertyValue", name: "Battery life", value: 8, unitCode: "HUR", unitText: "hours" },
+        { "@type": "PropertyValue", name: "Operating temperature", value: "-20 to +55", unitCode: "CEL", unitText: "°C" },
+        { "@type": "PropertyValue", name: "IP rating", value: "IP65" },
+      ],
     };
     const tag = `<script type="application/ld+json">${JSON.stringify(ld)}</script>`;
     h = /<\/head>/i.test(h) ? h.replace(/<\/head>/i, `    ${tag}\n  </head>`) : `${h}\n    ${tag}`;
   }
+
 
   return h;
 }
